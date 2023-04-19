@@ -133,8 +133,8 @@ const PreviewInvoice = () => {
                   <td style="font-size: .8rem;">${item.name}</td>
                   <td style="font-size: .8rem;">${item.description}</td>
                   <td style="font-size: .8rem;">${item.quantity}</td>
-                  <td style="font-size: .8rem;">N ${item.unitPrice}</td>
-                  <td style="font-size: .8rem;">N ${item.subTotal}</td>
+                  <td style="font-size: .8rem;">$ ${item.unitPrice}</td>
+                  <td style="font-size: .8rem;">$ ${item.subTotal}</td>
               </tr>
               `;
         }).join('')
