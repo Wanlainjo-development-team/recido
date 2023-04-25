@@ -19,37 +19,43 @@ const Signup = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
 
-  const [peek, setPeek] = useState(false)
+  const [peek, setPeek] = useState(true)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
+  let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
   const signupUser = async () => {
-    setLoading(true)
+    if (!email.match(regex) && password == '') {
+      Alert.alert('Sign Up error', 'Please complete the form and try again 🙂')
+    } else {
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(async user => {
+      setLoading(true)
+      createUserWithEmailAndPassword(auth, email, password)
+        .then(async user => {
 
-        let id = user?.uid != undefined ? user?.uid : user?.user?.uid
+          let id = user?.uid != undefined ? user?.uid : user?.user?.uid
 
-        await setDoc(doc(db, 'users', id), {
-          id,
-          name,
-          email,
-          tries: 50,
-          timestamp: serverTimestamp()
+          await setDoc(doc(db, 'users', id), {
+            id,
+            name,
+            email,
+            tries: 50,
+            timestamp: serverTimestamp()
+          })
+
+          dispatch(setUser(user))
+          setLoading(false)
+        }).catch(error => {
+          if (error.message.includes('email-already-in-use'))
+            Alert.alert('Sign Up error', 'Seems this email is already in use. \nTry another 🙂')
+          else if (error.message.includes('weak-password'))
+            Alert.alert('Sign Up error', 'weak-password\nPassword should be at least 6 characters')
+          setLoading(false)
         })
-
-        dispatch(setUser(user))
-        setLoading(false)
-      }).catch(error => {
-        if (error.message.includes('email-already-in-use'))
-          Alert('Seems this email is already in use. \nTry another 🙂')
-        else if (error.message.includes('weak-password'))
-          Alert('weak-password\nPassword should be at least 6 characters')
-        setLoading(false)
-      })
+    }
   }
 
   return (
@@ -78,7 +84,7 @@ const Signup = () => {
             </TouchableOpacity>
           </View>
 
-          <TouchableOpacity onPress={signupUser} style={style.submitButton}>
+          <TouchableOpacity disabled={(name == '' || email == '' || password == '') ? true : false} onPress={signupUser} style={style.submitButton}>
             {
               loading ? <ActivityIndicator color={color.white} />
                 : <Text style={style.submitButtonText}>Sign Up</Text>

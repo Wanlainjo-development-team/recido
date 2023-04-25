@@ -6,16 +6,42 @@ import style from './style'
 import { MaterialIcons, Feather } from '@expo/vector-icons';
 import color from '../../style/color';
 import { useNavigation } from '@react-navigation/native';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../hooks/firebase';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../features/userSlice';
+import { Alert } from 'react-native';
 
 const Signin = () => {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
 
   const [peek, setPeek] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const signinUser = () => { }
+  let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+  const signinUser = () => {
+    if (!email.match(regex) && password == '') {
+      Alert.alert('Sign Up error', 'Please complete the form and try again 🙂')
+    } else {
+      setLoading(true)
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then(user => {
+          setLoading(false)
+          dispatch(setUser(user))
+        }).catch(error => {
+          if (error.message.includes('wrong-password'))
+            Alert.alert('Sign In error', 'Wrong password. Check your passwod then try again. 🙂')
+          else if (error.message.includes('user-not-found'))
+            Alert.alert('Sign In error', 'Seems like tou do not have an account with us \n Please create an account 🙂')
+          setLoading(false)
+        })
+    }
+  }
 
   return (
     <KeyboardAvoidingView style={style.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -23,7 +49,7 @@ const Signin = () => {
         <View style={style.card}>
           <Text style={style.headText}>Sign In to continue</Text>
           <View style={style.inputView}>
-            <TextInput value={email} onChangeText={setEmail} style={style.input} placeholder='Email' />
+            <TextInput value={email} onChangeText={setEmail} autoComplete='email' keyboardType='email-address' autoCapitalize='none' style={style.input} placeholder='Email' />
             <View style={style.inputIcon}>
               <MaterialIcons name="email" size={24} color={color.accent} />
             </View>
