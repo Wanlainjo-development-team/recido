@@ -157,6 +157,10 @@ const PreviewHistoryInvoice = () => {
               </tr>
           </table>
       </div>
+      <div style="width: 100%; text-align: center; border: 2px solid black; padding: .3em; margin-top: 2em;">
+            <strong>Disclaimer: </strong> <span>All products are tested and trusted in good working condition. No returns. <br>
+            Products can only be exchanged with the same cash value. All sales are final.</span>
+        </div>
   </body>
   </html>
   `;
