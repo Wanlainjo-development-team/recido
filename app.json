@@ -2,7 +2,7 @@
   "expo": {
     "name": "recido",
     "slug": "recido",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -21,17 +21,10 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.rukkiecodes.recido",
-      "versionCode": 2
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "0aa8a0aa-390b-41a8-b6a3-163d8360d2dc"
-      }
     }
   }
 }
