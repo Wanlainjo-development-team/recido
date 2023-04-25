@@ -93,14 +93,14 @@ export default StyleSheet.create({
         fontWeight: '600'
     },
 
-    billingAddress: {
+    customerEmail: {
         backgroundColor: `${color.accent}20`,
         padding: 10,
         borderRadius: 12,
         marginBottom: 20
     },
 
-    billingAddressText: {
+    customerEmailText: {
         fontSize: 16,
         fontWeight: 'bold',
         color: color.accent,

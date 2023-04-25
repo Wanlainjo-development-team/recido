@@ -5,10 +5,8 @@ export const useFormSlice = createSlice({
     initialState: {
         order: `SO-${(Math.floor(Math.random() * 900000) + 100000)}`,
         date: '',
-        billingAddressTitle: '',
-        billingAddress: '',
-        shippingAddressTitle: '',
-        shippingAddress: '',
+        customerName: '',
+        customerEmail: '',
         contact: '',
         salesRep: '',
         paymentTerms: [],
@@ -25,17 +23,11 @@ export const useFormSlice = createSlice({
         setDate: (state, action) => {
             state.date = action.payload
         },
-        setBillingAddressTitle: (state, action) => {
-            state.billingAddressTitle = action.payload
+        setCustomerName: (state, action) => {
+            state.customerName = action.payload
         },
-        setBillingAddress: (state, action) => {
-            state.billingAddress = action.payload
-        },
-        setShippingAddressTitle: (state, action) => {
-            state.shippingAddressTitle = action.payload
-        },
-        setShippingAddress: (state, action) => {
-            state.shippingAddress = action.payload
+        setCustomerEmail: (state, action) => {
+            state.customerEmail = action.payload
         },
         setContact: (state, action) => {
             state.contact = action.payload
@@ -74,10 +66,8 @@ export const useFormSlice = createSlice({
 export const {
     setOrder,
     setDate,
-    setBillingAddress,
-    setBillingAddressTitle,
-    setShippingAddressTitle,
-    setShippingAddress,
+    setCustomerEmail,
+    setCustomerName,
     setContact,
     setSalesRep,
     setPaymentTerms,
