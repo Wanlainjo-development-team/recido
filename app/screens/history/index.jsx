@@ -49,12 +49,8 @@ const History = () => {
                                             <Text>{item?.date}</Text>
                                         </View>
                                         <View style={styles.contentItem}>
-                                            <Text>Billing Address</Text>
-                                            <Text>{item?.billingAddressTitle}</Text>
-                                        </View>
-                                        <View style={styles.contentItem}>
-                                            <Text>Shipping Address</Text>
-                                            <Text>{item?.shippingAddressTitle}</Text>
+                                            <Text>Customer</Text>
+                                            <Text>{item?.customerName}</Text>
                                         </View>
                                     </View>
                                 </Pressable>

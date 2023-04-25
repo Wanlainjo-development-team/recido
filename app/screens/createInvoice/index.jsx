@@ -13,10 +13,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   setOrder,
   setDate,
-  setBillingAddress,
-  setBillingAddressTitle,
-  setShippingAddressTitle,
-  setShippingAddress,
+  setCustomerEmail,
+  setCustomerName,
   setContact,
   setSalesRep,
   setPaymentTerms,
@@ -43,7 +41,7 @@ const CreateInvoice = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
 
-  const { order, date, billingAddressTitle, billingAddress, shippingAddressTitle, shippingAddress, contact, salesRep, paymentTerms, items, subTotal, vat, total, useVAT } = useSelector(state => state.form)
+  const { order, date, customerName, customerEmail, contact, salesRep, paymentTerms, items, subTotal, vat, total, useVAT } = useSelector(state => state.form)
 
   const [loading, setLoading] = useState(false)
   const [initialTerm, setInitialTerm] = useState('')
@@ -114,18 +112,11 @@ const CreateInvoice = () => {
       <div
           style="width: 100%; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; margin-top: 2em;">
           <div style="width: 50%; display: flex; justify-content: flex-start; align-items: flex-start;">
-              <span style="font-size: .8rem; color: #0374E5;">Billing Address</span>
+              <span style="font-size: .8rem; color: #0374E5;">Customer</span>
   
               <div style="margin-left: 90px;">
-                  <p style="font-size: .8rem; font-weight: 700; width: 150px;">${billingAddressTitle}</p>
-                  <p style="font-size: .8rem; width: 150px;">${billingAddress}</p>
-              </div>
-          </div>
-          <div style="width: 50%; display: flex; justify-content: flex-start; align-items: flex-start;">
-              <span style="font-size: .8rem; color: #0374E5;">Shipping Address</span>
-  
-              <div style="margin-left: 90px;">
-                  <p style="font-size: .8rem; font-weight: 700; width: 150px;">${shippingAddressTitle}</p>
+                  <p style="font-size: .8rem; font-weight: 700; width: 150px;">${customerName}</p>
+                  <p style="font-size: .8rem; width: 150px;">${customerEmail}</p>
               </div>
           </div>
           <div
@@ -192,6 +183,10 @@ const CreateInvoice = () => {
               </tr>
           </table>
       </div>
+      <div style="width: 100%; text-align: center; border: 2px solid black; padding: .3em; margin-top: 2em;">
+            <strong>Disclaimer: </strong> <span style="font-size: 0.5rem">All products are tested and trusted in good working condition. No returns. <br>
+            Products can only be exchanged with the same cash value. All sales are final.</span>
+        </div>
   </body>
   </html>
   `;
@@ -216,10 +211,8 @@ const CreateInvoice = () => {
     await addDoc(collection(db, 'invoices'), {
       order,
       date,
-      billingAddressTitle,
-      billingAddress,
-      shippingAddressTitle,
-      shippingAddress,
+      customerName,
+      customerEmail,
       contact,
       salesRep,
       paymentTerms,
@@ -264,7 +257,7 @@ const CreateInvoice = () => {
   }
 
   const disableButton = () => {
-    if (date != '' && (billingAddressTitle != '' || billingAddress != '') && (shippingAddressTitle != '' || shippingAddress != '') && contact != '' && salesRep != '' && items.length >= 1)
+    if (date != '' && (customerName != '' || customerEmail != '') && contact != '' && salesRep != '' && items.length >= 1)
       setButtonVisiblity(true)
     else setButtonVisiblity(false)
   }
@@ -297,24 +290,20 @@ const CreateInvoice = () => {
         <TextInput placeholder='Order' style={styles.input} value={order} onChangeText={e => dispatch(setOrder(e))} readOnly={true} />
         <TextInput placeholder='Date' style={styles.input} value={date} onChangeText={e => dispatch(setDate(e))} />
 
-        <View style={styles.billingAddress}>
-          <Text style={styles.billingAddressText}>Billing Address</Text>
-          <TextInput placeholder='Billing Address Title' style={styles.input} value={billingAddressTitle} onChangeText={e => dispatch(setBillingAddressTitle(e))} />
-          <TextInput placeholder='Billing Address' style={{ ...styles.input, marginBottom: 0 }} value={billingAddress} onChangeText={e => dispatch(setBillingAddress(e))} />
+        <View style={styles.customerEmail}>
+          <Text style={styles.customerEmailText}>Customer</Text>
+          <TextInput placeholder='Customer`s name' style={styles.input} value={customerName} onChangeText={e => dispatch(setCustomerName(e))} />
+          <TextInput placeholder='Customer`s email' style={{ ...styles.input, marginBottom: 0 }} value={customerEmail} onChangeText={e => dispatch(setCustomerEmail(e))} />
         </View>
 
-        <View style={styles.billingAddress}>
-          <Text style={styles.billingAddressText}>Shipping Address</Text>
-          <TextInput placeholder='Shipping Address Title' style={styles.input} value={shippingAddressTitle} onChangeText={e => dispatch(setShippingAddressTitle(e))} />
-          <TextInput placeholder='Shipping Address' style={{ ...styles.input, marginBottom: 0 }} value={shippingAddress} onChangeText={e => dispatch(setShippingAddress(e))} />
-        </View>
         <TextInput placeholder='Contact' style={styles.input} value={contact} onChangeText={e => dispatch(setContact(e))} />
         <TextInput placeholder='Sales Rep' style={styles.input} value={salesRep} onChangeText={e => dispatch(setSalesRep(e))} />
 
         <View style={styles.terms}>
           <View style={styles.termsControl}>
             <TextInput placeholder='Payment Terms' style={{ ...styles.input, flex: 1, marginRight: 10, marginBottom: 0 }} value={initialTerm} onChangeText={setInitialTerm} />
-            <TouchableOpacity style={styles.termsControlButton} onPress={() => {
+            <TouchableOpacity disabled={initialTerm == '' ? true : false} style={{ ...styles.termsControlButton, backgroundColor: initialTerm == '' ? `${color.accent}40` : color.accent }} onPress={() => {
+              if (initialTerm == '') return
               dispatch(setPaymentTerms(initialTerm))
               setInitialTerm('')
             }}>

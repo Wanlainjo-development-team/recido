@@ -14,7 +14,7 @@ import color from '../../style/color';
 import { useNavigation } from '@react-navigation/native';
 
 const PreviewInvoice = () => {
-    const { order, date, billingAddressTitle, billingAddress, shippingAddressTitle, shippingAddress, contact, salesRep, paymentTerms, items, subTotal, vat, total } = useSelector(state => state.form)
+    const { order, date, customerName, customerEmail, contact, salesRep, paymentTerms, items, subTotal, vat, total } = useSelector(state => state.form)
 
     const navigation = useNavigation()
 
@@ -79,18 +79,11 @@ const PreviewInvoice = () => {
       <div
           style="width: 100%; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; margin-top: 2em;">
           <div style="width: 50%; display: flex; justify-content: flex-start; align-items: flex-start;">
-              <span style="font-size: .8rem; color: #0374E5;">Billing Address</span>
+              <span style="font-size: .8rem; color: #0374E5;">Customer</span>
   
               <div style="margin-left: 90px;">
-                  <p style="font-size: .8rem; font-weight: 700; width: 150px;">${billingAddressTitle}</p>
-                  <p style="font-size: .8rem; width: 150px;">${billingAddress}</p>
-              </div>
-          </div>
-          <div style="width: 50%; display: flex; justify-content: flex-start; align-items: flex-start;">
-              <span style="font-size: .8rem; color: #0374E5;">Shipping Address</span>
-  
-              <div style="margin-left: 90px;">
-                  <p style="font-size: .8rem; font-weight: 700; width: 150px;">${shippingAddressTitle}</p>
+                  <p style="font-size: .8rem; font-weight: 700; width: 150px;">${customerName}</p>
+                  <p style="font-size: .8rem; width: 150px;">${customerEmail}</p>
               </div>
           </div>
           <div
@@ -157,6 +150,10 @@ const PreviewInvoice = () => {
               </tr>
           </table>
       </div>
+      <div style="width: 100%; text-align: center; border: 2px solid black; padding: .3em; margin-top: 2em;">
+            <strong>Disclaimer: </strong> <span style="font-size: 0.5rem">All products are tested and trusted in good working condition. No returns. <br>
+            Products can only be exchanged with the same cash value. All sales are final.</span>
+        </div>
   </body>
   </html>
   `;
