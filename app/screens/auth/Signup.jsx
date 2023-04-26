@@ -3,16 +3,18 @@ import React, { useState } from 'react'
 import { Platform } from 'react-native'
 import style from './style'
 
-import { MaterialIcons, Feather } from '@expo/vector-icons';
-import color from '../../style/color';
-import { useNavigation } from '@react-navigation/native';
+import { MaterialIcons, Feather } from '@expo/vector-icons'
+import color from '../../style/color'
+import { useNavigation } from '@react-navigation/native'
 
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth, db } from '../../hooks/firebase'
-import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux'
 
 import { setUser } from '../../features/userSlice'
-import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
+
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 const Signup = () => {
@@ -46,13 +48,17 @@ const Signup = () => {
             timestamp: serverTimestamp()
           })
 
+          await AsyncStorage.setItem('recido_user', JSON.stringify(user))
+
           dispatch(setUser(user))
           setLoading(false)
-        }).catch(error => {
+        }).catch(async error => {
           if (error.message.includes('email-already-in-use'))
             Alert.alert('Sign Up error', 'Seems this email is already in use. \nTry another 🙂')
           else if (error.message.includes('weak-password'))
             Alert.alert('Sign Up error', 'weak-password\nPassword should be at least 6 characters')
+
+          await AsyncStorage.setItem('recido_user', null)
           setLoading(false)
         })
     }

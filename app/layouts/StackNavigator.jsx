@@ -11,8 +11,23 @@ import { useSelector } from 'react-redux'
 
 const { Navigator, Screen, Group } = createStackNavigator()
 
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useState } from 'react'
+import { useEffect } from 'react'
+
 const StackNavigator = () => {
     const { user, loadingInitial } = useSelector(state => state.user)
+
+    const [auth, setAuth] = useState(false)
+
+    const storeData = async () => {
+        const value = await AsyncStorage.getItem('recido_user')
+        setAuth(value)
+    }
+
+    useEffect(() => {
+        storeData()
+    }, [])
 
     return (
         <Navigator
@@ -26,7 +41,7 @@ const StackNavigator = () => {
             }}
         >
             {
-                user ? (
+                (auth || user) ? (
                     <Screen name="Navigation" component={Navigation} options={{ gestureEnabled: false }} />
                 ) : (
                     <Group>

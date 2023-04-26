@@ -3,22 +3,24 @@ import React, { useState } from 'react'
 import { Platform } from 'react-native'
 import style from './style'
 
-import { MaterialIcons, Feather } from '@expo/vector-icons';
-import color from '../../style/color';
-import { useNavigation } from '@react-navigation/native';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../hooks/firebase';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../../features/userSlice';
-import { Alert } from 'react-native';
+import { MaterialIcons, Feather } from '@expo/vector-icons'
+import color from '../../style/color'
+import { useNavigation } from '@react-navigation/native'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../../hooks/firebase'
+import { useDispatch } from 'react-redux'
+import { setUser } from '../../features/userSlice'
+import { Alert } from 'react-native'
+
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Signin = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
 
-  const [peek, setPeek] = useState(false)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [peek, setPeek] = useState(true)
+  const [email, setEmail] = useState('rukkiecodes@gmail.com')
+  const [password, setPassword] = useState('amagboro')
   const [loading, setLoading] = useState(false)
 
   let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -30,14 +32,16 @@ const Signin = () => {
       setLoading(true)
 
       signInWithEmailAndPassword(auth, email, password)
-        .then(user => {
+        .then(async user => {
+          await AsyncStorage.setItem('recido_user', JSON.stringify(user))
           setLoading(false)
           dispatch(setUser(user))
-        }).catch(error => {
+        }).catch(async error => {
           if (error.message.includes('wrong-password'))
             Alert.alert('Sign In error', 'Wrong password. Check your passwod then try again. 🙂')
           else if (error.message.includes('user-not-found'))
             Alert.alert('Sign In error', 'Seems like tou do not have an account with us \n Please create an account 🙂')
+          await AsyncStorage.setItem('recido_user', null)
           setLoading(false)
         })
     }
