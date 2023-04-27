@@ -24,11 +24,23 @@ export const userSlice = createSlice({
 
     setProfile: (state, action) => {
       state.profile = action.payload
-    }
+    },
+
+    setTheme: (state, action) => {
+      state.theme = action.payload
+    },
+
+    setSetup: (state, action) => {
+      state.setup = action.payload
+    },
+
+    setActiveRoute: (state, action) => {
+      state.activeRoute = action.payload
+    },
   }
 })
 
 // Action creators are generated for each case reducer function
-export const { setUser, logout, setProfile } = userSlice.actions
+export const { setUser, logout, setProfile, setTheme, setSetup, setActiveRoute } = userSlice.actions
 
 export default userSlice.reducer
