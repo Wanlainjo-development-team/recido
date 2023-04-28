@@ -13,7 +13,9 @@ const { Navigator, Screen, Group } = createStackNavigator()
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import CustomNavigation from './CustomNavigation'
 
-import { setAuth } from '../features/userSlice'
+import { setAuth, setProfile } from '../features/userSlice'
+import { doc, getDoc, onSnapshot } from 'firebase/firestore'
+import { db } from '../hooks/firebase'
 
 const StackNavigator = () => {
     const dispatch = useDispatch()
@@ -25,8 +27,22 @@ const StackNavigator = () => {
         dispatch(setAuth(value))
     }
 
+    const getUser = async (prop) => {
+        const unsub = onSnapshot(doc(db, 'users', prop), doc => {
+            // console.log('current data', doc.data())
+            dispatch(setProfile(doc.data()))
+        })
+
+        return unsub
+    }
+
     useLayoutEffect(() => {
         storeData()
+    }, [])
+
+    useLayoutEffect(() => {
+        let _auth = JSON.parse(auth)?.user?.uid
+        getUser(_auth)
     }, [])
 
     return (
