@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 
@@ -6,26 +6,26 @@ import Splash from './Splash'
 import Signin from '../screens/auth/Signin'
 import Signup from '../screens/auth/Signup'
 import ForgotPassword from '../screens/auth/ForgotPassword'
-import Navigation from './Navigation'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const { Navigator, Screen, Group } = createStackNavigator()
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useState } from 'react'
-import { useEffect } from 'react'
+import CustomNavigation from './CustomNavigation'
+
+import { setAuth } from '../features/userSlice'
 
 const StackNavigator = () => {
-    const { user, loadingInitial } = useSelector(state => state.user)
+    const dispatch = useDispatch()
 
-    const [auth, setAuth] = useState(false)
+    const { user, loadingInitial, auth } = useSelector(state => state.user)
 
     const storeData = async () => {
         const value = await AsyncStorage.getItem('recido_user')
-        setAuth(value)
+        dispatch(setAuth(value))
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         storeData()
     }, [])
 
@@ -42,7 +42,7 @@ const StackNavigator = () => {
         >
             {
                 (auth || user) ? (
-                    <Screen name="Navigation" component={Navigation} options={{ gestureEnabled: false }} />
+                    <Screen name="CustomNavigation" component={CustomNavigation} options={{ gestureEnabled: false }} />
                 ) : (
                     <Group>
                         <Screen name="Signin" component={Signin} options={{ gestureEnabled: false }} />
