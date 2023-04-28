@@ -3,7 +3,7 @@ import color from './color'
 
 export const header = StyleSheet.create({
   container: {
-    marginTop: 50,
+    marginTop: 30,
     paddingTop: StatusBar.currentHeight,
     paddingHorizontal: 20,
     flexDirection: 'row',

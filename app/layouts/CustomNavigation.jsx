@@ -16,7 +16,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import BottomNavigation from './BottomNavigation';
 
-import { setActiveRoute } from '../features/userSlice'
+import { setActiveRoute, setAuth, setUser } from '../features/userSlice'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get('window')
 
@@ -24,7 +25,7 @@ const CustomNavigation = () => {
     const navigation = useNavigation()
     const dispatch = useDispatch()
     const { profile, activeRoute } = useSelector(state => state.user)
-    const [currentTab, setCurrentTab] = useState('Match')
+    const [currentTab, setCurrentTab] = useState('Home')
     const [showMenu, setShowMenu] = useState(false)
 
     const offsetValue = useRef(new Animated.Value(0)).current
@@ -248,8 +249,13 @@ const CustomNavigation = () => {
 
 const TabButton = (profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, title, nav) => {
     const navigation = useNavigation()
+    // const dispatch = useDispatch()
 
-    const logoutUser = () => { }
+    const logoutUser = async () => {
+        await AsyncStorage.removeItem('recido_user')
+        dispatch(setAuth(null))
+        dispatch(setUser(null))
+    }
 
     return (
         <TouchableOpacity

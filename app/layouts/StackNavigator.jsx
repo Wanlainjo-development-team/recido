@@ -6,21 +6,23 @@ import Splash from './Splash'
 import Signin from '../screens/auth/Signin'
 import Signup from '../screens/auth/Signup'
 import ForgotPassword from '../screens/auth/ForgotPassword'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 const { Navigator, Screen, Group } = createStackNavigator()
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import CustomNavigation from './CustomNavigation'
 
-const StackNavigator = () => {
-    const { user, loadingInitial } = useSelector(state => state.user)
+import { setAuth } from '../features/userSlice'
 
-    const [auth, setAuth] = useState(false)
+const StackNavigator = () => {
+    const dispatch = useDispatch()
+
+    const { user, loadingInitial, auth } = useSelector(state => state.user)
 
     const storeData = async () => {
         const value = await AsyncStorage.getItem('recido_user')
-        setAuth(value)
+        dispatch(setAuth(value))
     }
 
     useLayoutEffect(() => {
