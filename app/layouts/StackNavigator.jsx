@@ -6,6 +6,8 @@ import Splash from './Splash'
 import Signin from '../screens/auth/Signin'
 import Signup from '../screens/auth/Signup'
 import ForgotPassword from '../screens/auth/ForgotPassword'
+import Settings from '../screens/settings'
+
 import { useDispatch, useSelector } from 'react-redux'
 
 const { Navigator, Screen, Group } = createStackNavigator()
@@ -13,9 +15,13 @@ const { Navigator, Screen, Group } = createStackNavigator()
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import CustomNavigation from './CustomNavigation'
 
-import { setAuth } from '../features/userSlice'
+import { setAuth, setProfile } from '../features/userSlice'
+import { doc, getDoc, onSnapshot } from 'firebase/firestore'
+import { db } from '../hooks/firebase'
+import { useNavigation } from '@react-navigation/native'
 
 const StackNavigator = () => {
+    const navigation = useNavigation()
     const dispatch = useDispatch()
 
     const { user, loadingInitial, auth } = useSelector(state => state.user)
@@ -23,6 +29,19 @@ const StackNavigator = () => {
     const storeData = async () => {
         const value = await AsyncStorage.getItem('recido_user')
         dispatch(setAuth(value))
+
+        getUser(JSON.parse(value))
+    }
+
+    const getUser = (prop) => {
+        let id = prop?.user?.uid
+
+        const unsub = onSnapshot(doc(db, 'users', id), doc => {
+            dispatch(setProfile(doc.data()))
+            if (doc.data()?.setup == undefined) navigation.navigate('Settings')
+        })
+
+        return unsub
     }
 
     useLayoutEffect(() => {
@@ -42,7 +61,13 @@ const StackNavigator = () => {
         >
             {
                 (auth || user) ? (
-                    <Screen name="CustomNavigation" component={CustomNavigation} options={{ gestureEnabled: false }} />
+                    <>
+                        <Screen name="CustomNavigation" component={CustomNavigation} options={{ gestureEnabled: false }} />
+
+                        <Screen name='Settings' component={Settings} options={{ gestureEnabled: false }} />
+                        {/* <Group screenOptions={{ presentation: 'transparentModal' }}>
+                        </Group> */}
+                    </>
                 ) : (
                     <Group>
                         <Screen name="Signin" component={Signin} options={{ gestureEnabled: false }} />
