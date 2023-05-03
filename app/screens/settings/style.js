@@ -4,7 +4,7 @@ import color from "../../style/color";
 export default StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: StatusBar.currentHeight,
+        paddingTop: StatusBar.currentHeight + 20,
         backgroundColor: color.mainBackground,
     },
 
