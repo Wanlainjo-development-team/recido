@@ -41,6 +41,7 @@ const CreateInvoice = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
 
+  const { profile } = useSelector(state => state.user)
   const { order, date, customerName, customerEmail, contact, salesRep, paymentTerms, items, subTotal, vat, total, useVAT } = useSelector(state => state.form)
 
   const [loading, setLoading] = useState(false)
@@ -274,19 +275,6 @@ const CreateInvoice = () => {
     <View style={styles.container}>
 
       <ScrollView style={styles.formSrollview} showsVerticalScrollIndicator={false}>
-        <View style={styles.header}>
-          <View style={styles.left}>
-            <Image style={styles.logo} source={require('../../../assets/images/logo.png')} />
-
-            <View style={styles.leftInfo}>
-              <Text style={styles.title}>WANLAINJO COMPUTERS LTD</Text>
-              <Text style={styles.info}>Village North Professional Building</Text>
-              <Text style={styles.info}>7420 Unity Ave N #211, Brooklyn Park,</Text>
-              <Text style={styles.info}>MN 55443, United States</Text>
-              <Text style={styles.info}>wanlainjocomputers.com</Text>
-            </View>
-          </View>
-        </View>
         <TextInput placeholder='Order' style={styles.input} value={order} onChangeText={e => dispatch(setOrder(e))} readOnly={true} />
         <TextInput placeholder='Date' style={styles.input} value={date} onChangeText={e => dispatch(setDate(e))} />
 

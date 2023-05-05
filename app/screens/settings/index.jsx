@@ -1,20 +1,26 @@
-import { View, Text, TouchableOpacity, TextInput, KeyboardAvoidingView, ScrollView } from 'react-native'
-import React from 'react'
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  TextInput,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
+  Keyboard,
+  TouchableWithoutFeedback,
+  Image,
+  ActivityIndicator,
+  Alert
+} from 'react-native'
+import React, { useState, useLayoutEffect } from 'react'
 import style from './style'
 import Header from '../../components/Header'
 
 import { Feather } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
-import { Platform } from 'react-native';
-import { Keyboard } from 'react-native';
-import { TouchableWithoutFeedback } from 'react-native';
 import * as ImagePicker from 'expo-image-picker'
-import { Image } from 'react-native';
-import { ActivityIndicator } from 'react-native';
 import color from '../../style/color';
 import templatesPreview from '../../components/fragments/templatesPreview';
-import { FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import AutoHeightImage from 'react-native-auto-height-image'
 import { imageWidth } from '../selectTemplate/style';
@@ -25,8 +31,6 @@ import { setSetup } from '../../features/userSlice'
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
 import { collection, doc, getDoc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
 import { db } from '../../hooks/firebase';
-import { Alert } from 'react-native';
-import { useLayoutEffect } from 'react';
 import { setSelectedTemplatePreview } from '../../features/useFormSlice';
 
 const Settings = () => {

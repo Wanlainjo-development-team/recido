@@ -113,6 +113,7 @@ const CustomNavigation = () => {
                     {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Home', 'Home')}
                     {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Create Invoice', 'CreateInvoice')}
                     {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'History', 'History')}
+                    {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Settings', 'Settings')}
                 </ScrollView>
                 {/*  */}
                 {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Log out')}
@@ -264,7 +265,7 @@ const TabButton = (profile, dispatch, currentTab, setCurrentTab, setShowMenu, sh
                 if (title == 'Log out') {
                     logoutUser()
                 } else {
-                    if (nav == 'Home' || nav == 'CreateInvoice' || nav == 'History') {
+                    if (nav == 'Home' || nav == 'CreateInvoice' || nav == 'History' || nav == 'Settings') {
                         dispatch(setActiveRoute(nav))
                         navigation.navigate(nav)
                         setCurrentTab(nav)
@@ -347,14 +348,13 @@ const TabButton = (profile, dispatch, currentTab, setCurrentTab, setShowMenu, sh
                 {/*  */}
                 {nav == 'Home' && <Feather name="home" size={24} color={color.accent} style={{ marginRight: 15 }} />}
                 {nav == 'CreateInvoice' && <Ionicons name="create-outline" size={24} color={color.accent} style={{ marginRight: 15 }} />}
-                {nav == 'History' && <Octicons name="history" size={24} color={color.accent} style={{ marginRight: 15 }} />}
+                {nav == 'History' && <Octicons name="history" size={20} color={color.accent} style={{ marginRight: 20, marginLeft: 1.4 }} />}
+                {nav == 'Settings' && <Ionicons name="cog" size={24} color={color.accent} style={{ marginRight: 15 }} />}
                 {/*  */}
                 {/*  */}
                 {/*  */}
                 {/*  */}
                 <Text style={{ fontSize: 15, color: title == 'Log out' ? color.accent : (currentTab == nav ? color.dark : color.dark) }}>{title}</Text>
-                {/*  */}
-                <View style={{ flex: 1 }} />
             </View>
         </TouchableOpacity>
     )
