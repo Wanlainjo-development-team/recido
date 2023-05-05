@@ -19,6 +19,7 @@ import { setAuth, setProfile } from '../features/userSlice'
 import { doc, getDoc, onSnapshot } from 'firebase/firestore'
 import { db } from '../hooks/firebase'
 import { useNavigation } from '@react-navigation/native'
+import SelectTemplate from '../screens/selectTemplate'
 
 const StackNavigator = () => {
     const navigation = useNavigation()
@@ -65,8 +66,9 @@ const StackNavigator = () => {
                         <Screen name="CustomNavigation" component={CustomNavigation} options={{ gestureEnabled: false }} />
 
                         <Screen name='Settings' component={Settings} options={{ gestureEnabled: false }} />
-                        {/* <Group screenOptions={{ presentation: 'transparentModal' }}>
-                        </Group> */}
+                        <Group screenOptions={{ presentation: 'transparentModal' }}>
+                            <Screen name='SelectTemplate' component={SelectTemplate} />
+                        </Group>
                     </>
                 ) : (
                     <Group>
