@@ -9,43 +9,9 @@ export default StyleSheet.create({
         paddingHorizontal: 20,
     },
 
-    header: {
-        flexDirection: "row",
-        alignItems: "flex-start",
-        justifyContent: "space-between",
-        paddingVertical: 20,
-    },
-
-    left: {
-        flexDirection: "row",
-        alignItems: "flex-start",
-        justifyContent: "flex-start",
-    },
-
-    logo: {
-        width: 80,
-        height: 85,
-    },
-
-    leftInfo: {
-        marginLeft: 10,
-    },
-
-    title: {
-        fontSize: 16,
-        fontWeight: "bold",
-        color: color.accent,
-        marginBottom: 5,
-    },
-
-    info: {
-        fontSize: 12,
-        marginBottom: 5,
-        color: color.accent,
-    },
-
     formSrollview: {
-        flex: 1
+        flex: 1,
+        paddingTop: 20
     },
 
     controles: {
