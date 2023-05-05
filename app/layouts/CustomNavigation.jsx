@@ -355,8 +355,6 @@ const TabButton = (profile, dispatch, currentTab, setCurrentTab, setShowMenu, sh
                 {/*  */}
                 {/*  */}
                 <Text style={{ fontSize: 15, color: title == 'Log out' ? color.accent : (currentTab == nav ? color.dark : color.dark) }}>{title}</Text>
-                {/*  */}
-                <View style={{ flex: 1 }} />
             </View>
         </TouchableOpacity>
     )
