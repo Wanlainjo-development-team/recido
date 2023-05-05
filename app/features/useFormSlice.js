@@ -14,7 +14,8 @@ export const useFormSlice = createSlice({
         subTotal: 0,
         vat: 0,
         total: 0,
-        useVAT: true
+        useVAT: true,
+        selectedTemplatePreview: null
     },
     reducers: {
         setOrder: (state, action) => {
@@ -58,6 +59,9 @@ export const useFormSlice = createSlice({
         },
         deleteItem: (state, action) => {
             state.items.splice(action.payload, 1)
+        },
+        setSelectedTemplatePreview: (state, action) => {
+            state.selectedTemplatePreview = action.payload
         }
     }
 })
@@ -77,7 +81,8 @@ export const {
     setTotal,
     setUseVAT,
     deleteTerm,
-    deleteItem
+    deleteItem,
+    setSelectedTemplatePreview
 } = useFormSlice.actions
 
 export default useFormSlice.reducer

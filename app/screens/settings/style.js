@@ -45,5 +45,29 @@ export default StyleSheet.create({
         borderRadius: 12,
         paddingHorizontal: 10,
         fontWeight: '600'
+    },
+
+    invoicePlaceholderButton: {
+        width: '100%',
+        minHeight: 250,
+        backgroundColor: `${color.accent}20`,
+        borderRadius: 12,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    invoicePlaceholderButtonText: {},
+
+    saveButton: {
+        backgroundColor: color.accent,
+        margin: 10,
+        height: 45,
+        borderRadius: 12,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    saveButtonText: {
+        color: color.white
     }
 })
