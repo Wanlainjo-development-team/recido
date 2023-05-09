@@ -246,6 +246,7 @@ const CreateInvoice = () => {
     dispatch(setTotal(calcTotal))
 
     navigation.navigate('PreviewInvoice')
+    // navigation.navigate('PreviewInvoice')
   }
 
   let sharePDF = async () => {
