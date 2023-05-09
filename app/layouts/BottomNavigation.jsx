@@ -46,7 +46,7 @@ const BottomNavigation = () => {
         listeners={({ navigation }) => ({
           tabPress: e => {
             e.preventDefault()
-            navigation.jumpTo('CreateInvoice')
+            navigation.navigate('Create')
             dispatch(setActiveRoute('CreateInvoice'))
           }
         })}
