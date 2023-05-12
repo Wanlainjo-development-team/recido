@@ -31,3 +31,44 @@ export const setInvoice = StyleSheet.create({
         marginBottom: 20
     },
 })
+
+export const terms = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: `${color.black}20`,
+        padding: 10,
+        paddingTop: 30,
+        justifyContent: 'flex-end'
+    },
+
+    flatList: {
+        backgroundColor: color.white,
+        borderRadius: 10,
+        maxHeight: 400
+    },
+
+    listButton: {
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: `${color.black}20`
+    },
+
+    listButtonText: {
+        color: color.accent
+    },
+
+    cancelButton: {
+        backgroundColor: color.white,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        marginTop: 20
+    },
+
+    cancelButtonText: {
+        color: color.red
+    }
+})

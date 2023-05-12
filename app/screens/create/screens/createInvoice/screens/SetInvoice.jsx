@@ -4,8 +4,10 @@ import { setInvoice } from './styles'
 import { TextInput } from 'react-native'
 import color from '../../../../../style/color'
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useNavigation } from '@react-navigation/native'
 
 const SetInvoice = () => {
+    const { navigate } = useNavigation()
     const [date, setDate] = useState(new Date(1598051730000));
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false)
@@ -49,6 +51,10 @@ const SetInvoice = () => {
                             />
                     }
                 </View>
+                <TouchableOpacity onPress={() => navigate('Terms')} style={setInvoice.list}>
+                    <Text>Terms:</Text>
+                    <TextInput placeholder='Invoice number' editable={false} />
+                </TouchableOpacity>
             </View>
         </View>
     )
