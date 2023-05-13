@@ -11,6 +11,14 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "plugins": [
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Allow recido to access your contacts."
+        }
+      ]
+    ],
     "assetBundlePatterns": [
       "**/*"
     ],
