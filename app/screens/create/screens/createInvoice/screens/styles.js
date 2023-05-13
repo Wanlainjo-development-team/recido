@@ -9,6 +9,18 @@ export const setInvoice = StyleSheet.create({
         paddingTop: 30
     },
 
+    head: {
+        height: 50,
+        marginBottom: 20,
+        justifyContent: 'center',
+        alignItems: 'flex-end'
+    },
+
+    headText: {
+        color: color.accent,
+        fontWeight: '800'
+    },
+
     group: {
         backgroundColor: color.white,
         borderRadius: 8,
@@ -24,51 +36,22 @@ export const setInvoice = StyleSheet.create({
         marginBottom: 10
     },
 
+    confirmButton: {
+        backgroundColor: color.mainBackground,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 12
+    },
+
+    confirmButtonText: {
+        color: color.accent
+    },
+
     list: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 20
     },
-})
-
-export const terms = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: `${color.black}20`,
-        padding: 10,
-        paddingTop: 30,
-        justifyContent: 'flex-end'
-    },
-
-    flatList: {
-        backgroundColor: color.white,
-        borderRadius: 10,
-        maxHeight: 400
-    },
-
-    listButton: {
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: `${color.black}20`
-    },
-
-    listButtonText: {
-        color: color.accent
-    },
-
-    cancelButton: {
-        backgroundColor: color.white,
-        height: 50,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10,
-        marginTop: 20
-    },
-
-    cancelButtonText: {
-        color: color.red
-    }
 })

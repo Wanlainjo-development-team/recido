@@ -3,8 +3,13 @@ import { createSlice } from '@reduxjs/toolkit'
 export const useFormSlice = createSlice({
     name: 'form',
     initialState: {
-        order: `SO-${(Math.floor(Math.random() * 900000) + 100000)}`,
-        date: '',
+        // for setting invoice starts here
+        order: `${(Math.floor(Math.random() * 900000) + 100000)}`,
+        date: `${new Date('2023-09-22')}`,
+        dueDate: `${new Date('2023-09-22')}`,
+        removeDueDate: false,
+        // for setting invoice endss here
+
         customerName: '',
         customerEmail: '',
         contact: '',
@@ -23,6 +28,12 @@ export const useFormSlice = createSlice({
         },
         setDate: (state, action) => {
             state.date = action.payload
+        },
+        setDueDate: (state, action) => {
+            state.dueDate = action.payload
+        },
+        setRemoveDueDate: (state, action) => {
+            state.removeDueDate = action.payload
         },
         setCustomerName: (state, action) => {
             state.customerName = action.payload
@@ -70,6 +81,8 @@ export const useFormSlice = createSlice({
 export const {
     setOrder,
     setDate,
+    setDueDate,
+    setRemoveDueDate,
     setCustomerEmail,
     setCustomerName,
     setContact,

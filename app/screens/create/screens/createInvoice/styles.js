@@ -12,6 +12,8 @@ export default StyleSheet.create({
         flex: 1
     },
 
+    head: {},
+
     group: {
         backgroundColor: color.white,
         borderRadius: 8,
@@ -27,7 +29,17 @@ export default StyleSheet.create({
         marginBottom: 10
     },
 
-    invoiceNumber: {
-        fontSize: 20
+    setInvoiceView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+
+    setInvoiceLeftView: {
+
+    },
+
+    setInvoiceLeftViewBoldText: {
+        fontWeight: '800'
     }
 })

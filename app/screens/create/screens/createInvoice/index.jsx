@@ -93,8 +93,12 @@ const CreateInvoice = () => {
         <>
           <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
             <View style={styles.group}>
-              <TouchableOpacity onPress={() => navigate('SetInvoice')}>
-                <Text style={styles.invoiceNumber}>INV0002</Text>
+              <TouchableOpacity style={styles.setInvoiceView} onPress={() => navigate('SetInvoice')}>
+                <View style={styles.setInvoiceLeftView}>
+                  <Text style={styles.setInvoiceLeftViewBoldText}>May 11, 2023</Text>
+                  <Text>Due on May 18, 2023</Text>
+                </View>
+                <Text style={styles.setInvoiceLeftViewBoldText}>#INV0002</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
