@@ -5,15 +5,28 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import CreateInvoice from './screens/createInvoice'
 import Preview from './screens/preview'
 
+import Header from '../../components/Header'
+import color from '../../style/color'
+
 
 const { Navigator, Screen } = createMaterialTopTabNavigator()
 
 const Create = () => {
   return (
-    <Navigator>
-      <Screen name='CreateNewInvoice' component={CreateInvoice} options={{ title: 'Create' }} />
-      <Screen name='PreviewNewInvoice' component={Preview} options={{ title: 'Preview' }} />
-    </Navigator>
+    <View style={{ flex: 1, backgroundColor: color.mainBackground }}>
+      <Header />
+      <Navigator
+        tabBarPosition='bottom'
+        screenOptions={{
+          tabBarStyle: {
+            backgroundColor: color.mainBackground,
+            elevation: 0
+          }
+        }}>
+        <Screen name='CreateNewInvoice' component={CreateInvoice} options={{ title: 'Create' }} />
+        <Screen name='PreviewNewInvoice' component={Preview} options={{ title: 'Preview' }} />
+      </Navigator>
+    </View>
   )
 }
 
