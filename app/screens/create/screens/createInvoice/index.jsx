@@ -6,7 +6,7 @@ import { Image } from 'react-native'
 import { ScrollView } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 
-import { FontAwesome } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import { TextInput, Keyboard } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -27,8 +27,6 @@ import {
   deleteItem
 } from '../../../../features/useFormSlice'
 import { useNavigation } from '@react-navigation/native'
-
-import { AntDesign } from '@expo/vector-icons';
 
 import { addDoc, collection } from 'firebase/firestore'
 import { db } from '../../../../hooks/firebase'
@@ -99,6 +97,18 @@ const CreateInvoice = () => {
                   <Text>Due on May 18, 2023</Text>
                 </View>
                 <Text style={styles.setInvoiceLeftViewBoldText}>#INV0002</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.group}>
+              <TouchableOpacity style={styles.setInvoiceView} onPress={() => navigate('BillTo')}>
+                <View style={styles.setInvoiceLeftView}>
+                  <Text style={styles.setInvoiceLeftViewBoldText}>Bill To</Text>
+                  <View style={styles.plusView}>
+                    <AntDesign name="pluscircleo" size={22} color={color.accent} />
+                    <Text style={styles.plusViewText}>Add customer</Text>
+                  </View>
+                </View>
               </TouchableOpacity>
             </View>
           </ScrollView>

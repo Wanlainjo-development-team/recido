@@ -8,7 +8,12 @@ export const useFormSlice = createSlice({
         date: `${new Date('2023-09-22')}`,
         dueDate: `${new Date('2023-09-22')}`,
         removeDueDate: false,
-        // for setting invoice endss here
+        // for setting invoice ends here
+
+
+        // for setting invoice contact starts here
+        invoiceContact: null,
+        // for setting invoice contact ends here
 
         customerName: '',
         customerEmail: '',
@@ -34,6 +39,9 @@ export const useFormSlice = createSlice({
         },
         setRemoveDueDate: (state, action) => {
             state.removeDueDate = action.payload
+        },
+        setInvoiceContact: (state, action) => {
+            state.invoiceContact = action.payload
         },
         setCustomerName: (state, action) => {
             state.customerName = action.payload
@@ -83,6 +91,7 @@ export const {
     setDate,
     setDueDate,
     setRemoveDueDate,
+    setInvoiceContact,
     setCustomerEmail,
     setCustomerName,
     setContact,

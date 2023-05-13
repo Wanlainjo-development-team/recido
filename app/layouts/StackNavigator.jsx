@@ -22,6 +22,8 @@ import { useNavigation } from '@react-navigation/native'
 import SelectTemplate from '../screens/selectTemplate'
 import Create from '../screens/create'
 import SetInvoice from '../screens/create/screens/createInvoice/screens/SetInvoice'
+import BillTo from '../screens/create/screens/createInvoice/screens/BillTo'
+import Contacts from '../screens/create/screens/createInvoice/screens/Contacts'
 
 const StackNavigator = () => {
     const navigation = useNavigation()
@@ -70,6 +72,8 @@ const StackNavigator = () => {
                         <Screen name='Settings' component={Settings} options={{ gestureEnabled: false }} />
                         <Screen name='Create' component={Create} options={{ gestureEnabled: true }} />
                         <Screen name='SetInvoice' component={SetInvoice} options={{ gestureEnabled: true }} />
+                        <Screen name='BillTo' component={BillTo} options={{ gestureEnabled: true }} />
+                        <Screen name='Contacts' component={Contacts} options={{ gestureEnabled: true }} />
                         <Group screenOptions={{ presentation: 'transparentModal' }}>
                             <Screen name='SelectTemplate' component={SelectTemplate} options={{ gestureEnabled: true }} />
                         </Group>

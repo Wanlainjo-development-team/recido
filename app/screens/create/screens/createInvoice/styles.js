@@ -15,24 +15,16 @@ export default StyleSheet.create({
     head: {},
 
     group: {
-        backgroundColor: color.white,
         borderRadius: 8,
         padding: 10,
-        shadowColor: color.accent,
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.18,
-        shadowRadius: 1.00,
-        elevation: 1,
         marginBottom: 10
     },
 
     setInvoiceView: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: 40
     },
 
     setInvoiceLeftView: {
@@ -41,5 +33,16 @@ export default StyleSheet.create({
 
     setInvoiceLeftViewBoldText: {
         fontWeight: '800'
+    },
+
+    plusView: {
+        marginTop: 10,
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+
+    plusViewText: {
+        color: color.accent,
+        marginLeft: 10
     }
 })
