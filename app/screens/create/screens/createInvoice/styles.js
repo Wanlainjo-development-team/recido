@@ -12,8 +12,6 @@ export default StyleSheet.create({
         flex: 1
     },
 
-    head: {},
-
     group: {
         borderRadius: 8,
         padding: 10,
