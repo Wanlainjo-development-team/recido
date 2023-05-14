@@ -127,18 +127,23 @@ const CreateInvoice = () => {
                 <View style={{ ...styles.setInvoiceLeftView, width: '100%' }}>
                   <Text style={styles.setInvoiceLeftViewBoldText}>Items</Text>
                   {
-                    items.map((item, index) => (
-                      <TouchableOpacity key={index} style={itemsStyle.group}>
-                        <View style={itemsStyle.groupLeft}>
-                          <Text>{item?.name}</Text>
-                          <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.discription).slice(0, 20)}</Text>
-                        </View>
-                        <View style={itemsStyle.groupRight}>
-                          <Text style={itemsStyle.groupOpacityText}>{(item?.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} x {(item?.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
-                          <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{calculateDiscount(item)}</Text>
-                        </View>
-                      </TouchableOpacity>
-                    ))
+                    items.length >= 1 &&
+                    <>
+                      {
+                        items.map((item, index) => (
+                          <TouchableOpacity key={index} style={itemsStyle.group}>
+                            <View style={itemsStyle.groupLeft}>
+                              <Text>{item?.name}</Text>
+                              <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.discription).slice(0, 20)}</Text>
+                            </View>
+                            <View style={itemsStyle.groupRight}>
+                              <Text style={itemsStyle.groupOpacityText}>{(item?.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} x {(item?.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                              <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{calculateDiscount(item)}</Text>
+                            </View>
+                          </TouchableOpacity>
+                        ))
+                      }
+                    </>
                   }
                   <TouchableOpacity onPress={() => navigate('Items')} style={styles.plusView}>
                     <AntDesign name="pluscircleo" size={22} color={color.accent} />
