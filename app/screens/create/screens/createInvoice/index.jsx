@@ -37,6 +37,7 @@ import { shareAsync } from 'expo-sharing';
 import { KeyboardAvoidingView } from 'react-native'
 import { Platform } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native'
+import { itemsStyle } from './screens/styles'
 
 const CreateInvoice = () => {
   const { navigate } = useNavigation()
@@ -85,6 +86,15 @@ const CreateInvoice = () => {
     })
   }
 
+  const calculateDiscount = prop => {
+    let number = prop?.price
+    let percentage = prop?.discounts
+
+    let result = number - (number * percentage / 100)
+
+    return (result).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -110,6 +120,32 @@ const CreateInvoice = () => {
                   </View>
                 </View>
               </TouchableOpacity>
+            </View>
+
+            <View style={styles.group}>
+              <View style={styles.setInvoiceView}>
+                <View style={{ ...styles.setInvoiceLeftView, width: '100%' }}>
+                  <Text style={styles.setInvoiceLeftViewBoldText}>Items</Text>
+                  {
+                    items.map((item, index) => (
+                      <TouchableOpacity key={index} style={itemsStyle.group}>
+                        <View style={itemsStyle.groupLeft}>
+                          <Text>{item?.name}</Text>
+                          <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.discription).slice(0, 20)}</Text>
+                        </View>
+                        <View style={itemsStyle.groupRight}>
+                          <Text style={itemsStyle.groupOpacityText}>{(item?.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} x {(item?.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                          <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{calculateDiscount(item)}</Text>
+                        </View>
+                      </TouchableOpacity>
+                    ))
+                  }
+                  <TouchableOpacity onPress={() => navigate('Items')} style={styles.plusView}>
+                    <AntDesign name="pluscircleo" size={22} color={color.accent} />
+                    <Text style={styles.plusViewText}>Add items</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
             </View>
           </ScrollView>
         </>

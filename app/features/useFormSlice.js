@@ -25,12 +25,15 @@ export const useFormSlice = createSlice({
         shippingCountry: '',
         // for setting invoice contact ends here
 
+        // for setting invoice items starts here
+        items: [],
+        // for setting invoice items ends here
+
         customerName: '',
         customerEmail: '',
         contact: '',
         salesRep: '',
         paymentTerms: [],
-        items: [],
         subTotal: 0,
         vat: 0,
         total: 0,
@@ -90,6 +93,10 @@ export const useFormSlice = createSlice({
             state.country = action.payload
         },
 
+        setItems: (state, action) => {
+            state.items = [...state.items, action.payload]
+        },
+
         setCustomerName: (state, action) => {
             state.customerName = action.payload
         },
@@ -108,10 +115,6 @@ export const useFormSlice = createSlice({
 
         setPaymentTerms: (state, action) => {
             state.paymentTerms = [...state.paymentTerms, action.payload]
-        },
-
-        setItems: (state, action) => {
-            state.items = [...state.items, action.payload]
         },
 
         setSubTotal: (state, action) => {
@@ -159,12 +162,12 @@ export const {
     setShippingState,
     setShippingZip,
     setShippingCountry,
+    setItems,
     setCustomerEmail,
     setCustomerName,
     setContact,
     setSalesRep,
     setPaymentTerms,
-    setItems,
     setSubTotal,
     setVat,
     setTotal,

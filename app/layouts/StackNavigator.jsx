@@ -26,6 +26,8 @@ import BillTo from '../screens/create/screens/createInvoice/screens/BillTo'
 import Contacts from '../screens/create/screens/createInvoice/screens/Contacts'
 import AddNewCustomer from '../screens/create/screens/createInvoice/screens/AddNewCustomer'
 import Countries from '../screens/create/screens/createInvoice/screens/Countries'
+import Items from '../screens/create/screens/createInvoice/screens/Items'
+import CreateItem from '../screens/create/screens/createInvoice/screens/CreateItem'
 
 const StackNavigator = () => {
     const navigation = useNavigation()
@@ -78,6 +80,8 @@ const StackNavigator = () => {
                         <Screen name='Contacts' component={Contacts} options={{ gestureEnabled: true }} />
                         <Screen name='AddNewCustomer' component={AddNewCustomer} options={{ gestureEnabled: true }} />
                         <Screen name='Countries' component={Countries} options={{ gestureEnabled: true }} />
+                        <Screen name='Items' component={Items} options={{ gestureEnabled: true }} />
+                        <Screen name='CreateItem' component={CreateItem} options={{ gestureEnabled: true }} />
                         <Group screenOptions={{ presentation: 'transparentModal' }}>
                             <Screen name='SelectTemplate' component={SelectTemplate} options={{ gestureEnabled: true }} />
                         </Group>
