@@ -3,37 +3,43 @@ import React from 'react'
 import { contact } from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
-import { setInvoiceContact } from '../../../../../features/useFormSlice'
+import { setCountry } from '../../../../../features/useFormSlice'
 
-const Contacts = () => {
+const Countries = () => {
     const { goBack } = useNavigation()
-    const { allContact } = useRoute().params
+    const { typeOfAddress, allCountries } = useRoute().params
     const dispatch = useDispatch()
 
-    const { invoiceContact } = useSelector(state => state.form)
+    const { country } = useSelector(state => state.form)
 
     const setContact = prop => {
-        dispatch(setInvoiceContact(prop))
-        if (invoiceContact) goBack()
+        if (typeOfAddress == 'address') {
+            dispatch(setCountry(prop))
+            if (country != '') goBack()
+        }
+        else {
+            dispatch(setCountry(prop))
+            if (country != '') goBack()
+        }
     }
 
     return (
         <View style={contact.container}>
             <View style={contact.head}>
                 <View />
-                <Text>👨‍🦱 Select contact</Text>
+                <Text>Select your country</Text>
                 <TouchableOpacity onPress={goBack}>
                     <Text style={contact.headText}>Done</Text>
                 </TouchableOpacity>
             </View>
 
             <FlatList
-                data={allContact}
-                keyExtractor={item => item.id}
+                data={allCountries}
+                keyExtractor={item => item}
                 showsVerticalScrollIndicator={false}
                 renderItem={({ item }) => (
                     <TouchableOpacity onPress={() => setContact(item)} style={contact.group}>
-                        <Text>{item?.name}</Text>
+                        <Text>{item}</Text>
                     </TouchableOpacity>
                 )}
             />
@@ -41,4 +47,4 @@ const Contacts = () => {
     )
 }
 
-export default Contacts
+export default Countries
