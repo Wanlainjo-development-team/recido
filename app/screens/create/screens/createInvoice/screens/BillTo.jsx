@@ -35,7 +35,7 @@ const BillTo = () => {
       </View>
 
       <ScrollView>
-        <TouchableOpacity style={billTo.group}>
+        <TouchableOpacity onPress={() => navigate('AddNewCustomer')} style={billTo.group}>
           <AntDesign name="pluscircleo" size={22} color={color.accent} />
           <Text style={billTo.groupText}>Add new customer</Text>
         </TouchableOpacity>

@@ -1,4 +1,4 @@
-import { View, Text, Button, Platform, TouchableOpacity, Switch } from 'react-native'
+import { View, Text, Button, Platform, TouchableOpacity, Switch, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { setInvoice } from './styles'
 import { TextInput } from 'react-native'
@@ -53,70 +53,72 @@ const SetInvoice = () => {
                     <Text style={setInvoice.headText}>Done</Text>
                 </TouchableOpacity>
             </View>
-            <View style={setInvoice.group}>
-                <View style={setInvoice.list}>
-                    <Text>Invoice Number</Text>
-                    <TextInput placeholder='Invoice number' value={order} onChangeText={text => dispatch(setOrder(text))} />
-                </View>
-                <View style={setInvoice.list}>
-                    <Text>Date</Text>
-                    {
-                        !show ?
-                            <TouchableOpacity onPress={showDatepicker}>
-                                <Text>{`${new Date(date).toLocaleDateString()}`}</Text>
-                            </TouchableOpacity> :
-                            <View>
-                                <DateTimePicker
-                                    testID="dateTimePicker"
-                                    value={new Date(date)}
-                                    mode={mode}
-                                    display='spinner'
-                                    is24Hour={true}
-                                    onChange={onChange}
-                                />
-                                <TouchableOpacity onPress={() => setShow(false)} style={setInvoice.confirmButton}>
-                                    <Text style={setInvoice.confirmButtonText}>Confirm</Text>
-                                </TouchableOpacity>
-                            </View>
-                    }
-                </View>
-                {
-                    removeDueDate &&
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <View style={setInvoice.group}>
                     <View style={setInvoice.list}>
-                        <Text>Due date</Text>
+                        <Text>Invoice Number</Text>
+                        <TextInput placeholder='Invoice number' value={order} onChangeText={text => dispatch(setOrder(text))} />
+                    </View>
+                    <View style={setInvoice.list}>
+                        <Text>Date</Text>
                         {
-                            !dueDateShow ?
-                                <TouchableOpacity onPress={showDewDatepicker}>
-                                    <Text>{`${new Date(dueDate).toLocaleDateString()}`}</Text>
+                            !show ?
+                                <TouchableOpacity onPress={showDatepicker}>
+                                    <Text>{`${new Date(date).toLocaleDateString()}`}</Text>
                                 </TouchableOpacity> :
                                 <View>
                                     <DateTimePicker
                                         testID="dateTimePicker"
-                                        value={new Date(dueDate)}
-                                        mode={dueDateMode}
+                                        value={new Date(date)}
+                                        mode={mode}
                                         display='spinner'
                                         is24Hour={true}
-                                        onChange={onDueDateChange}
+                                        onChange={onChange}
                                     />
-                                    <TouchableOpacity onPress={() => setDueDateShow(false)} style={setInvoice.confirmButton}>
+                                    <TouchableOpacity onPress={() => setShow(false)} style={setInvoice.confirmButton}>
                                         <Text style={setInvoice.confirmButtonText}>Confirm</Text>
                                     </TouchableOpacity>
                                 </View>
                         }
                     </View>
-                }
-                <View style={setInvoice.list}>
-                    <Text>Remove due date</Text>
+                    {
+                        removeDueDate &&
+                        <View style={setInvoice.list}>
+                            <Text>Due date</Text>
+                            {
+                                !dueDateShow ?
+                                    <TouchableOpacity onPress={showDewDatepicker}>
+                                        <Text>{`${new Date(dueDate).toLocaleDateString()}`}</Text>
+                                    </TouchableOpacity> :
+                                    <View>
+                                        <DateTimePicker
+                                            testID="dateTimePicker"
+                                            value={new Date(dueDate)}
+                                            mode={dueDateMode}
+                                            display='spinner'
+                                            is24Hour={true}
+                                            onChange={onDueDateChange}
+                                        />
+                                        <TouchableOpacity onPress={() => setDueDateShow(false)} style={setInvoice.confirmButton}>
+                                            <Text style={setInvoice.confirmButtonText}>Confirm</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                            }
+                        </View>
+                    }
+                    <View style={setInvoice.list}>
+                        <Text>Remove due date</Text>
 
-                    <Switch
-                        trackColor={{ false: '#767577', true: '#81b0ff' }}
-                        thumbColor={isEnabled ? color.accent : color.mainBackground}
-                        ios_backgroundColor={`${color.accent}40`}
-                        onValueChange={toggleSwitch}
-                        value={isEnabled}
-                    />
+                        <Switch
+                            trackColor={{ false: '#767577', true: '#81b0ff' }}
+                            thumbColor={isEnabled ? color.accent : color.mainBackground}
+                            ios_backgroundColor={`${color.accent}40`}
+                            onValueChange={toggleSwitch}
+                            value={isEnabled}
+                        />
+                    </View>
                 </View>
-            </View>
+            </ScrollView>
         </View>
     )
 }

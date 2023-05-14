@@ -13,6 +13,16 @@ export const useFormSlice = createSlice({
 
         // for setting invoice contact starts here
         invoiceContact: null,
+        // address
+        city: '',
+        state: '',
+        zip: '',
+        country: '',
+        // shipping address
+        shippingCity: '',
+        shippingState: '',
+        shippingZip: '',
+        shippingCountry: '',
         // for setting invoice contact ends here
 
         customerName: '',
@@ -31,54 +41,103 @@ export const useFormSlice = createSlice({
         setOrder: (state, action) => {
             state.order = action.payload
         },
+
         setDate: (state, action) => {
             state.date = action.payload
         },
+
         setDueDate: (state, action) => {
             state.dueDate = action.payload
         },
+
         setRemoveDueDate: (state, action) => {
             state.removeDueDate = action.payload
         },
+
         setInvoiceContact: (state, action) => {
             state.invoiceContact = action.payload
         },
+
+        setCity: (state, action) => {
+            state.city = action.payload
+        },
+
+        setState: (state, action) => {
+            state.state = action.payload
+        },
+
+        setZip: (state, action) => {
+            state.zip = action.payload
+        },
+
+        setCountry: (state, action) => {
+            state.country = action.payload
+        },
+
+        setShippingCity: (state, action) => {
+            state.city = action.payload
+        },
+
+        setShippingState: (state, action) => {
+            state.state = action.payload
+        },
+
+        setShippingZip: (state, action) => {
+            state.zip = action.payload
+        },
+
+        setShippingCountry: (state, action) => {
+            state.country = action.payload
+        },
+
         setCustomerName: (state, action) => {
             state.customerName = action.payload
         },
+
         setCustomerEmail: (state, action) => {
             state.customerEmail = action.payload
         },
+
         setContact: (state, action) => {
             state.contact = action.payload
         },
+
         setSalesRep: (state, action) => {
             state.salesRep = action.payload
         },
+
         setPaymentTerms: (state, action) => {
             state.paymentTerms = [...state.paymentTerms, action.payload]
         },
+
         setItems: (state, action) => {
             state.items = [...state.items, action.payload]
         },
+
         setSubTotal: (state, action) => {
             state.subTotal = action.payload
         },
+
         setVat: (state, action) => {
             state.vat = action.payload
         },
+
         setTotal: (state, action) => {
             state.total = action.payload
         },
+
         setUseVAT: (state, action) => {
             state.useVAT = action.payload
         },
+
         deleteTerm: (state, action) => {
             state.paymentTerms.splice(action.payload, 1)
         },
+
         deleteItem: (state, action) => {
             state.items.splice(action.payload, 1)
         },
+
         setSelectedTemplatePreview: (state, action) => {
             state.selectedTemplatePreview = action.payload
         }
@@ -92,6 +151,14 @@ export const {
     setDueDate,
     setRemoveDueDate,
     setInvoiceContact,
+    setCity,
+    setState,
+    setZip,
+    setCountry,
+    setShippingCity,
+    setShippingState,
+    setShippingZip,
+    setShippingCountry,
     setCustomerEmail,
     setCustomerName,
     setContact,
