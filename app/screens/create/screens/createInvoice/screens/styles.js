@@ -12,8 +12,9 @@ export const setInvoice = StyleSheet.create({
     head: {
         height: 50,
         marginBottom: 20,
-        justifyContent: 'center',
-        alignItems: 'flex-end'
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
 
     headText: {

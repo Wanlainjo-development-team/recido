@@ -47,7 +47,6 @@ const CreateInvoice = () => {
   const { order, date, customerName, customerEmail, contact, salesRep, paymentTerms, items, subTotal, vat, total, useVAT } = useSelector(state => state.form)
 
   const [loading, setLoading] = useState(false)
-  const [initialTerm, setInitialTerm] = useState('')
 
   const saveInvoice = async () => {
     let calcSubTotal = 0
