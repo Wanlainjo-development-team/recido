@@ -42,5 +42,12 @@ export default StyleSheet.create({
     plusViewText: {
         color: color.accent,
         marginLeft: 10
+    },
+
+    list: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 10
     }
 })

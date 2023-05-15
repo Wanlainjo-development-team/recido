@@ -6,7 +6,7 @@ import { Image } from 'react-native'
 import { ScrollView } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { TextInput, Keyboard } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -149,6 +149,28 @@ const CreateInvoice = () => {
                     <AntDesign name="pluscircleo" size={22} color={color.accent} />
                     <Text style={styles.plusViewText}>Add items</Text>
                   </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+
+            <View style={styles.group}>
+              <View style={styles.setInvoiceView}>
+                <View style={{ ...styles.setInvoiceLeftView, width: '100%' }}>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Text style={styles.setInvoiceLeftViewBoldText}>Total</Text>
+                  </View>
+                  <View style={{ ...styles.list, marginTop: 10 }}>
+                    <Text>Subtotal</Text>
+                    <Text>$0.00</Text>
+                  </View>
+                  <View style={styles.list}>
+                    <Text>TAX (0%)</Text>
+                    <Text>$0.00</Text>
+                  </View>
+                  <View style={styles.list}>
+                    <Text>Total</Text>
+                    <Text>$0.00</Text>
+                  </View>
                 </View>
               </View>
             </View>
