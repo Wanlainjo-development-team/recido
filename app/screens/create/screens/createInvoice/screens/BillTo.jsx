@@ -13,12 +13,11 @@ const BillTo = () => {
   const openContact = async () => {
     const { status } = await Contacts.requestPermissionsAsync();
     if (status === 'granted') {
-      const { data } = await Contacts.getContactsAsync({
-        fields: [Contacts.Fields.Emails],
-      });
+      const { data } = await Contacts.getContactsAsync();
 
       if (data.length > 0) {
         const contact = data;
+
         navigate('Contacts', { allContact: contact })
       }
     }

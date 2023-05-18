@@ -3,7 +3,7 @@ import React from 'react'
 import { contact } from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCountry } from '../../../../../features/useFormSlice'
+import { setCountry, setShippingCountry } from '../../../../../features/useFormSlice'
 
 const Countries = () => {
     const { goBack } = useNavigation()
@@ -18,7 +18,7 @@ const Countries = () => {
             if (country != '') goBack()
         }
         else {
-            dispatch(setCountry(prop))
+            dispatch(setShippingCountry(prop))
             if (country != '') goBack()
         }
     }

@@ -14,7 +14,10 @@ const Contacts = () => {
 
     const setContact = prop => {
         dispatch(setInvoiceContact(prop))
-        if (invoiceContact) goBack()
+        if (invoiceContact) {
+            goBack()
+            goBack()
+        }
     }
 
     return (
