@@ -44,7 +44,13 @@ const CreateInvoice = () => {
   const dispatch = useDispatch()
 
   const { profile } = useSelector(state => state.user)
-  const { order, date, customerName, customerEmail, contact, salesRep, paymentTerms, items, subTotal, vat, total, useVAT } = useSelector(state => state.form)
+  const {
+    order,
+    date,
+    dueDate,
+    invoiceContact,
+
+    removeDueDate, customerName, customerEmail, contact, salesRep, paymentTerms, items, subTotal, vat, total, useVAT } = useSelector(state => state.form)
 
   const [loading, setLoading] = useState(false)
 
@@ -102,21 +108,28 @@ const CreateInvoice = () => {
             <View style={styles.group}>
               <TouchableOpacity style={styles.setInvoiceView} onPress={() => navigate('SetInvoice')}>
                 <View style={styles.setInvoiceLeftView}>
-                  <Text style={styles.setInvoiceLeftViewBoldText}>May 11, 2023</Text>
-                  <Text>Due on May 18, 2023</Text>
+                  <Text style={styles.setInvoiceLeftViewBoldText}>{new Date(date).toDateString()}</Text>
+                  {
+                    removeDueDate &&
+                    <Text>Due on {new Date(dueDate).toDateString()}</Text>
+                  }
                 </View>
-                <Text style={styles.setInvoiceLeftViewBoldText}>#INV0002</Text>
+                <Text style={styles.setInvoiceLeftViewBoldText}>#{order}</Text>
               </TouchableOpacity>
             </View>
 
             <View style={styles.group}>
-              <TouchableOpacity style={styles.setInvoiceView} onPress={() => navigate('BillTo')}>
+              <TouchableOpacity style={styles.setInvoiceView} onPress={() => invoiceContact ? navigate('AddNewCustomer', invoiceContact) : navigate('BillTo')}>
                 <View style={styles.setInvoiceLeftView}>
                   <Text style={styles.setInvoiceLeftViewBoldText}>Bill To</Text>
-                  <View style={styles.plusView}>
-                    <AntDesign name="pluscircleo" size={22} color={color.accent} />
-                    <Text style={styles.plusViewText}>Add customer</Text>
-                  </View>
+                  {
+                    invoiceContact ?
+                      <Text style={{ marginTop: 10 }}>{invoiceContact?.name}</Text> :
+                      <View style={styles.plusView}>
+                        <AntDesign name="pluscircleo" size={22} color={color.accent} />
+                        <Text style={styles.plusViewText}>Add customer</Text>
+                      </View>
+                  }
                 </View>
               </TouchableOpacity>
             </View>

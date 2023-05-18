@@ -140,10 +140,6 @@ export const addNewCustomer = StyleSheet.create({
         fontWeight: '800'
     },
 
-    scrollView: {
-        paddingHorizontal: 10
-    },
-
     input: {
         backgroundColor: `${color.accent}20`,
         height: 45,

@@ -90,7 +90,7 @@ export const useFormSlice = createSlice({
         },
 
         setShippingCountry: (state, action) => {
-            state.country = action.payload
+            state.shippingCountry = action.payload
         },
 
         setItems: (state, action) => {
