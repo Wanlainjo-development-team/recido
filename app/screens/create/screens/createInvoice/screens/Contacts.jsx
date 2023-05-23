@@ -12,12 +12,11 @@ const Contacts = () => {
 
     const { invoiceContact } = useSelector(state => state.form)
 
-    const setContact = prop => {
+    const setContact = async prop => {
         dispatch(setInvoiceContact(prop))
-        if (invoiceContact) {
-            goBack()
-            goBack()
-        }
+
+        goBack()
+        goBack()
     }
 
     return (
