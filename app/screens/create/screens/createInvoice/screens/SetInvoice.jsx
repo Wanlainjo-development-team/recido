@@ -1,5 +1,5 @@
 import { View, Text, Button, Platform, TouchableOpacity, Switch, ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { setInvoice } from './styles'
 import { TextInput } from 'react-native'
 import color from '../../../../../style/color'
@@ -7,6 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import { setOrder, setDate, setDueDate, setRemoveDueDate } from '../../../../../features/useFormSlice'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const SetInvoice = () => {
     const { navigate, goBack } = useNavigation()
@@ -40,11 +41,22 @@ const SetInvoice = () => {
 
     const showDewDatepicker = () => showDueDateMode('date')
 
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState)
+    const toggleSwitch = async () => {
+        let newState = isEnabled
 
-    useEffect(() => {
-        dispatch(setRemoveDueDate(!isEnabled))
-    }, [isEnabled])
+        setIsEnabled(!newState)
+
+        await AsyncStorage.setItem('removeDueDateSwitch', JSON.stringify(!newState))
+
+        dispatch(setRemoveDueDate(newState))
+    }
+
+    useLayoutEffect(() => {
+        (async () => {
+            let removeDueDateSwitch = JSON.parse(await AsyncStorage.getItem('removeDueDateSwitch'))
+            setIsEnabled(removeDueDateSwitch)
+        })()
+    }, [])
 
     return (
         <View style={setInvoice.container}>
