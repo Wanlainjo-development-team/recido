@@ -54,6 +54,8 @@ const CreateInvoice = () => {
 
   const [loading, setLoading] = useState(false)
 
+  console.log(invoiceContact)
+
   const saveInvoice = async () => {
     let calcSubTotal = 0
     let calcVat = 0
