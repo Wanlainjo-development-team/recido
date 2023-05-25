@@ -290,5 +290,19 @@ export const itemsStyle = StyleSheet.create({
 
     groupBoldText: {
         fontWeight: '800'
+    },
+
+    deleteItemButton: {
+        marginTop: 10,
+        backgroundColor: `${color.red}40`,
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 12
+    },
+
+    deleteItemButtonText: {
+        color: color.red,
+        fontWeight: '600'
     }
 })

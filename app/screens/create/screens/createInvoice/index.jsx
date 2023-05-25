@@ -94,10 +94,10 @@ const CreateInvoice = () => {
   }
 
   const calculateDiscount = prop => {
-    let number = prop?.price
+    let price = prop?.price * prop?.quantity
     let percentage = prop?.discounts
 
-    let result = number - (number * percentage / 100)
+    let result = price - (price * percentage / 100)
 
     return (result).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
@@ -146,13 +146,19 @@ const CreateInvoice = () => {
                     <>
                       {
                         items.map((item, index) => (
-                          <TouchableOpacity key={index} style={itemsStyle.group}>
+                          <TouchableOpacity key={index} onPress={() => navigate('CreateItem', { editItem: { ...item, index } })} style={itemsStyle.group}>
                             <View style={itemsStyle.groupLeft}>
                               <Text>{item?.name}</Text>
-                              <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.discription).slice(0, 20)}</Text>
+                              {
+                                item?.discription &&
+                                <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.discription)?.slice(0, 20)}</Text>
+                              }
                             </View>
                             <View style={itemsStyle.groupRight}>
-                              <Text style={itemsStyle.groupOpacityText}>{(item?.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} x {(item?.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                              {
+                                item?.quantity != undefined &&
+                                <Text style={itemsStyle.groupOpacityText}>{(item?.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} x {(item?.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                              }
                               <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{calculateDiscount(item)}</Text>
                             </View>
                           </TouchableOpacity>

@@ -1,15 +1,17 @@
 import { View, Text, TouchableOpacity, ScrollView, TextInput } from 'react-native'
 import React from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 import { itemsStyle } from './styles'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setItems } from '../../../../../features/useFormSlice'
+import { deleteItems, setItems } from '../../../../../features/useFormSlice'
+import { useLayoutEffect } from 'react'
 
 const CreateItem = () => {
     const { goBack } = useNavigation()
     const dispatch = useDispatch()
+    const { editItem } = useRoute().params
 
     const { items } = useSelector(state => state.form)
 
@@ -21,16 +23,35 @@ const CreateItem = () => {
         discription: ''
     })
 
+    useLayoutEffect(() => {
+        if (editItem == null || editItem == undefined) return
+        setItem({
+            ...editItem,
+            item
+        })
+    }, [])
+
     const setNewItem = () => {
-        dispatch(setItems({
-            name: item.name,
-            price: item.price,
-            quantity: item.quantity,
-            discounts: item.discounts,
-            discription: item.discription
-        }))
+        if (editItem == null || editItem == undefined) {
+            dispatch(setItems({
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity,
+                discounts: item.discounts,
+                discription: item.discription
+            }))
+
+            goBack()
+        } else {
+            goBack()
+        }
+    }
+
+    const deleteItem = () => {
+        dispatch(deleteItems(editItem.index))
 
         goBack()
+
     }
 
     return (
@@ -59,6 +80,7 @@ const CreateItem = () => {
                 <TextInput
                     placeholder='Price'
                     inputMode='numeric'
+                    value={item.price}
                     onChangeText={text =>
                         setItem({
                             ...item,
@@ -69,6 +91,7 @@ const CreateItem = () => {
                 <TextInput
                     placeholder='Quantity'
                     inputMode='numeric'
+                    value={item.quantity}
                     onChangeText={text =>
                         setItem({
                             ...item,
@@ -79,6 +102,7 @@ const CreateItem = () => {
                 <TextInput
                     placeholder='Discounts'
                     inputMode='numeric'
+                    value={item.discounts}
                     onChangeText={text =>
                         setItem({
                             ...item,
@@ -88,6 +112,7 @@ const CreateItem = () => {
                     style={itemsStyle.input} />
                 <TextInput
                     placeholder='Discription'
+                    value={item.discription}
                     onChangeText={text =>
                         setItem({
                             ...item,
@@ -95,6 +120,13 @@ const CreateItem = () => {
                         })
                     }
                     style={itemsStyle.input} />
+
+                {
+                    editItem &&
+                    <TouchableOpacity onPress={deleteItem} style={itemsStyle.deleteItemButton}>
+                        <Text style={itemsStyle.deleteItemButtonText}>Remove item</Text>
+                    </TouchableOpacity>
+                }
             </ScrollView>
         </View>
     )
