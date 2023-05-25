@@ -14,12 +14,16 @@ import color from '../../../../style/color';
 import { useNavigation } from '@react-navigation/native';
 
 const PreviewInvoice = () => {
-  const { order, date, dueDate, removeDueDate, invoiceContact, customerName, customerEmail, contact, salesRep, paymentTerms, items, subTotal, vat, total, note } = useSelector(state => state.form)
-  const { profile } = useSelector(state => state.user)
+    const { order, date, dueDate, removeDueDate, invoiceContact, customerName, customerEmail, contact, salesRep, paymentTerms, items, subTotal, vat, total, note } = useSelector(state => state.form)
+    const { profile } = useSelector(state => state.user)
 
-  const navigation = useNavigation()
+    const navigation = useNavigation()
 
-  const html = `
+    const calculateSubtotal = (price, quantity) => {
+        return price * quantity
+    }
+
+    const html = `
   <html lang="en">
   <body style="width: 700px; max-width: 98%; margin: 20px auto;">
       <style>
@@ -72,17 +76,13 @@ const PreviewInvoice = () => {
                       style="width: 100%; display: flex; justify-content: space-between; align-items: center; font-size: .8rem;">
                       <span style="color: #0374E5;">Date</span><span>${new Date(date).toDateString()}</span>
                   </p>
-                  <p
-                      style="width: 100%; display: ${!profile?.removeDueDate ? 'flex' : 'none'}; justify-content: space-between; align-items: center; font-size: .8rem;">
-                      <span style="color: #0374E5;">Due date</span><span>${new Date(dueDate).toDateString()}</span>
-                  </p>
               </div>
           </div>
       </nav>
   
       <div
           style="width: 100%; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; margin-top: 2em;">
-          <div style="width: 50%; display: flex; justify-content: flex-start; align-items: flex-start;">
+          <div style="width: 50%; display: ${invoiceContact?.name ? 'flex' : 'none'}; justify-content: flex-start; align-items: flex-start;">
               <span style="font-size: .8rem; color: #0374E5;">Customer</span>
   
               <div style="margin-left: 90px;">
@@ -91,7 +91,7 @@ const PreviewInvoice = () => {
               </div>
           </div>
           <div
-              style="width: 50%; display: flex; justify-content: flex-start; align-items: flex-start;">
+              style="width: 50%; display: ${invoiceContact?.phoneNumbers[0]?.number ? 'flex' : 'none'}; justify-content: flex-start; align-items: flex-start;">
               <span style="font-size: .8rem; color: #0374E5;">Contact</span>
   
               <div style="margin-left: 90px;">
@@ -123,17 +123,17 @@ const PreviewInvoice = () => {
               <td style="font-size: .8rem; color: #0374E5;">Sub-Total</td>
           </tr>
           ${items.map((item) => {
-    return `
+        return `
                       <tr>
                           <td style="font-size: .8rem;">${item.name}</td>
-                          <td style="font-size: .8rem;">${item.description}</td>
-                          <td style="font-size: .8rem;">${item.quantity}</td>
-                          <td style="font-size: .8rem;">$ ${item.unitPrice}</td>
-                          <td style="font-size: .8rem;">$ ${item.subTotal}</td>
+                          <td style="font-size: .8rem;">${item.description ? item.description : ''}</td>
+                          <td style="font-size: .8rem;">${item.quantity ? item.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
+                          <td style="font-size: .8rem;">$ ${item.price ? item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
+                          <td style="font-size: .8rem;">$ ${calculateSubtotal(item.price, item.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
                       </tr>
                       `
-  }).join('')
-    }
+    }).join('')
+        }
       </table>
   
       <div style="margin-top: 2em; width: 100%; display: flex; justify-content: flex-end; align-items: flex-start;">
@@ -143,7 +143,7 @@ const PreviewInvoice = () => {
                   <td style="font-size: .8rem; text-align: right;">$ ${subTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
               </tr>
               <tr>
-                  <td style="border: none; width: 100px; font-size: .8rem; color: #0374E5;">VAT (7.5%)</td>
+                  <td style="border: none; width: 100px; font-size: .8rem; color: #0374E5;">VAT (${vat}%)</td>
                   <td style="font-size: .8rem; text-align: right;">$ ${vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
               </tr>
               <tr>
@@ -152,35 +152,35 @@ const PreviewInvoice = () => {
               </tr>
           </table>
       </div>
-      <div style="width: 100%; text-align: center; border: 2px solid black; padding: .3em; margin-top: 2em;">
+      <div style="width: 100%; text-align: center; border: 1px solid black; padding: .3em; margin-top: 2em;">
             <strong>Note: </strong> <span style="font-size: 0.5rem">${note != '' ? note : profile?.disclaimer}</span>
         </div>
   </body>
   </html>
   `;
 
-  let sharePDF = async () => {
-    let { uri } = await printToFileAsync({
-      html,
-      base64: false
-    })
+    let sharePDF = async () => {
+        let { uri } = await printToFileAsync({
+            html,
+            base64: false
+        })
 
-    await shareAsync(uri)
-  }
+        await shareAsync(uri)
+    }
 
-  return (
-    <View style={styles.container}>
-      <WebView source={{ html: html }} scalesPageToFit style={{ flex: 1 }} />
-      <View style={styles.bottom}>
-        <TouchableOpacity style={styles.shareButton} onPress={sharePDF}>
-          <Text style={styles.shareButtonText}>Template</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.goBackBytton} onPress={() => navigation.goBack()}>
-          <FontAwesome5 name="paper-plane" size={24} color={color.accent} />
-        </TouchableOpacity>
-      </View>
-    </View>
-  )
+    return (
+        <View style={styles.container}>
+            <WebView source={{ html: html }} scalesPageToFit style={{ flex: 1 }} />
+            <View style={styles.bottom}>
+                <TouchableOpacity style={styles.shareButton} onPress={sharePDF}>
+                    <Text style={styles.shareButtonText}>Template</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.goBackBytton} onPress={() => navigation.goBack()}>
+                    <FontAwesome5 name="paper-plane" size={24} color={color.accent} />
+                </TouchableOpacity>
+            </View>
+        </View>
+    )
 }
 
 export default PreviewInvoice

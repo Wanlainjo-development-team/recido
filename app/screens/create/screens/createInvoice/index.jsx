@@ -118,6 +118,10 @@ const CreateInvoice = () => {
 
     let finalPrice = parseFloat(total) + (useVAT ? parseFloat(totalVAT) : 0)
 
+    dispatch(setSubTotal(total))
+    dispatch(setVat(totalVAT))
+    dispatch(setTotal(finalPrice))
+
     return {
       subTotal: total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
       totalVAT: totalVAT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
