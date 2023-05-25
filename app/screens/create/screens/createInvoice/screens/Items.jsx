@@ -13,10 +13,10 @@ const Items = () => {
     const { items } = useSelector(state => state.form)
 
     const calculateDiscount = prop => {
-        let number = prop?.price
+        let price = prop?.price * prop?.quantity
         let percentage = prop?.discounts
 
-        let result = number - (number * percentage / 100)
+        let result = price - (price * percentage / 100)
 
         return (result).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     }
@@ -31,7 +31,7 @@ const Items = () => {
                 </TouchableOpacity>
             </View>
 
-            <TouchableOpacity onPress={() => navigate('CreateItem')} style={itemsStyle.createNew}>
+            <TouchableOpacity onPress={() => navigate('CreateItem', { editItem: null })} style={itemsStyle.createNew}>
                 <AntDesign name="pluscircleo" size={22} color={color.accent} />
                 <Text style={itemsStyle.createNewText}>Create new item</Text>
             </TouchableOpacity>
@@ -41,11 +41,14 @@ const Items = () => {
                 keyExtractor={(item, index) => index}
                 style={itemsStyle.flatList}
                 showsVerticalScrollIndicator={false}
-                renderItem={({ item }) => (
-                    <TouchableOpacity style={itemsStyle.group}>
+                renderItem={({ item, index }) => (
+                    <TouchableOpacity style={itemsStyle.group} onPress={() => navigate('CreateItem', { editItem: { ...item, index } })}>
                         <View style={itemsStyle.groupLeft}>
-                            <Text>{item?.name}</Text>
-                            <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.discription).slice(0, 20)}</Text>
+                            <Text numberOfLines={1}>{item?.name}</Text>
+                            {
+                                item?.discription &&
+                                <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.discription)?.slice(0, 20)}</Text>
+                            }
                         </View>
                         <View style={itemsStyle.groupRight}>
                             <Text style={itemsStyle.groupOpacityText}>{(item?.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} x {(item?.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>

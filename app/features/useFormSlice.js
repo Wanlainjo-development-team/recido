@@ -97,6 +97,15 @@ export const useFormSlice = createSlice({
             state.items = [...state.items, action.payload]
         },
 
+        deleteItems: (state, action) => {
+            // state.items = [action.payload]
+            let newArray = [...state.items]
+
+            newArray.splice(action.payload, 1)
+
+            state.items = newArray
+        },
+
         setCustomerName: (state, action) => {
             state.customerName = action.payload
         },
@@ -163,6 +172,7 @@ export const {
     setShippingZip,
     setShippingCountry,
     setItems,
+    deleteItems,
     setCustomerEmail,
     setCustomerName,
     setContact,

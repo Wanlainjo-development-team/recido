@@ -1,14 +1,20 @@
 import { View, Text, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Platform } from 'react-native'
 import React, { useState } from 'react'
-import { addNewCustomer } from './styles'
+import { addNewCustomer, billTo } from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import allCountries from '../../../../../components/fragments/countries'
 import { useLayoutEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { setInvoiceContact } from '../../../../../features/useFormSlice'
+import color from '../../../../../style/color'
+import * as Contacts from 'expo-contacts'
+import { AntDesign } from '@expo/vector-icons';
 
 const AddNewCustomer = () => {
     const { goBack, navigate } = useNavigation()
     const invoiceContact = useRoute().params
+
+    const dispatch = useDispatch()
 
     const [showMoreOptions, setSHowMoreOptions] = useState(false)
 
@@ -32,10 +38,12 @@ const AddNewCustomer = () => {
         shippingCountry: ''
     })
 
+
     useLayoutEffect(() => {
         (() => {
             setContact({
                 ...contact,
+                ...invoiceContact,
                 name: invoiceContact?.name,
                 phone: invoiceContact?.phoneNumbers[0].number
             })
@@ -43,7 +51,9 @@ const AddNewCustomer = () => {
     }, [])
 
     const addContact = () => {
-        console.log({
+        dispatch(setInvoiceContact({
+            ...contact,
+            ...invoiceContact,
             name: contact.name,
             email: contact.email,
             phone: contact.phone,
@@ -59,7 +69,21 @@ const AddNewCustomer = () => {
             shippingState: contact.shippingState,
             shippingZip: contact.shippingZip,
             shippingCountry: contact.shippingCountry
-        })
+        }))
+        goBack()
+    }
+
+    const openContact = async () => {
+        const { status } = await Contacts.requestPermissionsAsync();
+        if (status === 'granted') {
+            const { data } = await Contacts.getContactsAsync();
+
+            if (data.length > 0) {
+                const contact = data;
+
+                navigate('Contacts', { allContact: contact })
+            }
+        }
     }
 
     return (
@@ -74,6 +98,11 @@ const AddNewCustomer = () => {
                         <Text style={addNewCustomer.headText}>Add</Text>
                     </TouchableOpacity>
                 </View>
+
+                <TouchableOpacity onPress={openContact} style={billTo.group}>
+                    <AntDesign name="contacts" size={22} color={color.accent} />
+                    <Text style={billTo.groupText}>Import from your contact</Text>
+                </TouchableOpacity>
 
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <TextInput
