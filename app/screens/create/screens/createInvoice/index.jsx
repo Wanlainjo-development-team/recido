@@ -100,6 +100,31 @@ const CreateInvoice = () => {
     return (result).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
 
+  const calculateSubTotal = arr => {
+    let total = 0;
+    let totalVAT = 0; // Variable to keep track of VAT
+
+    for (let i = 0; i < arr.length; i++) {
+      const prop = arr[i];
+      let price = prop?.price * prop?.quantity;
+      let percentage = prop?.discounts;
+
+      let result = price - (price * percentage / 100);
+      total += result;
+
+      let _vat = result * vat; // VAT calculation with 0 percentage
+      totalVAT += _vat;
+    }
+
+    let finalPrice = parseFloat(total) + (useVAT ? parseFloat(totalVAT) : 0)
+
+    return {
+      subTotal: total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+      totalVAT: totalVAT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+      finalPrice: finalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    }
+  }
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -177,15 +202,15 @@ const CreateInvoice = () => {
                   </View>
                   <View style={{ ...styles.list, marginTop: 10 }}>
                     <Text>Subtotal</Text>
-                    <Text>$0.00</Text>
+                    <Text>${calculateSubTotal(items).subTotal}</Text>
                   </View>
                   <View style={styles.list}>
-                    <Text>TAX (0%)</Text>
-                    <Text>$0.00</Text>
+                    <Text>TAX ({vat}%)</Text>
+                    <Text>${calculateSubTotal(items).totalVAT}</Text>
                   </View>
                   <View style={styles.list}>
                     <Text>Total</Text>
-                    <Text>$0.00</Text>
+                    <Text>${calculateSubTotal(items).finalPrice}</Text>
                   </View>
                 </View>
               </View>
