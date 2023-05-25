@@ -29,6 +29,10 @@ export const useFormSlice = createSlice({
         items: [],
         // for setting invoice items ends here
 
+        // for setting invoice note starts here
+        note: '',
+        // for setting invoice note ends here
+
         customerName: '',
         customerEmail: '',
         contact: '',
@@ -110,6 +114,10 @@ export const useFormSlice = createSlice({
                 state.items[action.payload.index] = action.payload.item
         },
 
+        setNote: (state, action) => {
+            state.note = action.payload
+        },
+
         setCustomerName: (state, action) => {
             state.customerName = action.payload
         },
@@ -178,6 +186,7 @@ export const {
     setItems,
     deleteItems,
     editItems,
+    setNote,
     setCustomerEmail,
     setCustomerName,
     setContact,

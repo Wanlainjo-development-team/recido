@@ -22,7 +22,7 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 40
+        marginBottom: 30
     },
 
     setInvoiceLeftView: {

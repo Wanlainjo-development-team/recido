@@ -50,11 +50,9 @@ const CreateInvoice = () => {
     dueDate,
     invoiceContact,
 
-    removeDueDate, customerName, customerEmail, contact, salesRep, paymentTerms, items, subTotal, vat, total, useVAT } = useSelector(state => state.form)
+    removeDueDate, customerName, customerEmail, contact, salesRep, paymentTerms, items, subTotal, vat, total, useVAT, note } = useSelector(state => state.form)
 
   const [loading, setLoading] = useState(false)
-
-  console.log(invoiceContact)
 
   const saveInvoice = async () => {
     let calcSubTotal = 0
@@ -149,10 +147,7 @@ const CreateInvoice = () => {
                           <TouchableOpacity key={index} onPress={() => navigate('CreateItem', { editItem: { ...item, index } })} style={itemsStyle.group}>
                             <View style={itemsStyle.groupLeft}>
                               <Text>{item?.name}</Text>
-                              {
-                                item?.discription &&
-                                <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.discription)?.slice(0, 20)}</Text>
-                              }
+                              <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.discription)?.slice(0, 20)}</Text>
                             </View>
                             <View style={itemsStyle.groupRight}>
                               {
@@ -194,6 +189,17 @@ const CreateInvoice = () => {
                   </View>
                 </View>
               </View>
+            </View>
+
+            <View style={styles.group}>
+              <TouchableOpacity onPress={() => navigate('Note', { editNote: null })} style={styles.plusView}>
+                <AntDesign name="pluscircleo" size={22} color={color.accent} />
+                <Text style={styles.plusViewText}>Notes</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigate('Note', { editNote: note })} style={{ ...itemsStyle.group, height: null }}>
+                <Text>{note != '' ? note : profile?.disclaimer}</Text>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </>
