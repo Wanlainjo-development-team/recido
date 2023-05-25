@@ -15,14 +15,10 @@ const Splash = () => {
 
   useLayoutEffect(() => {
     onAuthStateChanged(auth, userAuth => {
-      if (userAuth) {
+      if (userAuth)
         dispatch(setUser(userAuth))
-        // console.log('auth: ', userAuth)
-      }
-      else {
+      else
         dispatch(logout())
-        // console.log('not auth')
-      }
     })
   }, [])
 

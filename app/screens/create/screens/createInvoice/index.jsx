@@ -50,11 +50,9 @@ const CreateInvoice = () => {
     dueDate,
     invoiceContact,
 
-    removeDueDate, customerName, customerEmail, contact, salesRep, paymentTerms, items, subTotal, vat, total, useVAT } = useSelector(state => state.form)
+    removeDueDate, customerName, customerEmail, contact, salesRep, paymentTerms, items, subTotal, vat, total, useVAT, note } = useSelector(state => state.form)
 
   const [loading, setLoading] = useState(false)
-
-  console.log(invoiceContact)
 
   const saveInvoice = async () => {
     let calcSubTotal = 0
@@ -100,6 +98,31 @@ const CreateInvoice = () => {
     let result = price - (price * percentage / 100)
 
     return (result).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  }
+
+  const calculateSubTotal = arr => {
+    let total = 0;
+    let totalVAT = 0; // Variable to keep track of VAT
+
+    for (let i = 0; i < arr.length; i++) {
+      const prop = arr[i];
+      let price = prop?.price * prop?.quantity;
+      let percentage = prop?.discounts;
+
+      let result = price - (price * percentage / 100);
+      total += result;
+
+      let _vat = result * vat; // VAT calculation with 0 percentage
+      totalVAT += _vat;
+    }
+
+    let finalPrice = parseFloat(total) + (useVAT ? parseFloat(totalVAT) : 0)
+
+    return {
+      subTotal: total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+      totalVAT: totalVAT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+      finalPrice: finalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    }
   }
 
   return (
@@ -149,10 +172,7 @@ const CreateInvoice = () => {
                           <TouchableOpacity key={index} onPress={() => navigate('CreateItem', { editItem: { ...item, index } })} style={itemsStyle.group}>
                             <View style={itemsStyle.groupLeft}>
                               <Text>{item?.name}</Text>
-                              {
-                                item?.discription &&
-                                <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.discription)?.slice(0, 20)}</Text>
-                              }
+                              <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.discription)?.slice(0, 20)}</Text>
                             </View>
                             <View style={itemsStyle.groupRight}>
                               {
@@ -182,18 +202,29 @@ const CreateInvoice = () => {
                   </View>
                   <View style={{ ...styles.list, marginTop: 10 }}>
                     <Text>Subtotal</Text>
-                    <Text>$0.00</Text>
+                    <Text>${calculateSubTotal(items).subTotal}</Text>
                   </View>
                   <View style={styles.list}>
-                    <Text>TAX (0%)</Text>
-                    <Text>$0.00</Text>
+                    <Text>TAX ({vat}%)</Text>
+                    <Text>${calculateSubTotal(items).totalVAT}</Text>
                   </View>
                   <View style={styles.list}>
                     <Text>Total</Text>
-                    <Text>$0.00</Text>
+                    <Text>${calculateSubTotal(items).finalPrice}</Text>
                   </View>
                 </View>
               </View>
+            </View>
+
+            <View style={styles.group}>
+              <TouchableOpacity onPress={() => navigate('Note', { editNote: null })} style={styles.plusView}>
+                <AntDesign name="pluscircleo" size={22} color={color.accent} />
+                <Text style={styles.plusViewText}>Notes</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => navigate('Note', { editNote: note })} style={{ ...itemsStyle.group, height: null }}>
+                <Text>{note != '' ? note : profile?.disclaimer}</Text>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </>
