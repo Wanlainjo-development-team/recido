@@ -5,7 +5,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { itemsStyle } from './styles'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { deleteItems, setItems } from '../../../../../features/useFormSlice'
+import { deleteItems, editItems, setItems } from '../../../../../features/useFormSlice'
 import { useLayoutEffect } from 'react'
 
 const CreateItem = () => {
@@ -43,6 +43,7 @@ const CreateItem = () => {
 
             goBack()
         } else {
+            dispatch(editItems({ index: editItem.index, item }))
             goBack()
         }
     }
