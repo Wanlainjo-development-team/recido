@@ -11,6 +11,12 @@ import color from '../../style/color'
 import { useDispatch, useSelector } from 'react-redux'
 import { setSelectedTemplatePreview } from '../../features/useFormSlice'
 
+import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
+import { collection, doc, getDoc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
+import { db } from '../../hooks/firebase';
+
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 const SelectTemplate = () => {
     const { goBack } = useNavigation()
     const { templatesPreview } = useRoute().params
@@ -18,10 +24,16 @@ const SelectTemplate = () => {
 
     const { selectedTemplatePreview } = useSelector(state => state.form)
 
-    const selectTemplate = (prop) => {
+    const selectTemplate = async prop => {
+        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+        await updateDoc(doc(db, 'users', id), {
+            selectedTemplatePreview: prop
+        })
+
         dispatch(setSelectedTemplatePreview(prop))
 
-        if (selectedTemplatePreview) goBack()
+        goBack()
     }
 
     return (
