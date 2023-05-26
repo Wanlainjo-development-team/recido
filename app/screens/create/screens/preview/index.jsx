@@ -23,11 +23,11 @@ const PreviewInvoice = () => {
     let html = ``
 
     switch (profile?.selectedTemplatePreview?.id) {
-        case 1: html = ``
+        case 1: html = IV1(profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note) // emove later
             break
-        case 2: html = ``
+        case 2: html = IV1(profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note) // emove later
             break
-        case 3: html = ``
+        case 3: html = IV1(profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note) // emove later
             break
         case 4: html = IV1(profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note)
             break
