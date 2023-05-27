@@ -3,7 +3,7 @@ import React from 'react'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import color from '../style/color'
 import Home from '../screens/home'
-import CreateInvoice from '../screens/createInvoice'
+import Create from '../screens/create'
 import History from '../screens/history'
 
 import { Feather, Ionicons, Octicons } from '@expo/vector-icons'
@@ -37,8 +37,8 @@ const BottomNavigation = () => {
         })}
       />
       <Screen
-        name="CreateInvoice"
-        component={CreateInvoice}
+        name="Create"
+        component={Create}
         options={{
           tabBarIcon: () => <Ionicons name="create-outline" size={24} color={color.accent} />,
           title: 'Create'
@@ -47,7 +47,7 @@ const BottomNavigation = () => {
           tabPress: e => {
             e.preventDefault()
             navigation.navigate('Create')
-            dispatch(setActiveRoute('CreateInvoice'))
+            dispatch(setActiveRoute('Create'))
           }
         })}
       />

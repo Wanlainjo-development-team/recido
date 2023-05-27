@@ -111,7 +111,7 @@ const CustomNavigation = () => {
 
                 <ScrollView style={{ flexGrow: 1, marginTop: 50 }} showsVerticalScrollIndicator={false}>
                     {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Home', 'Home')}
-                    {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Create Invoice', 'CreateInvoice')}
+                    {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Create Invoice', 'Create')}
                     {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'History', 'History')}
                     {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Settings', 'Settings')}
                 </ScrollView>
@@ -265,7 +265,7 @@ const TabButton = (profile, dispatch, currentTab, setCurrentTab, setShowMenu, sh
                 if (title == 'Log out') {
                     logoutUser()
                 } else {
-                    if (nav == 'Home' || nav == 'CreateInvoice' || nav == 'History' || nav == 'Settings') {
+                    if (nav == 'Home' || nav == 'Create' || nav == 'History' || nav == 'Settings') {
                         dispatch(setActiveRoute(nav))
                         navigation.navigate(nav)
                         setCurrentTab(nav)
@@ -347,7 +347,7 @@ const TabButton = (profile, dispatch, currentTab, setCurrentTab, setShowMenu, sh
                 {/*  */}
                 {/*  */}
                 {nav == 'Home' && <Feather name="home" size={24} color={color.accent} style={{ marginRight: 15 }} />}
-                {nav == 'CreateInvoice' && <Ionicons name="create-outline" size={24} color={color.accent} style={{ marginRight: 15 }} />}
+                {nav == 'Create' && <Ionicons name="create-outline" size={24} color={color.accent} style={{ marginRight: 15 }} />}
                 {nav == 'History' && <Octicons name="history" size={20} color={color.accent} style={{ marginRight: 20, marginLeft: 1.4 }} />}
                 {nav == 'Settings' && <Ionicons name="cog" size={24} color={color.accent} style={{ marginRight: 15 }} />}
                 {/*  */}
