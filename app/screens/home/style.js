@@ -10,4 +10,16 @@ export default StyleSheet.create({
         justifyContent: "center",
         alignItems: 'center'
     },
+
+    floatingButton: {
+        width: 50,
+        height: 50,
+        borderRadius: 100,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: color.accent,
+        position: 'absolute',
+        bottom: 10,
+        right: 10
+    }
 })
