@@ -38,21 +38,34 @@ import { KeyboardAvoidingView } from 'react-native'
 import { Platform } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native'
 import { itemsStyle } from './screens/styles'
+import { useEffect } from 'react'
 
 const CreateInvoice = () => {
   const { navigate } = useNavigation()
   const dispatch = useDispatch()
 
   const { profile } = useSelector(state => state.user)
+
   const {
     order,
     date,
     dueDate,
     invoiceContact,
-
-    removeDueDate, customerName, customerEmail, contact, salesRep, paymentTerms, items, subTotal, vat, total, useVAT, note } = useSelector(state => state.form)
+    removeDueDate,
+    customerName,
+    customerEmail,
+    contact, salesRep,
+    paymentTerms,
+    items,
+    subTotal,
+    vat,
+    total,
+    useVAT,
+    note
+  } = useSelector(state => state.form)
 
   const [loading, setLoading] = useState(false)
+  const [totalCalculation, setTotalCalculation] = useState({})
 
   const saveInvoice = async () => {
     let calcSubTotal = 0
@@ -100,34 +113,69 @@ const CreateInvoice = () => {
     return (result).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
 
-  const calculateSubTotal = arr => {
-    let total = 0;
-    let totalVAT = 0; // Variable to keep track of VAT
+  // const calculateSubTotal = arr => {
+  //   let total = 0;
+  //   let totalVAT = 0; // Variable to keep track of VAT
 
-    for (let i = 0; i < arr.length; i++) {
-      const prop = arr[i];
-      let price = prop?.price * prop?.quantity;
-      let percentage = prop?.discounts;
+  //   for (let i = 0; i < arr.length; i++) {
+  //     const prop = arr[i];
+  //     let price = prop?.price * prop?.quantity;
+  //     let percentage = prop?.discounts;
 
-      let result = price - (price * percentage / 100);
-      total += result;
+  //     let result = price - (price * percentage / 100);
+  //     total += result;
 
-      let _vat = result * vat; // VAT calculation with 0 percentage
-      totalVAT += _vat;
-    }
+  //     let _vat = result * vat; // VAT calculation with 0 percentage
+  //     totalVAT += _vat;
+  //   }
 
-    let finalPrice = parseFloat(total) + (useVAT ? parseFloat(totalVAT) : 0)
+  //   let finalPrice = parseFloat(total) + (useVAT ? parseFloat(totalVAT) : 0)
 
-    dispatch(setSubTotal(total))
-    dispatch(setVat(totalVAT))
-    dispatch(setTotal(finalPrice))
+  //   return {
+  //     subTotal: total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+  //     totalVAT: totalVAT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+  //     finalPrice: finalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  //   }
+  // }
 
-    return {
-      subTotal: total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-      totalVAT: totalVAT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-      finalPrice: finalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-    }
-  }
+  const calculateSubTotalPromise = arr => {
+    return new Promise((resolve, reject) => {
+      let total = 0;
+      let totalVAT = 0; // Variable to keep track of VAT
+
+      for (let i = 0; i < arr.length; i++) {
+        const prop = arr[i];
+        let price = prop?.price * prop?.quantity;
+        let percentage = prop?.discounts;
+
+        let result = price - (price * percentage / 100);
+        total += result;
+
+        let _vat = result * vat; // VAT calculation with 0 percentage
+        totalVAT += _vat;
+      }
+
+      let finalPrice = parseFloat(total) + (useVAT ? parseFloat(totalVAT) : 0);
+
+      const formattedResult = {
+        subTotal: total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+        totalVAT: totalVAT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+        finalPrice: finalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+      };
+
+      resolve(formattedResult);
+    });
+  };
+
+  useEffect(() => {
+    calculateSubTotalPromise(items)
+      .then(result => {
+        setTotalCalculation({ ...result })
+        dispatch(setSubTotal(result.subTotal))
+        dispatch(setVat(result.totalVAT))
+        dispatch(setTotal(result.finalPrice))
+      })
+  }, [])
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -206,15 +254,15 @@ const CreateInvoice = () => {
                   </View>
                   <View style={{ ...styles.list, marginTop: 10 }}>
                     <Text>Subtotal</Text>
-                    <Text>${calculateSubTotal(items).subTotal}</Text>
+                    <Text>${totalCalculation.subTotal}</Text>
                   </View>
                   <View style={styles.list}>
                     <Text>TAX ({vat}%)</Text>
-                    <Text>${calculateSubTotal(items).totalVAT}</Text>
+                    <Text>${totalCalculation.totalVAT}</Text>
                   </View>
                   <View style={styles.list}>
                     <Text>Total</Text>
-                    <Text>${calculateSubTotal(items).finalPrice}</Text>
+                    <Text>${totalCalculation.finalPrice}</Text>
                   </View>
                 </View>
               </View>
