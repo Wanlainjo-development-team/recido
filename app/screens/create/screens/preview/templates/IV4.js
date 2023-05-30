@@ -208,7 +208,7 @@ export const IV4 = (profile, order, date, invoiceContact, paymentTerms, items, s
   </style>
 </head>
 
-<body>
+<body style="width: 700px; max-width: 98%; margin: 20px auto;">
   <main>
     <h1 class="clearfix"><small><span>DATE</span><br />August 17, 2015</small> INVOICE ${order} <small style="width: 100px"><span></span><br /></small></h1>
     <table>
@@ -226,7 +226,7 @@ export const IV4 = (profile, order, date, invoiceContact, paymentTerms, items, s
         return `
           <tr>
             <td class="service">${item.name}</td>
-            <td class="desc">${item.description ? item.description : '...'}</td>
+            <td class="desc">${item.discription ? item.discription : '...'}</td>
             <td class="unit">${item.quantity ? item.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '...'}</td>
             <td class="qty">$${item.price ? item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '...'}</td>
             <td class="total">$${calculateSubtotal(item.price, item.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>

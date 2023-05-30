@@ -1,30 +1,18 @@
 import { View, Text } from 'react-native'
-import React, { useCallback, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import styles from './styles'
-import { Image } from 'react-native'
 import { ScrollView } from 'react-native'
 import { TouchableOpacity } from 'react-native'
 
-import { AntDesign, Ionicons } from '@expo/vector-icons';
-import { TextInput, Keyboard } from 'react-native'
+import { AntDesign } from '@expo/vector-icons';
+import { Keyboard } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
-  setOrder,
-  setDate,
-  setCustomerEmail,
-  setCustomerName,
-  setContact,
-  setSalesRep,
-  setPaymentTerms,
-  setItems,
   setSubTotal,
   setVat,
   setTotal,
-  setUseVAT,
-  deleteTerm,
-  deleteItem
 } from '../../../../features/useFormSlice'
 import { useIsFocused, useNavigation, useFocusEffect } from '@react-navigation/native'
 
@@ -32,13 +20,10 @@ import { addDoc, collection } from 'firebase/firestore'
 import { db } from '../../../../hooks/firebase'
 import color from '../../../../style/color'
 
-import { printToFileAsync } from 'expo-print';
-import { shareAsync } from 'expo-sharing';
 import { KeyboardAvoidingView } from 'react-native'
 import { Platform } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native'
 import { itemsStyle } from './screens/styles'
-import { useEffect } from 'react'
 
 const CreateInvoice = () => {
   const { navigate } = useNavigation()
@@ -112,31 +97,6 @@ const CreateInvoice = () => {
     return (result).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
 
-  // const calculateSubTotal = arr => {
-  //   let total = 0;
-  //   let totalVAT = 0; // Variable to keep track of VAT
-
-  //   for (let i = 0; i < arr.length; i++) {
-  //     const prop = arr[i];
-  //     let price = prop?.price * prop?.quantity;
-  //     let percentage = prop?.discounts;
-
-  //     let result = price - (price * percentage / 100);
-  //     total += result;
-
-  //     let _vat = result * vat; // VAT calculation with 0 percentage
-  //     totalVAT += _vat;
-  //   }
-
-  //   let finalPrice = parseFloat(total) + (useVAT ? parseFloat(totalVAT) : 0)
-
-  //   return {
-  //     subTotal: total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-  //     totalVAT: totalVAT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-  //     finalPrice: finalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  //   }
-  // }
-
   const calculateSubTotalPromise = arr => {
     return new Promise((resolve, reject) => {
       let total = 0;
@@ -176,7 +136,7 @@ const CreateInvoice = () => {
           dispatch(setTotal(result.finalPrice));
         });
 
-      return () => {};
+      return () => { };
     }, [items])
   );
 
@@ -186,7 +146,7 @@ const CreateInvoice = () => {
         <>
           <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
             <View style={styles.group}>
-              <TouchableOpacity style={styles.setInvoiceView} onPress={() => navigate('SetInvoice')}>
+              <TouchableOpacity style={{ ...styles.setInvoiceView, marginBottom: 0 }} onPress={() => navigate('SetInvoice')}>
                 <View style={styles.setInvoiceLeftView}>
                   <Text style={styles.setInvoiceLeftViewBoldText}>{new Date(date).toDateString()}</Text>
                 </View>
@@ -194,8 +154,10 @@ const CreateInvoice = () => {
               </TouchableOpacity>
             </View>
 
+            <View style={styles.divider} />
+
             <View style={styles.group}>
-              <View style={styles.setInvoiceView}>
+              <View style={{ ...styles.setInvoiceView, marginBottom: 0 }}>
                 <View style={{ ...styles.setInvoiceLeftView, width: '100%' }}>
                   <Text style={styles.setInvoiceLeftViewBoldText}>Items</Text>
                   {
@@ -228,8 +190,10 @@ const CreateInvoice = () => {
               </View>
             </View>
 
+            <View style={styles.divider} />
+
             <View style={styles.group}>
-              <TouchableOpacity style={styles.setInvoiceView} onPress={() => invoiceContact ? navigate('AddNewCustomer', invoiceContact) : navigate('BillTo')}>
+              <TouchableOpacity style={{ ...styles.setInvoiceView, marginBottom: 0 }} onPress={() => invoiceContact ? navigate('AddNewCustomer', invoiceContact) : navigate('BillTo')}>
                 <View style={styles.setInvoiceLeftView}>
                   <Text style={styles.setInvoiceLeftViewBoldText}>Bill To</Text>
                   {
@@ -244,8 +208,10 @@ const CreateInvoice = () => {
               </TouchableOpacity>
             </View>
 
+            <View style={styles.divider} />
+
             <View style={styles.group}>
-              <View style={styles.setInvoiceView}>
+              <View style={{ ...styles.setInvoiceView, marginBottom: 0 }}>
                 <View style={{ ...styles.setInvoiceLeftView, width: '100%' }}>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Text style={styles.setInvoiceLeftViewBoldText}>Total</Text>
@@ -265,6 +231,8 @@ const CreateInvoice = () => {
                 </View>
               </View>
             </View>
+
+            <View style={styles.divider} />
 
             <View style={styles.group}>
               <TouchableOpacity onPress={() => navigate('Note', { editNote: null })} style={styles.plusView}>

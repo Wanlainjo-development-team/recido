@@ -12,10 +12,16 @@ export default StyleSheet.create({
         flex: 1
     },
 
+    divider: {
+        width: '100%',
+        height: 1,
+        backgroundColor: `${color.accent}40`,
+        marginVertical: 30
+    },
+
     group: {
         borderRadius: 8,
         padding: 10,
-        marginBottom: 10
     },
 
     setInvoiceView: {

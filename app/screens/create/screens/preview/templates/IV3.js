@@ -205,7 +205,7 @@ export const IV3 = (profile, order, date, invoiceContact, paymentTerms, items, s
   </style>
 </head>
 
-<body>
+<body style="width: 700px; max-width: 98%; margin: 20px auto;">
   <header class="clearfix">
     <div id="logo">
       <img src="${profile?.photoURL}" style="width: 80px; margin-right: .5em; display: ${profile?.photoURL ? 'initial' : 'none'}">
@@ -247,7 +247,7 @@ export const IV3 = (profile, order, date, invoiceContact, paymentTerms, items, s
     return `
                         <tr>
                         <td class="no">${item.name}</td>
-                        <td class="desc">${item.description ? item.description : '...'}</td>
+                        <td class="desc">${item.discription ? item.discription : '...'}</td>
                         <td class="unit">${item.quantity ? item.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
                         <td class="qty">$${item.price ? item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
                         <td class="total">$${calculateSubtotal(item.price, item.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
