@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity } from 'react-native'
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 
 import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
@@ -44,17 +44,22 @@ const PreviewInvoice = () => {
 
     let html = ``
 
-    switch (profile?.selectedTemplatePreview?.id) {
-        case 1: html = IV1(profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note)
-            break
-        case 2: html = IV2(profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note)
-            break
-        case 3: html = IV3(profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note)
-            break
-        case 4: html = IV4(profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note)
-            break
-        default: IV1(profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note)
-    }
+    useEffect(() => { }, [
+        (() => {
+            switch (profile?.selectedTemplatePreview?.id) {
+                case 1: html = IV1(profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note)
+                    break
+                case 2: html = IV2(profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note)
+                    break
+                case 3: html = IV3(profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note)
+                    break
+                case 4: html = IV4(profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note)
+                    break
+                default: IV1(profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note)
+            }
+        })()
+    ])
+
 
     let sharePDF = async () => {
         let { uri } = await printToFileAsync({

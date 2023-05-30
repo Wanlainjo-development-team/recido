@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native'
-import React, { useState } from 'react'
+import React, { useCallback, useLayoutEffect, useState } from 'react'
 
 import styles from './styles'
 import { Image } from 'react-native'
@@ -26,7 +26,7 @@ import {
   deleteTerm,
   deleteItem
 } from '../../../../features/useFormSlice'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation, useFocusEffect } from '@react-navigation/native'
 
 import { addDoc, collection } from 'firebase/firestore'
 import { db } from '../../../../hooks/firebase'
@@ -43,6 +43,7 @@ import { useEffect } from 'react'
 const CreateInvoice = () => {
   const { navigate } = useNavigation()
   const dispatch = useDispatch()
+  const focused = useIsFocused()
 
   const { profile } = useSelector(state => state.user)
 
@@ -167,15 +168,19 @@ const CreateInvoice = () => {
     });
   };
 
-  useEffect(() => {
-    calculateSubTotalPromise(items)
-      .then(result => {
-        setTotalCalculation({ ...result })
-        dispatch(setSubTotal(result.subTotal))
-        dispatch(setVat(result.totalVAT))
-        dispatch(setTotal(result.finalPrice))
-      })
-  }, [])
+  useFocusEffect(
+    useCallback(() => {
+      calculateSubTotalPromise(items)
+        .then(result => {
+          setTotalCalculation({ ...result });
+          dispatch(setSubTotal(result.subTotal));
+          dispatch(setVat(result.totalVAT));
+          dispatch(setTotal(result.finalPrice));
+        });
+
+      return () => {};
+    }, [items])
+  );
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -193,22 +198,6 @@ const CreateInvoice = () => {
                   }
                 </View>
                 <Text style={styles.setInvoiceLeftViewBoldText}>#{order}</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.group}>
-              <TouchableOpacity style={styles.setInvoiceView} onPress={() => invoiceContact ? navigate('AddNewCustomer', invoiceContact) : navigate('BillTo')}>
-                <View style={styles.setInvoiceLeftView}>
-                  <Text style={styles.setInvoiceLeftViewBoldText}>Bill To</Text>
-                  {
-                    invoiceContact ?
-                      <Text style={{ marginTop: 10 }}>{invoiceContact?.name}</Text> :
-                      <View style={styles.plusView}>
-                        <AntDesign name="pluscircleo" size={22} color={color.accent} />
-                        <Text style={styles.plusViewText}>Add customer</Text>
-                      </View>
-                  }
-                </View>
               </TouchableOpacity>
             </View>
 
@@ -244,6 +233,22 @@ const CreateInvoice = () => {
                   </TouchableOpacity>
                 </View>
               </View>
+            </View>
+
+            <View style={styles.group}>
+              <TouchableOpacity style={styles.setInvoiceView} onPress={() => invoiceContact ? navigate('AddNewCustomer', invoiceContact) : navigate('BillTo')}>
+                <View style={styles.setInvoiceLeftView}>
+                  <Text style={styles.setInvoiceLeftViewBoldText}>Bill To</Text>
+                  {
+                    invoiceContact ?
+                      <Text style={{ marginTop: 10 }}>{invoiceContact?.name}</Text> :
+                      <View style={styles.plusView}>
+                        <AntDesign name="pluscircleo" size={22} color={color.accent} />
+                        <Text style={styles.plusViewText}>Add customer</Text>
+                      </View>
+                  }
+                </View>
+              </TouchableOpacity>
             </View>
 
             <View style={styles.group}>
