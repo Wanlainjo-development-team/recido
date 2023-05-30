@@ -50,9 +50,7 @@ const CreateInvoice = () => {
   const {
     order,
     date,
-    dueDate,
     invoiceContact,
-    removeDueDate,
     customerName,
     customerEmail,
     contact, salesRep,
@@ -191,11 +189,6 @@ const CreateInvoice = () => {
               <TouchableOpacity style={styles.setInvoiceView} onPress={() => navigate('SetInvoice')}>
                 <View style={styles.setInvoiceLeftView}>
                   <Text style={styles.setInvoiceLeftViewBoldText}>{new Date(date).toDateString()}</Text>
-                  {
-                    removeDueDate ?
-                      <Text>Due on {new Date(dueDate).toDateString()}</Text> :
-                      <Text>No Due date</Text>
-                  }
                 </View>
                 <Text style={styles.setInvoiceLeftViewBoldText}>#{order}</Text>
               </TouchableOpacity>

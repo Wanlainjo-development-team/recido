@@ -24,7 +24,7 @@ import { db } from '../../../../hooks/firebase'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const PreviewInvoice = () => {
-    const { order, date, dueDate, removeDueDate, invoiceContact, customerName, customerEmail, contact, salesRep, paymentTerms, items, subTotal, vat, total, note } = useSelector(state => state.form)
+    const { order, date, invoiceContact, customerName, customerEmail, contact, salesRep, paymentTerms, items, subTotal, vat, total, note } = useSelector(state => state.form)
     const { navigate } = useNavigation()
 
     const [profile, setProfile] = useState(null)

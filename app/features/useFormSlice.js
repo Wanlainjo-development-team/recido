@@ -6,8 +6,6 @@ export const useFormSlice = createSlice({
         // for setting invoice starts here
         order: `${(Math.floor(Math.random() * 900000) + 100000)}`,
         date: `${new Date('2023-09-22')}`,
-        dueDate: `${new Date('2023-09-22')}`,
-        removeDueDate: false,
         // for setting invoice ends here
 
 
@@ -51,14 +49,6 @@ export const useFormSlice = createSlice({
 
         setDate: (state, action) => {
             state.date = action.payload
-        },
-
-        setDueDate: (state, action) => {
-            state.dueDate = action.payload
-        },
-
-        setRemoveDueDate: (state, action) => {
-            state.removeDueDate = action.payload
         },
 
         setInvoiceContact: (state, action) => {
@@ -172,8 +162,6 @@ export const useFormSlice = createSlice({
 export const {
     setOrder,
     setDate,
-    setDueDate,
-    setRemoveDueDate,
     setInvoiceContact,
     setCity,
     setState,
