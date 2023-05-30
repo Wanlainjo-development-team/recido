@@ -201,7 +201,7 @@ export const IV2 = (profile, order, date, invoiceContact, paymentTerms, items, s
         </table>
         <div id="notices">
             <div>NOTICE:</div>
-            <div class="notice">${note}</div>
+            <div class="notice">${note != '' ? note : profile?.disclaimer}</div>
         </div>
         </main>
     </body>
