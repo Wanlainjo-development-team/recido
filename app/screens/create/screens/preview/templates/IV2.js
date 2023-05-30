@@ -207,6 +207,9 @@ export const IV2 = (profile, order, date, invoiceContact, paymentTerms, items, s
       <div class="notice">${note != '' ? note : profile?.disclaimer}</div>
     </div>
   </main>
+  <footer>
+    Invoice was created on a computer and is valid without the signature and seal.
+  </footer>
 </body>
 
 </html>
