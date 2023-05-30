@@ -90,36 +90,24 @@ const CreateInvoice = () => {
 
   const calculateDiscount = prop => {
     let price = prop?.price * prop?.quantity
-    let percentage = prop?.discounts
 
-    let result = price - (price * percentage / 100)
-
-    return (result).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    return (price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
 
   const calculateSubTotalPromise = arr => {
     return new Promise((resolve, reject) => {
       let total = 0;
-      let totalVAT = 0; // Variable to keep track of VAT
 
       for (let i = 0; i < arr.length; i++) {
         const prop = arr[i];
         let price = prop?.price * prop?.quantity;
-        let percentage = prop?.discounts;
-
-        let result = price - (price * percentage / 100);
-        total += result;
-
-        let _vat = result * vat; // VAT calculation with 0 percentage
-        totalVAT += _vat;
+        total += price;
       }
-
-      let finalPrice = parseFloat(total) + (useVAT ? parseFloat(totalVAT) : 0);
 
       const formattedResult = {
         subTotal: total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-        totalVAT: totalVAT.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-        finalPrice: finalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        totalVAT: 'N/A',
+        finalPrice: total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
       };
 
       resolve(formattedResult);

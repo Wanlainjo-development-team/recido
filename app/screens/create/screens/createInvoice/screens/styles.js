@@ -210,17 +210,15 @@ export const itemsStyle = StyleSheet.create({
         fontWeight: '800'
     },
 
-    scrollView: {
-        paddingHorizontal: 10
-    },
-
     input: {
-        backgroundColor: `${color.accent}20`,
+        backgroundColor: color.backgroundColor,
         height: 45,
-        marginTop: 10,
+        // marginTop: 10,
         borderRadius: 12,
         paddingHorizontal: 10,
-        fontWeight: '600'
+        fontWeight: '600',
+        borderBottomWidth: 1,
+        borderBottomColor: `${color.accent}40`
     },
 
     createNew: {

@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView, TextInput } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, TextInput, ActivityIndicator, Alert } from 'react-native'
 import React from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
@@ -7,6 +7,10 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteItems, editItems, setItems } from '../../../../../features/useFormSlice'
 import { useLayoutEffect } from 'react'
+import color from '../../../../../style/color'
+import { addDoc, doc, collection, serverTimestamp } from 'firebase/firestore'
+import { db } from '../../../../../hooks/firebase'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const CreateItem = () => {
     const { goBack } = useNavigation()
@@ -19,9 +23,9 @@ const CreateItem = () => {
         name: '',
         price: '',
         quantity: '',
-        discounts: '',
         discription: ''
     })
+    const [loading, setLoading] = useState(false)
 
     useLayoutEffect(() => {
         if (editItem == null || editItem == undefined) return
@@ -37,7 +41,6 @@ const CreateItem = () => {
                 name: item.name,
                 price: item.price,
                 quantity: item.quantity,
-                discounts: item.discounts,
                 discription: item.discription
             }))
 
@@ -55,6 +58,21 @@ const CreateItem = () => {
 
     }
 
+    const saveItem = async () => {
+        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+        setLoading(true)
+
+        await addDoc(collection(db, 'users', id, 'items'), {
+            ...item,
+            createdAt: serverTimestamp()
+        })
+
+        Alert.alert('Item added successfully 🎉🎉')
+
+        setLoading(false)
+    }
+
     return (
         <View style={itemsStyle.container}>
             <View style={itemsStyle.head}>
@@ -67,7 +85,8 @@ const CreateItem = () => {
                 </TouchableOpacity>
             </View>
 
-            <ScrollView showsVerticalScrollIndicator={false} style={itemsStyle.scrollView}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <Text style={{ fontSize: 12, fontWeight: '600', marginLeft: 10 }}>Name</Text>
                 <TextInput
                     placeholder='Name'
                     value={item.name}
@@ -78,6 +97,8 @@ const CreateItem = () => {
                         })
                     }
                     style={itemsStyle.input} />
+
+                <Text style={{ fontSize: 12, fontWeight: '600', marginLeft: 10, marginTop: 20 }}>Price</Text>
                 <TextInput
                     placeholder='Price'
                     inputMode='numeric'
@@ -89,6 +110,8 @@ const CreateItem = () => {
                         })
                     }
                     style={itemsStyle.input} />
+
+                <Text style={{ fontSize: 12, fontWeight: '600', marginLeft: 10, marginTop: 20 }}>Quantity</Text>
                 <TextInput
                     placeholder='Quantity'
                     inputMode='numeric'
@@ -100,17 +123,8 @@ const CreateItem = () => {
                         })
                     }
                     style={itemsStyle.input} />
-                <TextInput
-                    placeholder='Discounts'
-                    inputMode='numeric'
-                    value={item.discounts}
-                    onChangeText={text =>
-                        setItem({
-                            ...item,
-                            discounts: text
-                        })
-                    }
-                    style={itemsStyle.input} />
+
+                <Text style={{ fontSize: 12, fontWeight: '600', marginLeft: 10, marginTop: 20 }}>Discription</Text>
                 <TextInput
                     placeholder='Discription'
                     value={item.discription}
@@ -121,6 +135,15 @@ const CreateItem = () => {
                         })
                     }
                     style={itemsStyle.input} />
+
+
+                <TouchableOpacity onPress={saveItem} style={{ ...itemsStyle.deleteItemButton, marginBottom: 10, backgroundColor: color.accent }}>
+                    {
+                        loading ?
+                            <ActivityIndicator color={color.white} size='small' /> :
+                            <Text style={{ ...itemsStyle.deleteItemButtonText, color: color.white }}>Save for future invoices</Text>
+                    }
+                </TouchableOpacity>
 
                 {
                     editItem &&
