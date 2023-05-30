@@ -41,8 +41,6 @@ const PreviewInvoice = () => {
         })()
     }, [])
 
-    console.log(invoiceContact.name)
-
 
     let html = ``
 
