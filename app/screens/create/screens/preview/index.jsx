@@ -75,7 +75,7 @@ const PreviewInvoice = () => {
             <WebView source={{ html: html }} scalesPageToFit style={{ flex: 1 }} />
             <View style={styles.bottom}>
                 <TouchableOpacity onPress={() => navigate('SelectTemplate', { templatesPreview })} style={styles.shareButton}>
-                    <Text style={styles.shareButtonText}>Template</Text>
+                    <Text style={styles.shareButtonText}>Change template</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.goBackBytton}>
                     <FontAwesome5 name="paper-plane" size={24} color={color.accent} />
