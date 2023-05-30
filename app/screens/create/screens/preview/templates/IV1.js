@@ -81,19 +81,6 @@ export const IV1 = (profile, order, date, invoiceContact, paymentTerms, items, s
     
         <table style="width: 100%; margin-top: 2em;">
             <tr style="background-color: #E1E1E1;">
-                <td style="font-size: .8rem; color: #0374E5;">Sales Rep</td>
-                <td style="font-size: .8rem; color: #0374E5;">Payment Terms</td>
-            </tr>
-            <tr>
-                <td style="font-size: .8rem;">${profile?.name}</td>
-                <td style="font-size: .8rem;">
-                      ${paymentTerms.map(item => { return `<p>${item}</p>` })}
-                </td>
-            </tr>
-        </table>
-    
-        <table style="width: 100%; margin-top: 2em;">
-            <tr style="background-color: #E1E1E1;">
                 <td style="font-size: .8rem; color: #0374E5;">Item</td>
                 <td style="font-size: .8rem; color: #0374E5;">Description</td>
                 <td style="font-size: .8rem; color: #0374E5;">Quantity</td>
