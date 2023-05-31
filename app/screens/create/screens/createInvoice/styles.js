@@ -22,6 +22,7 @@ export default StyleSheet.create({
     group: {
         borderRadius: 8,
         padding: 10,
+        marginBottom: 20
     },
 
     setInvoiceView: {
