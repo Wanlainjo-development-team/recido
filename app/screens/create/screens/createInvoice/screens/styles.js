@@ -265,24 +265,29 @@ export const itemsStyle = StyleSheet.create({
     },
 
     group: {
-        padding: 10,
-        height: 50,
-        borderRadius: 12,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        paddingLeft: 10,
+        paddingVertical: 5
     },
 
-    groupLeft: {
-        alignItems: 'flex-start'
+    section1: {
+        width: '33.333333333%'
     },
 
-    groupRight: {
-        alignItems: 'flex-end'
+    section2: {
+        width: '33.333333333%'
+    },
+
+    section3: {
+        width: '33.333333333%'
     },
 
     groupOpacityText: {
-        opacity: 0.4
+        opacity: 0.4,
+        fontSize: 12,
+        marginBottom: 5
     },
 
     groupBoldText: {

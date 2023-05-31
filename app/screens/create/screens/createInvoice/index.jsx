@@ -145,7 +145,7 @@ const CreateInvoice = () => {
             <View style={styles.group}>
               <View style={{ ...styles.setInvoiceView, marginBottom: 0 }}>
                 <View style={{ ...styles.setInvoiceLeftView, width: '100%' }}>
-                  <Text style={styles.setInvoiceLeftViewBoldText}>Items</Text>
+                  <Text style={{ ...styles.setInvoiceLeftViewBoldText, marginBottom: 10 }}>Items</Text>
                   {
                     items.length >= 1 &&
                     <>
@@ -153,20 +153,21 @@ const CreateInvoice = () => {
                         items.map((item, index) => (
                           <View key={index}>
                             <TouchableOpacity onPress={() => navigate('CreateItem', { editItem: { ...item, index } })} style={itemsStyle.group}>
-                              <View style={itemsStyle.groupLeft}>
-                                <Text>{item?.name}</Text>
-                                <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.discription)?.slice(0, 20)}</Text>
+                              <View style={itemsStyle.section1}>
+                                <Text style={itemsStyle.groupOpacityText}>Item</Text>
+                                <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{item?.name}</Text>
                               </View>
-                              <View style={itemsStyle.groupRight}>
-                                {
-                                  item?.quantity != undefined &&
-                                  <Text style={itemsStyle.groupOpacityText}>{(item?.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} x {(item?.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
-                                }
-                                <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{calculateDiscount(item)}</Text>
+                              <View style={itemsStyle.section2}>
+                                <Text style={itemsStyle.groupOpacityText}>Quantity</Text>
+                                <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{(item?.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                              </View>
+                              <View style={itemsStyle.section3}>
+                                <Text style={itemsStyle.groupOpacityText}>Unit Price</Text>
+                                <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{(item?.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
                               </View>
                             </TouchableOpacity>
 
-                            <View style={{...styles.divider, marginVertical: 10}} />
+                            <View style={{ ...styles.divider, marginVertical: 10 }} />
                           </View>
                         ))
                       }
