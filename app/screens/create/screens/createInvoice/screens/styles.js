@@ -266,7 +266,6 @@ export const itemsStyle = StyleSheet.create({
 
     group: {
         padding: 10,
-        marginBottom: 10,
         height: 50,
         borderRadius: 12,
         flexDirection: 'row',

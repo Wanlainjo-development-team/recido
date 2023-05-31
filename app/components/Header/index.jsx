@@ -57,6 +57,24 @@ const Header = ({ screen }) => {
             createdAt: serverTimestamp()
         })
 
+        await addDoc(collection(db, 'users', id, 'inventory'), {
+            order,
+            date,
+            invoiceContact,
+            city,
+            state,
+            zip,
+            country,
+            shippingCity,
+            shippingState,
+            shippingZip,
+            shippingCountry,
+            items,
+            note: note != '' ? note : profile?.disclaimer,
+            vat,
+            createdAt: serverTimestamp()
+        })
+
         await addDoc(collection(db, 'users', id, 'customers'), {
             ...invoiceContact,
             city,

@@ -142,8 +142,6 @@ const CreateInvoice = () => {
               </TouchableOpacity>
             </View>
 
-            <View style={styles.divider} />
-
             <View style={styles.group}>
               <View style={{ ...styles.setInvoiceView, marginBottom: 0 }}>
                 <View style={{ ...styles.setInvoiceLeftView, width: '100%' }}>
@@ -153,19 +151,23 @@ const CreateInvoice = () => {
                     <>
                       {
                         items.map((item, index) => (
-                          <TouchableOpacity key={index} onPress={() => navigate('CreateItem', { editItem: { ...item, index } })} style={itemsStyle.group}>
-                            <View style={itemsStyle.groupLeft}>
-                              <Text>{item?.name}</Text>
-                              <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.discription)?.slice(0, 20)}</Text>
-                            </View>
-                            <View style={itemsStyle.groupRight}>
-                              {
-                                item?.quantity != undefined &&
-                                <Text style={itemsStyle.groupOpacityText}>{(item?.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} x {(item?.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
-                              }
-                              <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{calculateDiscount(item)}</Text>
-                            </View>
-                          </TouchableOpacity>
+                          <View key={index}>
+                            <TouchableOpacity onPress={() => navigate('CreateItem', { editItem: { ...item, index } })} style={itemsStyle.group}>
+                              <View style={itemsStyle.groupLeft}>
+                                <Text>{item?.name}</Text>
+                                <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.discription)?.slice(0, 20)}</Text>
+                              </View>
+                              <View style={itemsStyle.groupRight}>
+                                {
+                                  item?.quantity != undefined &&
+                                  <Text style={itemsStyle.groupOpacityText}>{(item?.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} x {(item?.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                                }
+                                <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{calculateDiscount(item)}</Text>
+                              </View>
+                            </TouchableOpacity>
+
+                            <View style={{...styles.divider, marginVertical: 10}} />
+                          </View>
                         ))
                       }
                     </>
@@ -177,8 +179,6 @@ const CreateInvoice = () => {
                 </View>
               </View>
             </View>
-
-            <View style={styles.divider} />
 
             <View style={styles.group}>
               <TouchableOpacity style={{ ...styles.setInvoiceView, marginBottom: 0 }} onPress={() => invoiceContact ? navigate('AddNewCustomer', invoiceContact) : navigate('BillTo')}>
@@ -195,8 +195,6 @@ const CreateInvoice = () => {
                 </View>
               </TouchableOpacity>
             </View>
-
-            <View style={styles.divider} />
 
             <View style={styles.group}>
               <View style={{ ...styles.setInvoiceView, marginBottom: 0 }}>
@@ -219,8 +217,6 @@ const CreateInvoice = () => {
                 </View>
               </View>
             </View>
-
-            <View style={styles.divider} />
 
             <View style={styles.group}>
               <TouchableOpacity onPress={() => navigate('Note', { editNote: null })} style={styles.plusView}>
