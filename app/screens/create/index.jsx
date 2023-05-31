@@ -14,7 +14,7 @@ const { Navigator, Screen } = createMaterialTopTabNavigator()
 const Create = () => {
   return (
     <View style={{ flex: 1, backgroundColor: color.mainBackground }}>
-      <Header />
+      <Header screen='createInvoice' />
       <Navigator
         tabBarPosition='bottom'
         screenOptions={{

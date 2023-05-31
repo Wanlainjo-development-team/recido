@@ -14,11 +14,8 @@ const Items = () => {
 
     const calculateDiscount = prop => {
         let price = prop?.price * prop?.quantity
-        let percentage = prop?.discounts
 
-        let result = price - (price * percentage / 100)
-
-        return (result).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        return (price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     }
 
     return (

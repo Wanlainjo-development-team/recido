@@ -1,7 +1,7 @@
 const calculateSubtotal = (price, quantity) => price * quantity
 
 export const IV3 = (profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note) => {
-    const html = `
+  const html = `
 <html lang="en">
 
 <head>
@@ -126,7 +126,6 @@ export const IV3 = (profile, order, date, invoiceContact, paymentTerms, items, s
 
     table .no {
       color: #FFFFFF;
-      font-size: 1.6em;
       background: #57B223;
     }
 
@@ -206,16 +205,16 @@ export const IV3 = (profile, order, date, invoiceContact, paymentTerms, items, s
   </style>
 </head>
 
-<body>
+<body style="width: 700px; max-width: 98%; margin: 20px auto;">
   <header class="clearfix">
     <div id="logo">
-      <img src="logo.png">
+      <img src="${profile?.photoURL}" style="width: 80px; margin-right: .5em; display: ${profile?.photoURL ? 'initial' : 'none'}">
     </div>
     <div id="company">
-      <h2 class="name">Company Name</h2>
-      <div>455 Foggy Heights, AZ 85004, US</div>
-      <div>(602) 519-0450</div>
-      <div><a href="mailto:company@example.com">company@example.com</a></div>
+      <h2 class="name" style="display: ${profile?.name ? 'initial' : 'none'}">${profile?.name}</h2>
+      <div style="display: ${profile?.photoURL ? '' : 'none'}">${profile?.address}</div>
+      <div style="display: ${profile?.website ? 'initial' : 'none'}>${profile?.website}</div>
+      <div><a href="mailto:${profile?.email}">${profile?.email}</a></div>
     </div>
     </div>
   </header>
@@ -223,78 +222,61 @@ export const IV3 = (profile, order, date, invoiceContact, paymentTerms, items, s
     <div id="details" class="clearfix">
       <div id="client">
         <div class="to">INVOICE TO:</div>
-        <h2 class="name">John Doe</h2>
-        <div class="address">796 Silver Harbour, TX 79273, US</div>
-        <div class="email"><a href="mailto:john@example.com">john@example.com</a></div>
+        <h2 class="name" style="display: ${invoiceContact?.name ? 'flex' : 'none'};">${invoiceContact?.name}</h2>
+        <div class="address" style="display: ${invoiceContact?.address ? 'initial' : 'none'}">${invoiceContact?.address ? (`${invoiceContact?.address} ${invoiceContact?.city ? `, ${invoiceContact?.city}` : ''} ${invoiceContact?.state ? invoiceContact?.state : ''} ${invoiceContact?.country ? `, ${invoiceContact?.country}` : ''}`) : ''}</div>
+        <div class="email" style="display: ${invoiceContact?.phoneNumbers[0]?.number ? 'flex' : 'none'};">${invoiceContact?.phoneNumbers[0]?.number}</div>
+        <div class="email" style="display: ${invoiceContact?.email ? 'initial' : 'none'}"><a href="mailto:${invoiceContact?.email}">${invoiceContact?.email}</a></div>
       </div>
       <div id="invoice">
-        <h1>INVOICE 3-2-1</h1>
-        <div class="date">Date of Invoice: 01/06/2014</div>
-        <div class="date">Due Date: 30/06/2014</div>
+        <h1>INVOICE ${order}</h1>
+        <div class="date">Date of Invoice: ${new Date(date).toDateString()}</div>
       </div>
     </div>
     <table border="0" cellspacing="0" cellpadding="0">
       <thead>
         <tr>
-          <th class="no">#</th>
-          <th class="desc">DESCRIPTION</th>
-          <th class="unit">UNIT PRICE</th>
-          <th class="qty">QUANTITY</th>
-          <th class="total">TOTAL</th>
+          <th class="no">Item</th>
+          <th class="desc">Description</th>
+          <th class="unit">Quantity</th>
+          <th class="qty">Unit Price</th>
+          <th class="total">Sub-Total</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td class="no">01</td>
-          <td class="desc">
-            <h3>Website Design</h3>Creating a recognizable design solution based on the company's existing visual
-            identity
-          </td>
-          <td class="unit">$40.00</td>
-          <td class="qty">30</td>
-          <td class="total">$1,200.00</td>
-        </tr>
-        <tr>
-          <td class="no">02</td>
-          <td class="desc">
-            <h3>Website Development</h3>Developing a Content Management System-based Website
-          </td>
-          <td class="unit">$40.00</td>
-          <td class="qty">80</td>
-          <td class="total">$3,200.00</td>
-        </tr>
-        <tr>
-          <td class="no">03</td>
-          <td class="desc">
-            <h3>Search Engines Optimization</h3>Optimize the site for search engines (SEO)
-          </td>
-          <td class="unit">$40.00</td>
-          <td class="qty">20</td>
-          <td class="total">$800.00</td>
-        </tr>
-      </tbody>
+      ${items.map((item) => {
+    return `
+                        <tr>
+                        <td class="no">${item.name}</td>
+                        <td class="desc">${item.discription ? item.discription : '...'}</td>
+                        <td class="unit">${item.quantity ? item.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
+                        <td class="qty">$${item.price ? item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
+                        <td class="total">$${calculateSubtotal(item.price, item.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+                        </tr>
+                        `
+  }).join('')
+    }
       <tfoot>
         <tr>
           <td colspan="2"></td>
           <td colspan="2">SUBTOTAL</td>
-          <td>$5,200.00</td>
+          <td>$${subTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
         </tr>
         <tr>
           <td colspan="2"></td>
-          <td colspan="2">TAX 25%</td>
-          <td>$1,300.00</td>
+          <td colspan="2">TAX ${vat}%</td>
+          <td>$${vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
         </tr>
         <tr>
           <td colspan="2"></td>
           <td colspan="2">GRAND TOTAL</td>
-          <td>$6,500.00</td>
+          <td>$${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
         </tr>
       </tfoot>
     </table>
     <div id="thanks">Thank you!</div>
     <div id="notices">
       <div>NOTICE:</div>
-      <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+      <div class="notice">${note != '' ? note : profile?.disclaimer}</div>
     </div>
   </main>
   <footer>
@@ -305,5 +287,5 @@ export const IV3 = (profile, order, date, invoiceContact, paymentTerms, items, s
 </html>
     `
 
-    return html
+  return html
 }

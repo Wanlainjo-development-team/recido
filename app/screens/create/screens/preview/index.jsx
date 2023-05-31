@@ -24,7 +24,7 @@ import { db } from '../../../../hooks/firebase'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const PreviewInvoice = () => {
-    const { order, date, dueDate, removeDueDate, invoiceContact, customerName, customerEmail, contact, salesRep, paymentTerms, items, subTotal, vat, total, note } = useSelector(state => state.form)
+    const { order, date, invoiceContact, customerName, customerEmail, contact, salesRep, paymentTerms, items, subTotal, vat, total, note } = useSelector(state => state.form)
     const { navigate } = useNavigation()
 
     const [profile, setProfile] = useState(null)
@@ -40,7 +40,6 @@ const PreviewInvoice = () => {
             return unsub
         })()
     }, [])
-
 
     let html = ``
 
@@ -62,12 +61,16 @@ const PreviewInvoice = () => {
 
 
     let sharePDF = async () => {
-        let { uri } = await printToFileAsync({
-            html,
-            base64: false
-        })
+        try {
+            let { uri } = await printToFileAsync({
+                html,
+                base64: false
+            })
 
-        await shareAsync(uri)
+            await shareAsync(uri)
+        } catch (error) {
+            console.error('Error occurred while sharing PDF:', error)
+        }
     }
 
     return (
@@ -77,7 +80,7 @@ const PreviewInvoice = () => {
                 <TouchableOpacity onPress={() => navigate('SelectTemplate', { templatesPreview })} style={styles.shareButton}>
                     <Text style={styles.shareButtonText}>Change template</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.goBackBytton}>
+                <TouchableOpacity onPress={sharePDF} style={styles.goBackBytton}>
                     <FontAwesome5 name="paper-plane" size={24} color={color.accent} />
                 </TouchableOpacity>
             </View>

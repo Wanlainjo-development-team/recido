@@ -208,96 +208,76 @@ export const IV4 = (profile, order, date, invoiceContact, paymentTerms, items, s
   </style>
 </head>
 
-<body>
+<body style="width: 700px; max-width: 98%; margin: 20px auto;">
   <main>
-    <h1 class="clearfix"><small><span>DATE</span><br />August 17, 2015</small> INVOICE 3-2-1 <small><span>DUE
-          DATE</span><br /> September 17, 2015</small></h1>
+    <h1 class="clearfix"><small><span>DATE</span><br />August 17, 2015</small> INVOICE ${order} <small style="width: 100px"><span></span><br /></small></h1>
     <table>
       <thead>
         <tr>
-          <th class="service">SERVICE</th>
-          <th class="desc">DESCRIPTION</th>
-          <th>PRICE</th>
-          <th>QTY</th>
-          <th>TOTAL</th>
+          <th class="service">Item</th>
+          <th class="desc">Description</th>
+          <th>Quantity</th>
+          <th>Unit Price</th>
+          <th>Sub-Total</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td class="service">Design</td>
-          <td class="desc">Creating a recognizable design solution based on the company's existing visual identity</td>
-          <td class="unit">$40.00</td>
-          <td class="qty">26</td>
-          <td class="total">$1,040.00</td>
-        </tr>
-        <tr>
-          <td class="service">Development</td>
-          <td class="desc">Developing a Content Management System-based Website</td>
-          <td class="unit">$40.00</td>
-          <td class="qty">80</td>
-          <td class="total">$3,200.00</td>
-        </tr>
-        <tr>
-          <td class="service">SEO</td>
-          <td class="desc">Optimize the site for search engines (SEO)</td>
-          <td class="unit">$40.00</td>
-          <td class="qty">20</td>
-          <td class="total">$800.00</td>
-        </tr>
-        <tr>
-          <td class="service">Training</td>
-          <td class="desc">Initial training sessions for staff responsible for uploading web content</td>
-          <td class="unit">$40.00</td>
-          <td class="qty">4</td>
-          <td class="total">$160.00</td>
-        </tr>
+      ${items.map((item) => {
+        return `
+          <tr>
+            <td class="service">${item.name}</td>
+            <td class="desc">${item.discription ? item.discription : '...'}</td>
+            <td class="unit">${item.quantity ? item.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '...'}</td>
+            <td class="qty">$${item.price ? item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '...'}</td>
+            <td class="total">$${calculateSubtotal(item.price, item.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+          </tr>
+                        `
+    }).join('')
+        }
         <tr>
           <td colspan="4" class="sub">SUBTOTAL</td>
-          <td class="sub total">$5,200.00</td>
+          <td class="sub total">$${subTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
         </tr>
         <tr>
-          <td colspan="4">TAX 25%</td>
-          <td class="total">$1,300.00</td>
+          <td colspan="4">TAX ${vat}%</td>
+          <td class="total">$${vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
         </tr>
         <tr>
           <td colspan="4" class="grand total">GRAND TOTAL</td>
-          <td class="grand total">$6,500.00</td>
+          <td class="grand total">$${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
         </tr>
       </tbody>
     </table>
     <div id="details" class="clearfix">
       <div id="project">
-        <div class="arrow">
-          <div class="inner-arrow"><span>PROJECT</span> Website development</div>
+        <div class="arrow" style="display: ${invoiceContact?.name ? 'flex' : 'none'};">
+          <div class="inner-arrow"><span>CLIENT</span> ${invoiceContact?.name}</div>
         </div>
-        <div class="arrow">
-          <div class="inner-arrow"><span>CLIENT</span> John Doe</div>
+        <div class="arrow" style="display: ${invoiceContact?.address ? 'initial' : 'none'}">
+          <div class="inner-arrow"><span>ADDRESS</span>${invoiceContact?.address ? (`${invoiceContact?.address} ${invoiceContact?.city ? `, ${invoiceContact?.city}` : ''} ${invoiceContact?.state ? invoiceContact?.state : ''} ${invoiceContact?.country ? `, ${invoiceContact?.country}` : ''}`) : ''}</div>
         </div>
-        <div class="arrow">
-          <div class="inner-arrow"><span>ADDRESS</span> 796 Silver Harbour, TX 79273, US</div>
+        <div class="arrow" style="display: ${invoiceContact?.phoneNumbers[0]?.number ? 'flex' : 'none'};">
+          <div class="inner-arrow"><span>PHONE</span> ${invoiceContact?.phoneNumbers[0]?.number}</div>
         </div>
-        <div class="arrow">
-          <div class="inner-arrow"><span>EMAIL</span> <a href="mailto:john@example.com">john@example.com</a></div>
+        <div class="arrow" style="display: ${invoiceContact?.email ? 'initial' : 'none'}">
+          <div class="inner-arrow"><span>EMAIL</span> <a href="mailto:${invoiceContact?.email}">${invoiceContact?.email}">${invoiceContact?.email}">${invoiceContact?.email}</a></div>
         </div>
       </div>
-      <div id="company">
-        <div class="arrow back">
-          <div class="inner-arrow">Company Name <span>COMPANY</span></div>
+      <div id="company" style="display: flex; flex-direction: column; align-items: flex-end;">
+        <div class="arrow back" style="display: ${profile?.name ? 'initial' : 'none'}">
+          <div class="inner-arrow">${profile?.name} <span>COMPANY</span></div>
         </div>
-        <div class="arrow back">
-          <div class="inner-arrow">455 Foggy Heights, AZ 85004, US <span>ADDRESS</span></div>
+        <div class="arrow back" class="arrow back" ${profile?.contact ? '' : 'none'}">
+          <div class="inner-arrow">${profile?.contact} <span>PHONE</span></div>
         </div>
-        <div class="arrow back">
-          <div class="inner-arrow">(602) 519-0450 <span>PHONE</span></div>
-        </div>
-        <div class="arrow back">
-          <div class="inner-arrow"><a href="mailto:company@example.com">company@example.com</a> <span>EMAIL</span></div>
+        <div class="arrow back" class="arrow back" ${profile?.email ? '' : 'none'}">
+          <div class="inner-arrow"><a href="mailto:${profile?.email}">${profile?.email}</a> <span>EMAIL</span></div>
         </div>
       </div>
     </div>
     <div id="notices">
       <div>NOTICE:</div>
-      <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
+      <div class="notice">${note != '' ? note : profile?.disclaimer}</div>
     </div>
   </main>
   <footer>

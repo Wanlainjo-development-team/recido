@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, TextInput, ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, ScrollView, ActivityIndicator, Alert } from 'react-native'
 import React from 'react'
 import { noteStyle } from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -6,6 +6,10 @@ import { useState } from 'react'
 import { useLayoutEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNote } from '../../../../../features/useFormSlice'
+import color from '../../../../../style/color'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { doc, updateDoc } from 'firebase/firestore'
+import { db } from '../../../../../hooks/firebase'
 
 const Note = () => {
     const { goBack } = useNavigation()
@@ -16,6 +20,7 @@ const Note = () => {
 
     const [newNote, setNewNote] = useState('')
     const [inputHeight, setInputHeight] = useState(100);
+    const [loading, setLoading] = useState(false)
 
     const handleContentSizeChange = (event) => {
         setInputHeight(event.nativeEvent.contentSize.height);
@@ -33,6 +38,20 @@ const Note = () => {
     const updateNote = () => {
         dispatch(setNote(newNote))
         goBack()
+    }
+
+    const updateUserDisclaimer = async () => {
+        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+        setLoading(true)
+
+        await updateDoc(doc(db, 'users', id), {
+            disclaimer: newNote
+        })
+
+        Alert.alert('Note successfully updated 🎉🎉')
+
+        setLoading(false)
     }
 
 
@@ -57,6 +76,13 @@ const Note = () => {
                     onContentSizeChange={handleContentSizeChange}
                     style={{ ...noteStyle.input, minHeight: inputHeight, maxHeight: 150 }}
                 />
+                <TouchableOpacity onPress={updateUserDisclaimer} style={noteStyle.saveButton}>
+                    {
+                        loading ?
+                            <ActivityIndicator color={color.white} size='small' /> :
+                            <Text style={noteStyle.saveButtonText}>Save as new</Text>
+                    }
+                </TouchableOpacity>
             </ScrollView>
         </View>
     )
