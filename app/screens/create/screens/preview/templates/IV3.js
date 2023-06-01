@@ -1,6 +1,6 @@
 const calculateSubtotal = (price, quantity) => price * quantity
 
-export const IV3 = (profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note) => {
+export const IV3 = (profile, order, date, invoiceContact, items, subTotal, vat, total, note) => {
   const html = `
 <html lang="en">
 

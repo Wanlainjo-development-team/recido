@@ -1,6 +1,6 @@
 const calculateSubtotal = (price, quantity) => price * quantity
 
-export const IV2 = (profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note) => {
+export const IV2 = (profile, order, date, invoiceContact, items, subTotal, vat, total, note) => {
   const html = `
 <html lang="en">
 <head>
@@ -150,7 +150,7 @@ export const IV2 = (profile, order, date, invoiceContact, paymentTerms, items, s
     <div id="logo">
     <img src="${profile?.photoURL}">
     </div>
-    <h1>INVOICE 3-2-1</h1>
+    <h1>INVOICE ${order}</h1>
     <div id="company" class="clearfix">
         <div>${profile?.name}</div>
         <div>${profile?.address}</div>

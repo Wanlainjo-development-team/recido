@@ -1,6 +1,6 @@
 const calculateSubtotal = (price, quantity) => price * quantity
 
-export const IV1 = (profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note) => {
+export const IV1 = (profile, order, date, invoiceContact, items, subTotal, vat, total, note) => {
     const html = `
     <html lang="en">
     <body style="width: 700px; max-width: 98%; margin: 20px auto;">

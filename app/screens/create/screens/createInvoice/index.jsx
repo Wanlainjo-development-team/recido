@@ -1,12 +1,9 @@
-import { View, Text } from 'react-native'
+import { View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, ScrollView, TouchableOpacity, Keyboard } from 'react-native'
 import React, { useCallback, useState } from 'react'
 
 import styles from './styles'
-import { ScrollView } from 'react-native'
-import { TouchableOpacity } from 'react-native'
 
 import { AntDesign } from '@expo/vector-icons';
-import { Keyboard } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
@@ -14,21 +11,15 @@ import {
   setVat,
   setTotal,
 } from '../../../../features/useFormSlice'
-import { useIsFocused, useNavigation, useFocusEffect } from '@react-navigation/native'
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
 
-import { addDoc, collection } from 'firebase/firestore'
-import { db } from '../../../../hooks/firebase'
 import color from '../../../../style/color'
 
-import { KeyboardAvoidingView } from 'react-native'
-import { Platform } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native'
 import { itemsStyle } from './screens/styles'
 
 const CreateInvoice = () => {
   const { navigate } = useNavigation()
   const dispatch = useDispatch()
-  const focused = useIsFocused()
 
   const { profile } = useSelector(state => state.user)
 
@@ -36,63 +27,12 @@ const CreateInvoice = () => {
     order,
     date,
     invoiceContact,
-    customerName,
-    customerEmail,
-    contact, salesRep,
-    paymentTerms,
     items,
-    subTotal,
     vat,
-    total,
-    useVAT,
     note
   } = useSelector(state => state.form)
 
-  const [loading, setLoading] = useState(false)
   const [totalCalculation, setTotalCalculation] = useState({})
-
-  const saveInvoice = async () => {
-    let calcSubTotal = 0
-    let calcVat = 0
-    let calcTotal = 0
-
-    items.forEach(item => {
-      calcSubTotal = calcSubTotal + parseFloat(item.subTotal)
-    })
-
-    calcVat = calcSubTotal * 0.075
-    calcTotal = calcSubTotal + (useVAT ? calcVat : 0)
-
-    dispatch(setSubTotal(calcSubTotal))
-    dispatch(setVat(useVAT ? calcVat : 0))
-    dispatch(setTotal(calcTotal))
-
-    setLoading(true)
-    await addDoc(collection(db, 'invoices'), {
-      order,
-      date,
-      customerName,
-      customerEmail,
-      contact,
-      salesRep,
-      paymentTerms,
-      items,
-      subTotal,
-      vat,
-      total
-    })
-    setLoading(false)
-    navigate('Modal', {
-      title: 'Invoice saved successfully',
-      body: 'Your invoice has been saved successfully'
-    })
-  }
-
-  const calculateDiscount = prop => {
-    let price = prop?.price * prop?.quantity
-
-    return (price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  }
 
   const calculateSubTotalPromise = arr => {
     return new Promise((resolve, reject) => {
