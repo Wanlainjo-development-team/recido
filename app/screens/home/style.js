@@ -7,8 +7,6 @@ export default StyleSheet.create({
         backgroundColor: color.mainBackground,
         paddingTop: StatusBar.currentHeight,
         paddingHorizontal: 20,
-        justifyContent: "center",
-        alignItems: 'center'
     },
 
     floatingButton: {

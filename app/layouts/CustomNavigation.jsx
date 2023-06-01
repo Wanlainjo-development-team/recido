@@ -203,41 +203,44 @@ const CustomNavigation = () => {
                             </View>
 
                             <View style={header.rightContainer}>
-                                <TouchableOpacity
-                                    style={{
-                                        width: 45,
-                                        height: 45,
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        backgroundColor: `${color.accent}20`,
-                                        borderRadius: 8
-                                    }}
-                                    onPress={() => {
-                                        setCurrentTab(activeRoute)
+                                {
+                                    !showMenu &&
+                                    <TouchableOpacity
+                                        style={{
+                                            width: 45,
+                                            height: 45,
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            backgroundColor: `${color.accent}20`,
+                                            borderRadius: 8
+                                        }}
+                                        onPress={() => {
+                                            setCurrentTab(activeRoute)
 
-                                        Animated.timing(scaleValue, {
-                                            toValue: showMenu ? 1 : 0.88,
-                                            duration: 100,
-                                            useNativeDriver: true
-                                        }).start()
+                                            Animated.timing(scaleValue, {
+                                                toValue: showMenu ? 1 : 0.88,
+                                                duration: 100,
+                                                useNativeDriver: true
+                                            }).start()
 
-                                        Animated.timing(offsetValue, {
-                                            toValue: showMenu ? 0 : -(width / 1.5),
-                                            duration: 100,
-                                            useNativeDriver: true
-                                        }).start()
+                                            Animated.timing(offsetValue, {
+                                                toValue: showMenu ? 0 : -(width / 1.5),
+                                                duration: 100,
+                                                useNativeDriver: true
+                                            }).start()
 
-                                        Animated.timing(closeButtonOffset, {
-                                            toValue: !showMenu ? -30 : 0,
-                                            duration: 100,
-                                            useNativeDriver: true
-                                        }).start()
+                                            Animated.timing(closeButtonOffset, {
+                                                toValue: !showMenu ? -30 : 0,
+                                                duration: 100,
+                                                useNativeDriver: true
+                                            }).start()
 
-                                        setShowMenu(!showMenu)
-                                    }}
-                                >
-                                    <Feather name="menu" size={24} color={color.accent} />
-                                </TouchableOpacity>
+                                            setShowMenu(!showMenu)
+                                        }}
+                                    >
+                                        <Feather name="menu" size={24} color={color.accent} />
+                                    </TouchableOpacity>
+                                }
                             </View>
                         </View>
                     </View>
