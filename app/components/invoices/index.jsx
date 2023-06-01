@@ -7,9 +7,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setInvoiceList } from '../../features/invoicesSlice'
 import { useState } from 'react'
 import styles from './styles'
+import { useNavigation } from '@react-navigation/native'
 
 const Invoices = () => {
     const dispatch = useDispatch()
+    const { navigate } = useNavigation()
 
     const [invoiceList, setNewInvoiceList] = useState([])
 
@@ -46,18 +48,14 @@ const Invoices = () => {
         // Calculate the grand total by summing up the subtotals
         const grandTotal = subtotals.reduce((total, subtotal) => total + subtotal, 0);
 
-        console.log(grandTotal); // Output: 325000
-
-        // console.log(grandTotal)
-
         return grandTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     }
 
     return (
-        <>
+        <View style={styles.container}>
             {
-                invoiceList.map(item => (
-                    <TouchableOpacity key={item.id} style={styles.list}>
+                invoiceList.slice(0, 25).map(item => (
+                    <TouchableOpacity key={item.id} onPress={() => navigate('ViewInvoice', { viewInvoice: item })} style={styles.list}>
                         <View style={styles.left}>
                             <Text style={styles.boldText}>{item?.invoiceContact?.name}</Text>
                             <Text>#{item?.order}</Text>
@@ -69,7 +67,7 @@ const Invoices = () => {
                     </TouchableOpacity>
                 ))
             }
-        </>
+        </View>
     )
 }
 

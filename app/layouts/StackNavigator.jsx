@@ -29,6 +29,7 @@ import Countries from '../screens/create/screens/createInvoice/screens/Countries
 import Items from '../screens/create/screens/createInvoice/screens/Items'
 import CreateItem from '../screens/create/screens/createInvoice/screens/CreateItem'
 import Note from '../screens/create/screens/createInvoice/screens/Note'
+import ViewInvoice from '../components/invoices/viewInvoice/index'
 
 const StackNavigator = () => {
     const navigation = useNavigation()
@@ -84,6 +85,7 @@ const StackNavigator = () => {
                         <Screen name='Items' component={Items} options={{ gestureEnabled: true }} />
                         <Screen name='CreateItem' component={CreateItem} options={{ gestureEnabled: true }} />
                         <Screen name='Note' component={Note} options={{ gestureEnabled: true }} />
+                        <Screen name='ViewInvoice' component={ViewInvoice} options={{ gestureEnabled: true }} />
                         <Group screenOptions={{ presentation: 'transparentModal' }}>
                             <Screen name='SelectTemplate' component={SelectTemplate} options={{ gestureEnabled: true }} />
                         </Group>

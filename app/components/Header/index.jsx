@@ -93,7 +93,7 @@ const Header = ({ screen }) => {
     return (
         <View style={style.container}>
             <TouchableOpacity onPress={() => navigation.goBack()} style={style.backButton}>
-                <AntDesign name="back" size={22} color="black" />
+                <AntDesign name="back" size={22} color={color.accent} />
             </TouchableOpacity>
 
             {

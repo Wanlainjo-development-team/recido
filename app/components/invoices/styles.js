@@ -2,6 +2,10 @@ import { StyleSheet, StatusBar } from "react-native";
 import color from "../../style/color";
 
 export default StyleSheet.create({
+    container: {
+        paddingBottom: 80
+    },
+
     list: {
         flexDirection: 'row',
         justifyContent: 'space-between',
