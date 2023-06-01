@@ -1,12 +1,9 @@
-import { View, Text } from 'react-native'
+import { View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, ScrollView, TouchableOpacity, Keyboard } from 'react-native'
 import React, { useCallback, useState } from 'react'
 
 import styles from './styles'
-import { ScrollView } from 'react-native'
-import { TouchableOpacity } from 'react-native'
 
 import { AntDesign } from '@expo/vector-icons';
-import { Keyboard } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
@@ -14,21 +11,15 @@ import {
   setVat,
   setTotal,
 } from '../../../../features/useFormSlice'
-import { useIsFocused, useNavigation, useFocusEffect } from '@react-navigation/native'
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
 
-import { addDoc, collection } from 'firebase/firestore'
-import { db } from '../../../../hooks/firebase'
 import color from '../../../../style/color'
 
-import { KeyboardAvoidingView } from 'react-native'
-import { Platform } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native'
 import { itemsStyle } from './screens/styles'
 
 const CreateInvoice = () => {
   const { navigate } = useNavigation()
   const dispatch = useDispatch()
-  const focused = useIsFocused()
 
   const { profile } = useSelector(state => state.user)
 
@@ -36,63 +27,12 @@ const CreateInvoice = () => {
     order,
     date,
     invoiceContact,
-    customerName,
-    customerEmail,
-    contact, salesRep,
-    paymentTerms,
     items,
-    subTotal,
     vat,
-    total,
-    useVAT,
     note
   } = useSelector(state => state.form)
 
-  const [loading, setLoading] = useState(false)
   const [totalCalculation, setTotalCalculation] = useState({})
-
-  const saveInvoice = async () => {
-    let calcSubTotal = 0
-    let calcVat = 0
-    let calcTotal = 0
-
-    items.forEach(item => {
-      calcSubTotal = calcSubTotal + parseFloat(item.subTotal)
-    })
-
-    calcVat = calcSubTotal * 0.075
-    calcTotal = calcSubTotal + (useVAT ? calcVat : 0)
-
-    dispatch(setSubTotal(calcSubTotal))
-    dispatch(setVat(useVAT ? calcVat : 0))
-    dispatch(setTotal(calcTotal))
-
-    setLoading(true)
-    await addDoc(collection(db, 'invoices'), {
-      order,
-      date,
-      customerName,
-      customerEmail,
-      contact,
-      salesRep,
-      paymentTerms,
-      items,
-      subTotal,
-      vat,
-      total
-    })
-    setLoading(false)
-    navigate('Modal', {
-      title: 'Invoice saved successfully',
-      body: 'Your invoice has been saved successfully'
-    })
-  }
-
-  const calculateDiscount = prop => {
-    let price = prop?.price * prop?.quantity
-
-    return (price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-  }
 
   const calculateSubTotalPromise = arr => {
     return new Promise((resolve, reject) => {
@@ -145,7 +85,7 @@ const CreateInvoice = () => {
             <View style={styles.group}>
               <View style={{ ...styles.setInvoiceView, marginBottom: 0 }}>
                 <View style={{ ...styles.setInvoiceLeftView, width: '100%' }}>
-                  <Text style={styles.setInvoiceLeftViewBoldText}>Items</Text>
+                  <Text style={{ ...styles.setInvoiceLeftViewBoldText, marginBottom: 10 }}>Items</Text>
                   {
                     items.length >= 1 &&
                     <>
@@ -153,20 +93,21 @@ const CreateInvoice = () => {
                         items.map((item, index) => (
                           <View key={index}>
                             <TouchableOpacity onPress={() => navigate('CreateItem', { editItem: { ...item, index } })} style={itemsStyle.group}>
-                              <View style={itemsStyle.groupLeft}>
-                                <Text>{item?.name}</Text>
-                                <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.discription)?.slice(0, 20)}</Text>
+                              <View style={itemsStyle.section1}>
+                                <Text style={itemsStyle.groupOpacityText}>Item</Text>
+                                <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{item?.name}</Text>
                               </View>
-                              <View style={itemsStyle.groupRight}>
-                                {
-                                  item?.quantity != undefined &&
-                                  <Text style={itemsStyle.groupOpacityText}>{(item?.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} x {(item?.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
-                                }
-                                <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{calculateDiscount(item)}</Text>
+                              <View style={itemsStyle.section2}>
+                                <Text style={itemsStyle.groupOpacityText}>Quantity</Text>
+                                <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{(item?.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                              </View>
+                              <View style={itemsStyle.section3}>
+                                <Text style={itemsStyle.groupOpacityText}>Unit Price</Text>
+                                <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{(item?.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
                               </View>
                             </TouchableOpacity>
 
-                            <View style={{...styles.divider, marginVertical: 10}} />
+                            <View style={{ ...styles.divider, marginVertical: 10 }} />
                           </View>
                         ))
                       }

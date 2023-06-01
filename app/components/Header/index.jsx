@@ -77,6 +77,7 @@ const Header = ({ screen }) => {
 
         await addDoc(collection(db, 'users', id, 'customers'), {
             ...invoiceContact,
+            order,
             city,
             state,
             zip,

@@ -1,7 +1,7 @@
 const calculateSubtotal = (price, quantity) => price * quantity
 
-export const IV4 = (profile, order, date, invoiceContact, paymentTerms, items, subTotal, vat, total, note) => {
-    const html = `
+export const IV4 = (profile, order, date, invoiceContact, items, subTotal, vat, total, note) => {
+  const html = `
 <html lang="en">
 <head>
   <style>
@@ -210,7 +210,7 @@ export const IV4 = (profile, order, date, invoiceContact, paymentTerms, items, s
 
 <body style="width: 700px; max-width: 98%; margin: 20px auto;">
   <main>
-    <h1 class="clearfix"><small><span>DATE</span><br />August 17, 2015</small> INVOICE ${order} <small style="width: 100px"><span></span><br /></small></h1>
+    <h1 class="clearfix"><small><span>DATE</span><br />${new Date(date).toDateString()}</small> INVOICE ${order} <small style="width: 100px"><span></span><br /></small></h1>
     <table>
       <thead>
         <tr>
@@ -223,7 +223,7 @@ export const IV4 = (profile, order, date, invoiceContact, paymentTerms, items, s
       </thead>
       <tbody>
       ${items.map((item) => {
-        return `
+    return `
           <tr>
             <td class="service">${item.name}</td>
             <td class="desc">${item.discription ? item.discription : '...'}</td>
@@ -232,8 +232,8 @@ export const IV4 = (profile, order, date, invoiceContact, paymentTerms, items, s
             <td class="total">$${calculateSubtotal(item.price, item.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
           </tr>
                         `
-    }).join('')
-        }
+  }).join('')
+    }
         <tr>
           <td colspan="4" class="sub">SUBTOTAL</td>
           <td class="sub total">$${subTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
@@ -288,5 +288,5 @@ export const IV4 = (profile, order, date, invoiceContact, paymentTerms, items, s
 </html>
     `
 
-    return html
+  return html
 }

@@ -31,11 +31,6 @@ export const useFormSlice = createSlice({
         note: '',
         // for setting invoice note ends here
 
-        customerName: '',
-        customerEmail: '',
-        contact: '',
-        salesRep: '',
-        paymentTerms: [],
         subTotal: 0,
         vat: 0,
         total: 0,
@@ -108,26 +103,6 @@ export const useFormSlice = createSlice({
             state.note = action.payload
         },
 
-        setCustomerName: (state, action) => {
-            state.customerName = action.payload
-        },
-
-        setCustomerEmail: (state, action) => {
-            state.customerEmail = action.payload
-        },
-
-        setContact: (state, action) => {
-            state.contact = action.payload
-        },
-
-        setSalesRep: (state, action) => {
-            state.salesRep = action.payload
-        },
-
-        setPaymentTerms: (state, action) => {
-            state.paymentTerms = [...state.paymentTerms, action.payload]
-        },
-
         setSubTotal: (state, action) => {
             state.subTotal = action.payload
         },
@@ -142,10 +117,6 @@ export const useFormSlice = createSlice({
 
         setUseVAT: (state, action) => {
             state.useVAT = action.payload
-        },
-
-        deleteTerm: (state, action) => {
-            state.paymentTerms.splice(action.payload, 1)
         },
 
         deleteItem: (state, action) => {
@@ -175,16 +146,10 @@ export const {
     deleteItems,
     editItems,
     setNote,
-    setCustomerEmail,
-    setCustomerName,
-    setContact,
-    setSalesRep,
-    setPaymentTerms,
     setSubTotal,
     setVat,
     setTotal,
     setUseVAT,
-    deleteTerm,
     deleteItem,
     setSelectedTemplatePreview
 } = useFormSlice.actions
