@@ -12,10 +12,12 @@ export default StyleSheet.create({
         paddingHorizontal: 10
     },
 
-    backButton : {
+    backButton: {
         width: 45,
         height: 45,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: `${color.accent}40`,
+        borderRadius: 12
     }
 })
