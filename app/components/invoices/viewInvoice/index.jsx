@@ -13,6 +13,8 @@ const ViewInvoice = () => {
     const { viewInvoice } = useRoute().params
     const { navigate } = useNavigation()
 
+    // console
+
     const [newInvoiceState, setNewInvoiceState] = useState({ ...viewInvoice })
     const [totalCalculation, setTotalCalculation] = useState({})
 
