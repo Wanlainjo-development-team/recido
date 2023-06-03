@@ -29,9 +29,9 @@ const ViewInvoice = () => {
             }
 
             const formattedResult = {
-                subTotal: total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+                subTotal: total?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
                 totalVAT: 'N/A',
-                finalPrice: total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                finalPrice: total?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
             };
 
             resolve(formattedResult);
@@ -80,11 +80,11 @@ const ViewInvoice = () => {
                                                     </View>
                                                     <View style={itemsStyle.section2}>
                                                         <Text style={itemsStyle.groupOpacityText}>Quantity</Text>
-                                                        <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{(item?.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                                                        <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{(item?.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
                                                     </View>
                                                     <View style={itemsStyle.section3}>
                                                         <Text style={itemsStyle.groupOpacityText}>Unit Price</Text>
-                                                        <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{(item?.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                                                        <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{(item?.price)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
                                                     </View>
                                                 </TouchableOpacity>
 
