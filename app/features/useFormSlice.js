@@ -99,6 +99,10 @@ export const useFormSlice = createSlice({
                 state.items[action.payload.index] = action.payload.item
         },
 
+        updateItems: (state, action) => {
+            state.items = action.payload
+        },
+
         setNote: (state, action) => {
             state.note = action.payload
         },
@@ -145,6 +149,7 @@ export const {
     setItems,
     deleteItems,
     editItems,
+    updateItems,
     setNote,
     setSubTotal,
     setVat,

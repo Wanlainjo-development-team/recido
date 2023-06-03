@@ -48,14 +48,14 @@ const Invoices = () => {
         // Calculate the grand total by summing up the subtotals
         const grandTotal = subtotals.reduce((total, subtotal) => total + subtotal, 0);
 
-        return grandTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        return grandTotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     }
 
     return (
         <View style={styles.container}>
             {
                 invoiceList.slice(0, 25).map(item => (
-                    <TouchableOpacity key={item.id} onPress={() => navigate('ViewInvoice', { viewInvoice: item })} style={styles.list}>
+                    <TouchableOpacity key={item.id} onPress={() => navigate('Create', { viewInvoice: item })} style={styles.list}>
                         <View style={styles.left}>
                             <Text style={styles.boldText}>{item?.invoiceContact?.name}</Text>
                             <Text>#{item?.order}</Text>

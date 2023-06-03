@@ -92,9 +92,9 @@ export const IV1 = (profile, order, date, invoiceContact, items, subTotal, vat, 
                         <tr>
                             <td style="font-size: .8rem;">${item.name}</td>
                             <td style="font-size: .8rem;">${item.discription != '' ? item.discription : '...'}</td>
-                            <td style="font-size: .8rem;">${item.quantity ? item.quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
-                            <td style="font-size: .8rem;">$${item.price ? item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
-                            <td style="font-size: .8rem;">$${calculateSubtotal(item.price, item.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+                            <td style="font-size: .8rem;">${item.quantity ? item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
+                            <td style="font-size: .8rem;">$${item.price ? item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
+                            <td style="font-size: .8rem;">$${calculateSubtotal(item.price, item.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
                         </tr>
                         `
     }).join('')
@@ -105,15 +105,15 @@ export const IV1 = (profile, order, date, invoiceContact, items, subTotal, vat, 
             <table style="border: none;">
                 <tr>
                     <td style="border: none; width: 100px; font-size: .8rem; color: #0374E5;">Sub-Total</td>
-                    <td style="font-size: .8rem; text-align: right;">$${subTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                    <td style="font-size: .8rem; text-align: right;">$${subTotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                 </tr>
                 <tr>
                     <td style="border: none; width: 100px; font-size: .8rem; color: #0374E5;">VAT (${vat}%)</td>
-                    <td style="font-size: .8rem; text-align: right;">$${vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                    <td style="font-size: .8rem; text-align: right;">$${vat?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                 </tr>
                 <tr>
                     <td style="border: none; width: 100px; color: #0374E5; font-size: 1rem;">Total</td>
-                    <td style="font-size: 1rem; text-align: right;">$${total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+                    <td style="font-size: 1rem; text-align: right;">$${total?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                 </tr>
             </table>
         </div>

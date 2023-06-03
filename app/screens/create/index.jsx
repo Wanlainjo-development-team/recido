@@ -7,11 +7,26 @@ import Preview from './screens/preview'
 
 import Header from '../../components/Header'
 import color from '../../style/color'
+import { useRoute } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
+import { setInvoiceContact, setNote, setOrder, updateItems } from '../../features/useFormSlice'
+import { setDate } from '../../features/useFormSlice'
 
 
 const { Navigator, Screen } = createMaterialTopTabNavigator()
 
 const Create = () => {
+  const { viewInvoice } = useRoute().params
+  const dispatch = useDispatch()
+
+  if (viewInvoice == undefined || viewInvoice == null || viewInvoice == '') return
+
+  dispatch(setOrder(viewInvoice?.order))
+  dispatch(setDate(viewInvoice?.date))
+  dispatch(updateItems(viewInvoice?.items))
+  dispatch(setInvoiceContact(viewInvoice?.invoiceContact))
+  dispatch(setNote(viewInvoice?.note))
+
   return (
     <View style={{ flex: 1, backgroundColor: color.mainBackground }}>
       <Header screen='createInvoice' />

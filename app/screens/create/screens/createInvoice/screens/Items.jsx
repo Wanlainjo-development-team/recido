@@ -15,7 +15,7 @@ const Items = () => {
     const calculateDiscount = prop => {
         let price = prop?.price * prop?.quantity
 
-        return (price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        return (price)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     }
 
     return (
@@ -45,7 +45,7 @@ const Items = () => {
                             <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.discription)?.slice(0, 20)}</Text>
                         </View>
                         <View style={itemsStyle.groupRight}>
-                            <Text style={itemsStyle.groupOpacityText}>{(item?.quantity).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} x {(item?.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                            <Text style={itemsStyle.groupOpacityText}>{(item?.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} x {(item?.price)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
                             <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{calculateDiscount(item)}</Text>
                         </View>
                     </TouchableOpacity>
