@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, Alert } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 
 import { printToFileAsync } from 'expo-print';
@@ -9,7 +9,7 @@ import styles from './styles'
 
 import { useSelector } from 'react-redux';
 
-import { FontAwesome5 } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons } from '@expo/vector-icons';
 import color from '../../../../style/color';
 import { useNavigation } from '@react-navigation/native';
 import { IV1 } from './templates/IV1';
@@ -22,6 +22,8 @@ import { doc, onSnapshot } from "firebase/firestore"
 import { db } from '../../../../hooks/firebase'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
+
+import * as Print from 'expo-print'
 
 const PreviewInvoice = () => {
     const { order, date, invoiceContact, items, subTotal, vat, total, note } = useSelector(state => state.form)
@@ -69,9 +71,17 @@ const PreviewInvoice = () => {
 
             await shareAsync(uri)
         } catch (error) {
-            console.error('Error occurred while sharing PDF:', error)
+            Alert.alert('Error occurred while sharing PDF')
         }
     }
+
+    const handlePrint = async () => {
+        try {
+            await Print.selectPrinterAsync({ html });
+        } catch (error) {
+            Alert.alert('Failed to open printer screen');
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -79,6 +89,9 @@ const PreviewInvoice = () => {
             <View style={styles.bottom}>
                 <TouchableOpacity onPress={() => navigate('SelectTemplate', { templatesPreview })} style={styles.shareButton}>
                     <Text style={styles.shareButtonText}>Change template</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={handlePrint} style={styles.goBackBytton}>
+                    <Ionicons name="print-outline" size={24} color={color.accent} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={sharePDF} style={styles.goBackBytton}>
                     <FontAwesome5 name="paper-plane" size={24} color={color.accent} />

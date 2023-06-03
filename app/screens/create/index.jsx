@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import CreateInvoice from './screens/createInvoice'
 import Preview from './screens/preview'
 
@@ -11,9 +11,10 @@ import { useRoute } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
 import { setInvoiceContact, setNote, setOrder, updateItems } from '../../features/useFormSlice'
 import { setDate } from '../../features/useFormSlice'
+import { EvilIcons } from '@expo/vector-icons';
 
 
-const { Navigator, Screen } = createMaterialTopTabNavigator()
+const { Navigator, Screen } = createMaterialBottomTabNavigator()
 
 const Create = () => {
   const { viewInvoice } = useRoute().params
@@ -31,15 +32,29 @@ const Create = () => {
     <View style={{ flex: 1, backgroundColor: color.mainBackground }}>
       <Header screen='createInvoice' />
       <Navigator
-        tabBarPosition='bottom'
         screenOptions={{
-          tabBarStyle: {
-            backgroundColor: color.mainBackground,
-            elevation: 0
-          }
-        }}>
-        <Screen name='CreateNewInvoice' component={CreateInvoice} options={{ title: 'Create' }} />
-        <Screen name='PreviewNewInvoice' component={Preview} options={{ title: 'Preview' }} />
+          headerShown: false,
+        }}
+        barStyle={[
+          { backgroundColor: color.mainBackground }
+        ]}
+      >
+        <Screen
+          name='CreateNewInvoice'
+          component={CreateInvoice}
+          options={{
+            title: 'Invoice',
+            tabBarIcon: () => <EvilIcons name="pencil" size={26} color="black" />,
+          }}
+        />
+        <Screen
+          name='PreviewNewInvoice'
+          component={Preview}
+          options={{
+            title: 'Preview',
+            tabBarIcon: () => <EvilIcons name="eye" size={26} color="black" />,
+          }}
+        />
       </Navigator>
     </View>
   )
