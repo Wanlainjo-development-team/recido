@@ -37,35 +37,36 @@ const Create = () => {
     <View style={{ flex: 1, backgroundColor: color.mainBackground }}>
       <Header screen='createInvoice' />
       <Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-        barStyle={[
-          { backgroundColor: color.mainBackground }
-        ]}
+        barStyle={{ backgroundColor: color.mainBackground }}
+        activeColor={color.accent}
+        inactiveColor={`${color.black}40`}
+        shifting={true}
       >
         <Screen
           name='CreateNewInvoice'
           component={CreateInvoice}
           options={{
-            title: 'Invoice',
-            tabBarIcon: () => <EvilIcons name="pencil" size={26} color="black" />,
+            tabBarIcon: ({ color }) => <EvilIcons name="pencil" size={26} color={color} />,
+            tabBarActiveTintColor: color.accent,
+            title: 'Invoice'
           }}
         />
         <Screen
           name='PreviewNewInvoice'
           component={Preview}
           options={{
+            tabBarIcon: ({ color }) => <EvilIcons name="eye" size={26} color={color} />,
+            tabBarActiveTintColor: color.accent,
             title: 'Preview',
-            tabBarIcon: () => <EvilIcons name="eye" size={26} color="black" />,
           }}
         />
         <Screen
           name='SendInvoice'
           component={Send}
           options={{
+            tabBarIcon: ({ color }) => <Ionicons name="paper-plane-outline" size={20} color={color} />,
+            tabBarActiveTintColor: color.accent,
             title: 'Send',
-            tabBarIcon: () => <Ionicons name="paper-plane-outline" size={20} color="black" />
           }}
         />
       </Navigator>

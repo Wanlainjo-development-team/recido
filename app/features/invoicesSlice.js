@@ -5,6 +5,7 @@ export const useInvoicesSlice = createSlice({
     initialState: {
         invoiceList: [],
         invoiceId: null,
+        search: ''
     },
 
     reducers: {
@@ -14,6 +15,10 @@ export const useInvoicesSlice = createSlice({
 
         setInvoiceId: (state, action) => {
             state.invoiceId = action.payload
+        },
+
+        setSearch: (state, action) => {
+            state.search = action.payload
         }
     }
 })
@@ -21,7 +26,8 @@ export const useInvoicesSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
     setInvoiceList,
-    setInvoiceId
+    setInvoiceId,
+    setSearch
 } = useInvoicesSlice.actions
 
 export default useInvoicesSlice.reducer

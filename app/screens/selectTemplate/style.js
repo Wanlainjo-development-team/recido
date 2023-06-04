@@ -1,68 +1,74 @@
-import { StyleSheet, StatusBar } from "react-native";
-import color from "../../style/color";
-import { Dimensions } from "react-native";
+import { StyleSheet, StatusBar, Dimensions } from 'react-native';
+import color from '../../style/color';
 
-const { height, width } = Dimensions.get('window')
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
+export const imageWidth = windowWidth - 40;
 
 export default StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: StatusBar.currentHeight + 20,
         backgroundColor: `${color.black}20`,
-        justifyContent: 'flex-end'
+        justifyContent: 'center',
     },
-
     blank: {
-        flex: 1
+        flex: 1,
+        opacity: 0,
     },
-
     sheet: {
-        height: height - (StatusBar.currentHeight + 100),
+        height: (2 * windowHeight) / 3 + 100, // Add 100 to the height for extra height
         backgroundColor: color.mainBackground,
         borderTopLeftRadius: 30,
-        borderTopRightRadius: 30
+        borderTopRightRadius: 30,
+        paddingTop: 20,
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: -3,
+        },
+        shadowOpacity: 0.1,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
-
     head: {
-        minHeight: 50,
-        marginBottom: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 20
+        paddingHorizontal: 20,
+        marginBottom: 10,
     },
-
     headText: {
         fontSize: 20,
-        fontWeight: '600'
+        fontWeight: '600',
+        color: color.black,
     },
-
     backButton: {
         backgroundColor: `${color.accent}20`,
         height: 45,
         width: 45,
         borderRadius: 8,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
-
     imageButton: {
         backgroundColor: color.transparent,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 6,
-        },
-        shadowOpacity: 0.39,
-        shadowRadius: 8.30,
-        elevation: 13,
         marginHorizontal: 20,
-    },
-
-    image: {
         marginBottom: 20,
         borderRadius: 20,
-    }
-})
-
-export const imageWidth = width - 40
+        overflow: 'hidden',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    image: {
+        width: imageWidth,
+        height: imageWidth,
+    },
+});
