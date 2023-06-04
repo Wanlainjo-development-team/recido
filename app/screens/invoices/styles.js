@@ -8,6 +8,10 @@ export default StyleSheet.create({
         paddingHorizontal: 20
     },
 
+    scrollView: {
+        marginTop: 20
+    },
+
     floatingButton: {
         width: 60,
         height: 60,
@@ -26,5 +30,33 @@ export default StyleSheet.create({
         shadowOpacity: 0.37,
         shadowRadius: 7.49,
         elevation: 12,
+    },
+
+    head: {
+        height: 60,
+        backgroundColor: color.accent,
+        borderRadius: 12,
+        marginTop: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 10
+    },
+
+    input: {
+        flex: 1,
+        height: 45,
+        backgroundColor: color.darkAccent,
+        borderRadius: 10,
+        padding: 10,
+        color: color.white
+    },
+
+    searchConfigButton: {
+        width: 45,
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 10
     }
 })
