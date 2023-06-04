@@ -24,13 +24,6 @@ export default StyleSheet.create({
         fontSize: 12
     },
 
-    headButton: {
-        width: 45,
-        height: 45,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-
     headTextInput: {
         width: '100%',
         height: 50,
@@ -69,19 +62,6 @@ export default StyleSheet.create({
         marginBottom: 10
     },
 
-    sendButton: {
-        backgroundColor: color.accent,
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: 45,
-        borderRadius: 12
-    },
-
-    sendButtonText: {
-        color: color.white,
-        fontWeight: 600
-    },
-
     actionView: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -95,7 +75,7 @@ export default StyleSheet.create({
     actionButton: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: '25%'
+        width: '20%'
     },
 
     actionButtonText: {

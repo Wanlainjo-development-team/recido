@@ -1,20 +1,47 @@
 import { View, Text, TouchableOpacity, ScrollView, TextInput, Alert, Linking } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './styles'
 import { Ionicons, AntDesign, Fontisto } from '@expo/vector-icons';
 import * as MailComposer from 'expo-mail-composer'
 import { useSelector } from 'react-redux';
 import * as Contacts from 'expo-contacts'
+import { printToFileAsync } from 'expo-print';
+import { shareAsync } from 'expo-sharing';
+import { IV1 } from '../preview/templates/IV1';
+import { IV2 } from '../preview/templates/IV2';
+import { IV3 } from '../preview/templates/IV3';
+import { IV4 } from '../preview/templates/IV4';
+
+import * as Print from 'expo-print'
+import color from '../../../../style/color';
 
 const Send = () => {
   const { profile } = useSelector(state => state.user)
   const { invoiceId } = useSelector(state => state.invoices)
-  const { invoiceContact } = useSelector(state => state.form)
+  const { order, date, invoiceContact, items, subTotal, vat, total, note } = useSelector(state => state.form)
 
   const [email, setEmail] = useState('');
   const [emailList, setEmailList] = useState([]);
   const [emailMessage, setEmailMessage] = useState('Thank you for your bussiness.');
-  const [emailAmount, setEmailAmount] = useState(`Amount Due: $39,995.00`);
+  const [emailAmount, setEmailAmount] = useState(`Amount Due: $${total}`);
+
+  let html = ``
+
+  useEffect(() => { }, [
+    (() => {
+      switch (profile?.selectedTemplatePreview?.id) {
+        case 1: html = IV1(profile, order, date, invoiceContact, items, subTotal, vat, total, note)
+          break
+        case 2: html = IV2(profile, order, date, invoiceContact, items, subTotal, vat, total, note)
+          break
+        case 3: html = IV3(profile, order, date, invoiceContact, items, subTotal, vat, total, note)
+          break
+        case 4: html = IV4(profile, order, date, invoiceContact, items, subTotal, vat, total, note)
+          break
+        default: IV1(profile, order, date, invoiceContact, items, subTotal, vat, total, note)
+      }
+    })()
+  ])
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -71,8 +98,31 @@ const Send = () => {
 
     try {
       await Linking.openURL(smsUrl + bodyParam);
+      Alert.alert('Message sent successfully 🎉🎉')
     } catch (error) {
       console.log('Error opening SMS:', error);
+      Alert.alert('Error opening SMS:', error);
+    }
+  };
+
+  let sharePDF = async () => {
+    try {
+      let { uri } = await printToFileAsync({
+        html,
+        base64: false
+      })
+
+      await shareAsync(uri)
+    } catch (error) {
+      Alert.alert('Error occurred while sharing PDF')
+    }
+  }
+
+  const handlePrint = async () => {
+    try {
+      await Print.selectPrinterAsync({ html });
+    } catch (error) {
+      Alert.alert('Failed to open printer screen');
     }
   };
 
@@ -84,10 +134,6 @@ const Send = () => {
             <Text style={styles.headHeadingText}>Recipient</Text>
             <Text style={styles.headSubtitleText}>Use commas(,) for multiple recipient</Text>
           </View>
-
-          <TouchableOpacity style={styles.headButton}>
-            <Ionicons name="paper-plane-outline" size={20} color="black" />
-          </TouchableOpacity>
 
           <TextInput
             value={email}
@@ -116,29 +162,30 @@ const Send = () => {
         </View>
       </ScrollView>
 
-      <TouchableOpacity style={styles.sendButton}>
-        <Text style={styles.sendButtonText}>Send</Text>
-      </TouchableOpacity>
-
       <View style={styles.actionView}>
         <TouchableOpacity onPress={shareOnWhatsApp} style={styles.actionButton}>
-          <Ionicons name="logo-whatsapp" size={20} color="black" />
+          <Ionicons name="logo-whatsapp" size={20} color={color.black} />
           <Text style={styles.actionButtonText}>Whatsapp</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={shareAsSMS} style={styles.actionButton}>
-          <AntDesign name="message1" size={18} color="black" />
+          <AntDesign name="message1" size={18} color={color.black} />
           <Text style={styles.actionButtonText}>SMS</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={openMailComposer} style={styles.actionButton}>
-          <Fontisto name="email" size={18} color="black" />
+          <Fontisto name="email" size={18} color={color.black} />
           <Text style={styles.actionButtonText}>Email</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.actionButton}>
-          <AntDesign name="sharealt" size={18} color="black" />
+        <TouchableOpacity onPress={sharePDF} style={styles.actionButton}>
+          <AntDesign name="sharealt" size={18} color={color.black} />
           <Text style={styles.actionButtonText}>Share</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={handlePrint} style={styles.actionButton}>
+          <Ionicons name="print-outline" size={24} color={color.black} />
+          <Text style={styles.actionButtonText}>Print</Text>
         </TouchableOpacity>
       </View>
     </View>
