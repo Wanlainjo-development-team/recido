@@ -90,12 +90,12 @@ const PreviewInvoice = () => {
                 <TouchableOpacity onPress={() => navigate('SelectTemplate', { templatesPreview })} style={styles.shareButton}>
                     <Text style={styles.shareButtonText}>Change template</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={handlePrint} style={styles.goBackBytton}>
+                {/* <TouchableOpacity onPress={handlePrint} style={styles.goBackBytton}>
                     <Ionicons name="print-outline" size={24} color={color.accent} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={sharePDF} style={styles.goBackBytton}>
+                </TouchableOpacity> */}
+                {/* <TouchableOpacity onPress={sharePDF} style={styles.goBackBytton}>
                     <FontAwesome5 name="paper-plane" size={24} color={color.accent} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
     )
