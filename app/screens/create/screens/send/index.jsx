@@ -1,13 +1,15 @@
-import { View, Text, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, TextInput, Alert, Linking } from 'react-native'
 import React, { useState } from 'react'
 import styles from './styles'
 import { Ionicons, AntDesign, Fontisto } from '@expo/vector-icons';
 import * as MailComposer from 'expo-mail-composer'
 import { useSelector } from 'react-redux';
+import * as Contacts from 'expo-contacts'
 
 const Send = () => {
   const { profile } = useSelector(state => state.user)
   const { invoiceId } = useSelector(state => state.invoices)
+  const { invoiceContact } = useSelector(state => state.form)
 
   const [email, setEmail] = useState('');
   const [emailList, setEmailList] = useState([]);
@@ -41,6 +43,36 @@ const Send = () => {
       Alert.alert('Email sent successfully 🎉🎉')
     } else {
       Alert.alert('Device mailing is not available 😢😢');
+    }
+  };
+
+  const shareOnWhatsApp = async () => {
+    const message = `${emailMessage}\n${emailAmount}\n\nhttps://recidoshare.netlify.app/${profile?.id}/${invoiceId}`;
+
+    const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(message)}`;
+
+    try {
+      await Linking.openURL(whatsappUrl);
+
+      Alert.alert('Message sent successfully 🎉🎉')
+    } catch (error) {
+      console.log('Error opening WhatsApp:', error);
+      Alert.alert('Error opening WhatsApp');
+    }
+  };
+
+  const shareAsSMS = async () => {
+    const message = `${emailMessage}\n${emailAmount}\n\nhttps://recidoshare.netlify.app/${profile?.id}/${invoiceId}`;
+    const phoneNumber = invoiceContact.phoneNumbers[0].digits;
+
+    const smsUrl = `sms:${phoneNumber}`;
+    const encodedMessage = encodeURIComponent(message);
+    const bodyParam = encodedMessage ? `&body=${encodedMessage}` : '';
+
+    try {
+      await Linking.openURL(smsUrl + bodyParam);
+    } catch (error) {
+      console.log('Error opening SMS:', error);
     }
   };
 
@@ -89,12 +121,12 @@ const Send = () => {
       </TouchableOpacity>
 
       <View style={styles.actionView}>
-        <TouchableOpacity style={styles.actionButton}>
+        <TouchableOpacity onPress={shareOnWhatsApp} style={styles.actionButton}>
           <Ionicons name="logo-whatsapp" size={20} color="black" />
           <Text style={styles.actionButtonText}>Whatsapp</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.actionButton}>
+        <TouchableOpacity onPress={shareAsSMS} style={styles.actionButton}>
           <AntDesign name="message1" size={18} color="black" />
           <Text style={styles.actionButtonText}>SMS</Text>
         </TouchableOpacity>

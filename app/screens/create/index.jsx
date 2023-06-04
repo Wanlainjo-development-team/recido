@@ -31,6 +31,7 @@ const Create = () => {
   dispatch(setNote(viewInvoice?.note))
   dispatch(setInvoiceId(viewInvoice?.id))
 
+
   return (
     <View style={{ flex: 1, backgroundColor: color.mainBackground }}>
       <Header screen='createInvoice' />

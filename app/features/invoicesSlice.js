@@ -4,7 +4,7 @@ export const useInvoicesSlice = createSlice({
     name: 'invoices',
     initialState: {
         invoiceList: [],
-        invoiceId: null
+        invoiceId: null,
     },
 
     reducers: {
