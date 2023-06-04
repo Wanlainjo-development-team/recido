@@ -4,7 +4,7 @@ import color from "../../../../style/color";
 export default StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: StatusBar.currentHeight + 40,
+        paddingTop: StatusBar.currentHeight + 20,
         backgroundColor: color.mainBackground,
     },
 
@@ -27,7 +27,7 @@ export default StyleSheet.create({
 
     shareButton: {
         flex: 1,
-        height: 50,
+        height: 45,
         borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center',

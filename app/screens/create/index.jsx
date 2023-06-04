@@ -11,7 +11,9 @@ import { useRoute } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
 import { setInvoiceContact, setNote, setOrder, updateItems } from '../../features/useFormSlice'
 import { setDate } from '../../features/useFormSlice'
-import { EvilIcons } from '@expo/vector-icons';
+import { EvilIcons, Ionicons } from '@expo/vector-icons';
+import Send from './screens/send'
+import { setInvoiceId } from '../../features/invoicesSlice'
 
 
 const { Navigator, Screen } = createMaterialBottomTabNavigator()
@@ -20,13 +22,16 @@ const Create = () => {
   const { viewInvoice } = useRoute().params
   const dispatch = useDispatch()
 
-  if (viewInvoice == undefined || viewInvoice == null || viewInvoice == '') return
+  if (viewInvoice) {
+    dispatch(setOrder(viewInvoice?.order))
+    dispatch(setDate(viewInvoice?.date))
+    dispatch(updateItems(viewInvoice?.items))
+    dispatch(setInvoiceContact(viewInvoice?.invoiceContact))
+    dispatch(setNote(viewInvoice?.note))
+    dispatch(setInvoiceId(viewInvoice?.id))
+  }
 
-  dispatch(setOrder(viewInvoice?.order))
-  dispatch(setDate(viewInvoice?.date))
-  dispatch(updateItems(viewInvoice?.items))
-  dispatch(setInvoiceContact(viewInvoice?.invoiceContact))
-  dispatch(setNote(viewInvoice?.note))
+
 
   return (
     <View style={{ flex: 1, backgroundColor: color.mainBackground }}>
@@ -53,6 +58,14 @@ const Create = () => {
           options={{
             title: 'Preview',
             tabBarIcon: () => <EvilIcons name="eye" size={26} color="black" />,
+          }}
+        />
+        <Screen
+          name='SendInvoice'
+          component={Send}
+          options={{
+            title: 'Send',
+            tabBarIcon: () => <Ionicons name="paper-plane-outline" size={20} color="black" />
           }}
         />
       </Navigator>

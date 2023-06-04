@@ -5,9 +5,10 @@ import color from '../style/color'
 import Home from '../screens/home'
 import History from '../screens/history'
 
-import { Feather, Ionicons, Octicons } from '@expo/vector-icons'
+import { Feather, Ionicons, Octicons, FontAwesome5 } from '@expo/vector-icons'
 import { useDispatch } from 'react-redux'
 import { setActiveRoute } from '../features/userSlice'
+import Invoice from '../screens/invoices'
 
 const { Navigator, Screen } = createMaterialBottomTabNavigator()
 
@@ -36,17 +37,17 @@ const BottomNavigation = () => {
         })}
       />
       <Screen
-        name="History"
-        component={History}
+        name="Invoices"
+        component={Invoice}
         options={{
-          tabBarIcon: () => <Octicons name="history" size={24} color={color.accent} />,
-          title: 'History'
+          tabBarIcon: () => <FontAwesome5 name="file-invoice-dollar" size={24} color={color.accent} />,
+          title: 'Invoices'
         }}
         listeners={({ navigation }) => ({
           tabPress: e => {
             e.preventDefault()
-            navigation.jumpTo('History')
-            dispatch(setActiveRoute('History'))
+            navigation.jumpTo('Invoices')
+            dispatch(setActiveRoute('Invoices'))
           }
         })}
       />
