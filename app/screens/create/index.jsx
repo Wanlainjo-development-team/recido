@@ -22,14 +22,15 @@ const Create = () => {
   const { viewInvoice } = useRoute().params
   const dispatch = useDispatch()
 
-  if (viewInvoice == undefined || viewInvoice == null || viewInvoice == '') return
+  if (viewInvoice) {
+    dispatch(setOrder(viewInvoice?.order))
+    dispatch(setDate(viewInvoice?.date))
+    dispatch(updateItems(viewInvoice?.items))
+    dispatch(setInvoiceContact(viewInvoice?.invoiceContact))
+    dispatch(setNote(viewInvoice?.note))
+    dispatch(setInvoiceId(viewInvoice?.id))
+  }
 
-  dispatch(setOrder(viewInvoice?.order))
-  dispatch(setDate(viewInvoice?.date))
-  dispatch(updateItems(viewInvoice?.items))
-  dispatch(setInvoiceContact(viewInvoice?.invoiceContact))
-  dispatch(setNote(viewInvoice?.note))
-  dispatch(setInvoiceId(viewInvoice?.id))
 
 
   return (
