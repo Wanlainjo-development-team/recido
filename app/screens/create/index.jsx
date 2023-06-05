@@ -11,7 +11,7 @@ import { useRoute } from '@react-navigation/native'
 import { useDispatch } from 'react-redux'
 import { setInvoiceContact, setNote, setOrder, updateItems } from '../../features/useFormSlice'
 import { setDate } from '../../features/useFormSlice'
-import { EvilIcons, Ionicons } from '@expo/vector-icons';
+import { EvilIcons, Ionicons } from '@expo/vector-icons'
 import Send from './screens/send'
 import { setInvoiceId } from '../../features/invoicesSlice'
 

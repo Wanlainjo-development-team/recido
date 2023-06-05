@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, TextInput, Animated, Easing } from 'react-native'
+import { View, ScrollView, TouchableOpacity, TextInput, Animated, Easing } from 'react-native'
 import React, { useEffect } from 'react'
 
 import styles from './styles'
@@ -8,10 +8,8 @@ import Invoices from '../../components/invoices'
 import { Feather, Ionicons } from '@expo/vector-icons';
 import color from '../../style/color';
 import { useNavigation } from '@react-navigation/native';
-import { useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setInvoiceList, setSearch } from '../../features/invoicesSlice';
-import { useState } from 'react';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from '../../hooks/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -20,9 +18,7 @@ const Invoice = () => {
   const { navigate } = useNavigation()
   const dispatch = useDispatch()
 
-  const { invoiceList, search } = useSelector(state => state.invoices)
-
-  const [newInvoiceList, setNewInvoiceList] = useState([])
+  const { search } = useSelector(state => state.invoices)
 
   const rotationValue = new Animated.Value(0)
 
@@ -57,7 +53,7 @@ const Invoice = () => {
             ...doc.data(),
           });
         });
-        setNewInvoiceList(invoices);
+
         dispatch(setInvoiceList(invoices));
       });
 

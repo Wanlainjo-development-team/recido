@@ -3,21 +3,21 @@ import React, { useState, useRef } from 'react'
 import { StatusBar } from 'expo-status-bar'
 
 // Colors
-import color from '../style/color';
+import color from '../style/color'
 
 // style
-import nav from '../style/navigation';
-import { header } from '../style/header';
+import nav from '../style/navigation'
+import { header } from '../style/header'
 
 // icons
 import { AntDesign, Feather, FontAwesome, Ionicons, SimpleLineIcons, Octicons, FontAwesome5 } from '@expo/vector-icons'
 
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
-import BottomNavigation from './BottomNavigation';
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigation } from '@react-navigation/native'
+import BottomNavigation from './BottomNavigation'
 
 import { setActiveRoute, setAuth, setUser } from '../features/userSlice'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const { width } = Dimensions.get('window')
 

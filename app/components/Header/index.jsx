@@ -2,14 +2,14 @@ import { View, Text, TouchableOpacity, ActivityIndicator, Alert } from 'react-na
 import React from 'react'
 import style from './style'
 
-import { AntDesign } from '@expo/vector-icons';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
-import color from '../../style/color';
+import { AntDesign } from '@expo/vector-icons'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
+import { useState } from 'react'
+import color from '../../style/color'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { db } from '../../hooks/firebase';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
+import { db } from '../../hooks/firebase'
 
 const Header = ({ screen }) => {
     const navigation = useNavigation()

@@ -3,9 +3,9 @@ import React, { useState } from 'react'
 import { Platform } from 'react-native'
 import style from './style'
 
-import { MaterialIcons } from '@expo/vector-icons';
-import color from '../../style/color';
-import { useNavigation } from '@react-navigation/native';
+import { MaterialIcons } from '@expo/vector-icons'
+import color from '../../style/color'
+import { useNavigation } from '@react-navigation/native'
 
 const ForgotPassword = () => {
   const navigation = useNavigation()
