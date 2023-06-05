@@ -1,6 +1,7 @@
 export default {
     mainBackground: '#EBEBEB',
     accent: '#4169e1',
+    darkAccent: '#365ed6',
     topAccent: '#BF54F6',
     accentLighten1: '#F9E6F5',
     white: '#FFFFFF',

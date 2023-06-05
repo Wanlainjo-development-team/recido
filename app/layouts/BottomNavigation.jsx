@@ -3,7 +3,6 @@ import React from 'react'
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import color from '../style/color'
 import Home from '../screens/home'
-import History from '../screens/history'
 
 import { Feather, Ionicons, Octicons, FontAwesome5 } from '@expo/vector-icons'
 import { useDispatch } from 'react-redux'
