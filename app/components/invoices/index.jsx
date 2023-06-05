@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
 import { db } from '../../hooks/firebase'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setInvoiceList } from '../../features/invoicesSlice'
 import { useState } from 'react'
 import styles from './styles'
@@ -12,6 +12,8 @@ import { useNavigation } from '@react-navigation/native'
 const Invoices = ({ numOfClice }) => {
     const dispatch = useDispatch()
     const { navigate } = useNavigation()
+
+    const { search } = useSelector(state => state.invoices)
 
     const [invoiceList, setNewInvoiceList] = useState([])
 
@@ -51,6 +53,10 @@ const Invoices = ({ numOfClice }) => {
         return grandTotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     }
 
+    const filteredInvoices = invoiceList.filter((item) =>
+        item?.order?.includes(search)
+    );
+
     const list = item => (
         <TouchableOpacity key={item.id} onPress={() => navigate('Create', { viewInvoice: item })} style={styles.list}>
             <View style={styles.left}>
@@ -71,14 +77,14 @@ const Invoices = ({ numOfClice }) => {
                     numOfClice ?
                         <>
                             {
-                                invoiceList.slice(0, 25).map(item => (
+                                filteredInvoices.slice(0, 25).map(item => (
                                     list(item)
                                 ))
                             }
                         </> :
                         <>
                             {
-                                invoiceList.map(item => (
+                                filteredInvoices.map(item => (
                                     list(item)
                                 ))
                             }

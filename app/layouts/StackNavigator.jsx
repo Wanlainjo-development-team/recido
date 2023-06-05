@@ -84,9 +84,21 @@ const StackNavigator = () => {
                         <Screen name='Items' component={Items} options={{ gestureEnabled: true }} />
                         <Screen name='CreateItem' component={CreateItem} options={{ gestureEnabled: true }} />
                         <Screen name='Note' component={Note} options={{ gestureEnabled: true }} />
-                        <Group screenOptions={{ presentation: 'transparentModal' }}>
+                        <Group
+                            screenOptions={{
+                                ...TransitionPresets.ModalSlideFromBottomIOS,
+                                presentation: 'transparentModal',
+                                headerStatusBarHeight: 0, // Set the header status bar height to 0 to hide it
+                                headerStyleInterpolator: ({ current }) => ({
+                                    containerStyle: {
+                                        opacity: current.progress, // Fade out the screen based on the progress of the gesture
+                                    },
+                                }),
+                            }}
+                        >
                             <Screen name='SelectTemplate' component={SelectTemplate} options={{ gestureEnabled: true }} />
                         </Group>
+
                     </>
                 ) : (
                     <Group>

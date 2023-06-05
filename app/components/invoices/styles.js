@@ -1,5 +1,5 @@
-import { StyleSheet, StatusBar } from "react-native";
-import color from "../../style/color";
+import { StyleSheet, StatusBar } from "react-native"
+import color from "../../style/color"
 
 export default StyleSheet.create({
     container: {

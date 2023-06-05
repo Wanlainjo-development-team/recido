@@ -16,15 +16,17 @@ const BottomNavigation = () => {
 
   return (
     <Navigator
-      barStyle={[
-        { backgroundColor: color.mainBackground }
-      ]}
+      barStyle={{ backgroundColor: color.mainBackground }}
+      activeColor={color.accent}
+      inactiveColor={`${color.black}40`}
+      shifting={true}
     >
       <Screen
         name="Home"
         component={Home}
         options={{
-          tabBarIcon: () => <Feather name="home" size={24} color={color.accent} />,
+          tabBarIcon: ({ color }) => <Feather name="home" size={24} color={color} />,
+          tabBarActiveTintColor: color.accent,
           title: 'Home'
         }}
         listeners={({ navigation }) => ({
@@ -39,7 +41,8 @@ const BottomNavigation = () => {
         name="Invoices"
         component={Invoice}
         options={{
-          tabBarIcon: () => <FontAwesome5 name="file-invoice-dollar" size={24} color={color.accent} />,
+          tabBarIcon: ({ color }) => <FontAwesome5 name="file-invoice-dollar" size={24} color={color} />,
+          tabBarActiveTintColor: color.accent,
           title: 'Invoices'
         }}
         listeners={({ navigation }) => ({
