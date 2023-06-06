@@ -47,6 +47,26 @@ export default StyleSheet.create({
         paddingHorizontal: 20
     },
 
+    bodySortByButton: {
+        height: 45,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: `${color.accent}40`,
+        marginTop: 10
+    },
+
+    bodySortByButtonTitle: {
+        fontWeight: '600'
+    },
+
+    bodySortByButtonText: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end'
+    },
+
     modalView: {
         width: width - 40,
         backgroundColor: color.mainBackground,

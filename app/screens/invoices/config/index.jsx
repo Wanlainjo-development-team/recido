@@ -75,8 +75,12 @@ const InvoiceSearchConfig = () => {
         </View>
 
         <View style={styles.body}>
-          <TouchableOpacity onPress={() => setModalVisible(true)}>
-            <Text>Sort by: </Text>
+          <TouchableOpacity style={styles.bodySortByButton} onPress={() => setModalVisible(true)}>
+            <Text style={styles.bodySortByButtonTitle}>Order invoice by</Text>
+            <Text style={styles.bodySortByButtonText}>
+              <AntDesign name={profile?.orderBy == 'asc' ? 'arrowup' : 'arrowdown'} size={20} color="black" />
+              {profile?.orderBy == 'asc' ? 'Ascending order' : 'Descending order'}
+            </Text>
           </TouchableOpacity>
           {sortModal()}
         </View>
