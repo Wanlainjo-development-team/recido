@@ -73,7 +73,7 @@ const Invoice = () => {
       <View style={styles.head}>
         <TextInput placeholder='Search...' style={styles.input} value={search} onChangeText={handleSearch} placeholderTextColor={color.mainBackground} />
 
-        <TouchableOpacity style={styles.searchConfigButton}>
+        <TouchableOpacity onPress={() => navigate('InvoiceSearchConfig')} style={styles.searchConfigButton}>
           <Animated.View style={{ transform: [{ rotate: rotationValue.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}>
             <Ionicons name="cog" size={24} color={color.white} />
           </Animated.View>

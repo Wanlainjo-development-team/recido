@@ -1,5 +1,5 @@
-import { StyleSheet, StatusBar, Dimensions } from 'react-native';
-import color from '../../style/color';
+import { StyleSheet, StatusBar, Dimensions } from "react-native";
+import color from "../../../style/color";
 
 const { width, height } = Dimensions.get('window')
 
@@ -8,28 +8,19 @@ export const imageWidth = width - 40;
 export default StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: StatusBar.currentHeight + 20,
-        backgroundColor: `${color.black}20`,
-        justifyContent: 'center',
     },
     blank: {
         flex: 1,
         opacity: 0,
     },
     sheet: {
-        height: (2 * height) / 3 + 100, // Add 100 to the height for extra height
-        backgroundColor: color.mainBackground,
+        height: (2 * height) / 3 + 100,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         paddingTop: 20,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: -3,
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 3.84,
-        elevation: 5,
+        borderTopRightRadius: 40,
+        borderTopLeftRadius: 40,
+        overflow: 'hidden'
     },
     head: {
         flexDirection: 'row',
@@ -51,13 +42,17 @@ export default StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    imageButton: {
-        backgroundColor: color.transparent,
-        marginHorizontal: 20,
-        marginBottom: 20,
+
+    body: {
+        paddingHorizontal: 20
+    },
+
+    modalView: {
+        width: width - 40,
+        backgroundColor: color.mainBackground,
         borderRadius: 20,
-        overflow: 'hidden',
-        shadowColor: '#000',
+        padding: 20,
+        shadowColor: color.accent,
         shadowOffset: {
             width: 0,
             height: 2,
@@ -66,8 +61,28 @@ export default StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
     },
-    image: {
-        width: imageWidth,
-        height: imageWidth,
+
+    modalViewHead: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
-});
+
+    modalViewHeadText: {
+        fontWeight: '600'
+    },
+
+    modalButton: {
+        height: 45,
+        backgroundColor: `${color.accent}20`,
+        marginTop: 10,
+        borderRadius: 12,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    modalButtonText: {
+        color: color.accent,
+        fontWeight: '600'
+    }
+})

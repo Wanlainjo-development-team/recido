@@ -29,6 +29,7 @@ import Countries from '../screens/create/screens/createInvoice/screens/Countries
 import Items from '../screens/create/screens/createInvoice/screens/Items'
 import CreateItem from '../screens/create/screens/createInvoice/screens/CreateItem'
 import Note from '../screens/create/screens/createInvoice/screens/Note'
+import InvoiceSearchConfig from '../screens/invoices/config'
 
 const StackNavigator = () => {
     const navigation = useNavigation()
@@ -97,6 +98,7 @@ const StackNavigator = () => {
                             }}
                         >
                             <Screen name='SelectTemplate' component={SelectTemplate} options={{ gestureEnabled: true }} />
+                            <Screen name='InvoiceSearchConfig' component={InvoiceSearchConfig} options={{ gestureEnabled: true }} />
                         </Group>
 
                     </>
