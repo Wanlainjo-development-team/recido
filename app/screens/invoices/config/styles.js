@@ -20,7 +20,7 @@ export default StyleSheet.create({
         paddingTop: 20,
         borderTopRightRadius: 40,
         borderTopLeftRadius: 40,
-        overflow: 'hidden'
+        overflow: 'hidden',
     },
     head: {
         flexDirection: 'row',
@@ -54,7 +54,7 @@ export default StyleSheet.create({
         alignItems: 'center',
         borderBottomWidth: 1,
         borderBottomColor: `${color.accent}40`,
-        marginTop: 10
+        marginTop: 20
     },
 
     bodySortByButtonTitle: {
@@ -64,7 +64,14 @@ export default StyleSheet.create({
     bodySortByButtonText: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        backgroundColor: `${color.accent}40`,
+        padding: 5,
+        borderRadius: 8,
+        fontSize: 12,
+        fontWeight: '600',
+        overflow: 'hidden',
+        color: color.accent
     },
 
     modalView: {

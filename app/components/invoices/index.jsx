@@ -22,7 +22,7 @@ const Invoices = ({ numOfClice }) => {
         (async () => {
             const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
 
-            const q = query(collection(db, "users", id, 'invoices'), orderBy('createdAt', profile?.orderBy == undefined ? 'desc' : profile?.orderBy))
+            const q = query(collection(db, "users", id, 'invoices'), orderBy(profile?.sortBy ? profile?.sortBy : 'createdAt', profile?.orderBy == undefined ? 'desc' : profile?.orderBy))
 
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
                 let invoices = []
