@@ -71,7 +71,7 @@ const Invoice = () => {
   return (
     <View style={styles.container}>
       <View style={styles.head}>
-        <TextInput placeholder='Search...' style={styles.input} value={search} onChangeText={handleSearch} placeholderTextColor={color.mainBackground} />
+        <TextInput placeholder='Search invoice number...' style={styles.input} value={search} onChangeText={handleSearch} placeholderTextColor={color.mainBackground} />
 
         <TouchableOpacity onPress={() => navigate('InvoiceSearchConfig')} style={styles.searchConfigButton}>
           <Animated.View style={{ transform: [{ rotate: rotationValue.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}>

@@ -14,7 +14,7 @@ export default StyleSheet.create({
         opacity: 0,
     },
     sheet: {
-        height: (2 * height) / 3 + 100,
+        // height: (2 * height) / 3 + 100,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         paddingTop: 20,
@@ -103,6 +103,21 @@ export default StyleSheet.create({
 
     modalButtonText: {
         color: color.accent,
+        fontWeight: '600'
+    },
+
+    doneButton: {
+        backgroundColor: color.accent,
+        borderRadius: 12,
+        marginBottom: 10,
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20
+    },
+
+    doneButtonText: {
+        color: color.white,
         fontWeight: '600'
     }
 })
