@@ -14,6 +14,7 @@ const Invoices = ({ numOfClice }) => {
     const { navigate } = useNavigation()
 
     const { search } = useSelector(state => state.invoices)
+    const { profile } = useSelector(state => state.user)
 
     const [invoiceList, setNewInvoiceList] = useState([])
 
@@ -21,7 +22,7 @@ const Invoices = ({ numOfClice }) => {
         (async () => {
             const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
 
-            const q = query(collection(db, "users", id, 'invoices'), orderBy('createdAt', 'desc'))
+            const q = query(collection(db, "users", id, 'invoices'), orderBy('createdAt', profile?.orderBy == undefined ? 'desc' : profile?.orderBy))
 
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
                 let invoices = []
@@ -37,7 +38,7 @@ const Invoices = ({ numOfClice }) => {
 
             return unsubscribe
         })()
-    }, [])
+    }, [profile])
 
     const calculateTotal = prop => {
 

@@ -1,10 +1,9 @@
 import { StyleSheet, StatusBar, Dimensions } from 'react-native';
 import color from '../../style/color';
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+const { width, height } = Dimensions.get('window')
 
-export const imageWidth = windowWidth - 40;
+export const imageWidth = width - 40;
 
 export default StyleSheet.create({
     container: {
@@ -18,7 +17,7 @@ export default StyleSheet.create({
         opacity: 0,
     },
     sheet: {
-        height: (2 * windowHeight) / 3 + 100, // Add 100 to the height for extra height
+        height: (2 * height) / 3 + 100, // Add 100 to the height for extra height
         backgroundColor: color.mainBackground,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
@@ -48,7 +47,7 @@ export default StyleSheet.create({
         backgroundColor: `${color.accent}20`,
         height: 45,
         width: 45,
-        borderRadius: 8,
+        borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center',
     },
