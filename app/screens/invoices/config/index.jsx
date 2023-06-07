@@ -21,13 +21,30 @@ const InvoiceSearchConfig = () => {
 
   const [orderModalVisible, setOrderModalVisible] = useState(false)
   const [sortModalVisible, setSortModalVisible] = useState(false)
+  const [searchModalVisible, setSearchModalVisible] = useState(false)
 
-  const fetchInvoices = async (prop) => {
+  const updateUserOrderBy = async (prop) => {
     const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
 
     await updateDoc(doc(db, 'users', id), { orderBy: prop })
 
     setOrderModalVisible(false)
+  }
+
+  const updateUserSortBy = async (prop) => {
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+    await updateDoc(doc(db, 'users', id), { sortBy: prop })
+
+    setSortModalVisible(false)
+  }
+
+  const updateUserSearchBy = async (prop) => {
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+    await updateDoc(doc(db, 'users', id), { searchBy: prop })
+
+    setSearchModalVisible(false)
   }
 
   const oederModal = () => <Modal
@@ -41,7 +58,7 @@ const InvoiceSearchConfig = () => {
     <BlurView intensity={50} style={{ ...styles.container, justifyContent: 'center', alignItems: 'center' }}>
       <View style={styles.modalView}>
         <View style={styles.modalViewHead}>
-          <Text style={styles.modalViewHeadText}>Order invoice by</Text>
+          <Text style={styles.modalViewHeadText}>Order invoices by</Text>
 
           <TouchableOpacity
             style={{ ...styles.backButton, height: 40, width: 40 }}
@@ -51,11 +68,11 @@ const InvoiceSearchConfig = () => {
         </View>
 
         <View style={styles.modalViewBody}>
-          <TouchableOpacity onPress={() => fetchInvoices('asc')} style={{ ...styles.modalButton, backgroundColor: profile?.orderBy == 'asc' ? color.accent : `${color.accent}20` }}>
+          <TouchableOpacity onPress={() => updateUserOrderBy('asc')} style={{ ...styles.modalButton, backgroundColor: profile?.orderBy == 'asc' ? color.accent : `${color.accent}20` }}>
             <Text style={{ ...styles.modalButtonText, color: profile?.orderBy == 'asc' ? color.white : color.accent }}>Ascending order</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => fetchInvoices('desc')} style={{ ...styles.modalButton, backgroundColor: profile?.orderBy == 'desc' ? color.accent : `${color.accent}20` }}>
+          <TouchableOpacity onPress={() => updateUserOrderBy('desc')} style={{ ...styles.modalButton, backgroundColor: profile?.orderBy == 'desc' ? color.accent : `${color.accent}20` }}>
             <Text style={{ ...styles.modalButtonText, color: profile?.orderBy == 'desc' ? color.white : color.accent }}>Descending order</Text>
           </TouchableOpacity>
         </View>
@@ -74,7 +91,7 @@ const InvoiceSearchConfig = () => {
     <BlurView intensity={50} style={{ ...styles.container, justifyContent: 'center', alignItems: 'center' }}>
       <View style={styles.modalView}>
         <View style={styles.modalViewHead}>
-          <Text style={styles.modalViewHeadText}>Order invoice by</Text>
+          <Text style={styles.modalViewHeadText}>Sort invoices by</Text>
 
           <TouchableOpacity
             style={{ ...styles.backButton, height: 40, width: 40 }}
@@ -84,12 +101,49 @@ const InvoiceSearchConfig = () => {
         </View>
 
         <View style={styles.modalViewBody}>
-          <TouchableOpacity onPress={() => fetchInvoices('asc')} style={{ ...styles.modalButton, backgroundColor: profile?.orderBy == 'asc' ? color.accent : `${color.accent}20` }}>
-            <Text style={{ ...styles.modalButtonText, color: profile?.orderBy == 'asc' ? color.white : color.accent }}>Ascending order</Text>
+          <TouchableOpacity onPress={() => updateUserSortBy('createdAt')} style={{ ...styles.modalButton, backgroundColor: profile?.sortBy == 'createdAt' ? color.accent : `${color.accent}20` }}>
+            <Text style={{ ...styles.modalButtonText, color: profile?.sortBy == 'createdAt' ? color.white : color.accent }}>Date created</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => fetchInvoices('desc')} style={{ ...styles.modalButton, backgroundColor: profile?.orderBy == 'desc' ? color.accent : `${color.accent}20` }}>
-            <Text style={{ ...styles.modalButtonText, color: profile?.orderBy == 'desc' ? color.white : color.accent }}>Descending order</Text>
+          <TouchableOpacity onPress={() => updateUserSortBy('invoiceId')} style={{ ...styles.modalButton, backgroundColor: profile?.sortBy == 'invoiceId' ? color.accent : `${color.accent}20` }}>
+            <Text style={{ ...styles.modalButtonText, color: profile?.sortBy == 'invoiceId' ? color.white : color.accent }}>Invoice number</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => updateUserSortBy('invoiceContact.name')} style={{ ...styles.modalButton, backgroundColor: profile?.sortBy == 'invoiceContact.name' ? color.accent : `${color.accent}20` }}>
+            <Text style={{ ...styles.modalButtonText, color: profile?.sortBy == 'invoiceContact.name' ? color.white : color.accent }}>Customer name</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </BlurView>
+  </Modal>
+
+  const searchModal = () => <Modal
+    animationType='fade'
+    transparent={true}
+    visible={searchModalVisible}
+    onRequestClose={() => {
+      Alert.alert('Modal has been closed.');
+      setSearchModalVisible(!searchModalVisible);
+    }}>
+    <BlurView intensity={50} style={{ ...styles.container, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={styles.modalView}>
+        <View style={styles.modalViewHead}>
+          <Text style={styles.modalViewHeadText}>Search invoices by</Text>
+
+          <TouchableOpacity
+            style={{ ...styles.backButton, height: 40, width: 40 }}
+            onPress={() => setSearchModalVisible(!searchModalVisible)}>
+            <AntDesign name="close" size={24} color={color.accent} />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.modalViewBody}>
+          <TouchableOpacity onPress={() => updateUserSearchBy('invoiceId')} style={{ ...styles.modalButton, backgroundColor: profile?.searchBy == 'invoiceId' ? color.accent : `${color.accent}20` }}>
+            <Text style={{ ...styles.modalButtonText, color: profile?.searchBy == 'invoiceId' ? color.white : color.accent }}>Invoice number</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => updateUserSearchBy('invoiceContact.name')} style={{ ...styles.modalButton, backgroundColor: profile?.searchBy == 'invoiceContact.name' ? color.accent : `${color.accent}20` }}>
+            <Text style={{ ...styles.modalButtonText, color: profile?.searchBy == 'invoiceContact.name' ? color.white : color.accent }}>Customer name</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -111,23 +165,30 @@ const InvoiceSearchConfig = () => {
         </View>
 
         <View style={styles.body}>
+          <TouchableOpacity style={styles.bodySortByButton} onPress={() => setSearchModalVisible(true)}>
+            <Text style={styles.bodySortByButtonTitle}>Search invoice for?</Text>
+            <Text style={styles.bodySortByButtonText}>
+              {profile?.searchBy == 'invoiceContact.name' ? 'Customer name' : 'Invoice number'}
+            </Text>
+          </TouchableOpacity>
+
           <TouchableOpacity style={styles.bodySortByButton} onPress={() => setOrderModalVisible(true)}>
             <Text style={styles.bodySortByButtonTitle}>Order invoice by</Text>
             <Text style={styles.bodySortByButtonText}>
-              <AntDesign name={profile?.orderBy == 'asc' ? 'arrowup' : 'arrowdown'} size={20} color="black" />
+              <AntDesign name={profile?.orderBy == 'asc' ? 'arrowup' : 'arrowdown'} size={15} color={color.accent} />
               {profile?.orderBy == 'asc' ? 'Ascending order' : 'Descending order'}
             </Text>
           </TouchableOpacity>
 
-          {/* <TouchableOpacity style={styles.bodySortByButton} onPress={() => setOrderModalVisible(true)}>
+          <TouchableOpacity style={styles.bodySortByButton} onPress={() => setSortModalVisible(true)}>
             <Text style={styles.bodySortByButtonTitle}>Sort invoice by</Text>
             <Text style={styles.bodySortByButtonText}>
-              <AntDesign name={profile?.orderBy == 'asc' ? 'arrowup' : 'arrowdown'} size={20} color="black" />
-              {profile?.orderBy == 'asc' ? 'Ascending order' : 'Descending order'}
+              {profile?.sortBy ? (profile?.sortBy == 'invoiceId' ? 'Invoice number' : profile?.sortBy == 'createdAt' ? 'Date created' : 'Customer name') : 'Date created'}
             </Text>
-          </TouchableOpacity> */}
+          </TouchableOpacity>
           {oederModal()}
           {sortModal()}
+          {searchModal()}
 
           <TouchableOpacity style={styles.doneButton}>
             <Text style={styles.doneButtonText}>Done</Text>

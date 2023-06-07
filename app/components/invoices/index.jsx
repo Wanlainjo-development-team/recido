@@ -22,7 +22,7 @@ const Invoices = ({ numOfClice }) => {
         (async () => {
             const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
 
-            const q = query(collection(db, "users", id, 'invoices'), orderBy('createdAt', profile?.orderBy == undefined ? 'desc' : profile?.orderBy))
+            const q = query(collection(db, "users", id, 'invoices'), orderBy(profile?.sortBy ? profile?.sortBy : 'createdAt', profile?.orderBy == undefined ? 'desc' : profile?.orderBy))
 
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
                 let invoices = []
@@ -54,15 +54,28 @@ const Invoices = ({ numOfClice }) => {
         return grandTotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     }
 
-    const filteredInvoices = invoiceList.filter((item) =>
-        item?.order?.includes(search)
-    );
+    const filteredInvoices = invoiceList.filter((item) => {
+        if (profile.searchBy)
+            switch (profile.searchBy) {
+                case 'invoiceId': return item?.invoiceId?.includes(search)
+                    break;
+
+                case 'invoiceContact.name': return item?.invoiceContact.name?.includes(search)
+                    break;
+
+                default: return item?.invoiceId?.includes(search)
+                    break;
+            }
+
+        else
+            item?.invoiceId?.includes(search)
+    });
 
     const list = item => (
         <TouchableOpacity key={item.id} onPress={() => navigate('Create', { viewInvoice: item })} style={styles.list}>
             <View style={styles.left}>
                 <Text style={styles.boldText}>{item?.invoiceContact?.name}</Text>
-                <Text>#{item?.order}</Text>
+                <Text>#{item?.invoiceId}</Text>
             </View>
             <View style={styles.right}>
                 <Text style={styles.boldText}>{new Date(item?.date).toDateString()}</Text>

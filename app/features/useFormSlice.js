@@ -4,8 +4,8 @@ export const useFormSlice = createSlice({
     name: 'form',
     initialState: {
         // for setting invoice starts here
-        order: `${(Math.floor(Math.random() * 900000) + 100000)}`,
-        date: `${new Date('2023-09-22')}`,
+        invoiceId: `${(Math.floor(Math.random() * 900000) + 100000)}`,
+        date: `${new Date()}`,
         // for setting invoice ends here
 
 
@@ -38,8 +38,8 @@ export const useFormSlice = createSlice({
         selectedTemplatePreview: null
     },
     reducers: {
-        setOrder: (state, action) => {
-            state.order = action.payload
+        setInvoiceId: (state, action) => {
+            state.invoiceId = action.payload
         },
 
         setDate: (state, action) => {
@@ -135,7 +135,7 @@ export const useFormSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-    setOrder,
+    setInvoiceId,
     setDate,
     setInvoiceContact,
     setCity,

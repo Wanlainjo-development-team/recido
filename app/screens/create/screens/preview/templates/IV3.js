@@ -1,6 +1,6 @@
 const calculateSubtotal = (price, quantity) => price * quantity
 
-export const IV3 = (profile, order, date, invoiceContact, items, subTotal, vat, total, note) => {
+export const IV3 = (profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note) => {
   const html = `
 <html lang="en">
 
@@ -228,7 +228,7 @@ export const IV3 = (profile, order, date, invoiceContact, items, subTotal, vat, 
         <div class="email" style="display: ${invoiceContact?.email ? 'initial' : 'none'}"><a href="mailto:${invoiceContact?.email}">${invoiceContact?.email}</a></div>
       </div>
       <div id="invoice">
-        <h1>INVOICE ${order}</h1>
+        <h1>INVOICE ${invoiceId}</h1>
         <div class="date">Date of Invoice: ${new Date(date).toDateString()}</div>
       </div>
     </div>
@@ -247,7 +247,7 @@ export const IV3 = (profile, order, date, invoiceContact, items, subTotal, vat, 
     return `
                         <tr>
                         <td class="no">${item.name}</td>
-                        <td class="desc">${item.discription ? item.discription : '...'}</td>
+                        <td class="desc">${item.description ? item.description : '...'}</td>
                         <td class="unit">${item.quantity ? item.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
                         <td class="qty">$${item.price ? item.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
                         <td class="total">$${calculateSubtotal(item.price, item.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>

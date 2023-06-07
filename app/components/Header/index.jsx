@@ -16,7 +16,7 @@ const Header = ({ screen }) => {
     const { profile } = useSelector(state => state.user)
 
     const {
-        order,
+        invoiceId,
         date,
         invoiceContact,
         city,
@@ -40,7 +40,7 @@ const Header = ({ screen }) => {
         setLoading(true)
 
         await addDoc(collection(db, 'users', id, 'invoices'), {
-            order,
+            invoiceId,
             date,
             invoiceContact,
             city,
@@ -58,7 +58,7 @@ const Header = ({ screen }) => {
         })
 
         await addDoc(collection(db, 'users', id, 'inventory'), {
-            order,
+            invoiceId,
             date,
             invoiceContact,
             city,
@@ -77,7 +77,7 @@ const Header = ({ screen }) => {
 
         await addDoc(collection(db, 'users', id, 'customers'), {
             ...invoiceContact,
-            order,
+            invoiceId,
             city,
             state,
             zip,
@@ -96,16 +96,16 @@ const Header = ({ screen }) => {
                 <AntDesign name="back" size={22} color={color.accent} />
             </TouchableOpacity>
 
-            {/* {
+            {
                 screen == 'createInvoice' &&
-                <TouchableOpacity onPress={saveInvoice} style={{ paddingHorizontal: 10, height: 40, backgroundColor: color.accent, borderRadius: 8, justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity onPress={saveInvoice} style={{ paddingHorizontal: 10, height: 40, backgroundColor: color.accent, binvoiceIdRadius: 8, justifyContent: 'center', alignItems: 'center', borderRadius: 12 }}>
                     {
                         loading ?
                             <ActivityIndicator color={color.white} size='small' /> :
                             <Text style={{ fontWeight: '600', color: color.white }}>Save</Text>
                     }
                 </TouchableOpacity>
-            } */}
+            }
         </View>
     )
 }

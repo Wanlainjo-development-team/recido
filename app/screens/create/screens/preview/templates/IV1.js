@@ -1,6 +1,6 @@
 const calculateSubtotal = (price, quantity) => price * quantity
 
-export const IV1 = (profile, order, date, invoiceContact, items, subTotal, vat, total, note) => {
+export const IV1 = (profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note) => {
     const html = `
     <html lang="en">
     <body style="width: 700px; max-width: 98%; margin: 20px auto;">
@@ -48,7 +48,7 @@ export const IV1 = (profile, order, date, invoiceContact, items, subTotal, vat, 
                 <div style="border: 1px solid rgba(0, 0, 0, 0.4); margin: 0; padding: .5em;">
                     <p
                         style="width: 100%; display: flex; justify-content: space-between; align-items: center; font-size: .8rem;">
-                        <span style="color: #0374E5;">Order #</span><span>${order}</span>
+                        <span style="color: #0374E5;">Order #</span><span>${invoiceId}</span>
                     </p>
                     <p
                         style="width: 100%; display: flex; justify-content: space-between; align-items: center; font-size: .8rem;">
@@ -91,7 +91,7 @@ export const IV1 = (profile, order, date, invoiceContact, items, subTotal, vat, 
         return `
                         <tr>
                             <td style="font-size: .8rem;">${item.name}</td>
-                            <td style="font-size: .8rem;">${item.discription != '' ? item.discription : '...'}</td>
+                            <td style="font-size: .8rem;">${item.description != '' ? item.description : '...'}</td>
                             <td style="font-size: .8rem;">${item.quantity ? item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
                             <td style="font-size: .8rem;">$${item.price ? item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
                             <td style="font-size: .8rem;">$${calculateSubtotal(item.price, item.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
