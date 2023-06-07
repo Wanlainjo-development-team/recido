@@ -81,9 +81,9 @@ const Invoice = () => {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        <Invoices numOfClice={false} />
-      </ScrollView>
+      {/* <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}> */}
+      <Invoices numOfClice={false} />
+      {/* </ScrollView> */}
 
       <TouchableOpacity onPress={() => navigate('Create', { viewInvoice: null })} style={styles.floatingButton}>
         <Feather name="plus" size={24} color={color.white} />
