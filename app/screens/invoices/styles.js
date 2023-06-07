@@ -4,12 +4,7 @@ import color from "../../style/color";
 export default StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: color.mainBackground,
-        paddingHorizontal: 20
-    },
-
-    scrollView: {
-        marginTop: 20
+        backgroundColor: color.mainBackground
     },
 
     floatingButton: {
@@ -34,22 +29,19 @@ export default StyleSheet.create({
 
     head: {
         height: 60,
-        backgroundColor: color.accent,
-        borderRadius: 12,
-        marginTop: 20,
+        marginTop: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: `${color.accent}40`
     },
 
     input: {
         flex: 1,
-        height: 45,
-        backgroundColor: color.darkAccent,
+        height: '100%',
         borderRadius: 10,
-        padding: 10,
-        color: color.white
+        padding: 10
     },
 
     searchConfigButton: {
@@ -57,6 +49,8 @@ export default StyleSheet.create({
         height: 45,
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 10
+        marginLeft: 10,
+        backgroundColor: `${color.accent}40`,
+        borderRadius: 12
     }
 })

@@ -3,7 +3,8 @@ import color from "../../style/color"
 
 export default StyleSheet.create({
     container: {
-        paddingBottom: 80
+        paddingBottom: 80,
+        marginTop: 10
     },
 
     list: {
@@ -13,7 +14,8 @@ export default StyleSheet.create({
         marginBottom: 10,
         backgroundColor: color.white,
         padding: 10,
-        borderRadius: 12
+        borderRadius: 12,
+        height: 50
     },
 
     left: {
@@ -26,5 +28,30 @@ export default StyleSheet.create({
 
     boldText: {
         fontWeight: '600'
+    },
+
+    hiddenItem: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        height: 50,
+        borderRadius: 12,
+        paddingHorizontal: 10
+    },
+
+    archiveButton: {
+        backgroundColor: `${color.accent}40`,
+        height: 40,
+        borderRadius: 12,
+        paddingHorizontal: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    archiveButtonText: {
+        fontSize: 12,
+        fontWeight: '600',
+        color: color.accent
     }
 })

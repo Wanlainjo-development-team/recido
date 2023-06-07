@@ -9,10 +9,8 @@ import Invoices from '../../components/invoices';
 const Home = () => {
   return (
     <View style={style.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <PerformanceChart />
-        <Invoices numOfClice={25} />
-      </ScrollView>
+      <PerformanceChart />
+      <Invoices numOfClice={25} fetchScale='all' />
     </View>
   )
 }

@@ -1,15 +1,16 @@
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, Pressable, TouchableOpacity, Alert } from 'react-native'
 import React, { useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, serverTimestamp, setDoc, where } from 'firebase/firestore'
 import { db } from '../../hooks/firebase'
 import { useDispatch, useSelector } from 'react-redux'
 import { setInvoiceList } from '../../features/invoicesSlice'
 import { useState } from 'react'
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native'
+import { SwipeListView } from 'react-native-swipe-list-view'
 
-const Invoices = ({ numOfClice }) => {
+const Invoices = ({ numOfClice, fetchScale }) => {
     const dispatch = useDispatch()
     const { navigate } = useNavigation()
 
@@ -20,9 +21,29 @@ const Invoices = ({ numOfClice }) => {
 
     useEffect(() => {
         (async () => {
+
             const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
 
-            const q = query(collection(db, "users", id, 'invoices'), orderBy(profile?.sortBy ? profile?.sortBy : 'createdAt', profile?.orderBy == undefined ? 'desc' : profile?.orderBy))
+            let q
+
+            if (fetchScale == 'all') {
+                q = query(collection(db, "users", id, 'invoices'),
+                    orderBy(profile?.sortBy ? profile?.sortBy : 'createdAt', profile?.orderBy == undefined ? 'desc' : profile?.orderBy)
+                )
+            }
+            else if (fetchScale == 'outstanding') {
+                q = query(collection(db, "users", id, 'invoices'),
+                    where('invoiceState', '==', fetchScale),
+                    orderBy(profile?.sortBy ? profile?.sortBy : 'createdAt', profile?.orderBy == undefined ? 'desc' : profile?.orderBy)
+                )
+            }
+            else if (fetchScale == 'paid') {
+                q = query(collection(db, "users", id, 'invoices'),
+                    where('invoiceState', '==', fetchScale),
+                    orderBy(profile?.sortBy ? profile?.sortBy : 'createdAt', profile?.orderBy == undefined ? 'desc' : profile?.orderBy)
+                )
+            }
+
 
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
                 let invoices = []
@@ -71,8 +92,25 @@ const Invoices = ({ numOfClice }) => {
             item?.invoiceId?.includes(search)
     });
 
+    const handleArchive = async (invoiceId) => {
+        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+        let invoice = (await getDoc(doc(db, 'users', id, 'invoices', invoiceId))).data()
+
+        await setDoc(doc(db, 'users', id, 'archive', invoiceId),
+            {
+                ...invoice,
+                archivedAt: serverTimestamp()
+            }
+        )
+
+        await deleteDoc(doc(db, 'users', id, 'invoices', invoiceId))
+
+        Alert.alert('Invoice has been moved to your archive successfully 🎉🎉')
+    };
+
     const list = item => (
-        <TouchableOpacity key={item.id} onPress={() => navigate('Create', { viewInvoice: item })} style={styles.list}>
+        <Pressable key={item.id} onPress={() => navigate('Create', { viewInvoice: item })} style={styles.list}>
             <View style={styles.left}>
                 <Text style={styles.boldText}>{item?.invoiceContact?.name}</Text>
                 <Text>#{item?.invoiceId}</Text>
@@ -81,30 +119,34 @@ const Invoices = ({ numOfClice }) => {
                 <Text style={styles.boldText}>{new Date(item?.date).toDateString()}</Text>
                 <Text>{calculateTotal(item)}</Text>
             </View>
-        </TouchableOpacity>
+        </Pressable>
     )
+
+    const renderItem = ({ item }) => {
+        return (
+            <View>{list(item)}</View>
+        );
+    };
+
+    const renderHiddenItem = ({ item }) => {
+        return (
+            <View style={styles.hiddenItem}>
+                <TouchableOpacity onPress={() => handleArchive(item.id)} style={styles.archiveButton}>
+                    <Text style={styles.archiveButtonText}>Cancel Invoice</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    };
 
     return (
         <View style={styles.container}>
-            <>
-                {
-                    numOfClice ?
-                        <>
-                            {
-                                filteredInvoices.slice(0, 25).map(item => (
-                                    list(item)
-                                ))
-                            }
-                        </> :
-                        <>
-                            {
-                                filteredInvoices.map(item => (
-                                    list(item)
-                                ))
-                            }
-                        </>
-                }
-            </>
+            <SwipeListView
+                data={filteredInvoices}
+                renderItem={renderItem}
+                renderHiddenItem={renderHiddenItem}
+                rightOpenValue={-120}
+                showsVerticalScrollIndicator={false}
+            />
         </View>
     )
 }
