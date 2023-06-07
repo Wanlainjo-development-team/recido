@@ -8,10 +8,6 @@ export default StyleSheet.create({
         paddingHorizontal: 20
     },
 
-    scrollView: {
-        marginTop: 20
-    },
-
     floatingButton: {
         width: 60,
         height: 60,

@@ -3,7 +3,8 @@ import color from "../../style/color"
 
 export default StyleSheet.create({
     container: {
-        paddingBottom: 80
+        paddingBottom: 80,
+        marginTop: 10
     },
 
     list: {
