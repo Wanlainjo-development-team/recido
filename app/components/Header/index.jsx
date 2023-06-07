@@ -52,11 +52,12 @@ const Header = ({ screen }) => {
             shippingZip,
             shippingCountry,
             items,
+            invoiceState: 'outstanding',
             note: note != '' ? note : profile?.disclaimer,
             vat,
             createdAt: serverTimestamp()
         })
-
+        
         await addDoc(collection(db, 'users', id, 'inventory'), {
             invoiceId,
             date,
@@ -70,11 +71,12 @@ const Header = ({ screen }) => {
             shippingZip,
             shippingCountry,
             items,
+            invoiceState: 'outstanding',
             note: note != '' ? note : profile?.disclaimer,
             vat,
             createdAt: serverTimestamp()
         })
-
+        
         await addDoc(collection(db, 'users', id, 'customers'), {
             ...invoiceContact,
             invoiceId,

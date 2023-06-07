@@ -1,25 +1,27 @@
-import { View, TouchableOpacity, TextInput, Animated, Easing } from 'react-native'
+import { View, TouchableOpacity, Text, Animated, Easing } from 'react-native'
 import React, { useEffect } from 'react'
 
 import styles from './styles'
 
-import Invoices from '../../components/invoices'
-
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import color from '../../style/color';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
-import { setInvoiceList, setSearch } from '../../features/invoicesSlice';
+import { useDispatch } from 'react-redux';
+import { setInvoiceList } from '../../features/invoicesSlice';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from '../../hooks/firebase';
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import All from './screens/all';
+import Outstanding from './screens/outstanding';
+import Paid from './screens/paid';
+import Search from './screens/search';
+
+const { Navigator, Screen } = createMaterialTopTabNavigator()
 
 const Invoice = () => {
   const { navigate } = useNavigation()
   const dispatch = useDispatch()
-
-  const { search } = useSelector(state => state.invoices)
-  const { profile } = useSelector(state => state.user)
 
   const rotationValue = new Animated.Value(0)
 
@@ -64,24 +66,56 @@ const Invoice = () => {
     fetchData();
   }, []);
 
-  const handleSearch = (query) => {
-    dispatch(setSearch(query))
-  };
-
 
   return (
     <View style={styles.container}>
-      <View style={styles.head}>
-        <TextInput placeholder={`Search ${profile?.searchBy == 'invoiceContact.name' ? 'Customer name' : 'Invoice number'}...`} style={styles.input} value={search} onChangeText={handleSearch} placeholderTextColor={color.mainBackground} />
-
-        <TouchableOpacity onPress={() => navigate('InvoiceSearchConfig')} style={styles.searchConfigButton}>
-          <Animated.View style={{ transform: [{ rotate: rotationValue.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}>
-            <Ionicons name="cog" size={24} color={color.white} />
-          </Animated.View>
-        </TouchableOpacity>
-      </View>
-
-      <Invoices numOfClice={false} />
+      <Navigator
+        screenOptions={{
+          swipeEnabled: false,
+          tabBarActiveTintColor: color.accent,
+          tabBarInactiveTintColor: `${color.black}40`,
+          tabBarStyle: {
+            backgroundColor: color.mainBackground,
+            height: 40
+          },
+          tabBarLabelStyle: {
+            fontWeight: 600,
+          }
+        }}
+      >
+        <Screen
+          name="All"
+          component={All}
+          options={{
+            title: ({ color }) => <Text style={{ fontSize: 12, fontWeight: '600', color }}>All</Text>
+          }}
+        />
+        <Screen
+          name="Outstanding"
+          component={Outstanding}
+          options={{
+            title: ({ color }) => <Text style={{ fontSize: 12, fontWeight: '600', color }}>Outstanding</Text>
+          }}
+        />
+        <Screen
+          name="Paid"
+          component={Paid}
+          options={{
+            title: ({ color }) => <Text style={{ fontSize: 12, fontWeight: '600', color }}>Paid</Text>
+          }}
+        />
+        <Screen
+          name="Search"
+          component={Search}
+          options={{
+            tabBarIcon: ({ color }) => <Feather name="search" size={24} color={color} />,
+            tabBarLabelStyle: {
+              fontWeight: '600',
+              color: color.accent,
+            },
+          }}
+        />
+      </Navigator>
 
       <TouchableOpacity onPress={() => navigate('Create', { viewInvoice: null })} style={styles.floatingButton}>
         <Feather name="plus" size={24} color={color.white} />

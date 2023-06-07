@@ -10,7 +10,7 @@ import styles from './styles'
 import { useNavigation } from '@react-navigation/native'
 import { SwipeListView } from 'react-native-swipe-list-view'
 
-const Invoices = ({ numOfClice }) => {
+const Invoices = ({ numOfClice, fetchScale }) => {
     const dispatch = useDispatch()
     const { navigate } = useNavigation()
 
@@ -21,11 +21,29 @@ const Invoices = ({ numOfClice }) => {
 
     useEffect(() => {
         (async () => {
+
             const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
 
-            const q = query(collection(db, "users", id, 'invoices'),
-                orderBy(profile?.sortBy ? profile?.sortBy : 'createdAt', profile?.orderBy == undefined ? 'desc' : profile?.orderBy)
-            )
+            let q
+
+            if (fetchScale == 'all') {
+                q = query(collection(db, "users", id, 'invoices'),
+                    orderBy(profile?.sortBy ? profile?.sortBy : 'createdAt', profile?.orderBy == undefined ? 'desc' : profile?.orderBy)
+                )
+            }
+            else if (fetchScale == 'outstanding') {
+                q = query(collection(db, "users", id, 'invoices'),
+                    where('invoiceState', '==', fetchScale),
+                    orderBy(profile?.sortBy ? profile?.sortBy : 'createdAt', profile?.orderBy == undefined ? 'desc' : profile?.orderBy)
+                )
+            }
+            else if (fetchScale == 'paid') {
+                q = query(collection(db, "users", id, 'invoices'),
+                    where('invoiceState', '==', fetchScale),
+                    orderBy(profile?.sortBy ? profile?.sortBy : 'createdAt', profile?.orderBy == undefined ? 'desc' : profile?.orderBy)
+                )
+            }
+
 
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
                 let invoices = []

@@ -10,7 +10,7 @@ const Home = () => {
   return (
     <View style={style.container}>
       <PerformanceChart />
-      <Invoices numOfClice={25} />
+      <Invoices numOfClice={25} fetchScale='all' />
     </View>
   )
 }
