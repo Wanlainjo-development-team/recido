@@ -54,9 +54,22 @@ const Invoices = ({ numOfClice }) => {
         return grandTotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     }
 
-    const filteredInvoices = invoiceList.filter((item) =>
-        item?.invoiceId?.includes(search)
-    );
+    const filteredInvoices = invoiceList.filter((item) => {
+        if (profile.searchBy)
+            switch (profile.searchBy) {
+                case 'invoiceId': return item?.invoiceId?.includes(search)
+                    break;
+
+                case 'invoiceContact.name': return item?.invoiceContact.name?.includes(search)
+                    break;
+
+                default: return item?.invoiceId?.includes(search)
+                    break;
+            }
+
+        else
+            item?.invoiceId?.includes(search)
+    });
 
     const list = item => (
         <TouchableOpacity key={item.id} onPress={() => navigate('Create', { viewInvoice: item })} style={styles.list}>
