@@ -13,7 +13,7 @@ import { setInvoiceContact, setNote, setInvoiceId, updateItems } from '../../fea
 import { setDate } from '../../features/useFormSlice'
 import { EvilIcons, Ionicons } from '@expo/vector-icons'
 import Send from './screens/send'
-// import { setInvoiceId } from '../../features/invoicesSlice'
+import { setCurrentInvoiceId } from '../../features/invoicesSlice'
 
 
 const { Navigator, Screen } = createMaterialBottomTabNavigator()
@@ -23,12 +23,12 @@ const Create = () => {
   const dispatch = useDispatch()
 
   if (viewInvoice) {
-    dispatch(setInvoiceId(viewInvoice?.order))
+    dispatch(setInvoiceId(viewInvoice?.invoiceId))
     dispatch(setDate(viewInvoice?.date))
     dispatch(updateItems(viewInvoice?.items))
     dispatch(setInvoiceContact(viewInvoice?.invoiceContact))
     dispatch(setNote(viewInvoice?.note))
-    // dispatch(setInvoiceId(viewInvoice?.id))
+    dispatch(setCurrentInvoiceId(viewInvoice?.id))
   }
 
 

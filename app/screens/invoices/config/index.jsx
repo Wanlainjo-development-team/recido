@@ -101,16 +101,16 @@ const InvoiceSearchConfig = () => {
         </View>
 
         <View style={styles.modalViewBody}>
-          <TouchableOpacity onPress={() => updateUserSortBy('createdAt')} style={{ ...styles.modalButton, backgroundColor: profile?.orderBy == 'createdAt' ? color.accent : `${color.accent}20` }}>
-            <Text style={{ ...styles.modalButtonText, color: profile?.orderBy == 'createdAt' ? color.white : color.accent }}>Date created</Text>
+          <TouchableOpacity onPress={() => updateUserSortBy('createdAt')} style={{ ...styles.modalButton, backgroundColor: profile?.sortBy == 'createdAt' ? color.accent : `${color.accent}20` }}>
+            <Text style={{ ...styles.modalButtonText, color: profile?.sortBy == 'createdAt' ? color.white : color.accent }}>Date created</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => updateUserSortBy('invoiceId')} style={{ ...styles.modalButton, backgroundColor: profile?.orderBy == 'invoiceId' ? color.accent : `${color.accent}20` }}>
-            <Text style={{ ...styles.modalButtonText, color: profile?.orderBy == 'invoiceId' ? color.white : color.accent }}>Invoice number</Text>
+          <TouchableOpacity onPress={() => updateUserSortBy('invoiceId')} style={{ ...styles.modalButton, backgroundColor: profile?.sortBy == 'invoiceId' ? color.accent : `${color.accent}20` }}>
+            <Text style={{ ...styles.modalButtonText, color: profile?.sortBy == 'invoiceId' ? color.white : color.accent }}>Invoice number</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => updateUserSortBy('invoiceContact.name')} style={{ ...styles.modalButton, backgroundColor: profile?.orderBy == 'invoiceContact.name' ? color.accent : `${color.accent}20` }}>
-            <Text style={{ ...styles.modalButtonText, color: profile?.orderBy == 'invoiceContact.name' ? color.white : color.accent }}>Customer name</Text>
+          <TouchableOpacity onPress={() => updateUserSortBy('invoiceContact.name')} style={{ ...styles.modalButton, backgroundColor: profile?.sortBy == 'invoiceContact.name' ? color.accent : `${color.accent}20` }}>
+            <Text style={{ ...styles.modalButtonText, color: profile?.sortBy == 'invoiceContact.name' ? color.white : color.accent }}>Customer name</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -183,7 +183,7 @@ const InvoiceSearchConfig = () => {
           <TouchableOpacity style={styles.bodySortByButton} onPress={() => setSortModalVisible(true)}>
             <Text style={styles.bodySortByButtonTitle}>Sort invoice by</Text>
             <Text style={styles.bodySortByButtonText}>
-              {profile?.sortBy ? profile?.sortBy : 'Date created'}
+              {profile?.sortBy ? (profile?.sortBy == 'invoiceId' ? 'Invoice number' : profile?.sortBy == 'createdAt' ? 'Date created' : 'Customer name') : 'Date created'}
             </Text>
           </TouchableOpacity>
           {oederModal()}

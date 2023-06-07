@@ -17,7 +17,7 @@ import color from '../../../../style/color';
 
 const Send = () => {
   const { profile } = useSelector(state => state.user)
-  // const { invoiceId } = useSelector(state => state.invoices)
+  const { currentInvoiceId } = useSelector(state => state.invoices)
   const { invoiceId, date, invoiceContact, items, subTotal, vat, total, note } = useSelector(state => state.form)
 
   const [email, setEmail] = useState('');
@@ -64,7 +64,7 @@ const Send = () => {
       await MailComposer.composeAsync({
         recipients: emailList.length >= 1 ? emailList : email,
         subject: `Invoice from ${profile?.name}`,
-        // body: `${emailMessage}\n${emailAmount}\n\nhttps://recidoshare.netlify.app/${profile?.id}/${invoiceId}`,
+        body: `${emailMessage}\n${emailAmount}\n\nhttps://recidoshare.netlify.app/${profile?.id}/${currentInvoiceId}`,
       });
 
       Alert.alert('Email sent successfully 🎉🎉')
@@ -74,7 +74,7 @@ const Send = () => {
   };
 
   const shareOnWhatsApp = async () => {
-    // const message = `${emailMessage}\n${emailAmount}\n\nhttps://recidoshare.netlify.app/${profile?.id}/${invoiceId}`;
+    const message = `${emailMessage}\n${emailAmount}\n\nhttps://recidoshare.netlify.app/${profile?.id}/${currentInvoiceId}`;
 
     const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(message)}`;
 
@@ -89,7 +89,7 @@ const Send = () => {
   };
 
   const shareAsSMS = async () => {
-    // const message = `${emailMessage}\n${emailAmount}\n\nhttps://recidoshare.netlify.app/${profile?.id}/${invoiceId}`;
+    const message = `${emailMessage}\n${emailAmount}\n\nhttps://recidoshare.netlify.app/${profile?.id}/${currentInvoiceId}`;
     const phoneNumber = invoiceContact.phoneNumbers[0].digits;
 
     const smsUrl = `sms:${phoneNumber}`;

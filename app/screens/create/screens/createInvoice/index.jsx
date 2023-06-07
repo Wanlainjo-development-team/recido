@@ -78,7 +78,7 @@ const CreateInvoice = () => {
                 <View style={styles.setInvoiceLeftView}>
                   <Text style={styles.setInvoiceLeftViewBoldText}>{new Date(date).toDateString()}</Text>
                 </View>
-                <Text style={styles.setInvoiceLeftViewBoldText}>#{invoiceId}</Text>
+                <Text style={styles.setInvoiceLeftViewBoldText}>{invoiceId}</Text>
               </TouchableOpacity>
             </View>
 
