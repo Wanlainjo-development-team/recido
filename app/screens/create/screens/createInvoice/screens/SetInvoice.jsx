@@ -6,14 +6,14 @@ import color from '../../../../../style/color'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
-import { setOrder, setDate } from '../../../../../features/useFormSlice'
+import { setInvoiceId, setDate } from '../../../../../features/useFormSlice'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const SetInvoice = () => {
     const { navigate, goBack } = useNavigation()
     const dispatch = useDispatch()
 
-    const { order, date } = useSelector(state => state.form)
+    const { invoiceId, date } = useSelector(state => state.form)
 
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false)
@@ -40,7 +40,7 @@ const SetInvoice = () => {
                 <View style={setInvoice.group}>
                     <View style={setInvoice.list}>
                         <Text>Invoice Number</Text>
-                        <TextInput placeholder='Invoice number' value={order} onChangeText={text => dispatch(setOrder(text))} />
+                        <TextInput placeholder='Invoice number' value={invoiceId} onChangeText={text => dispatch(setInvoiceId(text))} />
                     </View>
                     <View style={setInvoice.list}>
                         <Text>Date</Text>

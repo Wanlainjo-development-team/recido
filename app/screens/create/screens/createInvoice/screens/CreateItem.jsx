@@ -23,7 +23,7 @@ const CreateItem = () => {
         name: '',
         price: '',
         quantity: '',
-        discription: ''
+        description: ''
     })
     const [loading, setLoading] = useState(false)
 
@@ -41,7 +41,7 @@ const CreateItem = () => {
                 name: item.name,
                 price: item.price,
                 quantity: item.quantity,
-                discription: item.discription
+                description: item.description
             }))
 
             goBack()
@@ -124,14 +124,14 @@ const CreateItem = () => {
                     }
                     style={itemsStyle.input} />
 
-                <Text style={{ fontSize: 12, fontWeight: '600', marginLeft: 10, marginTop: 20 }}>Discription</Text>
+                <Text style={{ fontSize: 12, fontWeight: '600', marginLeft: 10, marginTop: 20 }}>description</Text>
                 <TextInput
-                    placeholder='Discription'
-                    value={item.discription}
+                    placeholder='description'
+                    value={item.description}
                     onChangeText={text =>
                         setItem({
                             ...item,
-                            discription: text
+                            description: text
                         })
                     }
                     style={itemsStyle.input} />

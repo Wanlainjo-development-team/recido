@@ -24,7 +24,7 @@ const CreateInvoice = () => {
   const { profile } = useSelector(state => state.user)
 
   const {
-    order,
+    invoiceId,
     date,
     invoiceContact,
     items,
@@ -78,7 +78,7 @@ const CreateInvoice = () => {
                 <View style={styles.setInvoiceLeftView}>
                   <Text style={styles.setInvoiceLeftViewBoldText}>{new Date(date).toDateString()}</Text>
                 </View>
-                <Text style={styles.setInvoiceLeftViewBoldText}>#{order}</Text>
+                <Text style={styles.setInvoiceLeftViewBoldText}>#{invoiceId}</Text>
               </TouchableOpacity>
             </View>
 

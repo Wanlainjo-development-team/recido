@@ -19,7 +19,7 @@ import { db } from '../../../../hooks/firebase'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const PreviewInvoice = () => {
-    const { order, date, invoiceContact, items, subTotal, vat, total, note } = useSelector(state => state.form)
+    const { invoiceId, date, invoiceContact, items, subTotal, vat, total, note } = useSelector(state => state.form)
     const { navigate } = useNavigation()
 
     const [profile, setProfile] = useState(null)
@@ -41,15 +41,15 @@ const PreviewInvoice = () => {
     useEffect(() => { }, [
         (() => {
             switch (profile?.selectedTemplatePreview?.id) {
-                case 1: html = IV1(profile, order, date, invoiceContact, items, subTotal, vat, total, note)
+                case 1: html = IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
                     break
-                case 2: html = IV2(profile, order, date, invoiceContact, items, subTotal, vat, total, note)
+                case 2: html = IV2(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
                     break
-                case 3: html = IV3(profile, order, date, invoiceContact, items, subTotal, vat, total, note)
+                case 3: html = IV3(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
                     break
-                case 4: html = IV4(profile, order, date, invoiceContact, items, subTotal, vat, total, note)
+                case 4: html = IV4(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
                     break
-                default: IV1(profile, order, date, invoiceContact, items, subTotal, vat, total, note)
+                default: IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
             }
         })()
     ])

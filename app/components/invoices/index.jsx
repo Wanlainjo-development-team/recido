@@ -55,14 +55,14 @@ const Invoices = ({ numOfClice }) => {
     }
 
     const filteredInvoices = invoiceList.filter((item) =>
-        item?.order?.includes(search)
+        item?.invoiceId?.includes(search)
     );
 
     const list = item => (
         <TouchableOpacity key={item.id} onPress={() => navigate('Create', { viewInvoice: item })} style={styles.list}>
             <View style={styles.left}>
                 <Text style={styles.boldText}>{item?.invoiceContact?.name}</Text>
-                <Text>#{item?.order}</Text>
+                <Text>#{item?.invoiceId}</Text>
             </View>
             <View style={styles.right}>
                 <Text style={styles.boldText}>{new Date(item?.date).toDateString()}</Text>

@@ -42,7 +42,7 @@ const Items = () => {
                     <TouchableOpacity style={itemsStyle.group} onPress={() => navigate('CreateItem', { editItem: { ...item, index } })}>
                         <View style={itemsStyle.groupLeft}>
                             <Text numberOfLines={1}>{item?.name}</Text>
-                            <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.discription)?.slice(0, 20)}</Text>
+                            <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.description)?.slice(0, 20)}</Text>
                         </View>
                         <View style={itemsStyle.groupRight}>
                             <Text style={itemsStyle.groupOpacityText}>{(item?.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} x {(item?.price)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
