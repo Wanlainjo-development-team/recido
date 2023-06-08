@@ -6,7 +6,7 @@ import style from './style';
 const Paid = () => {
   return (
     <View style={style.container}>
-      <Invoices numOfClice={false} fetchScale='paid' />
+      <Invoices numOfClice={false} fetchScale='paid' showLabel={false} currentTab='paid' />
     </View>
   )
 }

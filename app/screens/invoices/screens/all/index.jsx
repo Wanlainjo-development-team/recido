@@ -6,7 +6,7 @@ import style from './style';
 const All = () => {
   return (
     <View style={style.container}>
-      <Invoices numOfClice={false} fetchScale='all' />
+      <Invoices numOfClice={false} fetchScale='all' showLabel={false} currentTab='all' />
     </View>
   )
 }

@@ -9,8 +9,9 @@ import { useState } from 'react'
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native'
 import { SwipeListView } from 'react-native-swipe-list-view'
+import color from '../../style/color'
 
-const Invoices = ({ numOfClice, fetchScale }) => {
+const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {
     const dispatch = useDispatch()
     const { navigate } = useNavigation()
 
@@ -26,23 +27,23 @@ const Invoices = ({ numOfClice, fetchScale }) => {
 
             let q
 
-            if (fetchScale == 'all') {
+            if (fetchScale == 'all')
                 q = query(collection(db, "users", id, 'invoices'),
                     orderBy(profile?.sortBy ? profile?.sortBy : 'createdAt', profile?.orderBy == undefined ? 'desc' : profile?.orderBy)
                 )
-            }
-            else if (fetchScale == 'outstanding') {
-                q = query(collection(db, "users", id, 'invoices'),
-                    where('invoiceState', '==', fetchScale),
-                    orderBy(profile?.sortBy ? profile?.sortBy : 'createdAt', profile?.orderBy == undefined ? 'desc' : profile?.orderBy)
-                )
-            }
-            else if (fetchScale == 'paid') {
+
+            else if (fetchScale == 'outstanding')
                 q = query(collection(db, "users", id, 'invoices'),
                     where('invoiceState', '==', fetchScale),
                     orderBy(profile?.sortBy ? profile?.sortBy : 'createdAt', profile?.orderBy == undefined ? 'desc' : profile?.orderBy)
                 )
-            }
+
+            else if (fetchScale == 'paid')
+                q = query(collection(db, "users", id, 'invoices'),
+                    where('invoiceState', '==', fetchScale),
+                    orderBy(profile?.sortBy ? profile?.sortBy : 'createdAt', profile?.orderBy == undefined ? 'desc' : profile?.orderBy)
+                )
+
 
 
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -109,8 +110,21 @@ const Invoices = ({ numOfClice, fetchScale }) => {
         Alert.alert('Invoice has been moved to your archive successfully 🎉🎉')
     };
 
+    const capitalizeWord = word => {
+        const capitalized =
+            word.charAt(0).toUpperCase()
+            + word.slice(1)
+        return capitalized
+    }
+
     const list = item => (
-        <Pressable key={item.id} onPress={() => navigate('Create', { viewInvoice: item })} style={styles.list}>
+        <Pressable key={item.id} onPress={() => navigate('Create', { viewInvoice: item })} style={{ ...styles.list, paddingTop: showLabel ? 5 : 10 }}>
+            {
+                showLabel &&
+                <View style={{ ...styles.showLabel, backgroundColor: item?.invoiceState == 'outstanding' ? `${color.gold}20` : `${color.green}20` }}>
+                    <Text style={{ color: item?.invoiceState == 'outstanding' ? color.goldDark : color.green, fontWeight: '600' }}>{capitalizeWord(item?.invoiceState)}</Text>
+                </View>
+            }
             <View style={styles.left}>
                 <Text style={styles.boldText}>{item?.invoiceContact?.name}</Text>
                 <Text>#{item?.invoiceId}</Text>
@@ -141,7 +155,7 @@ const Invoices = ({ numOfClice, fetchScale }) => {
     return (
         <View style={styles.container}>
             <SwipeListView
-                data={filteredInvoices}
+                data={currentTab == 'search' ? filteredInvoices : invoiceList}
                 renderItem={renderItem}
                 renderHiddenItem={renderHiddenItem}
                 rightOpenValue={-120}

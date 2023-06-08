@@ -11,11 +11,18 @@ export default StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        flexWrap: 'wrap',
         marginBottom: 10,
         backgroundColor: color.white,
         padding: 10,
         borderRadius: 12,
-        height: 50
+    },
+
+    showLabel: {
+        width: '100%',
+        padding: 5,
+        borderRadius: 8,
+        marginBottom: 10
     },
 
     left: {
