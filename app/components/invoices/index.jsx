@@ -10,6 +10,7 @@ import styles from './styles'
 import { useNavigation } from '@react-navigation/native'
 import { SwipeListView } from 'react-native-swipe-list-view'
 import color from '../../style/color'
+import Loading from './Loading'
 
 const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {
     const dispatch = useDispatch()
@@ -153,15 +154,21 @@ const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {
     };
 
     return (
-        <View style={styles.container}>
-            <SwipeListView
-                data={currentTab == 'search' ? filteredInvoices : invoiceList}
-                renderItem={renderItem}
-                renderHiddenItem={renderHiddenItem}
-                rightOpenValue={-120}
-                showsVerticalScrollIndicator={false}
-            />
-        </View>
+        <>
+            {
+                invoiceList.length >= 1 ?
+                    <View style={styles.container}>
+                        <SwipeListView
+                            data={currentTab == 'search' ? filteredInvoices : invoiceList}
+                            renderItem={renderItem}
+                            renderHiddenItem={renderHiddenItem}
+                            rightOpenValue={-120}
+                            showsVerticalScrollIndicator={false}
+                        />
+                    </View> :
+                    <Loading text='Loading invoices' />
+            }
+        </>
     )
 }
 

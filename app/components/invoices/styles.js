@@ -60,5 +60,26 @@ export default StyleSheet.create({
         fontSize: 12,
         fontWeight: '600',
         color: color.accent
+    },
+
+    loadingView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    loadingViewImage: {
+        position: 'relative',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    indicator: {
+        position: 'absolute'
+    },
+
+    loadingViewText: {
+        textAlign: 'center',
+        marginTop: 10
     }
 })

@@ -4,7 +4,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import color from '../style/color'
 import Home from '../screens/home'
 
-import { Feather, Ionicons, Octicons, FontAwesome5 } from '@expo/vector-icons'
+import { Feather, FontAwesome5 } from '@expo/vector-icons'
 import { useDispatch } from 'react-redux'
 import { setActiveRoute } from '../features/userSlice'
 import Invoice from '../screens/invoices'
