@@ -6,7 +6,7 @@ import style from './style';
 const Outstanding = () => {
   return (
     <View style={style.container}>
-      <Invoices numOfClice={false} fetchScale='outstanding' />
+      <Invoices numOfClice={false} fetchScale='outstanding' showLabel={false} currentTab='outstanding' />
     </View>
   )
 }

@@ -46,7 +46,7 @@ const Search = () => {
           </Animated.View>
         </TouchableOpacity>
       </View>
-      <Invoices numOfClice={false} fetchScale='paid' />
+      <Invoices numOfClice={false} fetchScale='all' showLabel={true} currentTab='search' />
     </View>
   )
 }

@@ -180,7 +180,7 @@ const CustomNavigation = () => {
                         { scale: scaleValue },
                         { translateX: offsetValue }
                     ],
-                    shadowColor: showMenu ? color.black : color.transparent,
+                    shadowColor: showMenu ? color.accent : color.transparent,
                     shadowOffset: {
                         width: 0,
                         height: showMenu ? 12 : 0,

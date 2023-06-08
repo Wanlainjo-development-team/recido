@@ -7,5 +7,5 @@ export default StyleSheet.create({
         backgroundColor: color.mainBackground,
         paddingTop: StatusBar.currentHeight,
         paddingHorizontal: 20,
-    },
+    }
 })
