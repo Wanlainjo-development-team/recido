@@ -3,7 +3,7 @@ import React, { useCallback, useState } from 'react'
 
 import styles from './styles'
 
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Feather } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
@@ -159,7 +159,7 @@ const CreateInvoice = () => {
               </View>
             </View>
 
-            <View style={styles.group}>
+            <View style={{ ...styles.group, marginBottom: 80 }}>
               <TouchableOpacity onPress={() => navigate('Note', { editNote: null })} style={styles.plusView}>
                 <AntDesign name="pluscircleo" size={22} color={color.accent} />
                 <Text style={styles.plusViewText}>Notes</Text>
@@ -170,6 +170,10 @@ const CreateInvoice = () => {
               </TouchableOpacity>
             </View>
           </ScrollView>
+
+          <TouchableOpacity style={styles.floatingButton}>
+            <Feather name="upload-cloud" size={24} color={color.white} />
+          </TouchableOpacity>
         </>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

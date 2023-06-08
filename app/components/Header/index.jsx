@@ -98,7 +98,7 @@ const Header = ({ screen }) => {
                 <AntDesign name="back" size={22} color={color.accent} />
             </TouchableOpacity>
 
-            {
+            {/* {
                 screen == 'createInvoice' &&
                 <TouchableOpacity onPress={saveInvoice} style={{ paddingHorizontal: 10, height: 40, backgroundColor: color.accent, binvoiceIdRadius: 8, justifyContent: 'center', alignItems: 'center', borderRadius: 12 }}>
                     {
@@ -107,7 +107,7 @@ const Header = ({ screen }) => {
                             <Text style={{ fontWeight: '600', color: color.white }}>Save</Text>
                     }
                 </TouchableOpacity>
-            }
+            } */}
         </View>
     )
 }
