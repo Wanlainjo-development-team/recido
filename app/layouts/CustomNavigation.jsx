@@ -10,7 +10,7 @@ import nav from '../style/navigation'
 import { header } from '../style/header'
 
 // icons
-import { AntDesign, Feather, FontAwesome, Ionicons, SimpleLineIcons, Octicons, FontAwesome5 } from '@expo/vector-icons'
+import { AntDesign, Feather, FontAwesome, Ionicons, SimpleLineIcons, Octicons, FontAwesome5, MaterialIcons } from '@expo/vector-icons'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
@@ -74,7 +74,7 @@ const CustomNavigation = () => {
                     }
 
                     {
-                        profile?.username != undefined &&
+                        profile?.name != undefined &&
                         <>
                             <Pressable
                                 onPress={() => {
@@ -103,16 +103,18 @@ const CustomNavigation = () => {
                                 }}
                                 style={nav.usernameButton}
                             >
-                                <Text numberOfLines={1} style={{ ...nav.username, color: color.dark }}>{profile?.username}</Text>
+                                <Text numberOfLines={1} style={{ ...nav.username, color: color.dark }}>{profile?.name}</Text>
                             </Pressable>
                         </>
                     }
                 </View>
 
-                <ScrollView style={{ flexGrow: 1, marginTop: 50 }} showsVerticalScrollIndicator={false}>
+                <ScrollView style={{ flexGrow: 1, marginTop: 20 }} showsVerticalScrollIndicator={false}>
                     {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Home', 'Home')}
                     {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Create Invoice', 'Create')}
                     {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Invoices', 'Invoices')}
+                    {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Customers', 'Customers')}
+                    {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Inventory', 'Inventory')}
                     {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Settings', 'Settings')}
                 </ScrollView>
                 {/*  */}
@@ -268,9 +270,9 @@ const TabButton = (profile, dispatch, currentTab, setCurrentTab, setShowMenu, sh
                 if (title == 'Log out') {
                     logoutUser()
                 } else {
-                    if (nav == 'Home' || nav == 'Create' || nav == 'Invoices' || nav == 'Settings') {
+                    if (nav == 'Home' || nav == 'Create' || nav == 'Invoices' || nav == 'Customers' || nav == 'Inventory' || nav == 'Settings') {
                         dispatch(setActiveRoute(nav))
-                        navigation.navigate(nav)
+                        navigation.navigate(nav, { viewInvoice: null })
                         setCurrentTab(nav)
                         Animated.timing(scaleValue, {
                             toValue: showMenu ? 1 : 0.88,
@@ -322,7 +324,7 @@ const TabButton = (profile, dispatch, currentTab, setCurrentTab, setShowMenu, sh
                     flexDirection: 'row',
                     justifyContent: 'flex-start',
                     alignItems: 'center',
-                    paddingLeft: 20
+                    paddingLeft: 15
                 } :
                     currentTab == nav ? {
                         flexDirection: 'row',
@@ -352,6 +354,8 @@ const TabButton = (profile, dispatch, currentTab, setCurrentTab, setShowMenu, sh
                 {nav == 'Home' && <Feather name="home" size={24} color={color.accent} style={{ marginRight: 15 }} />}
                 {nav == 'Create' && <Ionicons name="create-outline" size={24} color={color.accent} style={{ marginRight: 15 }} />}
                 {nav == 'Invoices' && <FontAwesome5 name="file-invoice-dollar" size={24} color={color.accent} style={{ marginRight: 15 }} />}
+                {nav == 'Customers' && <Feather name="users" size={24} color={color.accent} style={{ marginRight: 15 }} />}
+                {nav == 'Inventory' && <MaterialIcons name="storefront" size={24} color={color.accent} style={{ marginRight: 15 }} />}
                 {nav == 'Settings' && <Ionicons name="cog" size={24} color={color.accent} style={{ marginRight: 15 }} />}
                 {/*  */}
                 {/*  */}

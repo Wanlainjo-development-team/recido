@@ -4,10 +4,12 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import color from '../style/color'
 import Home from '../screens/home'
 
-import { Feather, FontAwesome5 } from '@expo/vector-icons'
+import { Feather, FontAwesome5, MaterialIcons } from '@expo/vector-icons'
 import { useDispatch } from 'react-redux'
 import { setActiveRoute } from '../features/userSlice'
 import Invoice from '../screens/invoices'
+import CustomersScreen from '../screens/customer'
+import Inventory from '../screens/inventory'
 
 const { Navigator, Screen } = createMaterialBottomTabNavigator()
 
@@ -50,6 +52,38 @@ const BottomNavigation = () => {
             e.preventDefault()
             navigation.jumpTo('Invoices')
             dispatch(setActiveRoute('Invoices'))
+          }
+        })}
+      />
+      <Screen
+        name="Customers"
+        component={CustomersScreen}
+        options={{
+          tabBarIcon: ({ color }) => <Feather name="users" size={24} color={color} />,
+          tabBarActiveTintColor: color.accent,
+          title: 'Customers'
+        }}
+        listeners={({ navigation }) => ({
+          tabPress: e => {
+            e.preventDefault()
+            navigation.jumpTo('Customers')
+            dispatch(setActiveRoute('Customers'))
+          }
+        })}
+      />
+      <Screen
+        name="Inventory"
+        component={Inventory}
+        options={{
+          tabBarIcon: ({ color }) => <MaterialIcons name="storefront" size={24} color={color} />,
+          tabBarActiveTintColor: color.accent,
+          title: 'Inventory'
+        }}
+        listeners={({ navigation }) => ({
+          tabPress: e => {
+            e.preventDefault()
+            navigation.jumpTo('Inventory')
+            dispatch(setActiveRoute('Inventory'))
           }
         })}
       />
