@@ -15,6 +15,11 @@ import { IV4 } from '../preview/templates/IV4';
 import * as Print from 'expo-print'
 import color from '../../../../style/color';
 
+import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore'
+import { db } from '../../../../hooks/firebase'
+
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 const Send = () => {
   const { profile } = useSelector(state => state.user)
   const { currentInvoiceId } = useSelector(state => state.invoices)
@@ -24,6 +29,7 @@ const Send = () => {
   const [emailList, setEmailList] = useState([]);
   const [emailMessage, setEmailMessage] = useState('Thank you for your bussiness.');
   const [emailAmount, setEmailAmount] = useState(`Amount Due: $${total}`);
+  const [invoiceExist, setInvoiceExist] = useState(false);
 
   let html = ``
 
@@ -40,6 +46,23 @@ const Send = () => {
           break
         default: IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
       }
+    })()
+  ])
+
+  useEffect(() => { }, [
+    (async () => {
+      const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+      const q = query(collection(db, 'users', id, 'invoices'), where("invoiceId", "==", invoiceId));
+
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        if (doc.exists()) {
+          setInvoiceExist(true)
+        } else {
+          setInvoiceExist(false)
+        }
+      });
     })()
   ])
 
@@ -126,6 +149,10 @@ const Send = () => {
     }
   };
 
+  const openAlert = () => {
+    Alert.alert('Action not available', 'Please save the invoice and try again')
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -163,27 +190,27 @@ const Send = () => {
       </ScrollView>
 
       <View style={styles.actionView}>
-        <TouchableOpacity onPress={shareOnWhatsApp} style={styles.actionButton}>
+        <TouchableOpacity onPress={() => invoiceExist ? shareOnWhatsApp() : openAlert()} style={styles.actionButton}>
           <Ionicons name="logo-whatsapp" size={20} color={color.black} />
           <Text style={styles.actionButtonText}>Whatsapp</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={shareAsSMS} style={styles.actionButton}>
+        <TouchableOpacity onPress={() => invoiceExist ? shareAsSMS() : openAlert()} style={styles.actionButton}>
           <AntDesign name="message1" size={18} color={color.black} />
           <Text style={styles.actionButtonText}>SMS</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={openMailComposer} style={styles.actionButton}>
+        <TouchableOpacity onPress={() => invoiceExist ? openMailComposer() : openAlert()} style={styles.actionButton}>
           <Fontisto name="email" size={18} color={color.black} />
           <Text style={styles.actionButtonText}>Email</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={sharePDF} style={styles.actionButton}>
+        <TouchableOpacity onPress={() => invoiceExist ? sharePDF() : openAlert()} style={styles.actionButton}>
           <AntDesign name="sharealt" size={18} color={color.black} />
           <Text style={styles.actionButtonText}>Share</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={handlePrint} style={styles.actionButton}>
+        <TouchableOpacity onPress={() => invoiceExist ? handlePrint() : openAlert()} style={styles.actionButton}>
           <Ionicons name="print-outline" size={24} color={color.black} />
           <Text style={styles.actionButtonText}>Print</Text>
         </TouchableOpacity>

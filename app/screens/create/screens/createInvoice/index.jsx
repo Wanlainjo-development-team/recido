@@ -1,9 +1,9 @@
-import { View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, ScrollView, TouchableOpacity, Keyboard } from 'react-native'
+import { View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, ScrollView, TouchableOpacity, Keyboard, Alert, ActivityIndicator } from 'react-native'
 import React, { useCallback, useState } from 'react'
 
 import styles from './styles'
 
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Feather } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
@@ -17,6 +17,10 @@ import color from '../../../../style/color'
 
 import { itemsStyle } from './screens/styles'
 
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { db } from '../../../../hooks/firebase';
+
 const CreateInvoice = () => {
   const { navigate } = useNavigation()
   const dispatch = useDispatch()
@@ -27,12 +31,21 @@ const CreateInvoice = () => {
     invoiceId,
     date,
     invoiceContact,
+    city,
+    state,
+    zip,
+    country,
+    shippingCity,
+    shippingState,
+    shippingZip,
+    shippingCountry,
     items,
-    vat,
-    note
+    note,
+    vat
   } = useSelector(state => state.form)
 
   const [totalCalculation, setTotalCalculation] = useState({})
+  const [loading, setLoading] = useState(false)
 
   const calculateSubTotalPromise = arr => {
     return new Promise((resolve, reject) => {
@@ -67,6 +80,82 @@ const CreateInvoice = () => {
       return () => { };
     }, [items])
   );
+
+  const saveInvoice = async () => {
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+    // console.log(invoiceContact)
+    // console.log(items.length)
+
+    if (!invoiceContact) {
+      Alert.alert('Customer information is required')
+
+      return
+    }
+
+    if (items.length < 1) {
+      Alert.alert('Items are required')
+
+      return
+    }
+
+
+    else if (invoiceContact && items.length >= 1) {
+      setLoading(true)
+
+      await addDoc(collection(db, 'users', id, 'invoices'), {
+        invoiceId,
+        date,
+        invoiceContact,
+        city,
+        state,
+        zip,
+        country,
+        shippingCity,
+        shippingState,
+        shippingZip,
+        shippingCountry,
+        items,
+        invoiceState: 'outstanding',
+        note: note != '' ? note : profile?.disclaimer,
+        vat,
+        createdAt: serverTimestamp()
+      })
+
+      await addDoc(collection(db, 'users', id, 'inventory'), {
+        invoiceId,
+        date,
+        invoiceContact,
+        city,
+        state,
+        zip,
+        country,
+        shippingCity,
+        shippingState,
+        shippingZip,
+        shippingCountry,
+        items,
+        invoiceState: 'outstanding',
+        note: note != '' ? note : profile?.disclaimer,
+        vat,
+        createdAt: serverTimestamp()
+      })
+
+      await addDoc(collection(db, 'users', id, 'customers'), {
+        ...invoiceContact,
+        invoiceId,
+        city,
+        state,
+        zip,
+        country,
+        createdAt: serverTimestamp()
+      })
+
+      Alert.alert('Invoice was saved successfully 🎉🎉')
+
+      setLoading(false)
+    }
+  }
 
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -159,7 +248,7 @@ const CreateInvoice = () => {
               </View>
             </View>
 
-            <View style={styles.group}>
+            <View style={{ ...styles.group, marginBottom: 80 }}>
               <TouchableOpacity onPress={() => navigate('Note', { editNote: null })} style={styles.plusView}>
                 <AntDesign name="pluscircleo" size={22} color={color.accent} />
                 <Text style={styles.plusViewText}>Notes</Text>
@@ -170,6 +259,14 @@ const CreateInvoice = () => {
               </TouchableOpacity>
             </View>
           </ScrollView>
+
+          <TouchableOpacity onPress={saveInvoice} style={styles.floatingButton}>
+            {
+              loading ?
+                <ActivityIndicator color={color.white} /> :
+                <Feather name="upload-cloud" size={24} color={color.white} />
+            }
+          </TouchableOpacity>
         </>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
