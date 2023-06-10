@@ -37,7 +37,7 @@ const TotalBilling = ({ prop }) => {
                 })
 
                 const calculatedTotal = calculateTotal(invoices)
-                setTotal(calculatedTotal)
+                setTotal(calculatedTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','))
             })
 
             return unsub
