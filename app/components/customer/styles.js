@@ -51,18 +51,13 @@ export default StyleSheet.create({
     },
 
     archiveButton: {
-        backgroundColor: `${color.accent}40`,
-        height: 40,
+        backgroundColor: color.accent,
+        height: 45,
+        width: 45,
         borderRadius: 12,
         paddingHorizontal: 10,
         justifyContent: 'center',
         alignItems: 'center'
-    },
-
-    archiveButtonText: {
-        fontSize: 12,
-        fontWeight: '600',
-        color: color.accent
     },
 
     loadingView: {
