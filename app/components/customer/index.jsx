@@ -13,6 +13,8 @@ import { SwipeListView } from 'react-native-swipe-list-view'
 import Loading from './Loading'
 import CountInvoices from './components/CountInvoices'
 import TotalBilling from './components/TotalBilling'
+import color from '../../style/color'
+import { Feather } from '@expo/vector-icons';
 
 const CustomerList = () => {
     const dispatch = useDispatch()
@@ -31,7 +33,7 @@ const CustomerList = () => {
                 let customers = []
                 querySnapshot.forEach((doc) => {
                     customers.push({
-                        id: doc.id,
+                        customerId: doc.id,
                         ...doc.data()
                     })
                 })
@@ -44,24 +46,24 @@ const CustomerList = () => {
     }, [db])
 
     const handleArchive = async (customerId) => {
-        // const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
 
-        // let customers = (await getDoc(doc(db, 'users', id, 'customers', customerId))).data()
+        let customers = (await getDoc(doc(db, 'users', id, 'customers', customerId))).data()
 
-        // await setDoc(doc(db, 'users', id, 'customerArchive', customerId),
-        //     {
-        //         ...customers,
-        //         archivedAt: serverTimestamp()
-        //     }
-        // )
+        await setDoc(doc(db, 'users', id, 'customerArchive', customerId),
+            {
+                ...customers,
+                archivedAt: serverTimestamp()
+            }
+        )
 
-        // await deleteDoc(doc(db, 'users', id, 'customers', customerId))
+        await deleteDoc(doc(db, 'users', id, 'customers', customerId))
 
-        // Alert.alert('Contact has been moved to your archive successfully 🎉🎉')
+        Alert.alert('Contact has been moved to your archive successfully 🎉🎉')
     };
 
     const list = item => (
-        <Pressable key={item.id} onPress={() => navigate('ViewCustomer', { ViewCustomer: item })} style={{ ...styles.list, paddingTop: 10 }}>
+        <Pressable key={item.id} onPress={() => navigate('ViewCustomer', { viewCustomer: item })} style={{ ...styles.list, paddingTop: 10 }}>
             <View style={styles.left}>
                 <Text style={styles.boldText}>{item?.name}</Text>
                 <CountInvoices prop={item} />
@@ -81,8 +83,8 @@ const CustomerList = () => {
     const renderHiddenItem = ({ item }) => {
         return (
             <View style={styles.hiddenItem}>
-                <TouchableOpacity onPress={() => handleArchive(item.id)} style={styles.archiveButton}>
-                    <Text style={styles.archiveButtonText}>Cancel Invoice</Text>
+                <TouchableOpacity onPress={() => handleArchive(item.customerId)} style={styles.archiveButton}>
+                    <Feather name="archive" size={24} color={color.white} />
                 </TouchableOpacity>
             </View>
         );
@@ -97,7 +99,7 @@ const CustomerList = () => {
                             data={newCustomerList}
                             renderItem={renderItem}
                             renderHiddenItem={renderHiddenItem}
-                            rightOpenValue={-120}
+                            rightOpenValue={-70}
                             showsVerticalScrollIndicator={false}
                         />
                     </View> :

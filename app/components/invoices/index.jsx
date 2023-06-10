@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native'
 import { SwipeListView } from 'react-native-swipe-list-view'
 import color from '../../style/color'
 import Loading from './Loading'
+import { Feather } from '@expo/vector-icons';
 
 const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {
     const dispatch = useDispatch()
@@ -147,7 +148,7 @@ const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {
         return (
             <View style={styles.hiddenItem}>
                 <TouchableOpacity onPress={() => handleArchive(item.id)} style={styles.archiveButton}>
-                    <Text style={styles.archiveButtonText}>Cancel Invoice</Text>
+                    <Feather name="archive" size={24} color={color.white} />
                 </TouchableOpacity>
             </View>
         );
@@ -162,7 +163,7 @@ const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {
                             data={currentTab == 'search' ? filteredInvoices : invoiceList}
                             renderItem={renderItem}
                             renderHiddenItem={renderHiddenItem}
-                            rightOpenValue={-120}
+                            rightOpenValue={-70}
                             showsVerticalScrollIndicator={false}
                         />
                     </View> :
