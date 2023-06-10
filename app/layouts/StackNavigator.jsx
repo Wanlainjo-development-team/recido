@@ -30,6 +30,7 @@ import Items from '../screens/create/screens/createInvoice/screens/Items'
 import CreateItem from '../screens/create/screens/createInvoice/screens/CreateItem'
 import Note from '../screens/create/screens/createInvoice/screens/Note'
 import InvoiceSearchConfig from '../screens/invoices/config'
+import ViewCustomer from '../screens/customer/screens/viewCustomer'
 
 const StackNavigator = () => {
     const navigation = useNavigation()
@@ -85,6 +86,7 @@ const StackNavigator = () => {
                         <Screen name='Items' component={Items} options={{ gestureEnabled: true }} />
                         <Screen name='CreateItem' component={CreateItem} options={{ gestureEnabled: true }} />
                         <Screen name='Note' component={Note} options={{ gestureEnabled: true }} />
+                        <Screen name='ViewCustomer' component={ViewCustomer} options={{ gestureEnabled: true }} />
                         <Group
                             screenOptions={{
                                 ...TransitionPresets.ModalSlideFromBottomIOS,
