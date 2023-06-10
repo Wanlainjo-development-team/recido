@@ -63,7 +63,7 @@ const CustomerList = () => {
     };
 
     const list = item => (
-        <Pressable key={item.id} onPress={() => navigate('ViewCustomer', { ViewCustomer: item })} style={{ ...styles.list, paddingTop: 10 }}>
+        <Pressable key={item.id} onPress={() => navigate('ViewCustomer', { viewCustomer: item })} style={{ ...styles.list, paddingTop: 10 }}>
             <View style={styles.left}>
                 <Text style={styles.boldText}>{item?.name}</Text>
                 <CountInvoices prop={item} />
