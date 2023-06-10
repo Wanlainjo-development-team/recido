@@ -12,6 +12,7 @@ import styles from './styles'
 import { SwipeListView } from 'react-native-swipe-list-view'
 import Loading from './Loading'
 import CountInvoices from './components/CountInvoices'
+import TotalBilling from './components/TotalBilling'
 
 const CustomerList = () => {
     const dispatch = useDispatch()
@@ -66,7 +67,7 @@ const CustomerList = () => {
                 <CountInvoices prop={item} />
             </View>
             <View style={styles.right}>
-                <Text>$0</Text>
+                <TotalBilling prop={item} />
             </View>
         </Pressable>
     )
