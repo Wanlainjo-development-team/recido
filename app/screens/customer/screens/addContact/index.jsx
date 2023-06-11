@@ -24,8 +24,6 @@ const AddContact = () => {
         }
     }
 
-    // console.log(directSave)
-
     return (
         <View style={styles.container}>
             <View style={styles.head}>

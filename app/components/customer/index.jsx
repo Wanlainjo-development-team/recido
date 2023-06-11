@@ -3,7 +3,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { collection, deleteDoc, doc, getDoc, onSnapshot, query, serverTimestamp, setDoc } from 'firebase/firestore'
+import { collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, serverTimestamp, setDoc } from 'firebase/firestore'
 import { db } from '../../hooks/firebase'
 import { useState } from 'react'
 import { setCustomersList } from '../../features/customerSlice'
@@ -27,7 +27,7 @@ const CustomerList = () => {
 
             const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
 
-            let q = collection(db, "users", id, 'customers')
+            let q = query(collection(db, "users", id, 'customers'), orderBy('name', 'asc'))
 
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
                 let customers = []
