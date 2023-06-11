@@ -73,28 +73,29 @@ const AddNewCustomer = () => {
                 })
 
                 Alert.alert(`${contact.name} has been added to your contact successfully 🎉🎉`)
+                navigate('Customers')
             }
         } else {
-            // dispatch(setInvoiceContact({
-            //     ...contact,
-            //     ...invoiceContact,
-            //     name: contact.name,
-            //     email: contact.email,
-            //     phone: contact.phone,
-            //     taxReg: contact.taxReg,
-            //     additionalInfo: contact.additionalInfo,
-            //     address: contact.address,
-            //     city: contact.city,
-            //     state: contact.state,
-            //     zip: contact.zip,
-            //     country: contact.country,
-            //     shippingAddress: contact.shippingAddress,
-            //     shippingCity: contact.shippingCity,
-            //     shippingState: contact.shippingState,
-            //     shippingZip: contact.shippingZip,
-            //     shippingCountry: contact.shippingCountry
-            // }))
-            // goBack()
+            dispatch(setInvoiceContact({
+                ...contact,
+                ...invoiceContact,
+                name: contact.name,
+                email: contact.email,
+                phone: contact.phone,
+                taxReg: contact.taxReg,
+                additionalInfo: contact.additionalInfo,
+                address: contact.address,
+                city: contact.city,
+                state: contact.state,
+                zip: contact.zip,
+                country: contact.country,
+                shippingAddress: contact.shippingAddress,
+                shippingCity: contact.shippingCity,
+                shippingState: contact.shippingState,
+                shippingZip: contact.shippingZip,
+                shippingCountry: contact.shippingCountry
+            }))
+            goBack()
         }
     }
 
@@ -124,10 +125,13 @@ const AddNewCustomer = () => {
                     </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity onPress={openContact} style={billTo.group}>
-                    <AntDesign name="contacts" size={22} color={color.accent} />
-                    <Text style={billTo.groupText}>Import from your contact</Text>
-                </TouchableOpacity>
+                {
+                    !directSave &&
+                    <TouchableOpacity onPress={openContact} style={billTo.group}>
+                        <AntDesign name="contacts" size={22} color={color.accent} />
+                        <Text style={billTo.groupText}>Import from your contact</Text>
+                    </TouchableOpacity>
+                }
 
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <TextInput
