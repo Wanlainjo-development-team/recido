@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Platform } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Platform, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { addNewCustomer, billTo } from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -9,16 +9,19 @@ import { setInvoiceContact } from '../../../../../features/useFormSlice'
 import color from '../../../../../style/color'
 import * as Contacts from 'expo-contacts'
 import { AntDesign } from '@expo/vector-icons';
+import { addDoc, collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore'
+import { db } from '../../../../../hooks/firebase'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const AddNewCustomer = () => {
     const { goBack, navigate } = useNavigation()
-    const invoiceContact = useRoute().params
+    const { directSave, invoiceContact } = useRoute().params
 
     const dispatch = useDispatch()
 
     const [showMoreOptions, setSHowMoreOptions] = useState(false)
 
-    const { country, shippingCountry } = useSelector(state => state.form)
+    const { country, shippingCountry, city, state, zip, invoiceId } = useSelector(state => state.form)
 
     const [contact, setContact] = useState({
         name: '',
@@ -50,27 +53,49 @@ const AddNewCustomer = () => {
         })()
     }, [])
 
-    const addContact = () => {
-        dispatch(setInvoiceContact({
-            ...contact,
-            ...invoiceContact,
-            name: contact.name,
-            email: contact.email,
-            phone: contact.phone,
-            taxReg: contact.taxReg,
-            additionalInfo: contact.additionalInfo,
-            address: contact.address,
-            city: contact.city,
-            state: contact.state,
-            zip: contact.zip,
-            country: contact.country,
-            shippingAddress: contact.shippingAddress,
-            shippingCity: contact.shippingCity,
-            shippingState: contact.shippingState,
-            shippingZip: contact.shippingZip,
-            shippingCountry: contact.shippingCountry
-        }))
-        goBack()
+    const addContact = async () => {
+        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+        const querySnapshot = await getDocs(query(collection(db, "users", id, 'customers'), where("name", "==", contact?.name)))
+
+        if (directSave) {
+            if (querySnapshot.docs.length >= 1) {
+                Alert.alert('This contact already exists in your contact list 😕😕')
+            } else {
+                await addDoc(collection(db, 'users', id, 'customers'), {
+                    ...contact,
+                    ...invoiceContact,
+                    invoiceId,
+                    city,
+                    state,
+                    zip,
+                    country,
+                })
+
+                Alert.alert(`${contact.name} has been added to your contact successfully 🎉🎉`)
+            }
+        } else {
+            // dispatch(setInvoiceContact({
+            //     ...contact,
+            //     ...invoiceContact,
+            //     name: contact.name,
+            //     email: contact.email,
+            //     phone: contact.phone,
+            //     taxReg: contact.taxReg,
+            //     additionalInfo: contact.additionalInfo,
+            //     address: contact.address,
+            //     city: contact.city,
+            //     state: contact.state,
+            //     zip: contact.zip,
+            //     country: contact.country,
+            //     shippingAddress: contact.shippingAddress,
+            //     shippingCity: contact.shippingCity,
+            //     shippingState: contact.shippingState,
+            //     shippingZip: contact.shippingZip,
+            //     shippingCountry: contact.shippingCountry
+            // }))
+            // goBack()
+        }
     }
 
     const openContact = async () => {
@@ -81,7 +106,7 @@ const AddNewCustomer = () => {
             if (data.length > 0) {
                 const contact = data;
 
-                navigate('Contacts', { allContact: contact })
+                navigate('Contacts', { allContact: contact, directSave: false })
             }
         }
     }
