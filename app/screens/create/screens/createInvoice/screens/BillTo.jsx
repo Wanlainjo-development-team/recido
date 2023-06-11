@@ -18,7 +18,7 @@ const BillTo = () => {
       if (data.length > 0) {
         const contact = data;
 
-        navigate('Contacts', { allContact: contact })
+        navigate('Contacts', { allContact: contact, directSave: false })
       }
     }
   }
@@ -34,7 +34,7 @@ const BillTo = () => {
       </View>
 
       <ScrollView>
-        <TouchableOpacity onPress={() => navigate('AddNewCustomer')} style={billTo.group}>
+        <TouchableOpacity onPress={() => navigate('AddNewCustomer', { directSave: false })} style={billTo.group}>
           <AntDesign name="pluscircleo" size={22} color={color.accent} />
           <Text style={billTo.groupText}>Add new customer</Text>
         </TouchableOpacity>

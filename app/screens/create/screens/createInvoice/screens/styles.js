@@ -124,7 +124,6 @@ export const addNewCustomer = StyleSheet.create({
         flex: 1,
         backgroundColor: color.mainBackground,
         padding: 10,
-        paddingTop: 30
     },
 
     head: {

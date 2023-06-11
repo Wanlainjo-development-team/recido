@@ -6,17 +6,24 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setInvoiceContact } from '../../../../../features/useFormSlice'
 
 const Contacts = () => {
-    const { goBack } = useNavigation()
-    const { allContact } = useRoute().params
+    const { goBack, navigate } = useNavigation()
+    const { allContact, directSave } = useRoute().params
     const dispatch = useDispatch()
 
     const { invoiceContact } = useSelector(state => state.form)
 
     const setContact = async prop => {
-        dispatch(setInvoiceContact(prop))
+        if (directSave) {
+            dispatch(setInvoiceContact(prop))
 
-        goBack()
-        goBack()
+            navigate('AddNewCustomer', { directSave: true, invoiceContact: prop })
+        }
+        else {
+            dispatch(setInvoiceContact(prop))
+
+            goBack()
+            goBack()
+        }
     }
 
     return (

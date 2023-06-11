@@ -18,7 +18,7 @@ import color from '../../../../style/color'
 import { itemsStyle } from './screens/styles'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
+import { addDoc, collection, getDocs, query, serverTimestamp, where } from 'firebase/firestore';
 import { db } from '../../../../hooks/firebase';
 
 const CreateInvoice = () => {
@@ -141,15 +141,18 @@ const CreateInvoice = () => {
         createdAt: serverTimestamp()
       })
 
-      await addDoc(collection(db, 'users', id, 'customers'), {
-        ...invoiceContact,
-        invoiceId,
-        city,
-        state,
-        zip,
-        country,
-        createdAt: serverTimestamp()
-      })
+      const querySnapshot = await getDocs(query(collection(db, "users", id, 'customers'), where("name", "==", invoiceContact?.name)))
+
+      if (querySnapshot.docs.length <= 0)
+        await addDoc(collection(db, 'users', id, 'customers'), {
+          ...invoiceContact,
+          invoiceId,
+          city,
+          state,
+          zip,
+          country,
+          createdAt: serverTimestamp()
+        })
 
       Alert.alert('Invoice was saved successfully 🎉🎉')
 
@@ -211,7 +214,7 @@ const CreateInvoice = () => {
             </View>
 
             <View style={styles.group}>
-              <TouchableOpacity style={{ ...styles.setInvoiceView, marginBottom: 0 }} onPress={() => invoiceContact ? navigate('AddNewCustomer', invoiceContact) : navigate('BillTo')}>
+              <TouchableOpacity style={{ ...styles.setInvoiceView, marginBottom: 0 }} onPress={() => invoiceContact ? navigate('AddNewCustomer', { directSave: false, invoiceContact }) : navigate('BillTo', { directSave: false })}>
                 <View style={styles.setInvoiceLeftView}>
                   <Text style={styles.setInvoiceLeftViewBoldText}>Bill To</Text>
                   {
