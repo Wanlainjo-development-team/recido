@@ -6,17 +6,32 @@ import styles from './styles'
 import { TextInput } from 'react-native'
 import color from '../../../../style/color'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { addDoc, collection, getDocs, increment, query, serverTimestamp, where } from 'firebase/firestore'
+import { addDoc, collection, deleteDoc, doc, getDocs, increment, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
 import { db } from '../../../../hooks/firebase'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { useEffect } from 'react'
+import { Feather } from '@expo/vector-icons';
 
 const AddInventory = () => {
+    const { goBack } = useNavigation()
+    const { viewItem } = useRoute().params
+
     const [loading, setLoading] = useState(false)
+    const [updateLoading, setUpdateLoading] = useState(false)
+    const [deleteLoading, setDeleteLoading] = useState(false)
     const [inventoryData, setInventoryData] = useState({
         description: '',
         name: '',
         price: '0',
         quantity: '0'
     })
+
+    useEffect(() => {
+        (() => {
+            if (viewItem) setInventoryData({ ...viewItem, quantity: JSON.stringify(viewItem.quantity) })
+            return
+        })()
+    }, [viewItem])
 
     const saveInventory = async () => {
         const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
@@ -40,6 +55,40 @@ const AddInventory = () => {
 
             Alert.alert(`${inventoryData.name} has been added to your inventory successfully 🎉🎉`)
         }
+    }
+
+    const updateItem = async () => {
+        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+        setUpdateLoading(true)
+
+        await updateDoc(doc(db, 'users', id, 'inventory', viewItem?.inventoryId), {
+            ...inventoryData,
+            quantity: parseFloat(inventoryData.quantity),
+            updatedAt: serverTimestamp()
+        })
+
+        setUpdateLoading(false)
+        goBack()
+    }
+
+    const deleteItem = async () => {
+        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+        setDeleteLoading(true)
+
+        await setDoc(doc(db, 'users', id, 'inventoryArchive', viewItem?.inventoryId),
+            {
+                ...inventoryData,
+                archivedAt: serverTimestamp()
+            }
+        )
+
+        await deleteDoc(doc(db, 'users', id, 'inventory', viewItem?.inventoryId))
+
+        setDeleteLoading(false)
+
+        goBack()
     }
 
     return (
@@ -86,12 +135,35 @@ const AddInventory = () => {
                 </View>
             </ScrollView>
 
-            <TouchableOpacity onPress={saveInventory} style={styles.saveButton}>
+            <View style={styles.actionButtons}>
                 {
-                    loading ? <ActivityIndicator color={color.white} size='small' /> :
-                        <Text style={styles.saveButtonText}>Save</Text>
+                    !viewItem &&
+                    <TouchableOpacity onPress={saveInventory} style={styles.saveButton}>
+                        {
+                            loading ? <ActivityIndicator color={color.white} size='small' /> :
+                                <Text style={styles.saveButtonText}>Save</Text>
+                        }
+                    </TouchableOpacity>
                 }
-            </TouchableOpacity>
+
+                {
+                    viewItem &&
+                    <View style={styles.controls}>
+                        <TouchableOpacity onPress={updateItem} style={{ ...styles.deleteButton, flex: 1, marginLeft: 0, backgroundColor: `${color.accent}40` }}>
+                            {
+                                updateLoading ? <ActivityIndicator color={color.white} size='small' /> :
+                                    <Text style={{ ...styles.deleteButtonText, color: color.accent }}>Edit item</Text>
+                            }
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={deleteItem} style={{ ...styles.deleteButton, flex: 1 }}>
+                            {
+                                deleteLoading ? <ActivityIndicator color={color.white} size='small' /> :
+                                    <Text style={{ ...styles.deleteButtonText, color: color.red }}>Move to archive</Text>
+                            }
+                        </TouchableOpacity>
+                    </View>
+                }
+            </View>
         </KeyboardAvoidingView>
     )
 }
