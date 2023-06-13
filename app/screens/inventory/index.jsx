@@ -13,7 +13,7 @@ const InventoryScreen = () => {
     <View style={styles.container}>
       <InventoryList />
 
-      <TouchableOpacity onPress={() => navigate('AddInventory')} style={styles.floatingButton}>
+      <TouchableOpacity onPress={() => navigate('AddInventory', { viewItem: null })} style={styles.floatingButton}>
         <Feather name="plus" size={24} color={color.white} />
       </TouchableOpacity>
     </View>

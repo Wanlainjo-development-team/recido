@@ -10,8 +10,6 @@ import { useEffect } from 'react'
 import styles from './styles'
 import { SwipeListView } from 'react-native-swipe-list-view'
 import Loading from './Loading'
-import CountInvoices from './components/CountInvoices'
-import TotalBilling from './components/TotalBilling'
 import color from '../../style/color'
 import { Feather } from '@expo/vector-icons';
 import { setInventoryList } from '../../features/inventorySlice'
@@ -63,7 +61,7 @@ const InventoryList = () => {
   };
 
   const list = item =>
-    <Pressable key={item.id} onPress={() => navigate('ViewItem', { viewItem: item })} style={{ ...styles.list, paddingTop: 10 }}>
+    <Pressable key={item.id} onPress={() => navigate('AddInventory', { viewItem: item })} style={{ ...styles.list, paddingTop: 10 }}>
       <View style={styles.left}>
         <Text style={styles.boldText}>{item?.name}</Text>
         <Text>{item?.quantity} Left</Text>
