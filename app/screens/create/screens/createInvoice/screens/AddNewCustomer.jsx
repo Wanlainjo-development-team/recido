@@ -9,7 +9,7 @@ import { setInvoiceContact } from '../../../../../features/useFormSlice'
 import color from '../../../../../style/color'
 import * as Contacts from 'expo-contacts'
 import { AntDesign } from '@expo/vector-icons';
-import { addDoc, collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore'
+import { addDoc, collection, doc, getDoc, getDocs, query, serverTimestamp, where } from 'firebase/firestore'
 import { db } from '../../../../../hooks/firebase'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -70,6 +70,7 @@ const AddNewCustomer = () => {
                     state,
                     zip,
                     country,
+                    createdAt: serverTimestamp()
                 })
 
                 Alert.alert(`${contact.name} has been added to your contact successfully 🎉🎉`)
