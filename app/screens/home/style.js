@@ -6,6 +6,6 @@ export default StyleSheet.create({
         flex: 1,
         backgroundColor: color.mainBackground,
         paddingTop: StatusBar.currentHeight,
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
     }
 })

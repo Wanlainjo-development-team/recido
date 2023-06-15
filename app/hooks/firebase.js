@@ -14,7 +14,7 @@ const app = initializeApp({
   measurementId: measurementId
 })
 
-const auth = getAuth()
+const auth = getAuth(app)
 const db = getFirestore()
 
 export { auth, db, onAuthStateChanged }

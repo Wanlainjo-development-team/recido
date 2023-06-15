@@ -4,7 +4,7 @@ export const useFormSlice = createSlice({
     name: 'form',
     initialState: {
         // for setting invoice starts here
-        invoiceId: `${(Math.floor(Math.random() * 900000) + 100000)}`,
+        invoiceId: 0,
         date: `${new Date()}`,
         // for setting invoice ends here
 
@@ -39,7 +39,9 @@ export const useFormSlice = createSlice({
     },
     reducers: {
         setInvoiceId: (state, action) => {
-            state.invoiceId = action.payload
+            // state.invoiceId = action.payload
+            let formattedInteger = String(action.payload).padStart(6, '0');
+            state.invoiceId = formattedInteger
         },
 
         setDate: (state, action) => {

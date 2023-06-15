@@ -45,7 +45,7 @@ const CustomNavigation = () => {
                             </View> :
                             <TouchableWithoutFeedback
                                 onPress={() => {
-                                    navigation.navigate('Profile')
+                                    navigation.navigate('Settings')
                                     setCurrentTab('Home')
 
                                     Animated.timing(scaleValue, {
@@ -78,7 +78,7 @@ const CustomNavigation = () => {
                         <>
                             <Pressable
                                 onPress={() => {
-                                    navigation.navigate('Profile')
+                                    navigation.navigate('Settings')
                                     setCurrentTab('Match')
 
                                     Animated.timing(scaleValue, {
@@ -103,7 +103,7 @@ const CustomNavigation = () => {
                                 }}
                                 style={nav.usernameButton}
                             >
-                                <Text numberOfLines={1} style={{ ...nav.username, color: color.dark }}>{profile?.name}</Text>
+                                <Text numberOfLines={1} style={{ ...nav.username, color: color.dark, fontWeight: '600' }}>{profile?.name}</Text>
                             </Pressable>
                         </>
                     }

@@ -1,5 +1,5 @@
 import { View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, ScrollView, TouchableOpacity, Keyboard, Alert, ActivityIndicator, Modal, Pressable } from 'react-native'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 
 import styles from './styles'
 
@@ -11,6 +11,7 @@ import {
   setVat,
   setTotal,
   updateItems,
+  setInvoiceId,
 } from '../../../../features/useFormSlice'
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
 
@@ -23,6 +24,21 @@ import { addDoc, collection, doc, getDoc, getDocs, increment, query, serverTimes
 import { db } from '../../../../hooks/firebase';
 import { useEffect } from 'react';
 import { BlurView } from 'expo-blur'
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: true,
+  }),
+})
+
+
+
+
 
 const CreateInvoice = () => {
   const { navigate } = useNavigation()
@@ -47,6 +63,11 @@ const CreateInvoice = () => {
     vat
   } = useSelector(state => state.form)
 
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
   const [totalCalculation, setTotalCalculation] = useState({})
   const [loading, setLoading] = useState(false)
   const [uploadable, setUploadable] = useState(true)
@@ -54,6 +75,27 @@ const CreateInvoice = () => {
     existingItems: [],
     active: false
   })
+
+  useEffect(() => {
+    (() => {
+      dispatch(setInvoiceId(profile?.invoice))
+    })()
+  }, [profile])
+
+  useEffect(() => {
+    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => { });
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
+  }, []);
 
   const calculateSubTotalPromise = arr => {
     return new Promise((resolve, reject) => {
@@ -93,13 +135,13 @@ const CreateInvoice = () => {
     const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
 
     if (!invoiceContact) {
-      Alert.alert('Customer information is required')
+      await schedulePushNotification('Add customer', 'Customer information is required 🛍️🛍️', null)
 
       return
     }
 
     if (items.length < 1) {
-      Alert.alert('Items are required')
+      await schedulePushNotification('Add an item', 'Items are required\nadd a minimum of one item 🛍️🛍️', null)
 
       return
     }
@@ -212,8 +254,7 @@ const CreateInvoice = () => {
             return
           }
         })
-        .catch((error) => {
-          console.error("Error checking existing items:", error);
+        .catch(() => {
           setLoading(false)
 
           return
@@ -225,28 +266,33 @@ const CreateInvoice = () => {
             quantity: increment(-parseFloat(item?.quantity))
           })
 
-        await addDoc(collection(db, 'users', id, 'invoices'), saveObject)
+        await schedulePushNotification('Inventory recalculation', `${item?.quantity} pieces of ${item?.name} has been removed from your inventory`, null)
 
-        const querySnapshot = await getDocs(query(collection(db, "users", id, 'customers'), where("name", "==", invoiceContact?.name)))
-
-        if (querySnapshot.docs.length <= 0)
-          await addDoc(collection(db, 'users', id, 'customers'), {
-            ...invoiceContact,
-            invoiceId,
-            city,
-            state,
-            zip,
-            country,
-            createdAt: serverTimestamp()
-          })
-
-        // await addDoc(collection(db, 'users', id, 'inventory'), saveObject)
         setLoading(false)
       })
 
-      Alert.alert('Invoice was saved successfully 🎉🎉')
+      await addDoc(collection(db, 'users', id, 'invoices'), saveObject)
+
+      const querySnapshot = await getDocs(query(collection(db, "users", id, 'customers'), where("name", "==", invoiceContact?.name)))
+
+      if (querySnapshot.docs.length <= 0)
+        await addDoc(collection(db, 'users', id, 'customers'), {
+          ...invoiceContact,
+          invoiceId,
+          city,
+          state,
+          zip,
+          country,
+          createdAt: serverTimestamp()
+        })
+
+      await updateDoc(doc(db, 'users', id), {
+        invoice: increment(1)
+      })
 
       setLoading(false)
+
+      await schedulePushNotification('Invoice saved', 'Invoice was saved successfully 🎉🎉', null)
     }
   }
 
@@ -269,7 +315,7 @@ const CreateInvoice = () => {
       createdAt: serverTimestamp()
     })
 
-    Alert.alert(`${item?.name} has been added to your inventory successfully 🎉🎉`)
+    await schedulePushNotification('Item added', `${item?.name} has been added to your inventory successfully 🎉🎉`, null)
 
     setModalVisible({ ...modalVisible, active: false })
   }
@@ -298,7 +344,6 @@ const CreateInvoice = () => {
             transparent={true}
             visible={modalVisible.active}
             onRequestClose={() => {
-              Alert.alert('Modal has been closed.');
               setModalVisible({ ...modalVisible, active: !modalVisible.active });
             }}>
             <BlurView intensity={50} style={{ ...styles.modealContainer, justifyContent: 'center', alignItems: 'center' }}>
@@ -449,6 +494,48 @@ const CreateInvoice = () => {
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   )
+}
+
+async function schedulePushNotification(title, body, data) {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title,
+      body,
+      data: { data },
+    },
+    trigger: { seconds: 1 },
+  });
+}
+
+async function registerForPushNotificationsAsync() {
+  let token;
+
+  if (Platform.OS === 'android') {
+    await Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
+
+  if (Device.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
+  return token;
 }
 
 export default CreateInvoice

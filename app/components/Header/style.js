@@ -19,5 +19,18 @@ export default StyleSheet.create({
         alignItems: 'center',
         backgroundColor: `${color.accent}40`,
         borderRadius: 12
+    },
+
+    left: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+    },
+
+    title: {
+        fontWeight: '900',
+        marginLeft: 20,
+        fontSize: 20,
+        opacity: .40
     }
 })
