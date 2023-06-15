@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux'
 import { setActiveRoute } from '../features/userSlice'
 import Invoice from '../screens/invoices'
 import CustomersScreen from '../screens/customer'
-import Inventory from '../screens/inventory'
+import InventoryScreen from '../screens/inventory'
 
 const { Navigator, Screen } = createMaterialBottomTabNavigator()
 
@@ -73,7 +73,7 @@ const BottomNavigation = () => {
       />
       <Screen
         name="Inventory"
-        component={Inventory}
+        component={InventoryScreen}
         options={{
           tabBarIcon: ({ color }) => <MaterialIcons name="storefront" size={24} color={color} />,
           tabBarActiveTintColor: color.accent,

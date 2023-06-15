@@ -151,13 +151,13 @@ const AddInventory = () => {
                     <View style={styles.controls}>
                         <TouchableOpacity onPress={updateItem} style={{ ...styles.deleteButton, flex: 1, marginLeft: 0, backgroundColor: `${color.accent}40` }}>
                             {
-                                updateLoading ? <ActivityIndicator color={color.white} size='small' /> :
-                                    <Text style={{ ...styles.deleteButtonText, color: color.accent }}>Edit item</Text>
+                                updateLoading ? <ActivityIndicator color={color.accent} size='small' /> :
+                                    <Text style={{ ...styles.deleteButtonText, color: color.accent }}>Update item</Text>
                             }
                         </TouchableOpacity>
                         <TouchableOpacity onPress={deleteItem} style={{ ...styles.deleteButton, flex: 1 }}>
                             {
-                                deleteLoading ? <ActivityIndicator color={color.white} size='small' /> :
+                                deleteLoading ? <ActivityIndicator color={color.red} size='small' /> :
                                     <Text style={{ ...styles.deleteButtonText, color: color.red }}>Move to archive</Text>
                             }
                         </TouchableOpacity>

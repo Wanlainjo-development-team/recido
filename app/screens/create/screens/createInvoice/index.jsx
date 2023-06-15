@@ -1,4 +1,4 @@
-import { View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, ScrollView, TouchableOpacity, Keyboard, Alert, ActivityIndicator } from 'react-native'
+import { View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, ScrollView, TouchableOpacity, Keyboard, Alert, ActivityIndicator, Modal, Pressable } from 'react-native'
 import React, { useCallback, useState } from 'react'
 
 import styles from './styles'
@@ -10,6 +10,7 @@ import {
   setSubTotal,
   setVat,
   setTotal,
+  updateItems,
 } from '../../../../features/useFormSlice'
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
 
@@ -18,8 +19,10 @@ import color from '../../../../style/color'
 import { itemsStyle } from './screens/styles'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { addDoc, collection, getDocs, query, serverTimestamp, where } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, increment, query, serverTimestamp, updateDoc, where } from 'firebase/firestore';
 import { db } from '../../../../hooks/firebase';
+import { useEffect } from 'react';
+import { BlurView } from 'expo-blur'
 
 const CreateInvoice = () => {
   const { navigate } = useNavigation()
@@ -46,6 +49,11 @@ const CreateInvoice = () => {
 
   const [totalCalculation, setTotalCalculation] = useState({})
   const [loading, setLoading] = useState(false)
+  const [uploadable, setUploadable] = useState(true)
+  const [modalVisible, setModalVisible] = useState({
+    existingItems: [],
+    active: false
+  })
 
   const calculateSubTotalPromise = arr => {
     return new Promise((resolve, reject) => {
@@ -84,9 +92,6 @@ const CreateInvoice = () => {
   const saveInvoice = async () => {
     const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
 
-    // console.log(invoiceContact)
-    // console.log(items.length)
-
     if (!invoiceContact) {
       Alert.alert('Customer information is required')
 
@@ -99,60 +104,145 @@ const CreateInvoice = () => {
       return
     }
 
+    setLoading(true)
 
-    else if (invoiceContact && items.length >= 1) {
+    for (let i = 0; i < items.length; i++) {
+      const x = items[i];
+
+      if (!x.inventoryId) return
+
+      const currentInventoryItem = await getDoc(doc(db, 'users', id, 'inventory', x.inventoryId));
+
+      if (parseFloat(x.quantity) > currentInventoryItem.data().quantity) {
+        setLoading(false)
+        const result = await new Promise((resolve) => {
+          Alert.alert(
+            'Item error',
+            `${x.name} is not up to stock 😢😢`,
+            [
+              {
+                text: 'Open inventory',
+                onPress: () =>
+                  navigate('AddInventory', { viewItem: { inventoryId: currentInventoryItem.id, ...currentInventoryItem.data() } }),
+              },
+              {
+                text: 'Proceed',
+                onPress: () => resolve('proceed'),
+                style: 'destructive',
+              },
+              {
+                text: 'Cancel',
+                onPress: () => resolve('cancel'),
+                style: 'destructive',
+              },
+            ],
+            { cancelable: false }
+          );
+        });
+
+        if (result === 'proceed') {
+          setUploadable(true);
+        } else {
+          setUploadable(false);
+          break;
+        }
+      }
+    }
+
+    if (uploadable) startUpload(id)
+  }
+
+  const saveObject = {
+    invoiceId,
+    date,
+    invoiceContact,
+    city,
+    state,
+    zip,
+    country,
+    shippingCity,
+    shippingState,
+    shippingZip,
+    shippingCountry,
+    items,
+    invoiceState: 'outstanding',
+    note: note != '' ? note : profile?.disclaimer,
+    vat,
+    createdAt: serverTimestamp()
+  }
+
+  const startUpload = async id => {
+    if (invoiceContact && items.length >= 1) {
       setLoading(true)
 
-      await addDoc(collection(db, 'users', id, 'invoices'), {
-        invoiceId,
-        date,
-        invoiceContact,
-        city,
-        state,
-        zip,
-        country,
-        shippingCity,
-        shippingState,
-        shippingZip,
-        shippingCountry,
-        items,
-        invoiceState: 'outstanding',
-        note: note != '' ? note : profile?.disclaimer,
-        vat,
-        createdAt: serverTimestamp()
-      })
+      const checkExistingItems = async () => {
+        const nonExistingItems = [];
 
-      await addDoc(collection(db, 'users', id, 'inventory'), {
-        invoiceId,
-        date,
-        invoiceContact,
-        city,
-        state,
-        zip,
-        country,
-        shippingCity,
-        shippingState,
-        shippingZip,
-        shippingCountry,
-        items,
-        invoiceState: 'outstanding',
-        note: note != '' ? note : profile?.disclaimer,
-        vat,
-        createdAt: serverTimestamp()
-      })
+        await Promise.all(
+          items.map(async (item) => {
+            const querySnapshot = await getDocs(
+              query(collection(db, "users", id, "inventory"), where("name", "==", item?.name))
+            );
 
-      const querySnapshot = await getDocs(query(collection(db, "users", id, 'customers'), where("name", "==", invoiceContact?.name)))
+            if (querySnapshot.docs.length < 1) {
+              nonExistingItems.push({ ...item });
+            }
+          })
+        );
 
-      if (querySnapshot.docs.length <= 0)
-        await addDoc(collection(db, 'users', id, 'customers'), {
-          ...invoiceContact,
-          invoiceId,
-          city,
-          state,
-          zip,
-          country,
-          createdAt: serverTimestamp()
+        return nonExistingItems;
+      };
+
+
+      checkExistingItems()
+        .then((nonExistingItems) => {
+          if (nonExistingItems.length >= 1) {
+            setLoading(false)
+            Alert.alert('New item alert', `${nonExistingItems.length} ${nonExistingItems.length == 1 ? 'item' : 'items'} in your invoice don't exsist in your inventory.\n Would you like to add ${nonExistingItems.length == 1 ? 'it' : 'them'}?`, [
+              {
+                text: 'Ok',
+              },
+              {
+                text: `${nonExistingItems.length == 1 ? 'Add item' : 'Add items'}`,
+                onPress: () => setModalVisible({ existingItems: nonExistingItems, active: true })
+              }
+            ])
+
+
+            return
+          }
         })
+        .catch((error) => {
+          console.error("Error checking existing items:", error);
+          setLoading(false)
+
+          return
+        });
+
+      items.forEach(async item => {
+        if (item?.inventoryId)
+          await updateDoc(doc(db, 'users', id, 'inventory', item?.inventoryId), {
+            quantity: increment(-parseFloat(item?.quantity))
+          })
+
+        await addDoc(collection(db, 'users', id, 'invoices'), saveObject)
+
+        const querySnapshot = await getDocs(query(collection(db, "users", id, 'customers'), where("name", "==", invoiceContact?.name)))
+
+        if (querySnapshot.docs.length <= 0)
+          await addDoc(collection(db, 'users', id, 'customers'), {
+            ...invoiceContact,
+            invoiceId,
+            city,
+            state,
+            zip,
+            country,
+            createdAt: serverTimestamp()
+          })
+
+        // await addDoc(collection(db, 'users', id, 'inventory'), saveObject)
+        setLoading(false)
+      })
 
       Alert.alert('Invoice was saved successfully 🎉🎉')
 
@@ -160,10 +250,95 @@ const CreateInvoice = () => {
     }
   }
 
+  const deleteItem = async item => {
+    const updatedArray = modalVisible.existingItems.filter(obj => obj.inventoryId !== item.inventoryId);
+
+    setModalVisible({ existingItems: updatedArray })
+
+    dispatch(updateItems(updatedArray))
+  }
+
+  const saveFinishedInvoice = async item => {
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+    await addDoc(collection(db, 'users', id, 'inventory'), {
+      name: item?.name,
+      price: item?.price,
+      description: item?.description,
+      quantity: increment(parseFloat(item?.quantity)),
+      createdAt: serverTimestamp()
+    })
+
+    Alert.alert(`${item?.name} has been added to your inventory successfully 🎉🎉`)
+
+    setModalVisible({ ...modalVisible, active: false })
+  }
+
+  const promptItem = item => {
+    Alert.alert('Save item', `Would you like to save ${item?.name} to your inventory?`, [
+      {
+        text: 'Delete Item',
+        style: 'destructive',
+        onPress: () => deleteItem(item)
+      },
+      {
+        text: 'Save Item',
+        style: 'default',
+        onPress: () => saveFinishedInvoice(item)
+      }
+    ], { cancelable: false })
+  }
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible.active}
+            onRequestClose={() => {
+              Alert.alert('Modal has been closed.');
+              setModalVisible({ ...modalVisible, active: !modalVisible.active });
+            }}>
+            <BlurView intensity={50} style={{ ...styles.modealContainer, justifyContent: 'center', alignItems: 'center' }}>
+              <View style={styles.modalView}>
+                <View style={{ ...styles.modalViewHead, marginBottom: 15 }}>
+                  <Text style={styles.modalViewHeadText}>Save items</Text>
+
+                  <TouchableOpacity
+                    style={{ ...styles.backButton, height: 40, width: 40 }}
+                    onPress={() => setModalVisible({ ...modalVisible, active: !modalVisible.active })}>
+                    <AntDesign name="close" size={24} color={color.accent} />
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.modalViewBody}>
+                  {
+                    modalVisible.existingItems.length >= 1 ?
+                      <>
+                        {
+                          modalVisible.existingItems.map((item, index) => (
+                            <Pressable key={index} onPress={() => promptItem(item)} style={{ ...styles.list, backgroundColor: color.white, height: 45, paddingHorizontal: 10, borderRadius: 12, marginBottom: (index + 1) == modalVisible.existingItems.length ? 0 : 10 }}>
+                              <View style={styles.left}>
+                                <Text style={styles.boldText}>{item?.name}</Text>
+                                <Text>{item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Left</Text>
+                              </View>
+                              <View style={styles.right}>
+                                <Text>${item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                              </View>
+                            </Pressable>
+                          ))
+                        }
+                      </> :
+                      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <Text>All items have been cleard</Text>
+                      </View>
+                  }
+                </View>
+              </View>
+            </BlurView>
+          </Modal>
           <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
             <View style={styles.group}>
               <TouchableOpacity style={{ ...styles.setInvoiceView, marginBottom: 0 }} onPress={() => navigate('SetInvoice')}>
@@ -263,7 +438,7 @@ const CreateInvoice = () => {
             </View>
           </ScrollView>
 
-          <TouchableOpacity onPress={saveInvoice} style={styles.floatingButton}>
+          <TouchableOpacity onPress={async () => await saveInvoice()} style={styles.floatingButton}>
             {
               loading ?
                 <ActivityIndicator color={color.white} /> :
