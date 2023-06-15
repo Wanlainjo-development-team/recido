@@ -38,13 +38,16 @@ const StackNavigator = () => {
     const navigation = useNavigation()
     const dispatch = useDispatch()
 
-    const { user, loadingInitial, auth } = useSelector(state => state.user)
+    const { user, auth } = useSelector(state => state.user)
+
+    const [loadingInitial, setLoadingInitial] = useState(true)
 
     const storeData = async () => {
         const value = await AsyncStorage.getItem('recido_user')
-        dispatch(setAuth(value))
+        await dispatch(setAuth(value))
+        await getUser(JSON.parse(value))
 
-        getUser(JSON.parse(value))
+        setLoadingInitial(false)
     }
 
     const getUser = (prop) => {
@@ -74,47 +77,54 @@ const StackNavigator = () => {
             }}
         >
             {
-                (auth || user) ? (
+                loadingInitial ?
+                    <Screen name='Splash' component={Splash} options={{ gestureEnabled: false }} /> :
+
                     <>
-                        <Screen name="CustomNavigation" component={CustomNavigation} options={{ gestureEnabled: false }} />
+                        {
+                            (auth || user) ? (
+                                <>
+                                    <Screen name="CustomNavigation" component={CustomNavigation} options={{ gestureEnabled: false }} />
 
-                        <Screen name='Settings' component={Settings} options={{ gestureEnabled: false }} />
-                        <Screen name='Create' component={Create} options={{ gestureEnabled: true }} />
-                        <Screen name='SetInvoice' component={SetInvoice} options={{ gestureEnabled: true }} />
-                        <Screen name='BillTo' component={BillTo} options={{ gestureEnabled: true }} />
-                        <Screen name='Contacts' component={Contacts} options={{ gestureEnabled: true }} />
-                        <Screen name='AddNewCustomer' component={AddNewCustomer} options={{ gestureEnabled: true }} />
-                        <Screen name='Countries' component={Countries} options={{ gestureEnabled: true }} />
-                        <Screen name='Items' component={Items} options={{ gestureEnabled: true }} />
-                        <Screen name='CreateItem' component={CreateItem} options={{ gestureEnabled: true }} />
-                        <Screen name='Note' component={Note} options={{ gestureEnabled: true }} />
-                        <Screen name='ViewCustomer' component={ViewCustomer} options={{ gestureEnabled: true }} />
-                        <Screen name='AddContact' component={AddContact} options={{ gestureEnabled: true }} />
-                        <Screen name='AddInventory' component={AddInventory} options={{ gestureEnabled: true }} />
-                        <Group
-                            screenOptions={{
-                                ...TransitionPresets.ModalSlideFromBottomIOS,
-                                presentation: 'transparentModal',
-                                headerStatusBarHeight: 0, // Set the header status bar height to 0 to hide it
-                                headerStyleInterpolator: ({ current }) => ({
-                                    containerStyle: {
-                                        opacity: current.progress, // Fade out the screen based on the progress of the gesture
-                                    },
-                                }),
-                            }}
-                        >
-                            <Screen name='SelectTemplate' component={SelectTemplate} options={{ gestureEnabled: true }} />
-                            <Screen name='InvoiceSearchConfig' component={InvoiceSearchConfig} options={{ gestureEnabled: true }} />
-                        </Group>
+                                    <Screen name='Settings' component={Settings} options={{ gestureEnabled: false }} />
+                                    <Screen name='Create' component={Create} options={{ gestureEnabled: true }} />
+                                    <Screen name='SetInvoice' component={SetInvoice} options={{ gestureEnabled: true }} />
+                                    <Screen name='BillTo' component={BillTo} options={{ gestureEnabled: true }} />
+                                    <Screen name='Contacts' component={Contacts} options={{ gestureEnabled: true }} />
+                                    <Screen name='AddNewCustomer' component={AddNewCustomer} options={{ gestureEnabled: true }} />
+                                    <Screen name='Countries' component={Countries} options={{ gestureEnabled: true }} />
+                                    <Screen name='Items' component={Items} options={{ gestureEnabled: true }} />
+                                    <Screen name='CreateItem' component={CreateItem} options={{ gestureEnabled: true }} />
+                                    <Screen name='Note' component={Note} options={{ gestureEnabled: true }} />
+                                    <Screen name='ViewCustomer' component={ViewCustomer} options={{ gestureEnabled: true }} />
+                                    <Screen name='AddContact' component={AddContact} options={{ gestureEnabled: true }} />
+                                    <Screen name='AddInventory' component={AddInventory} options={{ gestureEnabled: true }} />
+                                    <Group
+                                        screenOptions={{
+                                            ...TransitionPresets.ModalSlideFromBottomIOS,
+                                            presentation: 'transparentModal',
+                                            headerStatusBarHeight: 0, // Set the header status bar height to 0 to hide it
+                                            headerStyleInterpolator: ({ current }) => ({
+                                                containerStyle: {
+                                                    opacity: current.progress, // Fade out the screen based on the progress of the gesture
+                                                },
+                                            }),
+                                        }}
+                                    >
+                                        <Screen name='SelectTemplate' component={SelectTemplate} options={{ gestureEnabled: true }} />
+                                        <Screen name='InvoiceSearchConfig' component={InvoiceSearchConfig} options={{ gestureEnabled: true }} />
+                                    </Group>
 
+                                </>
+                            ) : (
+                                <Group>
+                                    <Screen name="Signin" component={Signin} options={{ gestureEnabled: false }} />
+                                    <Screen name="Signup" component={Signup} options={{ gestureEnabled: true }} />
+                                    <Screen name="ForgotPassword" component={ForgotPassword} options={{ gestureEnabled: true }} />
+                                </Group>
+                            )
+                        }
                     </>
-                ) : (
-                    <Group>
-                        <Screen name="Signin" component={Signin} options={{ gestureEnabled: false }} />
-                        <Screen name="Signup" component={Signup} options={{ gestureEnabled: true }} />
-                        <Screen name="ForgotPassword" component={ForgotPassword} options={{ gestureEnabled: true }} />
-                    </Group>
-                )
             }
         </Navigator>
     )
