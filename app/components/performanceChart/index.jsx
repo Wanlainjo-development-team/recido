@@ -36,7 +36,7 @@ const PerformanceChart = () => {
             }
           ]
         }}
-        width={Dimensions.get("window").width - 40} // from react-native
+        width={Dimensions.get("window").width - 20} // from react-native
         height={200}
         yAxisLabel="$"
         yAxisSuffix="k"

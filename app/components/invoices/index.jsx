@@ -119,7 +119,7 @@ const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {
         return capitalized
     }
 
-    const list = item => (
+    const list = (item, index) =>
         <Pressable key={item.id} onPress={() => navigate('Create', { viewInvoice: item })} style={{ ...styles.list, paddingTop: showLabel ? 5 : 10 }}>
             {
                 showLabel &&
@@ -136,23 +136,16 @@ const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {
                 <Text>{calculateTotal(item)}</Text>
             </View>
         </Pressable>
-    )
 
-    const renderItem = ({ item }) => {
-        return (
-            <View>{list(item)}</View>
-        );
-    };
 
-    const renderHiddenItem = ({ item }) => {
-        return (
-            <View style={styles.hiddenItem}>
-                <TouchableOpacity onPress={() => handleArchive(item.id)} style={styles.archiveButton}>
-                    <Feather name="archive" size={24} color={color.white} />
-                </TouchableOpacity>
-            </View>
-        );
-    };
+    const renderItem = ({ item, index }) => <View style={{ paddingBottom: (index + 1) == invoiceList.length ? 80 : 0 }}>{list(item, index)}</View>
+
+    const renderHiddenItem = ({ item }) =>
+        <View style={styles.hiddenItem}>
+            <TouchableOpacity onPress={() => handleArchive(item.id)} style={styles.archiveButton}>
+                <Feather name="archive" size={24} color={color.white} />
+            </TouchableOpacity>
+        </View>
 
     return (
         <>
@@ -160,7 +153,7 @@ const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {
                 invoiceList.length >= 1 ?
                     <View style={styles.container}>
                         <SwipeListView
-                            data={currentTab == 'search' ? filteredInvoices : invoiceList}
+                            data={currentTab == 'search' ? (numOfClice ? filteredInvoices.slice(0, numOfClice) : filteredInvoices) : (numOfClice ? invoiceList.slice(0, numOfClice) : invoiceList)}
                             renderItem={renderItem}
                             renderHiddenItem={renderHiddenItem}
                             rightOpenValue={-70}

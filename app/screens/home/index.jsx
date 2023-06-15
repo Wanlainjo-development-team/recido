@@ -13,7 +13,7 @@ const Home = () => {
     <View style={style.container}>
       <PerformanceChart />
 
-      <Invoices numOfClice={25} fetchScale='all' showLabel={false} currentTab='home' />
+      <Invoices numOfClice={5} fetchScale='all' showLabel={false} currentTab='home' />
     </View>
   )
 }
