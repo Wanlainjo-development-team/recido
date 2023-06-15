@@ -44,7 +44,8 @@ const Signup = () => {
             id,
             name,
             email,
-            tries: 50,
+            tries: 25,
+            invoice: 0,
             timestamp: serverTimestamp()
           })
 
