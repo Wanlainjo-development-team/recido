@@ -17,7 +17,7 @@ import CustomNavigation from './CustomNavigation'
 
 import { setAuth, setProfile } from '../features/userSlice'
 import { doc, getDoc, onSnapshot } from 'firebase/firestore'
-import { db } from '../hooks/firebase'
+import { db, onAuthStateChanged } from '../hooks/firebase'
 import { useNavigation } from '@react-navigation/native'
 import SelectTemplate from '../screens/selectTemplate'
 import Create from '../screens/create'
@@ -33,6 +33,15 @@ import InvoiceSearchConfig from '../screens/invoices/config'
 import ViewCustomer from '../screens/customer/screens/viewCustomer'
 import AddContact from '../screens/customer/screens/addContact'
 import AddInventory from '../screens/inventory/screens/addInventory'
+import BussinessDetails from '../screens/settings/screens/bussinessDetails'
+import Information from '../screens/settings/screens/information'
+import { useEffect } from 'react'
+import Templates from '../screens/settings/screens/template'
+import DefaultNotes from '../screens/settings/screens/notes'
+import DefaultEmailMessage from '../screens/settings/screens/emailMessage'
+import About from '../screens/settings/screens/about'
+import TermsOfUse from '../screens/settings/screens/terms'
+import PrivacyPolicy from '../screens/settings/screens/privacyPolicy'
 
 const StackNavigator = () => {
     const navigation = useNavigation()
@@ -44,10 +53,16 @@ const StackNavigator = () => {
 
     const storeData = async () => {
         const value = await AsyncStorage.getItem('recido_user')
-        await dispatch(setAuth(value))
-        await getUser(JSON.parse(value))
 
-        setLoadingInitial(false)
+        if (value) {
+            await dispatch(setAuth(value))
+            await getUser(JSON.parse(value))
+
+            setLoadingInitial(false)
+        } else {
+            dispatch(setAuth(null))
+            setLoadingInitial(false)
+        }
     }
 
     const getUser = (prop) => {
@@ -99,6 +114,14 @@ const StackNavigator = () => {
                                     <Screen name='ViewCustomer' component={ViewCustomer} options={{ gestureEnabled: true }} />
                                     <Screen name='AddContact' component={AddContact} options={{ gestureEnabled: true }} />
                                     <Screen name='AddInventory' component={AddInventory} options={{ gestureEnabled: true }} />
+                                    <Screen name='BussinessDetails' component={BussinessDetails} options={{ gestureEnabled: true }} />
+                                    <Screen name='Information' component={Information} options={{ gestureEnabled: true }} />
+                                    <Screen name='Templates' component={Templates} options={{ gestureEnabled: true }} />
+                                    <Screen name='DefaultNotes' component={DefaultNotes} options={{ gestureEnabled: true }} />
+                                    <Screen name='DefaultEmailMessage' component={DefaultEmailMessage} options={{ gestureEnabled: true }} />
+                                    <Screen name='About' component={About} options={{ gestureEnabled: true }} />
+                                    <Screen name='TermsOfUse' component={TermsOfUse} options={{ gestureEnabled: true }} />
+                                    <Screen name='PrivacyPolicy' component={PrivacyPolicy} options={{ gestureEnabled: true }} />
                                     <Group
                                         screenOptions={{
                                             ...TransitionPresets.ModalSlideFromBottomIOS,

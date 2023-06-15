@@ -35,7 +35,7 @@ const Signin = () => {
         .then(async user => {
           await AsyncStorage.setItem('recido_user', JSON.stringify(user))
           setLoading(false)
-          // dispatch(setUser(user))
+          dispatch(setUser(user))
         }).catch(async error => {
           if (error.message.includes('wrong-password'))
             Alert.alert('Sign In error', 'Wrong password. Check your passwod then try again. 🙂')

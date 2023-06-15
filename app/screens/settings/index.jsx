@@ -18,7 +18,7 @@ const Settings = () => {
         <View style={{ ...style.group, marginTop: 50 }}>
           <Text style={style.title}>Invoice</Text>
 
-          <TouchableOpacity style={style.actionButton}>
+          <TouchableOpacity onPress={() => navigate('BussinessDetails')} style={style.actionButton}>
             <Text style={style.actionButtonTitle}>Bussiness details</Text>
             <Text style={style.actionButtonSubTitle}>Logo, name, contact information</Text>
           </TouchableOpacity>
