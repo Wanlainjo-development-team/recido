@@ -21,6 +21,7 @@ export const userSlice = createSlice({
     logout: (state) => {
       state.user = null
       state.loadingInitial = false
+      state.auth = null
     },
 
     setProfile: (state, action) => {
