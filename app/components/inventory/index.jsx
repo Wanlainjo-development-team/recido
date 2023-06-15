@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Alert, Pressable } from 'react-native'
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, serverTimestamp, setDoc } from 'firebase/firestore'
 import { db } from '../../hooks/firebase'
@@ -13,10 +13,13 @@ import Loading from './Loading'
 import color from '../../style/color'
 import { Feather } from '@expo/vector-icons';
 import { setInventoryList } from '../../features/inventorySlice'
+import { setItems } from '../../features/useFormSlice'
 
-const InventoryList = () => {
+const InventoryList = ({ selectItem }) => {
   const dispatch = useDispatch()
+
   const { navigate } = useNavigation()
+  const route = useRoute()
 
   const [newInventoryList, setNewInventoryList] = useState([])
 
@@ -43,31 +46,44 @@ const InventoryList = () => {
     })()
   }, [db])
 
-  const handleArchive = async (inventory) => {
-    // const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+  const handleArchive = async (inventoryId) => {
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
 
-    // let inventories = (await getDoc(doc(db, 'users', id, 'inventory', inventoryId))).data()
+    let inventories = (await getDoc(doc(db, 'users', id, 'inventory', inventoryId))).data()
 
-    // await setDoc(doc(db, 'users', id, 'inventoryArchive', inventoryId),
-    //   {
-    //     ...inventories,
-    //     archivedAt: serverTimestamp()
-    //   }
-    // )
+    await setDoc(doc(db, 'users', id, 'inventoryArchive', inventoryId),
+      {
+        ...inventories,
+        archivedAt: serverTimestamp()
+      }
+    )
 
-    // await deleteDoc(doc(db, 'users', id, 'inventory', inventoryId))
+    await deleteDoc(doc(db, 'users', id, 'inventory', inventoryId))
 
-    // Alert.alert('Contact has been moved to your archive successfully 🎉🎉')
+    Alert.alert('Item has been moved to your archive successfully 🎉🎉')
   };
 
+  const addItem = item => {
+    if (item.quantity >= 1)
+      dispatch(setItems({
+        ...item,
+        name: item.name,
+        price: item.price,
+        quantity: JSON.stringify(item.quantity),
+        description: item.description
+      }))
+    else
+      Alert.alert('Seems this item is sold out 😕😕')
+  }
+
   const list = item =>
-    <Pressable key={item.id} onPress={() => navigate('AddInventory', { viewItem: item })} style={{ ...styles.list, paddingTop: 10 }}>
+    <Pressable key={item.id} onPress={() => selectItem ? addItem(item) : navigate('AddInventory', { viewItem: item })} style={{ ...styles.list, paddingTop: 10 }}>
       <View style={styles.left}>
         <Text style={styles.boldText}>{item?.name}</Text>
-        <Text>{item?.quantity} Left</Text>
+        <Text>{item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Left</Text>
       </View>
       <View style={styles.right}>
-        <Text>${item?.price}</Text>
+        <Text>${item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
       </View>
     </Pressable>
 
@@ -84,7 +100,7 @@ const InventoryList = () => {
     <>
       {
         newInventoryList.length >= 1 ?
-          <View style={styles.container}>
+          <View style={{ ...styles.container, paddingBottom: route.name == 'Items' ? 0 : 80 }}>
             <SwipeListView
               data={newInventoryList}
               renderItem={renderItem}

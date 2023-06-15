@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import { AntDesign } from '@expo/vector-icons'
 import color from '../../../../../style/color'
 import { useSelector } from 'react-redux'
+import InventoryList from '../../../../../components/inventory'
 
 const Items = () => {
     const { goBack, navigate } = useNavigation()
@@ -51,6 +52,9 @@ const Items = () => {
                     </TouchableOpacity>
                 )}
             />
+
+            <Text style={itemsStyle.heading}>Inventory</Text>
+            <InventoryList selectItem={true} />
         </View>
     )
 }

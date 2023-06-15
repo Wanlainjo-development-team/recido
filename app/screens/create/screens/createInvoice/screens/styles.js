@@ -305,6 +305,13 @@ export const itemsStyle = StyleSheet.create({
     deleteItemButtonText: {
         color: color.red,
         fontWeight: '600'
+    },
+
+    heading: {
+        opacity: 0.40,
+        fontSize: 30,
+        fontWeight: '900',
+        marginTop: 30
     }
 })
 
