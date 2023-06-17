@@ -1,4 +1,4 @@
-import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, Image, TextInput } from 'react-native'
+import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, Image, TextInput, ActivityIndicator } from 'react-native'
 import React from 'react'
 
 import Header from '../../../../components/Header'
@@ -7,11 +7,13 @@ import { Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker'
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
+import color from '../../../../style/color';
 
 const BussinessDetails = () => {
   const { profile } = useSelector(state => state.user)
 
   const [image, setImage] = useState(profile?.photoURL == undefined ? null : profile?.photoURL)
+  const [loading, setLoading] = useState(false)
 
   const [newProfile, setNewProfile] = useState({
     name: profile?.name,
@@ -51,7 +53,8 @@ const BussinessDetails = () => {
             </TouchableOpacity>
           </View>
 
-          <View style={{ ...styles.inputView, marginTop: 30 }}>
+          <Text style={styles.title}>Bussiness Information</Text>
+          <View style={{ ...styles.inputView, marginTop: 20 }}>
             <Text style={styles.inputText}>Business name</Text>
             <TextInput
               style={styles.input}
@@ -64,6 +67,33 @@ const BussinessDetails = () => {
               }}
               placeholder='Business name' />
           </View>
+          <View style={{ ...styles.inputView }}>
+            <Text style={styles.inputText}>Business owner's name</Text>
+            <TextInput
+              style={styles.input}
+              value={newProfile?.ownerName}
+              onChangeText={(text) => {
+                setNewProfile({
+                  ...newProfile,
+                  ownerName: text
+                })
+              }}
+              placeholder="Business owner's name" />
+          </View>
+          <View style={{ ...styles.inputView }}>
+            <Text style={styles.inputText}>Business number</Text>
+            <TextInput
+              style={styles.input}
+              value={newProfile?.businessNumber}
+              onChangeText={(text) => {
+                setNewProfile({
+                  ...newProfile,
+                  businessNumber: text
+                })
+              }}
+              placeholder="Business number" />
+          </View>
+
           <View style={styles.inputView}>
             <Text style={styles.inputText}>Business address</Text>
             <TextInput
@@ -110,6 +140,14 @@ const BussinessDetails = () => {
               placeholder='Sales Rep'
             />
           </View>
+
+          <TouchableOpacity style={styles.saveButton}>
+            {
+              loading ?
+                <ActivityIndicator color={color.accent} size='small' /> :
+                <Text style={styles.saveButtonText}>Save Bussiness details</Text>
+            }
+          </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
     </View>

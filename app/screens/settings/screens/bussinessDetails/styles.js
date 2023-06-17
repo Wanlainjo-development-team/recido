@@ -20,6 +20,13 @@ export default StyleSheet.create({
     },
 
     inputText: {
+        fontSize: 12
+    },
+
+    title: {
+        fontSize: 30,
+        fontWeight: '600',
+        opacity: .40
     },
 
     inputView: {
@@ -31,5 +38,19 @@ export default StyleSheet.create({
         paddingRight: 10,
         borderBottomWidth: 1,
         borderBottomColor: `${color.accent}40`
+    },
+
+    saveButton: {
+        backgroundColor: `${color.accent}40`,
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 12,
+        marginBottom: 10
+    },
+
+    saveButtonText: {
+        color: color.accent,
+        fontWeight: '600'
     }
 })
