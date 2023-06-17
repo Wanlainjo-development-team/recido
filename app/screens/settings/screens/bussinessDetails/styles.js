@@ -24,8 +24,8 @@ export default StyleSheet.create({
     },
 
     title: {
-        fontSize: 30,
-        fontWeight: '600',
+        fontSize: 25,
+        fontWeight: '900',
         opacity: .40
     },
 
