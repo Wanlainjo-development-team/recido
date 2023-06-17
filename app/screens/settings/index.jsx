@@ -23,7 +23,7 @@ const Settings = () => {
             <Text style={style.actionButtonSubTitle}>Logo, name, contact information</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={style.actionButton}>
+          <TouchableOpacity onPress={() => navigate('Templates')} style={style.actionButton}>
             <Text style={style.actionButtonTitle}>Template</Text>
             <Text style={style.actionButtonSubTitle}>Select your prefared invoice design</Text>
           </TouchableOpacity>
