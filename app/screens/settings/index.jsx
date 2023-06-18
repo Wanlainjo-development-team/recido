@@ -32,7 +32,7 @@ const Settings = () => {
             <Text style={style.actionButtonTitle}>Tax</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={style.actionButton}>
+          <TouchableOpacity onPress={() => navigate('DefaultNotes')} style={style.actionButton}>
             <Text style={style.actionButtonTitle}>Default notes</Text>
           </TouchableOpacity>
 
