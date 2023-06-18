@@ -42,6 +42,7 @@ import DefaultEmailMessage from '../screens/settings/screens/emailMessage'
 import About from '../screens/settings/screens/about'
 import TermsOfUse from '../screens/settings/screens/terms'
 import PrivacyPolicy from '../screens/settings/screens/privacyPolicy'
+import Tax from '../screens/settings/screens/tax'
 
 const StackNavigator = () => {
     const navigation = useNavigation()
@@ -117,6 +118,7 @@ const StackNavigator = () => {
                                     <Screen name='BussinessDetails' component={BussinessDetails} options={{ gestureEnabled: true }} />
                                     <Screen name='Information' component={Information} options={{ gestureEnabled: true }} />
                                     <Screen name='Templates' component={Templates} options={{ gestureEnabled: true }} />
+                                    <Screen name='Tax' component={Tax} options={{ gestureEnabled: true }} />
                                     <Screen name='DefaultNotes' component={DefaultNotes} options={{ gestureEnabled: true }} />
                                     <Screen name='DefaultEmailMessage' component={DefaultEmailMessage} options={{ gestureEnabled: true }} />
                                     <Screen name='About' component={About} options={{ gestureEnabled: true }} />
