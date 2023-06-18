@@ -11,6 +11,7 @@ import color from '../../../../../style/color'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../../../../hooks/firebase'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 const { width } = Dimensions.get('window')
@@ -28,6 +29,9 @@ const Template = () => {
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
                 <View style={styles.previewGrid}>
+                    {/* <TouchableOpacity>
+                        <MaterialCommunityIcons name="cancel" size={24} color="black" />
+                    </TouchableOpacity> */}
                     {
                         templatesPreview.map((item, index) => (
                             <TouchableOpacity key={index} onPress={() => updateChosenTemplate(item)} style={{ ...styles.imageButton, borderColor: item.invoice == profile?.selectedTemplatePreview?.invoice ? color.accent : color.transparent }}>

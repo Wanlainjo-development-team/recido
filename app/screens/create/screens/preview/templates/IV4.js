@@ -44,15 +44,20 @@ export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
       padding-right: 10px;
       height: 30px;
       display: inline-block;
-      background-color: rgb(233, 125, 49);
+      background-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 125, 49)'};
       text-align: center;
 
       line-height: 30px;
       vertical-align: middle;
+      color: #ffffff
+    }
+
+    .inner-arrow a {
+      color: #ffffff
     }
 
     .arrow.back .inner-arrow {
-      background-color: rgb(233, 217, 49);
+      background-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 217, 49)'};
       padding-right: 0;
       padding-left: 10px;
     }
@@ -68,26 +73,26 @@ export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
     }
 
     .arrow:before {
-      border-top-color: rgb(233, 125, 49);
-      border-bottom-color: rgb(233, 125, 49);
-      border-right-color: rgb(233, 125, 49);
+      border-top-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 125, 49)'};
+      border-bottom-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 125, 49)'};
+      border-right-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 125, 49)'};
     }
 
     .arrow.back:before {
       border-top-color: transparent;
       border-bottom-color: transparent;
-      border-right-color: rgb(233, 217, 49);
+      border-right-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 217, 49)'};
       border-left-color: transparent;
     }
 
     .arrow:after {
-      border-left-color: rgb(233, 125, 49);
+      border-left-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 125, 49)'};
     }
 
     .arrow.back:after {
-      border-left-color: rgb(233, 217, 49);
-      border-top-color: rgb(233, 217, 49);
-      border-bottom-color: rgb(233, 217, 49);
+      border-left-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 217, 49)'};
+      border-top-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 217, 49)'};
+      border-bottom-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 217, 49)'};
       border-right-color: transparent;
     }
 
@@ -102,6 +107,7 @@ export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
       margin-right: 0;
       margin-left: 20px;
       text-align: left;
+      color: #ffffff
     }
 
     h1 {
@@ -222,7 +228,7 @@ export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
         </tr>
       </thead>
       <tbody>
-      ${items.map((item) => {
+      ${items?.map((item) => {
     return `
           <tr>
             <td class="service">${item.name}</td>
@@ -267,10 +273,10 @@ export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
         <div class="arrow back" style="display: ${profile?.name ? 'initial' : 'none'}">
           <div class="inner-arrow">${profile?.name} <span>COMPANY</span></div>
         </div>
-        <div class="arrow back" class="arrow back" ${profile?.contact ? '' : 'none'}">
+        <div class="arrow back" ${profile?.contact ? '' : 'none'}">
           <div class="inner-arrow">${profile?.contact} <span>PHONE</span></div>
         </div>
-        <div class="arrow back" class="arrow back" ${profile?.email ? '' : 'none'}">
+        <div class="arrow back" ${profile?.email ? '' : 'none'}">
           <div class="inner-arrow"><a href="mailto:${profile?.email}">${profile?.email}</a> <span>EMAIL</span></div>
         </div>
       </div>
