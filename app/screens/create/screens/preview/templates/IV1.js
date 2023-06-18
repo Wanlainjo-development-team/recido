@@ -27,17 +27,17 @@ export const IV1 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
             <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                 <img src="${profile?.photoURL}" alt="" style="width: 80px; margin-right: .5em; display: ${profile?.photoURL ? 'initial' : 'none'}">
                 <div>
-                    <p style="font-size: 0.6rem; color: #0374E5; font-weight: 700; margin-bottom: .4em; display: ${profile?.name ? 'initial' : 'none'}">${profile?.name}</p>
-                    <p style="font-size: 0.6rem; color: #0374E5; margin-bottom: .4em; display: ${profile?.photoURL ? '' : 'none'}">${profile?.address}</p>
-                    <p style="font-size: 0.6rem; color: #0374E5; margin-bottom: .4em; display: ${profile?.website ? 'initial' : 'none'}">${profile?.website}</p>
+                    <p style="font-size: 0.6rem; color: #${profile?.invoiceColor ? profile?.invoiceColor : '0374E5'}; font-weight: 700; margin-bottom: .4em; display: ${profile?.name ? 'initial' : 'none'}">${profile?.name}</p>
+                    <p style="font-size: 0.6rem; color: #${profile?.invoiceColor ? profile?.invoiceColor : '0374E5'}; margin-bottom: .4em; display: ${profile?.photoURL ? '' : 'none'}">${profile?.address}</p>
+                    <p style="font-size: 0.6rem; color: #${profile?.invoiceColor ? profile?.invoiceColor : '0374E5'}; margin-bottom: .4em; display: ${profile?.website ? 'initial' : 'none'}">${profile?.website}</p>
                     <div>
                         <p
-                            style="display: flex; justify-content: flex-start; align-items: center; font-size: 0.6rem; color: #0374E5;">
+                            style="display: flex; justify-content: flex-start; align-items: center; font-size: 0.6rem; color: #${profile?.invoiceColor ? profile?.invoiceColor : '0374E5'};">
                             <span style="width: 50px; margin-bottom: .4em;">Email</span>
                             <span>${profile?.email}</span>
                         </p>
                         <p
-                            style="display: flex; justify-content: flex-start; align-items: center; font-size: 0.6rem; color: #0374E5;">
+                            style="display: flex; justify-content: flex-start; align-items: center; font-size: 0.6rem; color: #${profile?.invoiceColor ? profile?.invoiceColor : '0374E5'};">
                             <span style="width: 50px; margin-bottom: .4em;">Tel</span> <span>${profile?.contact}</span>
                         </p>
                     </div>
@@ -48,11 +48,11 @@ export const IV1 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
                 <div style="border: 1px solid rgba(0, 0, 0, 0.4); margin: 0; padding: .5em;">
                     <p
                         style="width: 100%; display: flex; justify-content: space-between; align-items: center; font-size: .8rem;">
-                        <span style="color: #0374E5;">Order #</span><span>${invoiceId}</span>
+                        <span style="color: #${profile?.invoiceColor ? profile?.invoiceColor : '0374E5'};">Order #</span><span>${invoiceId}</span>
                     </p>
                     <p
                         style="width: 100%; display: flex; justify-content: space-between; align-items: center; font-size: .8rem;">
-                        <span style="color: #0374E5;">Date</span><span>${new Date(date).toDateString()}</span>
+                        <span style="color: #${profile?.invoiceColor ? profile?.invoiceColor : '0374E5'};">Date</span><span>${new Date(date).toDateString()}</span>
                     </p>
                 </div>
             </div>
@@ -61,7 +61,7 @@ export const IV1 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
         <div
             style="width: 100%; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; margin-top: 2em;">
             <div style="width: 50%; display: ${invoiceContact?.name ? 'flex' : 'none'}; justify-content: flex-start; align-items: flex-start;">
-                <span style="font-size: .8rem; color: #0374E5;">Customer</span>
+                <span style="font-size: .8rem; color: #${profile?.invoiceColor ? profile?.invoiceColor : '0374E5'};">Customer</span>
     
                 <div style="margin-left: 90px;">
                     <p style="font-size: .8rem; font-weight: 700; width: 150px;">${invoiceContact?.name}</p>
@@ -70,7 +70,7 @@ export const IV1 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
             </div>
             <div
                 style="width: 50%; display: ${invoiceContact?.phoneNumbers[0]?.number ? 'flex' : 'none'}; justify-content: flex-start; align-items: flex-start;">
-                <span style="font-size: .8rem; color: #0374E5;">Contact</span>
+                <span style="font-size: .8rem; color: #${profile?.invoiceColor ? profile?.invoiceColor : '0374E5'};">Contact</span>
     
                 <div style="margin-left: 90px;">
                     <p style="font-size: .8rem; width: 150px;">${invoiceContact?.phoneNumbers[0]?.number}</p>
@@ -81,13 +81,13 @@ export const IV1 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
     
         <table style="width: 100%; margin-top: 2em;">
             <tr style="background-color: #E1E1E1;">
-                <td style="font-size: .8rem; color: #0374E5;">Item</td>
-                <td style="font-size: .8rem; color: #0374E5;">Description</td>
-                <td style="font-size: .8rem; color: #0374E5;">Quantity</td>
-                <td style="font-size: .8rem; color: #0374E5;">Unit Price</td>
-                <td style="font-size: .8rem; color: #0374E5;">Sub-Total</td>
+                <td style="font-size: .8rem; color: #${profile?.invoiceColor ? profile?.invoiceColor : '0374E5'};">Item</td>
+                <td style="font-size: .8rem; color: #${profile?.invoiceColor ? profile?.invoiceColor : '0374E5'};">Description</td>
+                <td style="font-size: .8rem; color: #${profile?.invoiceColor ? profile?.invoiceColor : '0374E5'};">Quantity</td>
+                <td style="font-size: .8rem; color: #${profile?.invoiceColor ? profile?.invoiceColor : '0374E5'};">Unit Price</td>
+                <td style="font-size: .8rem; color: #${profile?.invoiceColor ? profile?.invoiceColor : '0374E5'};">Sub-Total</td>
             </tr>
-            ${items.map((item) => {
+            ${items?.map((item) => {
         return `
                         <tr>
                             <td style="font-size: .8rem;">${item.name}</td>
@@ -104,15 +104,15 @@ export const IV1 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
         <div style="margin-top: 2em; width: 100%; display: flex; justify-content: flex-end; align-items: flex-start;">
             <table style="border: none;">
                 <tr>
-                    <td style="border: none; width: 100px; font-size: .8rem; color: #0374E5;">Sub-Total</td>
+                    <td style="border: none; width: 100px; font-size: .8rem; color: #${profile?.invoiceColor ? profile?.invoiceColor : '0374E5'};">Sub-Total</td>
                     <td style="font-size: .8rem; text-align: right;">$${subTotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                 </tr>
                 <tr>
-                    <td style="border: none; width: 100px; font-size: .8rem; color: #0374E5;">VAT (${vat}%)</td>
+                    <td style="border: none; width: 100px; font-size: .8rem; color: #${profile?.invoiceColor ? profile?.invoiceColor : '0374E5'};">VAT (${vat}%)</td>
                     <td style="font-size: .8rem; text-align: right;">$${vat?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                 </tr>
                 <tr>
-                    <td style="border: none; width: 100px; color: #0374E5; font-size: 1rem;">Total</td>
+                    <td style="border: none; width: 100px; color: #${profile?.invoiceColor ? profile?.invoiceColor : '0374E5'}; font-size: 1rem;">Total</td>
                     <td style="font-size: 1rem; text-align: right;">$${total?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
                 </tr>
             </table>

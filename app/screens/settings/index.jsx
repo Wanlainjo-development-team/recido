@@ -28,7 +28,7 @@ const Settings = () => {
             <Text style={style.actionButtonSubTitle}>Select your prefared invoice design</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={style.actionButton}>
+          <TouchableOpacity onPress={() => navigate('Tax')} style={style.actionButton}>
             <Text style={style.actionButtonTitle}>Tax</Text>
           </TouchableOpacity>
 

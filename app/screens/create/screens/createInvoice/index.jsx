@@ -395,6 +395,23 @@ const CreateInvoice = () => {
             </View>
 
             <View style={styles.group}>
+              <TouchableOpacity style={{ ...styles.setInvoiceView, marginBottom: 0 }} onPress={() => invoiceContact ? navigate('AddNewCustomer', { directSave: false, invoiceContact }) : navigate('BillTo', { directSave: false })}>
+                <View style={styles.setInvoiceLeftView}>
+                  <Text style={styles.setInvoiceLeftViewBoldText}>Bill To</Text>
+                  {
+                    invoiceContact ?
+                      <Text style={{ marginTop: 10 }}>{invoiceContact?.name}</Text> :
+                      <View style={styles.plusView}>
+                        <AntDesign name="pluscircleo" size={22} color={color.accent} />
+                        <Text style={styles.plusViewText}>Add customer</Text>
+                      </View>
+                  }
+                </View>
+              </TouchableOpacity>
+            </View>
+
+
+            <View style={styles.group}>
               <View style={{ ...styles.setInvoiceView, marginBottom: 0 }}>
                 <View style={{ ...styles.setInvoiceLeftView, width: '100%' }}>
                   <Text style={{ ...styles.setInvoiceLeftViewBoldText, marginBottom: 10 }}>Items</Text>
@@ -431,22 +448,6 @@ const CreateInvoice = () => {
                   </TouchableOpacity>
                 </View>
               </View>
-            </View>
-
-            <View style={styles.group}>
-              <TouchableOpacity style={{ ...styles.setInvoiceView, marginBottom: 0 }} onPress={() => invoiceContact ? navigate('AddNewCustomer', { directSave: false, invoiceContact }) : navigate('BillTo', { directSave: false })}>
-                <View style={styles.setInvoiceLeftView}>
-                  <Text style={styles.setInvoiceLeftViewBoldText}>Bill To</Text>
-                  {
-                    invoiceContact ?
-                      <Text style={{ marginTop: 10 }}>{invoiceContact?.name}</Text> :
-                      <View style={styles.plusView}>
-                        <AntDesign name="pluscircleo" size={22} color={color.accent} />
-                        <Text style={styles.plusViewText}>Add customer</Text>
-                      </View>
-                  }
-                </View>
-              </TouchableOpacity>
             </View>
 
             <View style={styles.group}>

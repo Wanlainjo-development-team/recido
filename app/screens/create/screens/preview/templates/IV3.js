@@ -18,7 +18,7 @@ export const IV3 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
     }
 
     a {
-      color: #0087C3;
+      color: #${profile?.invoiceColor ? profile?.invoiceColor : '0087C3'};
       text-decoration: none;
     }
 
@@ -61,7 +61,7 @@ export const IV3 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
 
     #client {
       padding-left: 6px;
-      border-left: 6px solid #0087C3;
+      border-left: 6px solid #${profile?.invoiceColor ? profile?.invoiceColor : '0087C3'};
       float: left;
     }
 
@@ -81,7 +81,7 @@ export const IV3 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
     }
 
     #invoice h1 {
-      color: #0087C3;
+      color: #${profile?.invoiceColor ? profile?.invoiceColor : '0087C3'};
       font-size: 2.4em;
       line-height: 1em;
       font-weight: normal;
@@ -118,7 +118,7 @@ export const IV3 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
     }
 
     table td h3 {
-      color: #57B223;
+      color: #${profile?.invoiceColor ? profile?.invoiceColor : '57B223'};
       font-size: 1.2em;
       font-weight: normal;
       margin: 0 0 0.2em 0;
@@ -126,7 +126,7 @@ export const IV3 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
 
     table .no {
       color: #FFFFFF;
-      background: #57B223;
+      background: #${profile?.invoiceColor ? profile?.invoiceColor : '57B223'};
     }
 
     table .desc {
@@ -140,7 +140,7 @@ export const IV3 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
     table .qty {}
 
     table .total {
-      background: #57B223;
+      background: #${profile?.invoiceColor ? profile?.invoiceColor : '57B223'};
       color: #FFFFFF;
     }
 
@@ -168,9 +168,9 @@ export const IV3 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
     }
 
     table tfoot tr:last-child td {
-      color: #57B223;
+      color: #${profile?.invoiceColor ? profile?.invoiceColor : '57B223'};
       font-size: 1.4em;
-      border-top: 1px solid #57B223;
+      border-top: 1px solid #${profile?.invoiceColor ? profile?.invoiceColor : '57B223'};
 
     }
 
@@ -185,7 +185,7 @@ export const IV3 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
 
     #notices {
       padding-left: 6px;
-      border-left: 6px solid #0087C3;
+      border-left: 6px solid #${profile?.invoiceColor ? profile?.invoiceColor : '0087C3'};
     }
 
     #notices .notice {
@@ -243,7 +243,7 @@ export const IV3 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
         </tr>
       </thead>
       <tbody>
-      ${items.map((item) => {
+      ${items?.map((item) => {
     return `
                         <tr>
                         <td class="no">${item.name}</td>

@@ -38,7 +38,7 @@ const PreviewInvoice = () => {
 
     let html = ``
 
-    useEffect(() => { }, [
+    useEffect(() => {
         (() => {
             switch (profile?.selectedTemplatePreview?.id) {
                 case 1: html = IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
@@ -52,7 +52,7 @@ const PreviewInvoice = () => {
                 default: IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
             }
         })()
-    ])
+    }, [])
 
     return (
         <View style={styles.container}>

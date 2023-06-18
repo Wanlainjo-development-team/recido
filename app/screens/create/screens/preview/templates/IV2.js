@@ -175,7 +175,7 @@ export const IV2 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
         </tr>
       </thead>
       <tbody>
-        ${items.map((item) => {
+        ${items?.map((item) => {
     return `
                     <tr>
                         <td style="font-size: .8rem;">${item.name}</td>
