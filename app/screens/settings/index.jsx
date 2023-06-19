@@ -44,7 +44,7 @@ const Settings = () => {
             <Text style={style.actionButtonTitle}>Customize</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={style.actionButton}>
+          <TouchableOpacity onPress={() => navigate('DefaultEmailMessage')} style={style.actionButton}>
             <Text style={style.actionButtonTitle}>Default Email message</Text>
           </TouchableOpacity>
         </View>
