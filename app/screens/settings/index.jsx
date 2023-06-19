@@ -52,7 +52,7 @@ const Settings = () => {
         <View style={{ ...style.group, marginTop: 50 }}>
           <Text style={style.title}>Information</Text>
 
-          <TouchableOpacity style={style.actionButton}>
+          <TouchableOpacity onPress={() => navigate('About')} style={style.actionButton}>
             <Text style={style.actionButtonTitle}>About</Text>
           </TouchableOpacity>
 
