@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, Platform } from 'react-native'
 import React from 'react'
 import Header from '../../components/Header'
 import style from './style'
@@ -36,15 +36,11 @@ const Settings = () => {
             <Text style={style.actionButtonTitle}>Default notes</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={style.actionButton}>
-            <Text style={style.actionButtonTitle}>Invoice number</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={style.actionButton}>
+          {/* <TouchableOpacity onPress={fetchInvoices} style={style.actionButton}>
             <Text style={style.actionButtonTitle}>Export as spreadsheet</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
-          <TouchableOpacity style={style.actionButton}>
+          <TouchableOpacity onPress={() => navigate('Customize')} style={style.actionButton}>
             <Text style={style.actionButtonTitle}>Customize</Text>
           </TouchableOpacity>
 

@@ -43,6 +43,7 @@ import About from '../screens/settings/screens/about'
 import TermsOfUse from '../screens/settings/screens/terms'
 import PrivacyPolicy from '../screens/settings/screens/privacyPolicy'
 import Tax from '../screens/settings/screens/tax'
+import Customize from '../screens/settings/screens/customize'
 
 const StackNavigator = () => {
     const navigation = useNavigation()
@@ -124,6 +125,7 @@ const StackNavigator = () => {
                                     <Screen name='About' component={About} options={{ gestureEnabled: true }} />
                                     <Screen name='TermsOfUse' component={TermsOfUse} options={{ gestureEnabled: true }} />
                                     <Screen name='PrivacyPolicy' component={PrivacyPolicy} options={{ gestureEnabled: true }} />
+                                    <Screen name='Customize' component={Customize} options={{ gestureEnabled: true }} />
                                     <Group
                                         screenOptions={{
                                             ...TransitionPresets.ModalSlideFromBottomIOS,
