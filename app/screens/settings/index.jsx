@@ -56,11 +56,11 @@ const Settings = () => {
             <Text style={style.actionButtonTitle}>About</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={style.actionButton}>
+          <TouchableOpacity onPress={() => navigate('TermsOfUse')} style={style.actionButton}>
             <Text style={style.actionButtonTitle}>Terms of use</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={style.actionButton}>
+          <TouchableOpacity onPress={() => navigate('PrivacyPolicy')} style={style.actionButton}>
             <Text style={style.actionButtonTitle}>Privacy policy</Text>
           </TouchableOpacity>
         </View>
