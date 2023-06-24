@@ -48,5 +48,21 @@ export default StyleSheet.create({
     logoutButtonText: {
         color: color.red,
         fontWeight: '600'
+    },
+
+    versionView: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 20
+    },
+
+    versionAppName: {
+        opacity: .40,
+        fontWeight: '900',
+        fontSize: 20
+    },
+
+    version: {
+
     }
 })

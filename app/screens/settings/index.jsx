@@ -7,6 +7,9 @@ import { ScrollView } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { SimpleLineIcons } from '@expo/vector-icons'
 import color from '../../style/color'
+const appJson = require('../../../app.json')
+
+const version = appJson.expo.version
 
 const Settings = () => {
   const { navigate } = useNavigation()
@@ -35,10 +38,6 @@ const Settings = () => {
           <TouchableOpacity onPress={() => navigate('DefaultNotes')} style={style.actionButton}>
             <Text style={style.actionButtonTitle}>Default notes</Text>
           </TouchableOpacity>
-
-          {/* <TouchableOpacity onPress={fetchInvoices} style={style.actionButton}>
-            <Text style={style.actionButtonTitle}>Export as spreadsheet</Text>
-          </TouchableOpacity> */}
 
           <TouchableOpacity onPress={() => navigate('Customize')} style={style.actionButton}>
             <Text style={style.actionButtonTitle}>Customize</Text>
@@ -69,6 +68,11 @@ const Settings = () => {
           <SimpleLineIcons name="logout" size={20} color={color.red} style={{ marginRight: 15 }} />
           <Text style={style.logoutButtonText}>Log out</Text>
         </TouchableOpacity>
+
+        <View style={style.versionView}>
+          <Text style={style.versionAppName}>Recido</Text>
+          <Text style={style.version}>Version - {version}</Text>
+        </View>
       </ScrollView>
     </View>
   )

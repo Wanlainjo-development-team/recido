@@ -79,8 +79,8 @@ const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {
     }
 
     const filteredInvoices = invoiceList.filter((item) => {
-        if (profile.searchBy)
-            switch (profile.searchBy) {
+        if (profile?.searchBy)
+            switch (profile?.searchBy) {
                 case 'invoiceId': return item?.invoiceId?.includes(search)
                     break;
 

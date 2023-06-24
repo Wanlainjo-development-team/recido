@@ -114,7 +114,7 @@ const Settings = () => {
         })
     }
 
-    if (profile.photoURL == undefined) {
+    if (profile?.photoURL == undefined) {
       uploadProfile()
     } else {
       const desertRef = ref(storage, profile?.photoLink)
