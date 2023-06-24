@@ -71,7 +71,7 @@ const Settings = () => {
 
         <View style={style.versionView}>
           <Text style={style.versionAppName}>Recido</Text>
-          <Text style={style.version}>Version - {version}</Text>
+          <Text>Version - {version}</Text>
         </View>
       </ScrollView>
     </View>
