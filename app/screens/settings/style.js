@@ -61,8 +61,4 @@ export default StyleSheet.create({
         fontWeight: '900',
         fontSize: 20
     },
-
-    version: {
-
-    }
 })
