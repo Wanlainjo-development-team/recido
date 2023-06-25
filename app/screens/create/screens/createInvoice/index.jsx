@@ -78,7 +78,7 @@ const CreateInvoice = () => {
 
   useEffect(() => {
     (() => {
-      dispatch(setInvoiceId(profile?.invoice))
+      dispatch(setInvoiceId(invoiceId ? invoiceId : profile?.invoice))
     })()
   }, [profile])
 
