@@ -7,7 +7,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 const { Navigator, Screen } = createMaterialTopTabNavigator()
 
 import Template from './screens/Templates'
-import Style from './screens/Style'
+import CustomStyle from './screens/CustomStyle'
 import color from '../../../../style/color'
 
 const Templates = () => {
@@ -24,7 +24,7 @@ const Templates = () => {
         }}
       >
         <Screen name="Template" component={Template} />
-        <Screen name="Style" component={Style} />
+        <Screen name="Style" component={CustomStyle} />
       </Navigator>
     </View>
   )

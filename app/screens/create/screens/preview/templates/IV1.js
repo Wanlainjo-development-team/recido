@@ -90,11 +90,11 @@ export const IV1 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
             ${items?.map((item) => {
         return `
                         <tr>
-                            <td style="font-size: .8rem;">${item.name}</td>
-                            <td style="font-size: .8rem;">${item.description != '' ? item.description : '...'}</td>
-                            <td style="font-size: .8rem;">${item.quantity ? item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
-                            <td style="font-size: .8rem;">$${item.price ? item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
-                            <td style="font-size: .8rem;">$${calculateSubtotal(item.price, item.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+                            <td style="font-size: .8rem;">${item?.name}</td>
+                            <td style="font-size: .8rem;">${item?.description != '' ? item?.description : '...'}</td>
+                            <td style="font-size: .8rem;">${item?.quantity ? item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
+                            <td style="font-size: .8rem;">$${item?.price ? item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
+                            <td style="font-size: .8rem;">$${calculateSubtotal(item?.price, item?.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
                         </tr>
                         `
     }).join('')

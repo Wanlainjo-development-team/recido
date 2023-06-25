@@ -23,6 +23,7 @@ const PreviewInvoice = () => {
     const { navigate } = useNavigation()
 
     const [profile, setProfile] = useState(null)
+    const [html, setHtml] = useState(``)
 
     useLayoutEffect(() => {
         (async () => {
@@ -36,27 +37,23 @@ const PreviewInvoice = () => {
         })()
     }, [])
 
-    let html = ``
-
     useEffect(() => {
-        (() => {
-            switch (profile?.selectedTemplatePreview?.id) {
-                case 1: html = IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
-                    break
-                case 2: html = IV2(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
-                    break
-                case 3: html = IV3(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
-                    break
-                case 4: html = IV4(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
-                    break
-                default: IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
-            }
-        })()
-    }, [])
+        switch (profile?.selectedTemplatePreview?.id) {
+            case 1: setHtml(IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
+                break
+            case 2: setHtml(IV2(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
+                break
+            case 3: setHtml(IV3(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
+                break
+            case 4: setHtml(IV4(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
+                break
+            default: setHtml(IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
+        }
+    }, [profile])
 
     return (
         <View style={styles.container}>
-            <WebView source={{ html: html }} scalesPageToFit style={{ flex: 1 }} />
+            <WebView source={{ html }} scalesPageToFit style={{ flex: 1 }} />
             <View style={styles.bottom}>
                 <TouchableOpacity onPress={() => navigate('SelectTemplate', { templatesPreview })} style={styles.shareButton}>
                     <Text style={styles.shareButtonText}>Change template</Text>

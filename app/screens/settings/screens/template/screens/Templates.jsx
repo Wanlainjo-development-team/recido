@@ -29,11 +29,8 @@ const Template = () => {
         <View style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false} style={{ flex: 1 }}>
                 <View style={styles.previewGrid}>
-                    {/* <TouchableOpacity>
-                        <MaterialCommunityIcons name="cancel" size={24} color="black" />
-                    </TouchableOpacity> */}
                     {
-                        templatesPreview.map((item, index) => (
+                        templatesPreview?.map((item, index) => (
                             <TouchableOpacity key={index} onPress={() => updateChosenTemplate(item)} style={{ ...styles.imageButton, borderColor: item.invoice == profile?.selectedTemplatePreview?.invoice ? color.accent : color.transparent }}>
                                 <AutoHeightImage
                                     width={(width / 2) - 15}

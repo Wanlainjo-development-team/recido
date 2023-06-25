@@ -177,11 +177,11 @@ const BussinessDetails = () => {
             <Text style={styles.inputText}>Business number</Text>
             <TextInput
               style={styles.input}
-              value={newProfile?.businessNumber}
+              value={newProfile?.bussinessNumer}
               onChangeText={(text) => {
                 setNewProfile({
                   ...newProfile,
-                  businessNumber: text
+                  bussinessNumer: text
                 })
               }}
               placeholder="Business number" />
