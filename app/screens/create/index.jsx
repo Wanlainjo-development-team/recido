@@ -8,7 +8,7 @@ import Preview from './screens/preview'
 import Header from '../../components/Header'
 import color from '../../style/color'
 import { useRoute } from '@react-navigation/native'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setInvoiceContact, setNote, setInvoiceId, updateItems } from '../../features/useFormSlice'
 import { setDate } from '../../features/useFormSlice'
 import { EvilIcons, Ionicons } from '@expo/vector-icons'
@@ -22,13 +22,22 @@ const Create = () => {
   const { viewInvoice } = useRoute().params
   const dispatch = useDispatch()
 
+  const { profile } = useSelector(state => state.user)
+
   if (viewInvoice) {
-    dispatch(setInvoiceId(viewInvoice?.invoiceId))
+    dispatch(setInvoiceId(String(viewInvoice?.invoiceId).padStart(6, '0')))
     dispatch(setDate(viewInvoice?.date))
     dispatch(updateItems(viewInvoice?.items))
     dispatch(setInvoiceContact(viewInvoice?.invoiceContact))
     dispatch(setNote(viewInvoice?.note))
     dispatch(setCurrentInvoiceId(viewInvoice?.id))
+  } else {
+    dispatch(setInvoiceId(String(profile?.invoice).padStart(6, '0')))
+    dispatch(setDate(`${new Date()}`))
+    dispatch(updateItems([]))
+    dispatch(setInvoiceContact(null))
+    dispatch(setNote(''))
+    dispatch(setCurrentInvoiceId(null))
   }
 
 
