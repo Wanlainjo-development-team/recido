@@ -44,7 +44,7 @@ const Customize = () => {
         </View>
         <View style={{ marginTop: 20 }}>
           <Text style={styles.inputViewText}>Bussiness number</Text>
-          <TextInput placeholder='Bussiness number' style={styles.input} value={data.businessNumber} onChangeText={text => setData({ ...data, businessNumber: text })} />
+          <TextInput placeholder='Bussiness number' style={styles.input} value={data.bussinessNumer} onChangeText={text => setData({ ...data, bussinessNumer: text })} />
         </View>
         <View style={{ marginTop: 20 }}>
           <Text style={styles.inputViewText}>Quantity label</Text>
