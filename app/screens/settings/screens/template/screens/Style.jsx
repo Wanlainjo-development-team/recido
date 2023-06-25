@@ -41,6 +41,7 @@ const Style = () => {
     '2F7D32',
     '548B2E'
   ])
+  
   const [invoiceData, setInvoiceData] = useState(null)
 
   let html = ``
