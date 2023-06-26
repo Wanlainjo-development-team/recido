@@ -231,11 +231,11 @@ export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
       ${items?.map((item) => {
     return `
           <tr>
-            <td class="service">${item.name}</td>
-            <td class="desc">${item.description ? item.description : '...'}</td>
-            <td class="unit">${item.quantity ? item.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '...'}</td>
-            <td class="qty">$${item.price ? item.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '...'}</td>
-            <td class="total">$${calculateSubtotal(item.price, item.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+            <td class="service">${item?.name}</td>
+            <td class="desc">${item?.description ? item?.description : '...'}</td>
+            <td class="unit">${item?.quantity ? item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '...'}</td>
+            <td class="qty">$${item?.price ? item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '...'}</td>
+            <td class="total">$${calculateSubtotal(item?.price, item?.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
           </tr>
                         `
   }).join('')
