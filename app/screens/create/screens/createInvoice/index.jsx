@@ -509,21 +509,24 @@ const CreateInvoice = () => {
           </ScrollView>
 
           <View style={styles.floatingView}>
-            <View style={styles.floatingSubButtons}>
-              {
-                currentInvoice?.invoiceState == 'outstanding' &&
-                <TouchableOpacity onPress={() => setInvoiceState('paid')} style={styles.floatingSubButton}>
-                  <Text style={styles.floatingSubButtonText}>Mark as paid</Text>
-                </TouchableOpacity>
-              }
-              {
-                currentInvoice?.invoiceState == 'paid' &&
-                <TouchableOpacity onPress={() => setInvoiceState('outstanding')} style={styles.floatingSubButton}>
-                  <Text style={styles.floatingSubButtonText}>Mark as outstanding</Text>
-                </TouchableOpacity>
-              }
-            </View>
-            <TouchableOpacity onPress={async () => await saveInvoice()} style={styles.floatingButton}>
+            {
+              currentInvoiceId &&
+              <View style={styles.floatingSubButtons}>
+                {
+                  currentInvoice?.invoiceState == 'outstanding' &&
+                  <TouchableOpacity onPress={() => setInvoiceState('paid')} style={styles.floatingSubButton}>
+                    <Text style={styles.floatingSubButtonText}>Mark as paid</Text>
+                  </TouchableOpacity>
+                }
+                {
+                  currentInvoice?.invoiceState == 'paid' &&
+                  <TouchableOpacity onPress={() => setInvoiceState('outstanding')} style={styles.floatingSubButton}>
+                    <Text style={styles.floatingSubButtonText}>Mark as outstanding</Text>
+                  </TouchableOpacity>
+                }
+              </View>
+            }
+            <TouchableOpacity onPress={async () => await saveInvoice()} style={{ ...styles.floatingButton, borderBottomRightRadius: currentInvoiceId ? 50 : 100 }}>
               {
                 loading ?
                   <ActivityIndicator color={color.white} /> :
