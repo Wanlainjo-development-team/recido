@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../../../hooks/firebase'
 import { useNavigation } from '@react-navigation/native'
+import input from '../../../../style/input';
 
 const Customize = () => {
   const { goBack } = useNavigation()
@@ -38,21 +39,21 @@ const Customize = () => {
       <Header title='Customize' />
 
       <ScrollView style={styles.conttainer}>
-        <View style={{ marginTop: 20 }}>
-          <Text style={styles.inputViewText}>Invoice title</Text>
-          <TextInput placeholder='Invoice title' style={styles.input} value={data.invoiceTitle} onChangeText={text => setData({ ...data, invoiceTitle: text })} />
+        <View style={{ marginTop: 20, ...input.inputView }}>
+          <Text style={input.inputText}>Invoice title</Text>
+          <TextInput placeholder='Invoice title' style={input.input} value={data.invoiceTitle} onChangeText={text => setData({ ...data, invoiceTitle: text })} />
         </View>
-        <View style={{ marginTop: 20 }}>
-          <Text style={styles.inputViewText}>Bussiness number</Text>
-          <TextInput placeholder='Bussiness number' style={styles.input} value={data.bussinessNumer} onChangeText={text => setData({ ...data, bussinessNumer: text })} />
+        <View style={input.inputView}>
+          <Text style={input.inputText}>Bussiness number</Text>
+          <TextInput placeholder='Bussiness number' style={input.input} value={data.bussinessNumer} onChangeText={text => setData({ ...data, bussinessNumer: text })} />
         </View>
-        <View style={{ marginTop: 20 }}>
-          <Text style={styles.inputViewText}>Quantity label</Text>
-          <TextInput placeholder='QTY' style={styles.input} value={data.quantityLabel} onChangeText={text => setData({ ...data, quantityLabel: text })} />
+        <View style={input.inputView}>
+          <Text style={input.inputText}>Quantity label</Text>
+          <TextInput placeholder='QTY' style={input.input} value={data.quantityLabel} onChangeText={text => setData({ ...data, quantityLabel: text })} />
         </View>
-        <View style={{ marginTop: 20 }}>
-          <Text style={styles.inputViewText}>Unit price label</Text>
-          <TextInput placeholder='RATE' style={styles.input} value={data.unitPriceLabel} onChangeText={text => setData({ ...data, unitPriceLabel: text })} />
+        <View style={input.inputView}>
+          <Text style={input.inputText}>Unit price label</Text>
+          <TextInput placeholder='RATE' style={input.input} value={data.unitPriceLabel} onChangeText={text => setData({ ...data, unitPriceLabel: text })} />
         </View>
       </ScrollView>
 

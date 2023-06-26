@@ -13,6 +13,7 @@ import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../../../hooks/firebase'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
+import input from '../../../../style/input'
 
 const Tax = () => {
   const { goBack } = useNavigation()
@@ -86,13 +87,13 @@ const Tax = () => {
         {
           taxType.type == 'On the Total' &&
           <>
-            <View style={{ marginTop: 20 }}>
-              <Text style={styles.inputViewText}>Tax</Text>
-              <TextInput placeholder='Tax' value={taxType.tax} onChangeText={text => setTaxType({ ...taxType, tax: text })} style={styles.input} />
+            <View style={{ marginTop: 20, ...input.inputView }}>
+              <Text style={input.inputText}>Tax</Text>
+              <TextInput placeholder='Tax' value={taxType.tax} onChangeText={text => setTaxType({ ...taxType, tax: text })} style={input.input} />
             </View>
-            <View style={{ marginTop: 20 }}>
-              <Text style={styles.inputViewText}>Rate</Text>
-              <TextInput placeholder='Rate' value={taxType.rate} onChangeText={text => setTaxType({ ...taxType, rate: text })} style={styles.input} />
+            <View style={input.inputView}>
+              <Text style={input.inputText}>Rate</Text>
+              <TextInput placeholder='Rate' value={taxType.rate} onChangeText={text => setTaxType({ ...taxType, rate: text })} style={input.input} />
             </View>
             <View style={{ marginTop: 20 }}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -112,22 +113,22 @@ const Tax = () => {
         {
           taxType.type == 'Deducted' &&
           <>
-            <View style={{ marginTop: 20 }}>
-              <Text style={styles.inputViewText}>Tax</Text>
-              <TextInput placeholder='Tax' value={taxType.tax} onChangeText={text => setTaxType({ ...taxType, tax: text })} style={styles.input} />
+            <View style={input.inputView}>
+              <Text style={input.inputText}>Tax</Text>
+              <TextInput placeholder='Tax' value={taxType.tax} onChangeText={text => setTaxType({ ...taxType, tax: text })} style={input.input} />
             </View>
-            <View style={{ marginTop: 20 }}>
-              <Text style={styles.inputViewText}>Rate</Text>
-              <TextInput placeholder='Rate' value={taxType.rate} onChangeText={text => setTaxType({ ...taxType, rate: text })} style={styles.input} />
+            <View style={input.inputView}>
+              <Text style={input.inputText}>Rate</Text>
+              <TextInput placeholder='Rate' value={taxType.rate} onChangeText={text => setTaxType({ ...taxType, rate: text })} style={input.input} />
             </View>
           </>
         }
         {
           taxType.type == 'Per Item' &&
           <>
-            <View style={{ marginTop: 20 }}>
-              <Text style={styles.inputViewText}>Tax</Text>
-              <TextInput placeholder='Tax' value={taxType.tax} onChangeText={text => setTaxType({ ...taxType, tax: text })} style={styles.input} />
+            <View style={input.inputView}>
+              <Text style={input.inputText}>Tax</Text>
+              <TextInput placeholder='Tax' value={taxType.tax} onChangeText={text => setTaxType({ ...taxType, tax: text })} style={input.input} />
             </View>
             <View style={{ marginTop: 20 }}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
