@@ -18,12 +18,13 @@ import { IV1 } from '../../../../create/screens/preview/templates/IV1';
 import { IV2 } from '../../../../create/screens/preview/templates/IV2';
 import { IV3 } from '../../../../create/screens/preview/templates/IV3';
 import { IV4 } from '../../../../create/screens/preview/templates/IV4';
-import { useLayoutEffect } from 'react'
 import { useRef } from 'react'
+import { useIsFocused } from '@react-navigation/native'
 
 const CustomStyle = () => {
     const { profile } = useSelector(state => state.user)
     const webViewRef = useRef(null)
+    const focused = useIsFocused()
 
     const [colors, setColors] = useState([
         '333333',
@@ -43,19 +44,28 @@ const CustomStyle = () => {
     ])
 
     const [invoiceData, setInvoiceData] = useState(null)
-    const [html, setHtml] = useState(IV1(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note))
+    const [html, setHtml] = useState(``)
 
-
-    const findTemplate = () => {
-        const foundObject = templatesPreview.find(obj => obj.invoice === profile?.selectedTemplatePreview?.invoice)
-
-        return foundObject
+    const htmlSwitch = () => {
+        switch (profile?.selectedTemplatePreview?.id) {
+            case 1: setHtml(IV1(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note))
+                break
+            case 2: setHtml(IV2(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note))
+                break
+            case 3: setHtml(IV3(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note))
+                break
+            case 4: setHtml(IV4(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note))
+                break
+            default: setHtml(IV1(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note))
+        }
     }
 
     const setInvoiceColor = async item => {
         const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
 
         await updateDoc(doc(db, 'users', id), { invoiceColor: item })
+
+        htmlSwitch()
     }
 
     useEffect(() => {
@@ -65,25 +75,26 @@ const CustomStyle = () => {
 
             setInvoiceData({ ...snapshot?.docs[0]?.data(), invoiceId: '0003334' })
         })()
+    }, []);
+
+    useState(() => {
+        htmlSwitch()
     }, [])
 
-    // useState(() => {
-    //     switch (profile?.selectedTemplatePreview?.id) {
-    //         case 1: setHtml(IV1(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note))
-    //             break
-    //         case 2: setHtml(IV2(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note))
-    //             break
-    //         case 3: setHtml(IV3(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note))
-    //             break
-    //         case 4: setHtml(IV4(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note))
-    //             break
-    //         default: setHtml(IV1(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note))
-    //     }
-    // }, [profile])
-
     return (
-        <View>
-            <Text>CustomStyle</Text>
+        <View style={style.container}>
+            <WebView source={{ html }} ref={webViewRef} scalesPageToFit={true} style={{ flex: 1 }} />
+
+            <View style={style.buttonGrid}>
+                {
+                    colors.map((item, index) =>
+                        <TouchableOpacity
+                            key={index}
+                            onPress={() => setInvoiceColor(item)}
+                            style={{ ...style.button, backgroundColor: `#${item}`, borderColor: item == profile?.invoiceColor ? color.accent : color.transparent }} />
+                    )
+                }
+            </View>
         </View>
     )
 }
