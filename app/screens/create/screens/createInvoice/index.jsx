@@ -20,7 +20,7 @@ import color from '../../../../style/color'
 import { itemsStyle } from './screens/styles'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { addDoc, collection, doc, getDoc, getDocs, increment, query, serverTimestamp, updateDoc, where } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, increment, onSnapshot, query, serverTimestamp, updateDoc, where } from 'firebase/firestore';
 import { db } from '../../../../hooks/firebase';
 import { useEffect } from 'react';
 import { BlurView } from 'expo-blur'
@@ -45,6 +45,7 @@ const CreateInvoice = () => {
   const dispatch = useDispatch()
 
   const { profile } = useSelector(state => state.user)
+  const { currentInvoiceId } = useSelector(state => state.invoices)
 
   const {
     invoiceId,
@@ -75,6 +76,19 @@ const CreateInvoice = () => {
     existingItems: [],
     active: false
   })
+  const [currentInvoice, setCurrentInvoice] = useState(null)
+
+  useEffect(() => {
+    (async () => {
+      const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+      const unsub = onSnapshot(doc(db, "users", id, 'invoices', currentInvoiceId), (doc) => {
+        setCurrentInvoice(doc.data())
+      });
+
+      return unsub
+    })()
+  }, [])
 
   useEffect(() => {
     (() => {
@@ -335,6 +349,16 @@ const CreateInvoice = () => {
     ], { cancelable: false })
   }
 
+  const setInvoiceState = async state => {
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+    setLoading(true)
+
+    await updateDoc(doc(db, 'users', id, 'invoices', currentInvoiceId), { invoiceState: state })
+
+    setLoading(false)
+  }
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -472,7 +496,7 @@ const CreateInvoice = () => {
               </View>
             </View>
 
-            <View style={{ ...styles.group, marginBottom: 80 }}>
+            <View style={{ ...styles.group, marginBottom: 100 }}>
               <TouchableOpacity onPress={() => navigate('Note', { editNote: null })} style={styles.plusView}>
                 <AntDesign name="pluscircleo" size={22} color={color.accent} />
                 <Text style={styles.plusViewText}>Notes</Text>
@@ -484,13 +508,29 @@ const CreateInvoice = () => {
             </View>
           </ScrollView>
 
-          <TouchableOpacity onPress={async () => await saveInvoice()} style={styles.floatingButton}>
-            {
-              loading ?
-                <ActivityIndicator color={color.white} /> :
-                <Feather name="upload-cloud" size={24} color={color.white} />
-            }
-          </TouchableOpacity>
+          <View style={styles.floatingView}>
+            <View style={styles.floatingSubButtons}>
+              {
+                currentInvoice?.invoiceState == 'outstanding' &&
+                <TouchableOpacity onPress={() => setInvoiceState('paid')} style={styles.floatingSubButton}>
+                  <Text style={styles.floatingSubButtonText}>Mark as paid</Text>
+                </TouchableOpacity>
+              }
+              {
+                currentInvoice?.invoiceState == 'paid' &&
+                <TouchableOpacity onPress={() => setInvoiceState('outstanding')} style={styles.floatingSubButton}>
+                  <Text style={styles.floatingSubButtonText}>Mark as outstanding</Text>
+                </TouchableOpacity>
+              }
+            </View>
+            <TouchableOpacity onPress={async () => await saveInvoice()} style={styles.floatingButton}>
+              {
+                loading ?
+                  <ActivityIndicator color={color.white} /> :
+                  <Feather name="upload-cloud" size={24} color={color.white} />
+              }
+            </TouchableOpacity>
+          </View>
         </>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
