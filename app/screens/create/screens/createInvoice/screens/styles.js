@@ -12,7 +12,8 @@ export const setInvoice = StyleSheet.create({
         height: 50,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingLeft: 10
     },
 
     headText: {
@@ -109,6 +110,8 @@ export const contact = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: `${color.accent}40`
     },
 
     groupText: {
@@ -137,15 +140,6 @@ export const addNewCustomer = StyleSheet.create({
         fontWeight: '800'
     },
 
-    input: {
-        backgroundColor: `${color.accent}20`,
-        height: 45,
-        marginTop: 10,
-        borderRadius: 12,
-        paddingHorizontal: 10,
-        fontWeight: '600'
-    },
-
     shortInput: {
         backgroundColor: `${color.accent}20`,
         height: 45,
@@ -158,20 +152,14 @@ export const addNewCustomer = StyleSheet.create({
 
     showMoreOptionsButton: {
         width: '100%',
+        height: 45,
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 20
+        marginVertical: 20,
     },
 
     showMoreOptionsButtonText: {
         color: color.accent
-    },
-
-    opacityText: {
-        marginTop: 40,
-        fontSize: 20,
-        fontWeight: '900',
-        color: `${color.black}40`
     },
 
     group: {

@@ -27,7 +27,6 @@ const BillTo = () => {
   return (
     <View style={billTo.container}>
       <View style={billTo.head}>
-        <View />
         <Text style={app.title1}>👨‍🦱 Add customer</Text>
         <TouchableOpacity onPress={goBack}>
           <Text style={billTo.headText}>Done</Text>

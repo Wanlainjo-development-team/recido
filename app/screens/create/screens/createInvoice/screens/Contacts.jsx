@@ -4,6 +4,7 @@ import { contact } from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import { setInvoiceContact } from '../../../../../features/useFormSlice'
+import app from '../../../../../style/app'
 
 const Contacts = () => {
     const { goBack, navigate } = useNavigation()
@@ -30,7 +31,7 @@ const Contacts = () => {
         <View style={contact.container}>
             <View style={contact.head}>
                 <View />
-                <Text>👨‍🦱 Select contact</Text>
+                <Text style={app.title1}>👨‍🦱 Select contact</Text>
                 <TouchableOpacity onPress={goBack}>
                     <Text style={contact.headText}>Done</Text>
                 </TouchableOpacity>

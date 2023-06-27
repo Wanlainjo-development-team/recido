@@ -16,7 +16,7 @@ import { useLayoutEffect } from 'react'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../../../hooks/firebase'
 import { useNavigation } from '@react-navigation/native'
-import input from '../../../../style/input'
+import app from '../../../../style/app'
 
 const DefaultNotes = () => {
   const { goBack } = useNavigation()
@@ -55,9 +55,9 @@ const DefaultNotes = () => {
       <Header title='Default notes' />
       <ScrollView showsVerticalScrollIndicator={false} style={styles.conttainer}>
         <View style={{ marginTop: 20 }}>
-          <Text style={input.inputText}>Default note</Text>
+          <Text style={app.inputText}>Default note</Text>
           <TextInput placeholder='Note' multiline onContentSizeChange={handleContentSizeChange} style={{
-            ...input.input,
+            ...app.input,
             height: null,
             minHeight: 45,
             borderBottomWidth: 1,
