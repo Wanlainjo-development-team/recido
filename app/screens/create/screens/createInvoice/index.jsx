@@ -125,7 +125,7 @@ const CreateInvoice = () => {
 
       const formattedResult = {
         subTotal: total?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-        totalVAT: 'N/A',
+        totalVAT: 0,
         finalPrice: total?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
       };
 

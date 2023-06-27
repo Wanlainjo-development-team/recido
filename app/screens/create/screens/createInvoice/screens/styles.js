@@ -177,14 +177,13 @@ export const itemsStyle = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: color.mainBackground,
-        padding: 10,
-        paddingTop: 30
+        paddingHorizontal: 10,
+        paddingTop: 20
     },
 
     head: {
         height: 50,
         marginBottom: 20,
-        paddingHorizontal: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
@@ -193,17 +192,6 @@ export const itemsStyle = StyleSheet.create({
     headText: {
         color: color.accent,
         fontWeight: '800'
-    },
-
-    input: {
-        backgroundColor: color.backgroundColor,
-        height: 45,
-        // marginTop: 10,
-        borderRadius: 12,
-        paddingHorizontal: 10,
-        fontWeight: '600',
-        borderBottomWidth: 1,
-        borderBottomColor: `${color.accent}40`
     },
 
     createNew: {
@@ -246,7 +234,7 @@ export const itemsStyle = StyleSheet.create({
     },
 
     flatList: {
-        marginTop: 30
+        marginTop: 30,
     },
 
     group: {
@@ -292,13 +280,6 @@ export const itemsStyle = StyleSheet.create({
         color: color.red,
         fontWeight: '600'
     },
-
-    heading: {
-        opacity: 0.40,
-        fontSize: 30,
-        fontWeight: '900',
-        marginTop: 30
-    }
 })
 
 export const noteStyle = StyleSheet.create({
