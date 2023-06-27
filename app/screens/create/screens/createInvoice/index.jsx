@@ -82,6 +82,8 @@ const CreateInvoice = () => {
     (async () => {
       const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
 
+      if (!currentInvoiceId) return
+      
       const unsub = onSnapshot(doc(db, "users", id, 'invoices', currentInvoiceId), (doc) => {
         setCurrentInvoice(doc.data())
       });

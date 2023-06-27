@@ -6,12 +6,10 @@ export const setInvoice = StyleSheet.create({
         flex: 1,
         backgroundColor: color.mainBackground,
         padding: 10,
-        paddingTop: 30
     },
 
     head: {
         height: 50,
-        marginBottom: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
