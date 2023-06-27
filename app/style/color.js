@@ -23,7 +23,7 @@ export default {
     green: '#46C93A',
     orange: '#FFBA00',
     dark: '#121212',
-    white: '#fff',
+    white: '#ffffff',
     offWhite: '#F4F7F8',
     lightText: 'rgba(0,0,0,0.6)',
     borderColor: 'rgba(0,0,0,0.2)',

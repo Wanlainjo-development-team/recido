@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setInvoiceList } from '../../features/invoicesSlice'
 import { useState } from 'react'
 import styles from './styles'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { SwipeListView } from 'react-native-swipe-list-view'
 import color from '../../style/color'
 import Loading from './Loading'
@@ -16,6 +16,7 @@ import { Feather } from '@expo/vector-icons';
 const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {
     const dispatch = useDispatch()
     const { navigate } = useNavigation()
+    const route = useRoute()
 
     const { search } = useSelector(state => state.invoices)
     const { profile } = useSelector(state => state.user)
@@ -152,13 +153,29 @@ const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {
             {
                 invoiceList.length >= 1 ?
                     <View style={styles.container}>
-                        <SwipeListView
-                            data={currentTab == 'search' ? (numOfClice ? filteredInvoices.slice(0, numOfClice) : filteredInvoices) : (numOfClice ? invoiceList.slice(0, numOfClice) : invoiceList)}
-                            renderItem={renderItem}
-                            renderHiddenItem={renderHiddenItem}
-                            rightOpenValue={-70}
-                            showsVerticalScrollIndicator={false}
-                        />
+                        {
+                            route.name != 'Home' &&
+                            <SwipeListView
+                                data={currentTab == 'search' ? (numOfClice ? filteredInvoices.slice(0, numOfClice) : filteredInvoices) : (numOfClice ? invoiceList.slice(0, numOfClice) : invoiceList)}
+                                renderItem={renderItem}
+                                renderHiddenItem={renderHiddenItem}
+                                rightOpenValue={-70}
+                                showsVerticalScrollIndicator={false}
+                            />
+                        }
+
+                        {
+                            route.name == 'Home' &&
+                            <>
+                                {
+                                    invoiceList.slice(0, numOfClice).map((item, index) =>
+                                        <View key={index}>
+                                            {list(item, index)}
+                                        </View>
+                                    )
+                                }
+                            </>
+                        }
                     </View> :
                     <Loading text='Loading invoices' />
             }
