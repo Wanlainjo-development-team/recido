@@ -27,7 +27,7 @@ const Send = () => {
 
   const [email, setEmail] = useState('');
   const [emailList, setEmailList] = useState([]);
-  const [emailMessage, setEmailMessage] = useState('Thank you for your bussiness.');
+  const [emailMessage, setEmailMessage] = useState(profile?.defaultEmailMessage ? profile?.defaultEmailMessage : 'Thank you for your bussiness.');
   const [emailAmount, setEmailAmount] = useState(`Amount Due: $${total}`);
   const [invoiceExist, setInvoiceExist] = useState(false);
 
