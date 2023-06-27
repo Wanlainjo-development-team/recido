@@ -7,6 +7,7 @@ import { AntDesign } from '@expo/vector-icons'
 import color from '../../../../../style/color'
 import { useSelector } from 'react-redux'
 import InventoryList from '../../../../../components/inventory'
+import app from '../../../../../style/app'
 
 const Items = () => {
     const { goBack, navigate } = useNavigation()
@@ -22,8 +23,7 @@ const Items = () => {
     return (
         <View style={itemsStyle.container}>
             <View style={itemsStyle.head}>
-                <View />
-                <Text>📦 Add items</Text>
+                <Text style={app.title1}>📦 Add items</Text>
                 <TouchableOpacity onPress={goBack}>
                     <Text style={itemsStyle.headText}>Done</Text>
                 </TouchableOpacity>
@@ -42,7 +42,7 @@ const Items = () => {
                 renderItem={({ item, index }) => (
                     <TouchableOpacity style={itemsStyle.group} onPress={() => navigate('CreateItem', { editItem: { ...item, index } })}>
                         <View style={itemsStyle.groupLeft}>
-                            <Text numberOfLines={1}>{item?.name}</Text>
+                            <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{item?.name}</Text>
                             <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.description)?.slice(0, 20)}</Text>
                         </View>
                         <View style={itemsStyle.groupRight}>
@@ -53,7 +53,7 @@ const Items = () => {
                 )}
             />
 
-            <Text style={itemsStyle.heading}>Inventory</Text>
+            <Text style={app.title2}>Inventory</Text>
             <InventoryList selectItem={true} />
         </View>
     )

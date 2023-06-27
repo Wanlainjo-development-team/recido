@@ -16,7 +16,6 @@ import * as Notifications from 'expo-notifications';
 import uuid from 'uuid-random'
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { setSetup } from '../../../../features/userSlice';
-import input from '../../../../style/input';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -148,10 +147,10 @@ const BussinessDetails = () => {
           </View>
 
           <Text style={{ ...styles.title, marginTop: 50 }}>Bussiness Information</Text>
-          <View style={{ ...input.inputView, marginTop: 20 }}>
-            <Text style={input.inputText}>Business name</Text>
+          <View style={{ ...app.inputView, marginTop: 20 }}>
+            <Text style={app.inputText}>Business name</Text>
             <TextInput
-              style={input.input}
+              style={app.input}
               value={newProfile?.name}
               onChangeText={(text) => {
                 setNewProfile({
@@ -161,10 +160,10 @@ const BussinessDetails = () => {
               }}
               placeholder='Business name' />
           </View>
-          <View style={{ ...input.inputView }}>
-            <Text style={input.inputText}>Business owner's name</Text>
+          <View style={{ ...app.inputView }}>
+            <Text style={app.inputText}>Business owner's name</Text>
             <TextInput
-              style={input.input}
+              style={app.input}
               value={newProfile?.ownerName}
               onChangeText={(text) => {
                 setNewProfile({
@@ -174,10 +173,10 @@ const BussinessDetails = () => {
               }}
               placeholder="Business owner's name" />
           </View>
-          <View style={{ ...input.inputView }}>
-            <Text style={input.inputText}>Business number</Text>
+          <View style={{ ...app.inputView }}>
+            <Text style={app.inputText}>Business number</Text>
             <TextInput
-              style={input.input}
+              style={app.input}
               value={newProfile?.bussinessNumer}
               onChangeText={(text) => {
                 setNewProfile({
@@ -189,10 +188,10 @@ const BussinessDetails = () => {
           </View>
 
           <Text style={{ ...styles.title, marginTop: 30 }}>Bussiness address</Text>
-          <View style={{ ...input.inputView, marginTop: 20 }}>
-            <Text style={input.inputText}>Business address 1</Text>
+          <View style={{ ...app.inputView, marginTop: 20 }}>
+            <Text style={app.inputText}>Business address 1</Text>
             <TextInput
-              style={input.input}
+              style={app.input}
               value={newProfile?.address}
               onChangeText={(text) => {
                 setNewProfile({
@@ -203,10 +202,10 @@ const BussinessDetails = () => {
               placeholder='Business address 1'
             />
           </View>
-          <View style={input.inputView}>
-            <Text style={input.inputText}>Business address 2</Text>
+          <View style={app.inputView}>
+            <Text style={app.inputText}>Business address 2</Text>
             <TextInput
-              style={input.input}
+              style={app.input}
               value={newProfile?.address2}
               onChangeText={(text) => {
                 setNewProfile({
@@ -217,10 +216,10 @@ const BussinessDetails = () => {
               placeholder='Business address 2'
             />
           </View>
-          <View style={input.inputView}>
-            <Text style={input.inputText}>Business address 3</Text>
+          <View style={app.inputView}>
+            <Text style={app.inputText}>Business address 3</Text>
             <TextInput
-              style={input.input}
+              style={app.input}
               value={newProfile?.address3}
               onChangeText={(text) => {
                 setNewProfile({
@@ -234,14 +233,14 @@ const BussinessDetails = () => {
 
 
           <Text style={{ ...styles.title, marginTop: 30 }}>Bussiness contact</Text>
-          <View style={{ ...input.inputView, marginTop: 20 }}>
-            <Text style={input.inputText}>Business email</Text>
-            <TextInput style={input.input} editable={false} value={newProfile?.email} placeholder='Business email' />
+          <View style={{ ...app.inputView, marginTop: 20 }}>
+            <Text style={app.inputText}>Business email</Text>
+            <TextInput style={app.input} editable={false} value={newProfile?.email} placeholder='Business email' />
           </View>
-          <View style={input.inputView}>
-            <Text style={input.inputText}>Business contact</Text>
+          <View style={app.inputView}>
+            <Text style={app.inputText}>Business contact</Text>
             <TextInput
-              style={input.input}
+              style={app.input}
               value={newProfile?.contact}
               onChangeText={(text) => {
                 setNewProfile({
@@ -252,10 +251,10 @@ const BussinessDetails = () => {
               placeholder='Business contact'
             />
           </View>
-          <View style={input.inputView}>
-            <Text style={input.inputText}>Business Sales Rep</Text>
+          <View style={app.inputView}>
+            <Text style={app.inputText}>Business Sales Rep</Text>
             <TextInput
-              style={input.input}
+              style={app.input}
               value={newProfile?.salesRep}
               onChangeText={(text) => {
                 setNewProfile({

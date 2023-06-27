@@ -11,6 +11,7 @@ import color from '../../../../../style/color'
 import { addDoc, doc, collection, serverTimestamp } from 'firebase/firestore'
 import { db } from '../../../../../hooks/firebase'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import app from '../../../../../style/app'
 
 const CreateItem = () => {
     const { goBack } = useNavigation()
@@ -79,62 +80,74 @@ const CreateItem = () => {
                 <TouchableOpacity onPress={goBack}>
                     <Text style={itemsStyle.headText}>Cancel</Text>
                 </TouchableOpacity>
-                <Text>📦 Items</Text>
+                <Text style={app.title1}>📦 Items</Text>
                 <TouchableOpacity onPress={setNewItem}>
                     <Text style={itemsStyle.headText}>Done</Text>
                 </TouchableOpacity>
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false}>
-                <Text style={{ fontSize: 12, fontWeight: '600', marginLeft: 10 }}>Name</Text>
-                <TextInput
-                    placeholder='Name'
-                    value={item.name}
-                    onChangeText={text =>
-                        setItem({
-                            ...item,
-                            name: text
-                        })
-                    }
-                    style={itemsStyle.input} />
+                <View style={app.inputView}>
+                    <Text style={app.inputText}>Name</Text>
+                    <TextInput
+                        placeholder='Name'
+                        value={item.name}
+                        onChangeText={text =>
+                            setItem({
+                                ...item,
+                                name: text
+                            })
+                        }
+                        style={app.input}
+                    />
+                </View>
 
-                <Text style={{ fontSize: 12, fontWeight: '600', marginLeft: 10, marginTop: 20 }}>Price</Text>
-                <TextInput
-                    placeholder='Price'
-                    inputMode='numeric'
-                    value={item.price}
-                    onChangeText={text =>
-                        setItem({
-                            ...item,
-                            price: text
-                        })
-                    }
-                    style={itemsStyle.input} />
+                <View style={app.inputView}>
+                    <Text style={app.inputText}>Price</Text>
+                    <TextInput
+                        placeholder='Price'
+                        inputMode='numeric'
+                        value={item.price}
+                        onChangeText={text =>
+                            setItem({
+                                ...item,
+                                price: text
+                            })
+                        }
+                        style={app.input}
+                    />
+                </View>
 
-                <Text style={{ fontSize: 12, fontWeight: '600', marginLeft: 10, marginTop: 20 }}>Quantity</Text>
-                <TextInput
-                    placeholder='Quantity'
-                    inputMode='numeric'
-                    value={item.quantity}
-                    onChangeText={text =>
-                        setItem({
-                            ...item,
-                            quantity: text
-                        })
-                    }
-                    style={itemsStyle.input} />
+                <View style={app.inputView}>
+                    <Text style={app.inputText}>Quantity</Text>
+                    <TextInput
+                        placeholder='Quantity'
+                        inputMode='numeric'
+                        value={item.quantity}
+                        onChangeText={text =>
+                            setItem({
+                                ...item,
+                                quantity: text
+                            })
+                        }
+                        style={app.input}
+                    />
+                </View>
 
-                <Text style={{ fontSize: 12, fontWeight: '600', marginLeft: 10, marginTop: 20 }}>description</Text>
-                <TextInput
-                    placeholder='description'
-                    value={item.description}
-                    onChangeText={text =>
-                        setItem({
-                            ...item,
-                            description: text
-                        })
-                    }
-                    style={itemsStyle.input} />
+                <View style={app.inputView}>
+                    <Text style={app.inputText}>description</Text>
+                    <TextInput
+                        placeholder='description'
+                        value={item.description}
+                        onChangeText={text =>
+                            setItem({
+                                ...item,
+                                description: text
+                            })
+                        }
+                        style={app.input}
+                    />
+                </View>
 
 
                 <TouchableOpacity onPress={saveItem} style={{ ...itemsStyle.deleteItemButton, marginBottom: 10, backgroundColor: color.accent }}>

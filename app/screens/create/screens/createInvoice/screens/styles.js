@@ -12,7 +12,8 @@ export const setInvoice = StyleSheet.create({
         height: 50,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingLeft: 10
     },
 
     headText: {
@@ -109,6 +110,8 @@ export const contact = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: `${color.accent}40`
     },
 
     groupText: {
@@ -137,15 +140,6 @@ export const addNewCustomer = StyleSheet.create({
         fontWeight: '800'
     },
 
-    input: {
-        backgroundColor: `${color.accent}20`,
-        height: 45,
-        marginTop: 10,
-        borderRadius: 12,
-        paddingHorizontal: 10,
-        fontWeight: '600'
-    },
-
     shortInput: {
         backgroundColor: `${color.accent}20`,
         height: 45,
@@ -158,20 +152,14 @@ export const addNewCustomer = StyleSheet.create({
 
     showMoreOptionsButton: {
         width: '100%',
+        height: 45,
         justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 20
+        marginVertical: 20,
     },
 
     showMoreOptionsButtonText: {
         color: color.accent
-    },
-
-    opacityText: {
-        marginTop: 40,
-        fontSize: 20,
-        fontWeight: '900',
-        color: `${color.black}40`
     },
 
     group: {
@@ -189,14 +177,13 @@ export const itemsStyle = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: color.mainBackground,
-        padding: 10,
-        paddingTop: 30
+        paddingHorizontal: 10,
+        paddingTop: 20
     },
 
     head: {
         height: 50,
         marginBottom: 20,
-        paddingHorizontal: 10,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center'
@@ -205,17 +192,6 @@ export const itemsStyle = StyleSheet.create({
     headText: {
         color: color.accent,
         fontWeight: '800'
-    },
-
-    input: {
-        backgroundColor: color.backgroundColor,
-        height: 45,
-        // marginTop: 10,
-        borderRadius: 12,
-        paddingHorizontal: 10,
-        fontWeight: '600',
-        borderBottomWidth: 1,
-        borderBottomColor: `${color.accent}40`
     },
 
     createNew: {
@@ -258,7 +234,7 @@ export const itemsStyle = StyleSheet.create({
     },
 
     flatList: {
-        marginTop: 30
+        marginTop: 30,
     },
 
     group: {
@@ -304,13 +280,6 @@ export const itemsStyle = StyleSheet.create({
         color: color.red,
         fontWeight: '600'
     },
-
-    heading: {
-        opacity: 0.40,
-        fontSize: 30,
-        fontWeight: '900',
-        marginTop: 30
-    }
 })
 
 export const noteStyle = StyleSheet.create({

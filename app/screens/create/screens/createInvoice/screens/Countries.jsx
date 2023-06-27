@@ -19,7 +19,7 @@ const Countries = () => {
         }
         else {
             dispatch(setShippingCountry(prop))
-            if (country != '') goBack()
+            goBack()
         }
     }
 
