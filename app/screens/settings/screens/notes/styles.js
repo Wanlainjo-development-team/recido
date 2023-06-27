@@ -19,18 +19,6 @@ export default StyleSheet.create({
         marginTop: 10
     },
 
-    inputViewText: {
-
-    },
-
-    input: {
-        minHeight: 45,
-        borderBottomWidth: 1,
-        borderBottomColor: `${color.accent}40`,
-        marginTop: 10,
-        paddingVertical: 10
-    },
-
     saveButton: {
         backgroundColor: `${color.accent}40`,
         height: 45,

@@ -6,6 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import { AntDesign } from '@expo/vector-icons';
 import color from '../../../../../style/color';
 import * as Contacts from 'expo-contacts'
+import app from '../../../../../style/app';
 
 const BillTo = () => {
   const { goBack, navigate } = useNavigation()
@@ -27,7 +28,7 @@ const BillTo = () => {
     <View style={billTo.container}>
       <View style={billTo.head}>
         <View />
-        <Text>👨‍🦱 Add customer</Text>
+        <Text style={app.title1}>👨‍🦱 Add customer</Text>
         <TouchableOpacity onPress={goBack}>
           <Text style={billTo.headText}>Done</Text>
         </TouchableOpacity>

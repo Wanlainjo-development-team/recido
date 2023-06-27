@@ -16,6 +16,7 @@ import { useLayoutEffect } from 'react'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../../../hooks/firebase'
 import { useNavigation } from '@react-navigation/native'
+import input from '../../../../style/input';
 
 const DefaultEmailMessage = () => {
   const { goBack } = useNavigation()
@@ -53,9 +54,9 @@ const DefaultEmailMessage = () => {
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ ...styles.conttainer, paddingHorizontal: 0 }}>
       <Header title='Default messages' />
       <ScrollView showsVerticalScrollIndicator={false} style={styles.conttainer}>
-        <View style={{ marginTop: 20 }}>
-          <Text style={styles.inputViewText}>Default message</Text>
-          <TextInput placeholder='message' multiline onContentSizeChange={handleContentSizeChange} style={styles.input} value={message} onChangeText={text => setMessage(text)} />
+        <View style={{ marginTop: 20, ...input.inputView }}>
+          <Text style={input.inputText}>Default message</Text>
+          <TextInput placeholder='message' multiline onContentSizeChange={handleContentSizeChange} style={input.input} value={message} onChangeText={text => setMessage(text)} />
         </View>
       </ScrollView>
       <TouchableOpacity onPress={saveEmailMessaage} style={styles.saveButton}>

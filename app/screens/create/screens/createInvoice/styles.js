@@ -110,20 +110,63 @@ export default StyleSheet.create({
         marginBottom: 10
     },
 
+    floatingView: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
+        borderRadius: 100,
+        shadowColor: color.accent,
+        shadowOffset: {
+            width: 0,
+            height: 10,
+        },
+        shadowOpacity: 0.37,
+        shadowRadius: 7.49,
+        elevation: 12,
+    },
+
+    floatingSubButtons: {
+        backgroundColor: color.accent,
+        height: 40,
+        borderRadius: 50,
+        paddingLeft: 5,
+        paddingVertical: 5
+    },
+
+    floatingSubButton: {
+        paddingRight: 70,
+        backgroundColor: color.darkAccent,
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 50,
+        paddingLeft: 5
+    },
+
+    floatingSubButtonText: {
+        color: color.white
+    },
+
     floatingButton: {
         width: 60,
         height: 60,
-        borderRadius: 100,
+        borderTopLeftRadius: 100,
+        borderTopRightRadius: 100,
+        borderBottomRightRadius: 50,
+        borderBottomLeftRadius: 100,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: color.accent,
         position: 'absolute',
-        bottom: 20,
-        right: 20,
-        shadowColor: "#000",
+        bottom: 0,
+        right: 0,
+        shadowColor: color.accent,
         shadowOffset: {
-            width: 0,
-            height: 6,
+            width: 6,
+            height: -6,
         },
         shadowOpacity: 0.37,
         shadowRadius: 7.49,

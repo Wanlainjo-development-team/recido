@@ -19,25 +19,10 @@ export default StyleSheet.create({
         height: 150
     },
 
-    inputText: {
-        fontSize: 12
-    },
-
     title: {
         fontSize: 25,
         fontWeight: '900',
         opacity: .40
-    },
-
-    inputView: {
-        marginBottom: 30
-    },
-
-    input: {
-        height: 45,
-        paddingRight: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: `${color.accent}40`
     },
 
     saveButton: {

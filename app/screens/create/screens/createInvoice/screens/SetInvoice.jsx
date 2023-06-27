@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import { setInvoiceId, setDate } from '../../../../../features/useFormSlice'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import app from '../../../../../style/app'
 
 const SetInvoice = () => {
     const { navigate, goBack } = useNavigation()
@@ -31,7 +32,7 @@ const SetInvoice = () => {
         <View style={setInvoice.container}>
             <View style={setInvoice.head}>
                 <View style={{ width: 20 }} />
-                <Text>Details</Text>
+                <Text style={app.title1}>Details</Text>
                 <TouchableOpacity onPress={goBack} style={{ padding: 10 }}>
                     <Text style={setInvoice.headText}>Done</Text>
                 </TouchableOpacity>

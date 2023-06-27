@@ -44,7 +44,7 @@ const Create = () => {
 
   return (
     <View style={{ flex: 1, backgroundColor: color.mainBackground }}>
-      <Header screen='createInvoice' />
+      <Header screen='createInvoice' title='Create invoice' />
       <Navigator
         barStyle={{ backgroundColor: color.mainBackground }}
         activeColor={color.accent}
