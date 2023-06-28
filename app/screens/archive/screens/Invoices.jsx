@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, TouchableOpacity, Pressable } from 'react-native'
+import { View, Text, TouchableOpacity, Pressable } from 'react-native'
 import React from 'react'
 import styles from '../styles'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -63,7 +63,6 @@ const Invoices = () => {
       </View>
       <View style={styles.right}>
         <Text style={styles.boldText}>{new Date(item?.date).toDateString()}</Text>
-        {/* <Text>{calculateTotal(item)}</Text> */}
       </View>
     </Pressable>
 

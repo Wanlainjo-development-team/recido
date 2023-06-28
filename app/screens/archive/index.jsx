@@ -28,7 +28,7 @@ const Archive = () => {
             >
                 <Screen name="Invoices" component={Invoices} />
                 <Screen name="Inventory" component={Inventory} />
-                <Screen name="Contacts" component={Contacts} />
+                <Screen name="Contacts" component={Contacts} options={{ title: 'Customers' }} />
             </Navigator>
 
         </View>

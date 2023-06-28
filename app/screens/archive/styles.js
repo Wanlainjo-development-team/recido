@@ -66,4 +66,8 @@ export default StyleSheet.create({
     right: {
         alignItems: 'flex-end'
     },
+
+    boldText: {
+        fontWeight: '600'
+    },
 })
