@@ -1,10 +1,21 @@
 import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import app from '../../style/app'
 import color from '../../style/color'
+import { useSelector } from 'react-redux'
 
 const Summary = () => {
+    const { invoiceList } = useSelector(state => state.invoices)
+
+    const [paid, setPaid] = useState(0)
+
+    useEffect(() => {
+        const filteredInvoices = invoiceList?.filter(invoice => invoice.invoiceState === "paid");
+
+        setPaid(filteredInvoices.length)
+    }, [invoiceList])
+
     return (
         <View style={app.activitySummaryView}>
             <Text style={app.title2}>Activity summary</Text>
@@ -16,12 +27,12 @@ const Summary = () => {
                     <View style={app.summaryCardDivider} />
 
                     <View style={app.summaryList}>
-                        <Text style={app.summaryListLeft}>Sent</Text>
-                        <Text style={app.summaryListRight}>0</Text>
+                        <Text style={app.summaryListLeft}>Created</Text>
+                        <Text style={app.summaryListRight}>{invoiceList?.length}</Text>
                     </View>
                     <View style={app.summaryList}>
                         <Text style={app.summaryListLeft}>Paid</Text>
-                        <Text style={app.summaryListRight}>0</Text>
+                        <Text style={app.summaryListRight}>{paid}</Text>
                     </View>
                     <View style={app.summaryList}>
                         <Text style={app.summaryListLeft}>Archived</Text>

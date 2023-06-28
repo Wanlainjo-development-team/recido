@@ -115,6 +115,7 @@ const CustomNavigation = () => {
                     {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Invoices', 'Invoices')}
                     {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Customers', 'Customers')}
                     {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Inventory', 'Inventory')}
+                    {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Archive', 'Archive')}
                     {TabButton(profile, dispatch, currentTab, setCurrentTab, setShowMenu, showMenu, scaleValue, offsetValue, closeButtonOffset, 'Settings', 'Settings')}
                 </ScrollView>
                 {/*  */}
@@ -270,7 +271,7 @@ const TabButton = (profile, dispatch, currentTab, setCurrentTab, setShowMenu, sh
                 if (title == 'Log out') {
                     logoutUser()
                 } else {
-                    if (nav == 'Home' || nav == 'Create' || nav == 'Invoices' || nav == 'Customers' || nav == 'Inventory' || nav == 'Settings') {
+                    if (nav == 'Home' || nav == 'Create' || nav == 'Invoices' || nav == 'Customers' || nav == 'Inventory' || nav == 'Archive' || nav == 'Settings') {
                         dispatch(setActiveRoute(nav))
                         navigation.navigate(nav, { viewInvoice: null })
                         setCurrentTab(nav)
@@ -356,6 +357,7 @@ const TabButton = (profile, dispatch, currentTab, setCurrentTab, setShowMenu, sh
                 {nav == 'Invoices' && <FontAwesome5 name="file-invoice-dollar" size={24} color={color.accent} style={{ marginRight: 15 }} />}
                 {nav == 'Customers' && <Feather name="users" size={24} color={color.accent} style={{ marginRight: 15 }} />}
                 {nav == 'Inventory' && <MaterialIcons name="storefront" size={24} color={color.accent} style={{ marginRight: 15 }} />}
+                {nav == 'Archive' && <Feather name="archive" size={22} color={color.accent} style={{ marginRight: 15, marginLeft: -3 }} />}
                 {nav == 'Settings' && <Ionicons name="cog" size={24} color={color.accent} style={{ marginRight: 15 }} />}
                 {/*  */}
                 {/*  */}

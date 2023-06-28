@@ -35,7 +35,10 @@ export const useFormSlice = createSlice({
         vat: 0,
         total: 0,
         useVAT: true,
-        selectedTemplatePreview: null
+        selectedTemplatePreview: null,
+        archiveList: [],
+        inventoryArchiveList: [],
+        contactArchiveList: [],
     },
     reducers: {
         setInvoiceId: (state, action) => {
@@ -131,6 +134,18 @@ export const useFormSlice = createSlice({
 
         setSelectedTemplatePreview: (state, action) => {
             state.selectedTemplatePreview = action.payload
+        },
+
+        setArchiveList: (state, action) => {
+            state.archiveList = action.payload
+        },
+
+        setInventoryArchiveList: (state, action) => {
+            state.inventoryArchiveList = action.payload
+        },
+
+        setContactArchiveList: (state, action) => {
+            state.contactArchiveList = action.payload
         }
     }
 })
@@ -158,7 +173,10 @@ export const {
     setTotal,
     setUseVAT,
     deleteItem,
-    setSelectedTemplatePreview
+    setSelectedTemplatePreview,
+    setArchiveList,
+    setInventoryArchiveList,
+    setContactArchiveList
 } = useFormSlice.actions
 
 export default useFormSlice.reducer
