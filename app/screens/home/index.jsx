@@ -4,6 +4,7 @@ import style from './style'
 
 import PerformanceChart from '../../components/performanceChart';
 import Invoices from '../../components/invoices';
+import InventoryList from '../../components/inventory';
 import { useSelector } from 'react-redux';
 import { ScrollView } from 'react-native';
 import Summary from '../../components/performanceChart/Summary';
