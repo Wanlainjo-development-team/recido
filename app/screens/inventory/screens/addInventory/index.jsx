@@ -118,7 +118,7 @@ const AddInventory = () => {
                 <View style={styles.inputView}>
                     <Text style={styles.inputViewText}>Unit cost</Text>
                     <TextInput
-                        placeholder='$0.00'
+                        placeholder={`${profile?.denom?.sign}0.00` || `$0.00`}
                         style={styles.inputViewTextInput}
                         value={inventoryData.price}
                         onChangeText={price => setInventoryData({ ...inventoryData, price })}

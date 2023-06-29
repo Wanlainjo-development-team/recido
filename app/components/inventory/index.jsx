@@ -23,6 +23,8 @@ const InventoryList = ({ selectItem }) => {
 
   const { inventoryList } = useSelector(state => state.inventory)
 
+  const { profile } = useSelector(state => state.user)
+
   const handleArchive = async (inventoryId) => {
     const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
 
@@ -60,7 +62,7 @@ const InventoryList = ({ selectItem }) => {
         <Text>{item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Left</Text>
       </View>
       <View style={styles.right}>
-        <Text>${item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+        <Text>{profile?.denom?.sign || '$'}{item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
       </View>
     </Pressable>
 

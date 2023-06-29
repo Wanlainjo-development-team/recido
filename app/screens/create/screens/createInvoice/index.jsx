@@ -83,7 +83,7 @@ const CreateInvoice = () => {
       const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
 
       if (!currentInvoiceId) return
-      
+
       const unsub = onSnapshot(doc(db, "users", id, 'invoices', currentInvoiceId), (doc) => {
         setCurrentInvoice(doc.data())
       });
@@ -396,7 +396,7 @@ const CreateInvoice = () => {
                                 <Text>{item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Left</Text>
                               </View>
                               <View style={styles.right}>
-                                <Text>${item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                                <Text>{profile?.denom?.sign || '$'}{item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
                               </View>
                             </Pressable>
                           ))
@@ -484,15 +484,15 @@ const CreateInvoice = () => {
                   </View>
                   <View style={{ ...styles.list, marginTop: 10 }}>
                     <Text>Subtotal</Text>
-                    <Text>${totalCalculation.subTotal}</Text>
+                    <Text>{profile?.denom?.sign || '$'}{totalCalculation.subTotal}</Text>
                   </View>
                   <View style={styles.list}>
                     <Text>TAX ({vat}%)</Text>
-                    <Text>${totalCalculation.totalVAT}</Text>
+                    <Text>{profile?.denom?.sign || '$'}{totalCalculation.totalVAT}</Text>
                   </View>
                   <View style={styles.list}>
                     <Text>Total</Text>
-                    <Text>${totalCalculation.finalPrice}</Text>
+                    <Text>{profile?.denom?.sign || '$'}{totalCalculation.finalPrice}</Text>
                   </View>
                 </View>
               </View>
