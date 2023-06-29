@@ -249,8 +249,8 @@ export const IV3 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
                         <td class="no">${item?.name}</td>
                         <td class="desc">${item?.description ? item?.description : '...'}</td>
                         <td class="unit">${item?.quantity ? item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
-                        <td class="qty">$${item?.price ? item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
-                        <td class="total">$${calculateSubtotal(item?.price, item?.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+                        <td class="qty">${profile?.denom?.sign || '$'}${item?.price ? item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
+                        <td class="total">${profile?.denom?.sign || '$'}${calculateSubtotal(item?.price, item?.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
                         </tr>
                         `
   }).join('')
@@ -259,17 +259,17 @@ export const IV3 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
         <tr>
           <td colspan="2"></td>
           <td colspan="2">SUBTOTAL</td>
-          <td>$${subTotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+          <td>${profile?.denom?.sign || '$'}${subTotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
         </tr>
         <tr>
           <td colspan="2"></td>
           <td colspan="2">TAX ${vat}%</td>
-          <td>$${vat?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+          <td>${profile?.denom?.sign || '$'}${vat?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
         </tr>
         <tr>
           <td colspan="2"></td>
           <td colspan="2">GRAND TOTAL</td>
-          <td>$${total?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+          <td>${profile?.denom?.sign || '$'}${total?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
         </tr>
       </tfoot>
     </table>

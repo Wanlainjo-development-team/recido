@@ -234,23 +234,23 @@ export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
             <td class="service">${item?.name}</td>
             <td class="desc">${item?.description ? item?.description : '...'}</td>
             <td class="unit">${item?.quantity ? item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '...'}</td>
-            <td class="qty">$${item?.price ? item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '...'}</td>
-            <td class="total">$${calculateSubtotal(item?.price, item?.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+            <td class="qty">${profile?.denom?.sign || '$'}${item?.price ? item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '...'}</td>
+            <td class="total">${profile?.denom?.sign || '$'}${calculateSubtotal(item?.price, item?.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
           </tr>
                         `
   }).join('')
     }
         <tr>
           <td colspan="4" class="sub">SUBTOTAL</td>
-          <td class="sub total">$${subTotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+          <td class="sub total">${profile?.denom?.sign || '$'}${subTotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
         </tr>
         <tr>
           <td colspan="4">TAX ${vat}%</td>
-          <td class="total">$${vat?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+          <td class="total">${profile?.denom?.sign || '$'}${vat?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
         </tr>
         <tr>
           <td colspan="4" class="grand total">GRAND TOTAL</td>
-          <td class="grand total">$${total?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+          <td class="grand total">${profile?.denom?.sign || '$'}${total?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
         </tr>
       </tbody>
     </table>
