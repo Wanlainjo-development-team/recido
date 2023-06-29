@@ -10,35 +10,14 @@ import Loading from './Loading'
 import color from '../../../style/color'
 import { AntDesign } from '@expo/vector-icons';
 import { SwipeListView } from 'react-native-swipe-list-view'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setContactArchiveList } from '../../../features/useFormSlice'
 import { Alert } from 'react-native'
 import CountInvoices from './components/CountInvoices'
 import TotalBilling from './components/TotalBilling'
 
 const Contacts = () => {
-  const dispatch = useDispatch()
-
-  const [newArchiveList, setNewArchiveList] = useState([])
-
-  useEffect(() => {
-    (async () => {
-      const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
-
-      const q = collection(db, "users", id, 'customerArchive')
-      const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const contact = [];
-        querySnapshot.forEach((doc) => {
-          contact.push({
-            ...doc.data(),
-            contactId: doc.id
-          });
-        });
-        setNewArchiveList(contact)
-        dispatch(setContactArchiveList(contact))
-      });
-    })()
-  }, [])
+  const { contactArchiveList } = useSelector(state => state.form)
 
   const handleArchive = async (invoiceId) => {
     const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
@@ -88,7 +67,7 @@ const Contacts = () => {
       </View>
     </Pressable>
 
-  const renderItem = ({ item, index }) => <View style={{ paddingBottom: (index + 1) == newArchiveList.length ? 80 : 0 }}>{list(item, index)}</View>
+  const renderItem = ({ item, index }) => <View style={{ paddingBottom: (index + 1) == contactArchiveList.length ? 80 : 0 }}>{list(item, index)}</View>
 
   const renderHiddenItem = ({ item }) =>
     <View style={styles.hiddenItem}>
@@ -103,9 +82,9 @@ const Contacts = () => {
   return (
     <View style={{ ...styles.container, paddingTop: 20 }}>
       {
-        newArchiveList.length >= 1 ?
+        contactArchiveList.length >= 1 ?
           <SwipeListView
-            data={newArchiveList}
+            data={contactArchiveList}
             renderItem={renderItem}
             renderHiddenItem={renderHiddenItem}
             rightOpenValue={-120}

@@ -10,35 +10,15 @@ import Loading from './Loading'
 import color from '../../../style/color'
 import { AntDesign } from '@expo/vector-icons';
 import { SwipeListView } from 'react-native-swipe-list-view'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setArchiveList } from '../../../features/useFormSlice'
 import { Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 const Invoices = () => {
   const { navigate } = useNavigation()
-  const dispatch = useDispatch()
+  const { archiveList } = useSelector(state => state.form)
 
-  const [newArchiveList, setNewArchiveList] = useState([])
-
-  useEffect(() => {
-    (async () => {
-      const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
-
-      const q = collection(db, "users", id, 'archive')
-      const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const cities = [];
-        querySnapshot.forEach((doc) => {
-          cities.push({
-            id: doc.id,
-            ...doc.data()
-          });
-        });
-        setNewArchiveList(cities)
-        dispatch(setArchiveList(cities))
-      });
-    })()
-  }, [])
 
   const handleArchive = async (invoiceId) => {
     const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
@@ -88,7 +68,7 @@ const Invoices = () => {
       </View>
     </Pressable>
 
-  const renderItem = ({ item, index }) => <View style={{ paddingBottom: (index + 1) == newArchiveList.length ? 80 : 0 }}>{list(item, index)}</View>
+  const renderItem = ({ item, index }) => <View style={{ paddingBottom: (index + 1) == archiveList.length ? 80 : 0 }}>{list(item, index)}</View>
 
   const renderHiddenItem = ({ item }) =>
     <View style={styles.hiddenItem}>
@@ -104,9 +84,9 @@ const Invoices = () => {
   return (
     <View style={{ ...styles.container, paddingTop: 20 }}>
       {
-        newArchiveList.length >= 1 ?
+        archiveList.length >= 1 ?
           <SwipeListView
-            data={newArchiveList}
+            data={archiveList}
             renderItem={renderItem}
             renderHiddenItem={renderHiddenItem}
             rightOpenValue={-120}

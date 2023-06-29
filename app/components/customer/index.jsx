@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Alert, Pressable } from 'react-native'
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, serverTimestamp, setDoc } from 'firebase/firestore'
@@ -17,33 +17,9 @@ import color from '../../style/color'
 import { Feather } from '@expo/vector-icons';
 
 const CustomerList = () => {
-    const dispatch = useDispatch()
     const { navigate } = useNavigation()
 
-    const [newCustomerList, setNewCustomerList] = useState([])
-
-    useEffect(() => {
-        (async () => {
-
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
-
-            let q = query(collection(db, "users", id, 'customers'), orderBy('name', 'asc'))
-
-            const unsubscribe = onSnapshot(q, (querySnapshot) => {
-                let customers = []
-                querySnapshot.forEach((doc) => {
-                    customers.push({
-                        customerId: doc.id,
-                        ...doc.data()
-                    })
-                })
-                setNewCustomerList(customers)
-                dispatch(setCustomersList(customers))
-            })
-
-            return unsubscribe
-        })()
-    }, [db])
+    const { customersList } = useSelector(state => state.customer)
 
     const handleArchive = async (customerId) => {
         const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
@@ -93,10 +69,10 @@ const CustomerList = () => {
     return (
         <>
             {
-                newCustomerList.length >= 1 ?
+                customersList.length >= 1 ?
                     <View style={styles.container}>
                         <SwipeListView
-                            data={newCustomerList}
+                            data={customersList}
                             renderItem={renderItem}
                             renderHiddenItem={renderHiddenItem}
                             rightOpenValue={-70}

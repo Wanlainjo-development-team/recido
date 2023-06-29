@@ -16,7 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import CustomNavigation from './CustomNavigation'
 
 import { setAuth, setProfile } from '../features/userSlice'
-import { doc, getDoc, onSnapshot } from 'firebase/firestore'
+import { collection, doc, getDoc, onSnapshot, orderBy, query } from 'firebase/firestore'
 import { db, onAuthStateChanged } from '../hooks/firebase'
 import { useNavigation } from '@react-navigation/native'
 import SelectTemplate from '../screens/selectTemplate'
@@ -45,6 +45,9 @@ import PrivacyPolicy from '../screens/settings/screens/privacyPolicy'
 import Tax from '../screens/settings/screens/tax'
 import Customize from '../screens/settings/screens/customize'
 import Archive from '../screens/archive'
+import { setArchiveList, setContactArchiveList, setInventoryArchiveList } from '../features/useFormSlice'
+import { setInventoryList } from '../features/inventorySlice'
+import { setCustomersList } from '../features/customerSlice'
 
 const StackNavigator = () => {
     const navigation = useNavigation()
@@ -81,6 +84,104 @@ const StackNavigator = () => {
 
     useLayoutEffect(() => {
         storeData()
+    }, [])
+
+    useEffect(() => {
+        (async () => {
+
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+            let q = query(collection(db, "users", id, 'inventory'), orderBy('name', 'asc'))
+
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                let inventory = []
+                querySnapshot.forEach((doc) => {
+                    inventory.push({
+                        inventoryId: doc.id,
+                        ...doc.data()
+                    })
+                })
+                dispatch(setInventoryList(inventory))
+            })
+
+            return unsubscribe
+        })()
+    }, [db])
+
+    useEffect(() => {
+        (async () => {
+
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+            let q = query(collection(db, "users", id, 'customers'), orderBy('name', 'asc'))
+
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                let customers = []
+                querySnapshot.forEach((doc) => {
+                    customers.push({
+                        customerId: doc.id,
+                        ...doc.data()
+                    })
+                })
+                dispatch(setCustomersList(customers))
+            })
+
+            return unsubscribe
+        })()
+    }, [db])
+
+    useEffect(() => {
+        (async () => {
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+            const q = collection(db, "users", id, 'archive')
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                const customer = [];
+                querySnapshot.forEach((doc) => {
+                    customer.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+                dispatch(setArchiveList(customer))
+            });
+        })()
+    }, [])
+
+    useEffect(() => {
+        (async () => {
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+            const q = collection(db, "users", id, 'inventoryArchive')
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                const cities = [];
+                querySnapshot.forEach((doc) => {
+                    cities.push({
+                        id: doc.id,
+                        ...doc.data()
+                    });
+                });
+                dispatch(setInventoryArchiveList(cities))
+            });
+        })()
+    }, [])
+
+    useEffect(() => {
+        (async () => {
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+
+            const q = collection(db, "users", id, 'customerArchive')
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                const contact = [];
+                querySnapshot.forEach((doc) => {
+                    contact.push({
+                        ...doc.data(),
+                        contactId: doc.id
+                    });
+                });
+                dispatch(setContactArchiveList(contact))
+            });
+        })()
     }, [])
 
     return (

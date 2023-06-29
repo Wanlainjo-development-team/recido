@@ -7,6 +7,9 @@ import { useSelector } from 'react-redux'
 
 const Summary = () => {
     const { invoiceList } = useSelector(state => state.invoices)
+    const { archiveList, inventoryArchiveList, contactArchiveList } = useSelector(state => state.form)
+    const { inventoryList } = useSelector(state => state.inventory)
+    const { customersList } = useSelector(state => state.customer)
 
     const [paid, setPaid] = useState(0)
 
@@ -36,7 +39,7 @@ const Summary = () => {
                     </View>
                     <View style={app.summaryList}>
                         <Text style={app.summaryListLeft}>Archived</Text>
-                        <Text style={app.summaryListRight}>0</Text>
+                        <Text style={app.summaryListRight}>{archiveList.length}</Text>
                     </View>
                 </View>
 
@@ -47,15 +50,15 @@ const Summary = () => {
 
                     <View style={app.summaryList}>
                         <Text style={app.summaryListLeft}>Items available</Text>
-                        <Text style={app.summaryListRight}>0</Text>
-                    </View>
-                    <View style={app.summaryList}>
-                        <Text style={app.summaryListLeft}>Sold</Text>
-                        <Text style={app.summaryListRight}>0</Text>
+                        <Text style={app.summaryListRight}>{inventoryList.length}</Text>
                     </View>
                     <View style={app.summaryList}>
                         <Text style={app.summaryListLeft}>Archived</Text>
-                        <Text style={app.summaryListRight}>0</Text>
+                        <Text style={app.summaryListRight}>{inventoryArchiveList.length}</Text>
+                    </View>
+                    <View style={app.summaryList}>
+                        <Text style={app.summaryListLeft}></Text>
+                        <Text style={app.summaryListRight}></Text>
                     </View>
                 </View>
 
@@ -66,11 +69,11 @@ const Summary = () => {
 
                     <View style={app.summaryList}>
                         <Text style={app.summaryListLeft}>Contacts saved</Text>
-                        <Text style={app.summaryListRight}>0</Text>
+                        <Text style={app.summaryListRight}>{customersList.length}</Text>
                     </View>
                     <View style={app.summaryList}>
                         <Text style={app.summaryListLeft}>Archived</Text>
-                        <Text style={app.summaryListRight}>0</Text>
+                        <Text style={app.summaryListRight}>{contactArchiveList.length}</Text>
                     </View>
                     <View style={app.summaryList}>
                         <Text style={app.summaryListLeft}></Text>
@@ -85,15 +88,15 @@ const Summary = () => {
 
                     <View style={app.summaryList}>
                         <Text style={app.summaryListLeft}>Invoice</Text>
-                        <Text style={app.summaryListRight}>0</Text>
+                        <Text style={app.summaryListRight}>{archiveList.length}</Text>
                     </View>
                     <View style={app.summaryList}>
                         <Text style={app.summaryListLeft}>Inventory</Text>
-                        <Text style={app.summaryListRight}>0</Text>
+                        <Text style={app.summaryListRight}>{inventoryArchiveList.length}</Text>
                     </View>
                     <View style={app.summaryList}>
                         <Text style={app.summaryListLeft}>Contact</Text>
-                        <Text style={app.summaryListRight}>0</Text>
+                        <Text style={app.summaryListRight}>{contactArchiveList.length}</Text>
                     </View>
                 </View>
             </View>

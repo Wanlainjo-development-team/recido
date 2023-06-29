@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Alert, Pressable } from 'react-native'
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, serverTimestamp, setDoc } from 'firebase/firestore'
@@ -21,30 +21,7 @@ const InventoryList = ({ selectItem }) => {
   const { navigate } = useNavigation()
   const route = useRoute()
 
-  const [newInventoryList, setNewInventoryList] = useState([])
-
-  useEffect(() => {
-    (async () => {
-
-      const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
-
-      let q = query(collection(db, "users", id, 'inventory'), orderBy('name', 'asc'))
-
-      const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        let inventory = []
-        querySnapshot.forEach((doc) => {
-          inventory.push({
-            inventoryId: doc.id,
-            ...doc.data()
-          })
-        })
-        setNewInventoryList(inventory)
-        dispatch(setInventoryList(inventory))
-      })
-
-      return unsubscribe
-    })()
-  }, [db])
+  const { inventoryList } = useSelector(state => state.inventory)
 
   const handleArchive = async (inventoryId) => {
     const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
@@ -99,10 +76,10 @@ const InventoryList = ({ selectItem }) => {
   return (
     <>
       {
-        newInventoryList.length >= 1 ?
+        inventoryList.length >= 1 ?
           <View style={{ ...styles.container, paddingBottom: route.name == 'Items' ? 0 : 80 }}>
             <SwipeListView
-              data={newInventoryList}
+              data={inventoryList}
               renderItem={renderItem}
               renderHiddenItem={renderHiddenItem}
               rightOpenValue={-70}
