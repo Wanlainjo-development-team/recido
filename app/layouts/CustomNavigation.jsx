@@ -357,7 +357,7 @@ const TabButton = (profile, dispatch, currentTab, setCurrentTab, setShowMenu, sh
                 {nav == 'Invoices' && <FontAwesome5 name="file-invoice-dollar" size={24} color={color.accent} style={{ marginRight: 15 }} />}
                 {nav == 'Customers' && <Feather name="users" size={24} color={color.accent} style={{ marginRight: 15 }} />}
                 {nav == 'Inventory' && <MaterialIcons name="storefront" size={24} color={color.accent} style={{ marginRight: 15 }} />}
-                {nav == 'Archive' && <Feather name="archive" size={22} color={color.accent} style={{ marginRight: 15, marginLeft: -3 }} />}
+                {nav == 'Archive' && <Feather name="archive" size={22} color={color.accent} style={{ marginRight: 15, marginLeft: 2 }} />}
                 {nav == 'Settings' && <Ionicons name="cog" size={24} color={color.accent} style={{ marginRight: 15 }} />}
                 {/*  */}
                 {/*  */}

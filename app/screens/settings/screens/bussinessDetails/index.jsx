@@ -16,6 +16,8 @@ import * as Notifications from 'expo-notifications';
 import uuid from 'uuid-random'
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import { setSetup } from '../../../../features/userSlice';
+import app from '../../../../style/app'
+import { useNavigation } from '@react-navigation/native';
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -27,6 +29,7 @@ Notifications.setNotificationHandler({
 
 const BussinessDetails = () => {
   const storage = getStorage()
+  const { navigate } = useNavigation()
 
   const dispatch = useDispatch()
 
@@ -185,6 +188,12 @@ const BussinessDetails = () => {
                 })
               }}
               placeholder="Business number" />
+          </View>
+          <View style={{ ...app.inputView }}>
+            <Text style={app.inputText}>Business number</Text>
+            <TouchableOpacity onPress={() => navigate('Currency')} style={{ ...app.input, justifyContent: 'center' }}>
+              <Text>Currency</Text>
+            </TouchableOpacity>
           </View>
 
           <Text style={{ ...styles.title, marginTop: 30 }}>Bussiness address</Text>

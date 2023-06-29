@@ -86,7 +86,6 @@ export const contact = StyleSheet.create({
         flex: 1,
         backgroundColor: color.mainBackground,
         padding: 10,
-        paddingTop: 30
     },
 
     head: {
@@ -103,7 +102,6 @@ export const contact = StyleSheet.create({
     },
 
     group: {
-        padding: 10,
         marginBottom: 10,
         height: 50,
         borderRadius: 12,

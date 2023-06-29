@@ -45,6 +45,8 @@ import PrivacyPolicy from '../screens/settings/screens/privacyPolicy'
 import Tax from '../screens/settings/screens/tax'
 import Customize from '../screens/settings/screens/customize'
 import Archive from '../screens/archive'
+import Currency from '../screens/currency'
+
 import { setArchiveList, setContactArchiveList, setInventoryArchiveList } from '../features/useFormSlice'
 import { setInventoryList } from '../features/inventorySlice'
 import { setCustomersList } from '../features/customerSlice'
@@ -229,6 +231,7 @@ const StackNavigator = () => {
                                     <Screen name='PrivacyPolicy' component={PrivacyPolicy} options={{ gestureEnabled: true }} />
                                     <Screen name='Customize' component={Customize} options={{ gestureEnabled: true }} />
                                     <Screen name='Archive' component={Archive} options={{ gestureEnabled: true }} />
+                                    <Screen name='Currency' component={Currency} options={{ gestureEnabled: true }} />
                                     <Group
                                         screenOptions={{
                                             ...TransitionPresets.ModalSlideFromBottomIOS,
