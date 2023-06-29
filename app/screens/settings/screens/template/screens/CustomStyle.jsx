@@ -14,10 +14,10 @@ import { db } from '../../../../../hooks/firebase'
 import color from '../../../../../style/color'
 import { WebView } from 'react-native-webview'
 
-import { IV1 } from '../../../../create/screens/preview/templates/IV1';
-import { IV2 } from '../../../../create/screens/preview/templates/IV2';
-import { IV3 } from '../../../../create/screens/preview/templates/IV3';
-import { IV4 } from '../../../../create/screens/preview/templates/IV4';
+import { IV1 } from '../../../../../components/fragments/templates/IV1';
+import { IV2 } from '../../../../../components/fragments/templates/IV2';
+import { IV3 } from '../../../../../components/fragments/templates/IV3';
+import { IV4 } from '../../../../../components/fragments/templates/IV4';
 import { useRef } from 'react'
 import { useIsFocused } from '@react-navigation/native'
 
