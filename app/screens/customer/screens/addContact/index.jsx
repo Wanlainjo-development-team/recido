@@ -34,7 +34,7 @@ const AddContact = () => {
                 </TouchableOpacity>
             </View>
 
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <TouchableOpacity onPress={() => navigate('AddNewCustomer', { directSave: true, invoiceContact: null })} style={styles.group}>
                     <AntDesign name="pluscircleo" size={22} color={color.accent} />
                     <Text style={styles.groupText}>Add new customer</Text>

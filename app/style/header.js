@@ -29,7 +29,8 @@ export const header = StyleSheet.create({
     fontSize: 30,
     margin: 0,
     marginTop: -10,
-    color: color.black
+    color: `${color.black}80`,
+    fontWeight: '900'
   },
 
   rightContainer: {

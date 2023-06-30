@@ -202,7 +202,7 @@ const CustomNavigation = () => {
                     <View>
                         <View style={[header.container, { backgroundColor: color.transparent }]}>
                             <View style={header.leftContainer}>
-                                <Text style={{ ...header.logo, color: color.black }}>Recido</Text>
+                                <Text style={header.logo}>Recido</Text>
                             </View>
 
                             <View style={header.rightContainer}>

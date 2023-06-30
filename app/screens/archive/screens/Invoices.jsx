@@ -21,7 +21,7 @@ const Invoices = () => {
 
 
   const handleArchive = async (invoiceId) => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
     let invoice = (await getDoc(doc(db, 'users', id, 'archive', invoiceId))).data()
 
@@ -47,7 +47,7 @@ const Invoices = () => {
           text: 'Delete',
           style: 'destructive',
           onPress: async () => {
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
             await deleteDoc(doc(db, 'users', id, 'archive', invoiceId))
 

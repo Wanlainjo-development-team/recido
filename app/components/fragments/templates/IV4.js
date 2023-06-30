@@ -2,293 +2,381 @@ const calculateSubtotal = (price, quantity) => price * quantity
 
 export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note) => {
   const html = `
+  
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <meta charset="UTF-8">
+
   <style>
-    @font-face {
-      font-family: Junge;
-      src: url(Junge-Regular.ttf);
-    }
-
-    .clearfix:after {
-      content: "";
-      display: table;
-      clear: both;
-    }
-
-    a {
-      color: #001028;
-      text-decoration: none;
+    * {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      box-sizing: border-box;
+      color: rgba(0, 0, 0, 0.8);
     }
 
     body {
-      font-family: Junge;
-      position: relative;
-      width: 21cm;
-      height: 29.7cm;
-      margin: 0 auto;
-      color: #001028;
-      background: #FFFFFF;
-      font-size: 14px;
+      background-color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      margin: 0;
     }
 
-    .arrow {
-      margin-bottom: 4px;
+    .container {
+      width: 800px;
+      max-width: 98%;
+      padding: 2em;
     }
 
-    .arrow.back {
-      text-align: right;
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid #${profile?.invoiceColor ? profile?.invoiceColor : '4169e1'}30;
+      padding-bottom: 1em;
     }
 
-    .inner-arrow {
-      padding-right: 10px;
-      height: 30px;
-      display: inline-block;
-      background-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 125, 49)'};
-      text-align: center;
-
-      line-height: 30px;
-      vertical-align: middle;
-      color: #ffffff
+    nav .left {
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
     }
 
-    .inner-arrow a {
-      color: #ffffff
+    nav .left .avatarContainer {
+      min-width: 150px;
+      height: 150px;
+      background-color: rgba(0, 0, 0, 0.2509803922);
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
     }
 
-    .arrow.back .inner-arrow {
-      background-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 217, 49)'};
-      padding-right: 0;
-      padding-left: 10px;
+    nav .left .avatarContainer img {
+      -o-object-fit: cover;
+      object-fit: cover;
+      width: 150px;
+      height: 150px;
     }
 
-    .arrow:before,
-    .arrow:after {
-      content: '';
-      display: inline-block;
-      width: 0;
-      height: 0;
-      border: 15px solid transparent;
-      vertical-align: middle;
+    nav .left .avatarContainer span {
+      color: #ffffff;
+      text-transform: uppercase;
+      font-size: 1.5rem;
     }
 
-    .arrow:before {
-      border-top-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 125, 49)'};
-      border-bottom-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 125, 49)'};
-      border-right-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 125, 49)'};
+    nav .left .lists {
+      margin-left: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
 
-    .arrow.back:before {
-      border-top-color: transparent;
-      border-bottom-color: transparent;
-      border-right-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 217, 49)'};
-      border-left-color: transparent;
+    nav .left .lists .heading {
+      font-size: 1rem;
+      font-weight: 600;
     }
 
-    .arrow:after {
-      border-left-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 125, 49)'};
-    }
-
-    .arrow.back:after {
-      border-left-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 217, 49)'};
-      border-top-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 217, 49)'};
-      border-bottom-color: ${profile?.invoiceColor ? profile?.invoiceColor : 'rgb(233, 217, 49)'};
-      border-right-color: transparent;
-    }
-
-    .arrow span {
-      display: inline-block;
-      width: 80px;
-      margin-right: 20px;
-      text-align: right;
-    }
-
-    .arrow.back span {
-      margin-right: 0;
-      margin-left: 20px;
+    nav .left .lists .text {
+      font-size: 0.9rem;
+      width: 150px;
       text-align: left;
-      color: #ffffff
+      margin-bottom: 0.5em;
     }
 
-    h1 {
-      color: #5D6975;
-      font-family: Junge;
-      font-size: 2.4em;
-      line-height: 1.4em;
-      font-weight: normal;
-      text-align: center;
-      border-top: 1px solid #5D6975;
-      border-bottom: 1px solid #5D6975;
-      margin: 0 0 2em 0;
+    nav .right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
     }
 
-    h1 small {
-      font-size: 0.45em;
-      line-height: 1.5em;
-      float: left;
+    nav .right .heading {
+      font-size: 1rem;
+      font-weight: 600;
     }
 
-    h1 small:last-child {
-      float: right;
-    }
-
-    #project {
-      float: left;
-    }
-
-    #company {
-      float: right;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      border-spacing: 0;
-      margin-bottom: 30px;
-    }
-
-    table th,
-    table td {
-      text-align: center;
-    }
-
-    table th {
-      padding: 5px 20px;
-      color: #5D6975;
-      border-bottom: 1px solid #C1CED9;
-      white-space: nowrap;
-      font-weight: normal;
-    }
-
-    table .service,
-    table .desc {
-      text-align: left;
-    }
-
-    table td {
-      padding: 20px;
+    nav .right .text {
+      font-size: 0.9rem;
+      width: 150px;
       text-align: right;
+      margin-bottom: 0.5em;
     }
 
-    table td.service,
-    table td.desc {
-      vertical-align: top;
+    .billTo {
+      display: flex;
+      flex-direction: column;
+      margin-top: 1em;
     }
 
-    table td.unit,
-    table td.qty,
-    table td.total {
-      font-size: 1.2em;
+    .billTo h6 {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      margin: 0;
     }
 
-    table td.sub {
-      border-top: 1px solid #C1CED9;
+    .billTo .customerName {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5em;
+      margin-bottom: 1em;
     }
 
-    table td.grand {
-      border-top: 1px solid #5D6975;
+    .billTo .text {
+      font-size: 0.9rem;
+      margin: 0;
+      margin-bottom: 0.3rem;
     }
 
-    table tr:nth-child(2n-1) td {
-      background: #EEEEEE;
+    .invoice {
+      display: flex;
+      flex-direction: column;
     }
 
-    table tr:last-child td {
-      background: #DDDDDD;
+    .invoice .rows {
+      margin-top: 1em;
     }
 
-    #details {
-      margin-bottom: 30px;
+    .invoice .row {
+      padding: 1em 0.5em;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: none;
     }
 
-    footer {
-      color: #5D6975;
-      width: 100%;
-      height: 30px;
-      position: absolute;
-      bottom: 0;
-      border-top: 1px solid #C1CED9;
-      padding: 8px 0;
-      text-align: center;
+    .invoice .row:last-child {
+      border-bottom: none;
+    }
+
+    .invoice .row:nth-child(odd) {
+      background-color: #${profile?.invoiceColor ? profile?.invoiceColor : '4169e1'}20;
+    }
+
+    .invoice .row:nth-child(1) {
+      background-color: #${profile?.invoiceColor ? profile?.invoiceColor : '4169e1'};
+      border-bottom: none;
+    }
+
+    .invoice .row:nth-child(1) .col1,
+    .invoice .row:nth-child(1) .col2,
+    .invoice .row:nth-child(1) .col3,
+    .invoice .row:nth-child(1) .col4 {
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .invoice .row .col1,
+    .invoice .row .col2,
+    .invoice .row .col3,
+    .invoice .row .col4 {
+      font-size: 0.9rem;
+    }
+
+    .invoice .row .col1 {
+      width: 60%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .invoice .row .col1 span:nth-child(1) {
+      font-weight: 600;
+    }
+
+    .invoice .row .col1 span:nth-child(2) {
+      font-size: 0.8rem;
+    }
+
+    .invoice .row .col2,
+    .invoice .row .col3,
+    .invoice .row .col4 {
+      width: 13.3333333333%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .invoice .summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .invoice .summary .left,
+    .invoice .summary .right {
+      width: 50%;
+    }
+
+    .invoice .summary .right .row {
+      border-bottom: 1px solid #${profile?.invoiceColor ? profile?.invoiceColor : '4169e1'}30;
+    }
+
+    .invoice .summary .right .row:nth-child(odd) {
+      background-color: transparent;
+    }
+
+    .invoice .summary .right .row:nth-child(1) {
+      border-bottom: none;
+      background-color: #ffffff;
+    }
+
+    .invoice .summary .right .row:nth-child(1) .col1,
+    .invoice .summary .right .row:nth-child(1) .col2 {
+      font-weight: initial;
+      color: rgba(0, 0, 0, 0.8);
+    }
+
+    .invoice .summary .right .row:last-child {
+      border-bottom: none;
+    }
+
+    .invoice .summary .right .row:last-child .col2 {
+      font-weight: 600;
+    }
+
+    .invoice .summary .right .row .col1 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .bottom {
+      margin-top: 3em;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .bottom .defaultMessage,
+    .bottom .discalimer {
+      font-size: 0.9rem;
     }
   </style>
 </head>
 
-<body style="width: 700px; max-width: 98%; margin: 20px auto;">
-  <main>
-    <h1 class="clearfix"><small><span>DATE</span><br />${new Date(date).toDateString()}</small> INVOICE ${invoiceId} <small style="width: 100px"><span></span><br /></small></h1>
-    <table>
-      <thead>
-        <tr>
-          <th class="service">Item</th>
-          <th class="desc">Description</th>
-          <th>Quantity</th>
-          <th>Unit Price</th>
-          <th>Sub-Total</th>
-        </tr>
-      </thead>
-      <tbody>
-      ${items?.map((item) => {
-    return `
-          <tr>
-            <td class="service">${item?.name}</td>
-            <td class="desc">${item?.description ? item?.description : '...'}</td>
-            <td class="unit">${item?.quantity ? item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '...'}</td>
-            <td class="qty">${profile?.denom?.sign || '$'}${item?.price ? item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : '...'}</td>
-            <td class="total">${profile?.denom?.sign || '$'}${calculateSubtotal(item?.price, item?.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
-          </tr>
-                        `
-  }).join('')
+<body>
+  <div class="container">
+    <nav>
+      <div class="left">
+        <div class="avatarContainer">
+          <span style="display: ${profile?.photoURL ? 'none' : 'initial'}">Logo</span>
+          <img style="display: ${!profile?.photoURL ? 'none' : 'initial'}" src="${profile?.photoURL}" alt="">
+        </div>
+
+        <div class="lists">
+          <span class="heading"> ${profile?.name} </span>
+          <span class="text">${profile?.address}</span>
+          <span class="text">${profile?.contact}</span>
+          <span class="text">${profile?.email}</span>
+        </div>
+      </div>
+      <div class="right">
+        <span class="heading">INVOICE</span>
+        <span class="text">${invoiceId}</span>
+
+        <span class="heading">Date</span>
+        <span class="text">${new Date(date).toDateString()}</span>
+
+        <span class="heading">Balance Due</span>
+        <span class="text">${profile?.denom?.sign || '$'}${total?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") || '2,000'}</span>
+      </div>
+    </nav>
+
+    <section class="billTo">
+      <h6>Bill To</h6>
+
+      <p class="customerName">${invoiceContact?.name || 'John Doe'}</p>
+
+      <p class="text">${invoiceContact?.address ? (`${invoiceContact?.address} ${invoiceContact?.city ? `, ${invoiceContact?.city}` : ''} ${invoiceContact?.state ? invoiceContact?.state : ''} ${invoiceContact?.country ? `, ${invoiceContact?.country}` : ''}`) : '' || '123456 Willson close'}</p>
+      <p class="text">${invoiceContact?.phoneNumbers[0]?.number || '+234 009 3434 3434'}</p>
+      <p class="text">${invoiceContact?.email || 'someone@example.com'}</p>
+    </section>
+
+    <section class="invoice">
+      <div class="rows">
+        <div class="row">
+          <div class="col1">DESCRIPTION</div>
+          <div class="col2">RATE</div>
+          <div class="col3">QTY</div>
+          <div class="col4">AMOUNT</div>
+        </div>
+        
+        
+        ${items ?
+      `
+              ${items?.map((item) => {
+        return `
+                  <div class="row">
+                                      <div class="col1">
+                                          <span>${item?.name}</span>
+                                          <span>${item?.description != '' ? item?.description : '...'}</span>
+                                      </div>
+                                      <div class="col2">${profile?.denom?.sign || '$'}${item?.price ? item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</div>
+                                      <div class="col3">${item?.quantity ? item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</div>
+                                      <div class="col4">${profile?.denom?.sign || '$'}${calculateSubtotal(item?.price, item?.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</div>
+                                  </div>
+                  `
+      }).join('')
+      }
+              ` :
+      `
+          <div class="row">
+          <div class="col1">
+              <span>Item 1</span>
+              <span>Some description for this item</span>
+          </div>
+          <div class="col2">$1,000</div>
+          <div class="col3">2</div>
+          <div class="col4">$2,000</div>
+      </div>
+          <div class="row">
+          <div class="col1">
+              <span>Item 1</span>
+              <span>Some description for this item</span>
+          </div>
+          <div class="col2">$1,000</div>
+          <div class="col3">2</div>
+          <div class="col4">$2,000</div>
+      </div>
+          <div class="row">
+          <div class="col1">
+              <span>Item 1</span>
+              <span>Some description for this item</span>
+          </div>
+          <div class="col2">$1,000</div>
+          <div class="col3">2</div>
+          <div class="col4">$2,000</div>
+      </div>
+      `
     }
-        <tr>
-          <td colspan="4" class="sub">SUBTOTAL</td>
-          <td class="sub total">${profile?.denom?.sign || '$'}${subTotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-        </tr>
-        <tr>
-          <td colspan="4">TAX ${vat}%</td>
-          <td class="total">${profile?.denom?.sign || '$'}${vat?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-        </tr>
-        <tr>
-          <td colspan="4" class="grand total">GRAND TOTAL</td>
-          <td class="grand total">${profile?.denom?.sign || '$'}${total?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
-        </tr>
-      </tbody>
-    </table>
-    <div id="details" class="clearfix">
-      <div id="project">
-        <div class="arrow" style="display: ${invoiceContact?.name ? 'flex' : 'none'};">
-          <div class="inner-arrow"><span>CLIENT</span> ${invoiceContact?.name}</div>
-        </div>
-        <div class="arrow" style="display: ${invoiceContact?.address ? 'initial' : 'none'}">
-          <div class="inner-arrow"><span>ADDRESS</span>${invoiceContact?.address ? (`${invoiceContact?.address} ${invoiceContact?.city ? `, ${invoiceContact?.city}` : ''} ${invoiceContact?.state ? invoiceContact?.state : ''} ${invoiceContact?.country ? `, ${invoiceContact?.country}` : ''}`) : ''}</div>
-        </div>
-        <div class="arrow" style="display: ${invoiceContact?.phoneNumbers[0]?.number ? 'flex' : 'none'};">
-          <div class="inner-arrow"><span>PHONE</span> ${invoiceContact?.phoneNumbers[0]?.number}</div>
-        </div>
-        <div class="arrow" style="display: ${invoiceContact?.email ? 'initial' : 'none'}">
-          <div class="inner-arrow"><span>EMAIL</span> <a href="mailto:${invoiceContact?.email}">${invoiceContact?.email}">${invoiceContact?.email}">${invoiceContact?.email}</a></div>
+      </div>
+
+      <div class="summary">
+        <div class="left"></div>
+        <div class="right">
+          <div class="row">
+              <div class="col1">Subtotal</div>
+              <div class="col2">${profile?.denom?.sign || '$'}${subTotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") || '1,000'}</div>
+          </div>
+          <div class="row">
+              <div class="col1">total</div>
+              <div class="col2">${profile?.denom?.sign || '$'}${total?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") || '1,000'}</div>
+          </div>
+          <div class="row">
+              <div class="col1">balance due</div>
+              <div class="col2">${profile?.denom?.sign || '$'}${total?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") || '1,000'}</div>
+          </div>
         </div>
       </div>
-      <div id="company" style="display: flex; flex-direction: column; align-items: flex-end;">
-        <div class="arrow back" style="display: ${profile?.name ? 'initial' : 'none'}">
-          <div class="inner-arrow">${profile?.name} <span>COMPANY</span></div>
-        </div>
-        <div class="arrow back" ${profile?.contact ? '' : 'none'}">
-          <div class="inner-arrow">${profile?.contact} <span>PHONE</span></div>
-        </div>
-        <div class="arrow back" ${profile?.email ? '' : 'none'}">
-          <div class="inner-arrow"><a href="mailto:${profile?.email}">${profile?.email}</a> <span>EMAIL</span></div>
-        </div>
-      </div>
-    </div>
-    <div id="notices">
-      <div>NOTICE:</div>
-      <div class="notice">${note != '' ? note : profile?.disclaimer}</div>
-    </div>
-  </main>
-  <footer>
-    Invoice was created on a computer and is valid without the signature and seal.
-  </footer>
+    </section>
+
+    <section class="bottom">
+      <p class="defaultMessage">${profile?.defaultEmailMessage}</p>
+      <p class="discalimer">${profile?.disclaimer}</p>
+    </section>
+  </div>
 </body>
 
 </html>

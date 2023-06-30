@@ -1,6 +1,5 @@
-import { View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Pressable, Keyboard, ActivityIndicator, Alert } from 'react-native'
+import { View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Pressable, Keyboard, ActivityIndicator, Alert, Platform } from 'react-native'
 import React, { useState } from 'react'
-import { Platform } from 'react-native'
 import style from './style'
 
 import { MaterialIcons, Feather } from '@expo/vector-icons'
@@ -46,6 +45,13 @@ const Signup = () => {
             email,
             tries: 25,
             invoice: 0,
+            invoiceColor: '555555',
+            orderBy: 'desc',
+            quantityLabel: 'QTY',
+            searchBy: 'invoiceContact.name',
+            setup: false,
+            sortBy: 'invoiceId',
+            unitPriceLabel: 'RATE',
             timestamp: serverTimestamp()
           })
 

@@ -80,7 +80,7 @@ const CreateInvoice = () => {
 
   useEffect(() => {
     (async () => {
-      const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+      const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
       if (!currentInvoiceId) return
 
@@ -148,7 +148,7 @@ const CreateInvoice = () => {
   );
 
   const saveInvoice = async () => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
     if (!invoiceContact) {
       await schedulePushNotification('Add customer', 'Customer information is required 🛍️🛍️', null)
@@ -321,7 +321,7 @@ const CreateInvoice = () => {
   }
 
   const saveFinishedInvoice = async item => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
     await addDoc(collection(db, 'users', id, 'inventory'), {
       name: item?.name,
@@ -352,7 +352,7 @@ const CreateInvoice = () => {
   }
 
   const setInvoiceState = async state => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
     setLoading(true)
 

@@ -51,7 +51,7 @@ const Send = () => {
 
   useEffect(() => { }, [
     (async () => {
-      const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+      const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
       const q = query(collection(db, 'users', id, 'invoices'), where("invoiceId", "==", invoiceId));
 
@@ -155,7 +155,7 @@ const Send = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.head}>
           <View>
             <Text style={styles.headHeadingText}>Recipient</Text>
