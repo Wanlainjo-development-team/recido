@@ -16,6 +16,7 @@ import { Alert } from 'react-native'
 
 const Inventory = () => {
   const { inventoryArchiveList } = useSelector(state => state.form)
+  const { profile } = useSelector(state => state.user)
 
   const handleArchive = async (invoiceId) => {
     const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
@@ -61,7 +62,7 @@ const Inventory = () => {
         <Text>{item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Left</Text>
       </View>
       <View style={styles.right}>
-        <Text>${item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+        <Text>{profile?.denom?.sign || '$'}{item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
       </View>
     </Pressable>
 

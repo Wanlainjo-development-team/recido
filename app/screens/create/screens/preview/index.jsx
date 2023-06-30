@@ -7,10 +7,10 @@ import styles from './styles'
 import { useSelector } from 'react-redux';
 
 import { useNavigation } from '@react-navigation/native';
-import { IV1 } from './templates/IV1';
-import { IV2 } from './templates/IV2';
-import { IV3 } from './templates/IV3';
-import { IV4 } from './templates/IV4';
+import { IV1 } from '../../../../components/fragments/templates/IV1';
+import { IV2 } from '../../../../components/fragments/templates/IV2';
+import { IV3 } from '../../../../components/fragments/templates/IV3';
+import { IV4 } from '../../../../components/fragments/templates/IV4';
 import templatesPreview from '../../../../components/fragments/templatesPreview'
 
 import { doc, onSnapshot } from "firebase/firestore"

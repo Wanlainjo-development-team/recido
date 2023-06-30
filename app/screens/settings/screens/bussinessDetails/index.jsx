@@ -192,7 +192,11 @@ const BussinessDetails = () => {
           <View style={{ ...app.inputView }}>
             <Text style={app.inputText}>Business number</Text>
             <TouchableOpacity onPress={() => navigate('Currency')} style={{ ...app.input, justifyContent: 'center' }}>
-              <Text>Currency</Text>
+              <Text>
+                {
+                  profile?.denom ? `${profile?.denom?.country} -- ${profile?.denom?.denomination}(${profile?.denom?.sign})` : 'Currency'
+                }
+              </Text>
             </TouchableOpacity>
           </View>
 

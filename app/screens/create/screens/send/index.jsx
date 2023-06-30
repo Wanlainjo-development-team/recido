@@ -7,10 +7,10 @@ import { useSelector } from 'react-redux';
 import * as Contacts from 'expo-contacts'
 import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
-import { IV1 } from '../preview/templates/IV1';
-import { IV2 } from '../preview/templates/IV2';
-import { IV3 } from '../preview/templates/IV3';
-import { IV4 } from '../preview/templates/IV4';
+import { IV1 } from '../../../../components/fragments/templates/IV1';
+import { IV2 } from '../../../../components/fragments/templates/IV2';
+import { IV3 } from '../../../../components/fragments/templates/IV3';
+import { IV4 } from '../../../../components/fragments/templates/IV4';
 
 import * as Print from 'expo-print'
 import color from '../../../../style/color';
@@ -28,7 +28,7 @@ const Send = () => {
   const [email, setEmail] = useState('');
   const [emailList, setEmailList] = useState([]);
   const [emailMessage, setEmailMessage] = useState(profile?.defaultEmailMessage ? profile?.defaultEmailMessage : 'Thank you for your bussiness.');
-  const [emailAmount, setEmailAmount] = useState(`Amount Due: $${total}`);
+  const [emailAmount, setEmailAmount] = useState(`Amount Due: ${profile?.denom?.sign || '$'}${total}`);
   const [invoiceExist, setInvoiceExist] = useState(false);
 
   let html = ``

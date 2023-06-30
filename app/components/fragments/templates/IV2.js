@@ -181,8 +181,8 @@ export const IV2 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
                         <td style="font-size: .8rem;">${item?.name}</td>
                         <td style="font-size: .8rem;">${item?.description ? item?.description : '...'}</td>
                         <td style="font-size: .8rem;">${item?.quantity ? item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
-                        <td style="font-size: .8rem;">$ ${item?.price ? item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
-                        <td style="font-size: .8rem;">$ ${calculateSubtotal(item?.price, item?.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
+                        <td style="font-size: .8rem;">${profile?.denom?.sign || '$'}${item?.price ? item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') : ''}</td>
+                        <td style="font-size: .8rem;">${profile?.denom?.sign || '$'}${calculateSubtotal(item?.price, item?.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</td>
                     </tr>
                     `
   }).join('')
@@ -190,15 +190,15 @@ export const IV2 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
 
         <tr>
           <td colspan="4">Sub-Total</td>
-          <td class="total">$${subTotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+          <td class="total">${profile?.denom?.sign || '$'}${subTotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
         </tr>
         <tr>
           <td colspan="4">TAX 25%</td>
-          <td class="total">$${vat?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+          <td class="total">${profile?.denom?.sign || '$'}${vat?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
         </tr>
         <tr>
           <td colspan="4" class="grand total">GRAND TOTAL</td>
-          <td class="grand total">$${total?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
+          <td class="grand total">${profile?.denom?.sign || '$'}${total?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</td>
         </tr>
       </tbody>
     </table>
