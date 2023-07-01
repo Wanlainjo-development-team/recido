@@ -50,6 +50,7 @@ import Currency from '../screens/currency'
 import { setArchiveList, setContactArchiveList, setInventoryArchiveList } from '../features/useFormSlice'
 import { setInventoryList } from '../features/inventorySlice'
 import { setCustomersList } from '../features/customerSlice'
+import Welcome from '../screens/auth/Welcome'
 
 const StackNavigator = () => {
     const navigation = useNavigation()
@@ -251,6 +252,7 @@ const StackNavigator = () => {
                                 </>
                             ) : (
                                 <Group>
+                                    <Screen name="Welcome" component={Welcome} options={{ gestureEnabled: false }} />
                                     <Screen name="Signin" component={Signin} options={{ gestureEnabled: false }} />
                                     <Screen name="Signup" component={Signup} options={{ gestureEnabled: true }} />
                                     <Screen name="ForgotPassword" component={ForgotPassword} options={{ gestureEnabled: true }} />

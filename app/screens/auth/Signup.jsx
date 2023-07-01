@@ -29,46 +29,46 @@ const Signup = () => {
   let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
   const signupUser = async () => {
-    if (!email.match(regex) && password == '') {
-      Alert.alert('Sign Up error', 'Please complete the form and try again 🙂')
-    } else {
+    // if (!email.match(regex) && password == '') {
+    //   Alert.alert('Sign Up error', 'Please complete the form and try again 🙂')
+    // } else {
 
-      setLoading(true)
-      createUserWithEmailAndPassword(auth, email, password)
-        .then(async user => {
+    //   setLoading(true)
+    //   createUserWithEmailAndPassword(auth, email, password)
+    //     .then(async user => {
 
-          let id = user?.uid != undefined ? user?.uid : user?.user?.uid
+    //       let id = user?.uid != undefined ? user?.uid : user?.user?.uid
 
-          await setDoc(doc(db, 'users', id), {
-            id,
-            name,
-            email,
-            tries: 25,
-            invoice: 0,
-            invoiceColor: '555555',
-            orderBy: 'desc',
-            quantityLabel: 'QTY',
-            searchBy: 'invoiceContact.name',
-            setup: false,
-            sortBy: 'invoiceId',
-            unitPriceLabel: 'RATE',
-            timestamp: serverTimestamp()
-          })
+    //       await setDoc(doc(db, 'users', id), {
+    //         id,
+    //         name,
+    //         email,
+    //         tries: 25,
+    //         invoice: 0,
+    //         invoiceColor: '555555',
+    //         orderBy: 'desc',
+    //         quantityLabel: 'QTY',
+    //         searchBy: 'invoiceContact.name',
+    //         setup: false,
+    //         sortBy: 'invoiceId',
+    //         unitPriceLabel: 'RATE',
+    //         timestamp: serverTimestamp()
+    //       })
 
-          await AsyncStorage.setItem('recido_user', JSON.stringify(user))
+    //       await AsyncStorage.setItem('recido_user', JSON.stringify(user))
 
-          dispatch(setUser(user))
-          setLoading(false)
-        }).catch(async error => {
-          if (error.message.includes('email-already-in-use'))
-            Alert.alert('Sign Up error', 'Seems this email is already in use. \nTry another 🙂')
-          else if (error.message.includes('weak-password'))
-            Alert.alert('Sign Up error', 'weak-password\nPassword should be at least 6 characters')
+    //       dispatch(setUser(user))
+    //       setLoading(false)
+    //     }).catch(async error => {
+    //       if (error.message.includes('email-already-in-use'))
+    //         Alert.alert('Sign Up error', 'Seems this email is already in use. \nTry another 🙂')
+    //       else if (error.message.includes('weak-password'))
+    //         Alert.alert('Sign Up error', 'weak-password\nPassword should be at least 6 characters')
 
-          await AsyncStorage.setItem('recido_user', null)
-          setLoading(false)
-        })
-    }
+    //       await AsyncStorage.setItem('recido_user', null)
+    //       setLoading(false)
+    //     })
+    // }
   }
 
   return (
@@ -77,7 +77,7 @@ const Signup = () => {
         <View style={style.card}>
           <Text style={style.headText}>Sign Up to continue</Text>
           <View style={style.inputView}>
-            <TextInput value={name} onChangeText={setName} autoComplete='name' keyboardType='default' style={style.input} placeholder='Organisation name' />
+            <TextInput value={name} onChangeText={setName} autoComplete='name' keyboardType='default' style={style.input} placeholder='Bussiness name' />
             <View style={style.inputIcon}>
               <Feather name="at-sign" size={24} color={color.accent} />
             </View>
