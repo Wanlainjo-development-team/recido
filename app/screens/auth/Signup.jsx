@@ -35,11 +35,11 @@ const Signup = () => {
 
   const [peek, setPeek] = useState(true)
   const [form, setForm] = useState({
-    name: 'Rukkie',
-    email: 'rukkiecodes4@gmail.com',
-    bussinessNumer: '090084093840398',
-    address: 'skm;vkla;fk;akfb',
-    password: 'amagboro',
+    name: '',
+    email: '',
+    bussinessNumer: '',
+    address: '',
+    password: '',
     image: null
   })
   const [loading, setLoading] = useState(false)

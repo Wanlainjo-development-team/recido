@@ -24,12 +24,12 @@ import { TouchableWithoutFeedback } from 'react-native'
 const { width } = Dimensions.get('screen')
 
 const Signin = () => {
-  const navigation = useNavigation()
+  const { navigate } = useNavigation()
   const dispatch = useDispatch()
 
   const [peek, setPeek] = useState(true)
-  const [email, setEmail] = useState('rukkiecodes@gmail.com')
-  const [password, setPassword] = useState('amagboro')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
   let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -83,7 +83,13 @@ const Signin = () => {
                   </TouchableOpacity>
                 </View>
 
-                <Text style={styles.lastText}>Don't have an account? <TouchableOpacity onPress={() => navigation.navigate('Signup')}><Text style={styles.lastTextButtonText}>Sign Up</Text></TouchableOpacity></Text>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                  <Text style={styles.lastText}>Don't have an account? <TouchableOpacity onPress={() => navigate('Signup')}><Text style={styles.lastTextButtonText}>Sign Up</Text></TouchableOpacity></Text>
+
+                  <TouchableOpacity onPress={() => navigate('ForgotPassword')}>
+                    <Text style={{ fontWeight: '900', color: color.mainBackground }}>Forgot password?</Text>
+                  </TouchableOpacity>
+                </View>
 
                 <TouchableOpacity onPress={signinUser} style={styles.button}>
                   <LinearGradient
