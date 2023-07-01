@@ -24,7 +24,7 @@ const InvoiceSearchConfig = () => {
   const [searchModalVisible, setSearchModalVisible] = useState(false)
 
   const updateUserOrderBy = async (prop) => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
     await updateDoc(doc(db, 'users', id), { orderBy: prop })
 
@@ -32,7 +32,7 @@ const InvoiceSearchConfig = () => {
   }
 
   const updateUserSortBy = async (prop) => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
     await updateDoc(doc(db, 'users', id), { sortBy: prop })
 
@@ -40,7 +40,7 @@ const InvoiceSearchConfig = () => {
   }
 
   const updateUserSearchBy = async (prop) => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
     await updateDoc(doc(db, 'users', id), { searchBy: prop })
 

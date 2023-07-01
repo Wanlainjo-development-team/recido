@@ -1,11 +1,14 @@
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 import app from '../../style/app'
 import color from '../../style/color'
 import { useSelector } from 'react-redux'
+import { useNavigation } from '@react-navigation/native'
 
 const Summary = () => {
+    const { navigate } = useNavigation()
+
     const { invoiceList } = useSelector(state => state.invoices)
     const { archiveList, inventoryArchiveList, contactArchiveList } = useSelector(state => state.form)
     const { inventoryList } = useSelector(state => state.inventory)
@@ -24,7 +27,7 @@ const Summary = () => {
             <Text style={app.title2}>Activity summary</Text>
 
             <View style={app.summaryCards}>
-                <View style={{ ...app.summaryCard, backgroundColor: color.accent }}>
+                <TouchableOpacity onPress={() => navigate('Invoices')} style={{ ...app.summaryCard, backgroundColor: color.accent }}>
                     <Text style={{ ...app.summaryTitle, color: color.white }}>Invoices 📝</Text>
 
                     <View style={app.summaryCardDivider} />
@@ -41,9 +44,9 @@ const Summary = () => {
                         <Text style={app.summaryListLeft}>Archived</Text>
                         <Text style={app.summaryListRight}>{archiveList.length}</Text>
                     </View>
-                </View>
+                </TouchableOpacity>
 
-                <View style={{ ...app.summaryCard, backgroundColor: color.green }}>
+                <TouchableOpacity onPress={() => navigate('Inventory')} style={{ ...app.summaryCard, backgroundColor: color.green }}>
                     <Text style={{ ...app.summaryTitle, color: color.white }}>Inventory 🛍️</Text>
 
                     <View style={app.summaryCardDivider} />
@@ -60,9 +63,9 @@ const Summary = () => {
                         <Text style={app.summaryListLeft}></Text>
                         <Text style={app.summaryListRight}></Text>
                     </View>
-                </View>
+                </TouchableOpacity>
 
-                <View style={{ ...app.summaryCard, backgroundColor: color.goldDark }}>
+                <TouchableOpacity onPress={() => navigate('Customers')} style={{ ...app.summaryCard, backgroundColor: color.goldDark }}>
                     <Text style={{ ...app.summaryTitle, color: color.white }}>Contacts ☎️</Text>
 
                     <View style={app.summaryCardDivider} />
@@ -79,9 +82,9 @@ const Summary = () => {
                         <Text style={app.summaryListLeft}></Text>
                         <Text style={app.summaryListRight}></Text>
                     </View>
-                </View>
+                </TouchableOpacity>
 
-                <View style={{ ...app.summaryCard, backgroundColor: color.pink }}>
+                <TouchableOpacity onPress={() => navigate('Archive')} style={{ ...app.summaryCard, backgroundColor: color.pink }}>
                     <Text style={{ ...app.summaryTitle, color: color.white }}>Archive 🗑️</Text>
 
                     <View style={app.summaryCardDivider} />
@@ -98,7 +101,7 @@ const Summary = () => {
                         <Text style={app.summaryListLeft}>Contact</Text>
                         <Text style={app.summaryListRight}>{contactArchiveList.length}</Text>
                     </View>
-                </View>
+                </TouchableOpacity>
             </View>
         </View>
     )

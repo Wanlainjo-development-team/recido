@@ -50,6 +50,7 @@ import Currency from '../screens/currency'
 import { setArchiveList, setContactArchiveList, setInventoryArchiveList } from '../features/useFormSlice'
 import { setInventoryList } from '../features/inventorySlice'
 import { setCustomersList } from '../features/customerSlice'
+import Welcome from '../screens/auth/Welcome'
 
 const StackNavigator = () => {
     const navigation = useNavigation()
@@ -91,7 +92,7 @@ const StackNavigator = () => {
     useEffect(() => {
         (async () => {
 
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
             let q = query(collection(db, "users", id, 'inventory'), orderBy('name', 'asc'))
 
@@ -113,7 +114,7 @@ const StackNavigator = () => {
     useEffect(() => {
         (async () => {
 
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
             let q = query(collection(db, "users", id, 'customers'), orderBy('name', 'asc'))
 
@@ -134,7 +135,7 @@ const StackNavigator = () => {
 
     useEffect(() => {
         (async () => {
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
             const q = collection(db, "users", id, 'archive')
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -152,7 +153,7 @@ const StackNavigator = () => {
 
     useEffect(() => {
         (async () => {
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
             const q = collection(db, "users", id, 'inventoryArchive')
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -170,7 +171,7 @@ const StackNavigator = () => {
 
     useEffect(() => {
         (async () => {
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
             const q = collection(db, "users", id, 'customerArchive')
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -251,6 +252,7 @@ const StackNavigator = () => {
                                 </>
                             ) : (
                                 <Group>
+                                    <Screen name="Welcome" component={Welcome} options={{ gestureEnabled: false }} />
                                     <Screen name="Signin" component={Signin} options={{ gestureEnabled: false }} />
                                     <Screen name="Signup" component={Signup} options={{ gestureEnabled: true }} />
                                     <Screen name="ForgotPassword" component={ForgotPassword} options={{ gestureEnabled: true }} />

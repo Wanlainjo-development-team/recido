@@ -1,4 +1,4 @@
-import { View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Pressable, Keyboard, ActivityIndicator } from 'react-native'
+import { View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Pressable, Keyboard, ActivityIndicator, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { Platform } from 'react-native'
 import style from './style'
@@ -6,6 +6,8 @@ import style from './style'
 import { MaterialIcons } from '@expo/vector-icons'
 import color from '../../style/color'
 import { useNavigation } from '@react-navigation/native'
+import { sendPasswordResetEmail } from 'firebase/auth'
+import { auth } from '../../hooks/firebase'
 
 const ForgotPassword = () => {
   const navigation = useNavigation()
@@ -13,7 +15,19 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const signinUser = () => { }
+  const sendMail = () => {
+    setLoading(true)
+
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        Alert.alert('Email sent', 'An email has been sent to your inbox')
+        setLoading(false)
+      })
+      .catch(() => {
+        Alert.alert('Error !!!', 'THere was an error sending your email. Check your email address and try again.')
+        setLoading(false)
+      })
+  }
 
   return (
     <KeyboardAvoidingView style={style.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
@@ -27,7 +41,7 @@ const ForgotPassword = () => {
             </View>
           </View>
 
-          <TouchableOpacity onPress={signinUser} style={style.submitButton}>
+          <TouchableOpacity onPress={sendMail} style={style.submitButton}>
             {
               loading ? <ActivityIndicator color={color.white} />
                 : <Text style={style.submitButtonText}>Send</Text>

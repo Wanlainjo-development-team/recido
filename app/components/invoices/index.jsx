@@ -26,7 +26,7 @@ const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {
     useEffect(() => {
         (async () => {
 
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
             let q
 
@@ -97,7 +97,7 @@ const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {
     });
 
     const handleArchive = async (invoiceId) => {
-        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
         let invoice = (await getDoc(doc(db, 'users', id, 'invoices', invoiceId))).data()
 

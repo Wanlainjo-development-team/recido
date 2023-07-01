@@ -9,7 +9,6 @@ export default StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: StatusBar.currentHeight + 20,
-        backgroundColor: `${color.black}20`,
         justifyContent: 'center',
     },
     blank: {
@@ -18,18 +17,12 @@ export default StyleSheet.create({
     },
     sheet: {
         height: (2 * height) / 3 + 100, // Add 100 to the height for extra height
-        backgroundColor: color.mainBackground,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         paddingTop: 20,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: -3,
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 3.84,
-        elevation: 5,
+        borderTopRightRadius: 40,
+        borderTopLeftRadius: 40,
+        overflow: 'hidden',
     },
     head: {
         flexDirection: 'row',
@@ -55,19 +48,8 @@ export default StyleSheet.create({
         backgroundColor: color.transparent,
         marginHorizontal: 20,
         marginBottom: 20,
-        borderRadius: 20,
-        overflow: 'hidden',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
     },
     image: {
-        width: imageWidth,
-        height: imageWidth,
+        width: imageWidth
     },
 });

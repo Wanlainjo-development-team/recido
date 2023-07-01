@@ -21,7 +21,7 @@ const Customize = () => {
   const [loading, setLoading] = useState(false)
 
   const saveChanges = async () => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
     setLoading(true)
 
@@ -38,7 +38,7 @@ const Customize = () => {
     <KeyboardAvoidingView style={{ ...styles.conttainer, paddingHorizontal: 0 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Header title='Customize' />
 
-      <ScrollView style={styles.conttainer}>
+      <ScrollView style={styles.conttainer} showsVerticalScrollIndicator={false}>
         <View style={{ marginTop: 20, ...app.inputView }}>
           <Text style={app.inputText}>Invoice title</Text>
           <TextInput placeholder='Invoice title' style={app.input} value={data.invoiceTitle} onChangeText={text => setData({ ...data, invoiceTitle: text })} />

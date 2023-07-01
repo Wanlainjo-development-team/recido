@@ -2,21 +2,21 @@ export default [
     {
         id: 1,
         invoice: 1,
-        preview: 'https://res.cloudinary.com/dyfzij3y4/image/upload/v1683226390/invoice1_ytczht.png'
+        preview: 'https://res.cloudinary.com/rukkiecodes/image/upload/v1688099796/classic_vk1pr2.png'
     },
     {
         id: 2,
         invoice: 2,
-        preview: 'https://res.cloudinary.com/dyfzij3y4/image/upload/v1683226390/invoice2_tp6fle.png'
+        preview: 'https://res.cloudinary.com/rukkiecodes/image/upload/v1688099796/compact_gsj9nt.png'
     },
     {
         id: 3,
         invoice: 3,
-        preview: 'https://res.cloudinary.com/dyfzij3y4/image/upload/v1683226390/invoice3_efvgfi.png'
+        preview: 'https://res.cloudinary.com/rukkiecodes/image/upload/v1688099796/clean_lk6wa0.png'
     },
     {
         id: 4,
         invoice: 4,
-        preview: 'https://res.cloudinary.com/dyfzij3y4/image/upload/v1683226390/invoice4_tdezjz.png'
+        preview: 'https://res.cloudinary.com/rukkiecodes/image/upload/v1688099796/sharp_z5s12k.png'
     },
 ]

@@ -16,6 +16,8 @@ import { collection, doc, getDoc, getDocs, onSnapshot, query, updateDoc, where }
 import { db } from '../../hooks/firebase';
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { BlurView } from 'expo-blur'
+import { LinearGradient } from 'expo-linear-gradient'
 
 const SelectTemplate = () => {
     const { goBack } = useNavigation()
@@ -25,7 +27,7 @@ const SelectTemplate = () => {
     const { selectedTemplatePreview } = useSelector(state => state.form)
 
     const selectTemplate = async prop => {
-        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
         await updateDoc(doc(db, 'users', id), {
             selectedTemplatePreview: prop
@@ -37,9 +39,9 @@ const SelectTemplate = () => {
     }
 
     return (
-        <View style={style.container}>
+        <LinearGradient colors={[color.transparent, `${color.mainBackground}80`]} style={style.container}>
             <TouchableOpacity onPress={goBack} style={style.blank} />
-            <View style={style.sheet}>
+            <BlurView intensity={50} style={style.sheet}>
                 <View style={style.head}>
                     <Text style={style.headText}>Pick template</Text>
 
@@ -61,8 +63,8 @@ const SelectTemplate = () => {
                         </TouchableOpacity>
                     )}
                 />
-            </View>
-        </View>
+            </BlurView>
+        </LinearGradient>
     )
 }
 

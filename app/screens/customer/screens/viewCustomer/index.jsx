@@ -26,7 +26,7 @@ const ViewCustomer = () => {
 
   useEffect(() => {
     (async () => {
-      const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+      const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
       const q = query(collection(db, "users", id, 'invoices'), where("invoiceContact.name", "==", contact?.name))
 
@@ -63,7 +63,7 @@ const ViewCustomer = () => {
   const handleArchive = async () => {
     let customerId = viewCustomer?.customerId
 
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
     setArchiveLoading(true)
 
@@ -84,7 +84,7 @@ const ViewCustomer = () => {
   };
 
   const handleUpdate = async () => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
     let customerId = viewCustomer?.customerId
 
     setUpdateLoading(true)
@@ -102,7 +102,7 @@ const ViewCustomer = () => {
     <View style={styles.container}>
       <Header />
 
-      <ScrollView style={styles.scrollView}>
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         <Text style={styles.headingText}>Invoices</Text>
         {
           invoices?.map((item, index) => (

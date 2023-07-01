@@ -34,7 +34,7 @@ const AddInventory = () => {
     }, [viewItem])
 
     const saveInventory = async () => {
-        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
         setLoading(true)
 
@@ -58,7 +58,7 @@ const AddInventory = () => {
     }
 
     const updateItem = async () => {
-        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
         setUpdateLoading(true)
 
@@ -73,7 +73,7 @@ const AddInventory = () => {
     }
 
     const deleteItem = async () => {
-        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
         setDeleteLoading(true)
 

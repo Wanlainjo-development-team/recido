@@ -27,7 +27,7 @@ const PreviewInvoice = () => {
 
     useLayoutEffect(() => {
         (async () => {
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
             const unsub = onSnapshot(doc(db, "users", id), (doc) => {
                 setProfile(doc.data())

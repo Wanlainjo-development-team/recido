@@ -26,7 +26,7 @@ const InventoryList = ({ selectItem }) => {
   const { profile } = useSelector(state => state.user)
 
   const handleArchive = async (inventoryId) => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
 
     let inventories = (await getDoc(doc(db, 'users', id, 'inventory', inventoryId))).data()
 
