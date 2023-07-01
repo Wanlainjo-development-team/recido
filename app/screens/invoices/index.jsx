@@ -41,7 +41,7 @@ const Invoice = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid;
+      const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid;
 
       const q = query(
         collection(db, 'users', id, 'invoices'),

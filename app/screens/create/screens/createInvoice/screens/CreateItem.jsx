@@ -60,7 +60,7 @@ const CreateItem = () => {
     }
 
     const saveItem = async () => {
-        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+        const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
         setLoading(true)
 

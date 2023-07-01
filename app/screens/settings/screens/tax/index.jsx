@@ -57,7 +57,7 @@ const Tax = () => {
   const toggleSwitch = () => setTaxInclusive(previousState => !previousState)
 
   const saveSetting = async () => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
     if (!taxType.tax) return
 

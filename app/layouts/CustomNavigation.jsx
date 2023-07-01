@@ -18,19 +18,36 @@ import BottomNavigation from './BottomNavigation'
 
 import { setActiveRoute, setAuth, setUser } from '../features/userSlice'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useEffect } from 'react'
+import { doc, onSnapshot } from 'firebase/firestore'
+import { db } from '../hooks/firebase'
 
 const { width } = Dimensions.get('window')
 
 const CustomNavigation = () => {
     const navigation = useNavigation()
     const dispatch = useDispatch()
-    const { profile, activeRoute } = useSelector(state => state.user)
+    const { activeRoute, user } = useSelector(state => state.user)
     const [currentTab, setCurrentTab] = useState('Home')
     const [showMenu, setShowMenu] = useState(false)
 
     const offsetValue = useRef(new Animated.Value(0)).current
     const scaleValue = useRef(new Animated.Value(1)).current
     const closeButtonOffset = useRef(new Animated.Value(0)).current
+
+    const [profile, setProfile] = useState(null)
+
+    useEffect(() => {
+        (async () => {
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
+
+            const unsub = onSnapshot(doc(db, "users", id), (doc) => {
+                setProfile(doc.data())
+            });
+
+            return unsub
+        })()
+    }, [db, user])
 
     return (
         <View style={[nav.drawerContainer, { backgroundColor: color.mainBackground }]}>

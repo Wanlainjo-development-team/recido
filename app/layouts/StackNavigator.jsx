@@ -92,7 +92,7 @@ const StackNavigator = () => {
     useEffect(() => {
         (async () => {
 
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
             let q = query(collection(db, "users", id, 'inventory'), orderBy('name', 'asc'))
 
@@ -114,7 +114,7 @@ const StackNavigator = () => {
     useEffect(() => {
         (async () => {
 
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
             let q = query(collection(db, "users", id, 'customers'), orderBy('name', 'asc'))
 
@@ -135,7 +135,7 @@ const StackNavigator = () => {
 
     useEffect(() => {
         (async () => {
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
             const q = collection(db, "users", id, 'archive')
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -153,7 +153,7 @@ const StackNavigator = () => {
 
     useEffect(() => {
         (async () => {
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
             const q = collection(db, "users", id, 'inventoryArchive')
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -171,7 +171,7 @@ const StackNavigator = () => {
 
     useEffect(() => {
         (async () => {
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
             const q = collection(db, "users", id, 'customerArchive')
             const unsubscribe = onSnapshot(q, (querySnapshot) => {

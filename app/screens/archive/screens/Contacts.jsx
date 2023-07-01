@@ -20,7 +20,7 @@ const Contacts = () => {
   const { contactArchiveList } = useSelector(state => state.form)
 
   const handleArchive = async (invoiceId) => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
     let invoice = (await getDoc(doc(db, 'users', id, 'customerArchive', invoiceId))).data()
 
@@ -46,7 +46,7 @@ const Contacts = () => {
           text: 'Delete',
           style: 'destructive',
           onPress: async () => {
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
             await deleteDoc(doc(db, 'users', id, 'customerArchive', invoiceId))
 

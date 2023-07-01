@@ -11,7 +11,7 @@ const CountInvoices = ({ prop }) => {
 
     useEffect(() => {
         (async () => {
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
             const coll = query(collection(db, "users", id, 'invoices'), where('invoiceContact.name', '==', prop?.name))
 

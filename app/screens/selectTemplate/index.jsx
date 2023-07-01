@@ -27,7 +27,7 @@ const SelectTemplate = () => {
     const { selectedTemplatePreview } = useSelector(state => state.form)
 
     const selectTemplate = async prop => {
-        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+        const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
         await updateDoc(doc(db, 'users', id), {
             selectedTemplatePreview: prop
