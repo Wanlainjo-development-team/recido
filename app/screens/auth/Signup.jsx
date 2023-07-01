@@ -1,8 +1,8 @@
-import { View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Pressable, Keyboard, ActivityIndicator, Alert, Platform, Image } from 'react-native'
+import { View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Keyboard, ActivityIndicator, Alert, Platform, Image } from 'react-native'
 import React, { useState } from 'react'
 import styles from './style'
 
-import { MaterialIcons, Feather } from '@expo/vector-icons'
+import { Feather } from '@expo/vector-icons'
 import color from '../../style/color'
 import { useNavigation } from '@react-navigation/native'
 
@@ -10,8 +10,8 @@ import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { auth, db } from '../../hooks/firebase'
 import { useDispatch } from 'react-redux'
 
-import { setSetup, setUser } from '../../features/userSlice'
-import { doc, serverTimestamp, setDoc } from 'firebase/firestore'
+import { setProfile, setSetup, setUser } from '../../features/userSlice'
+import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { BlurView } from 'expo-blur'
@@ -19,8 +19,6 @@ import { TouchableWithoutFeedback } from 'react-native'
 import { ScrollView } from 'react-native'
 
 const { width } = Dimensions.get('screen')
-import bg from '../../../assets/images/bg.png'
-import AutoHeightImage from 'react-native-auto-height-image'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Dimensions } from 'react-native'
 
@@ -37,15 +35,14 @@ const Signup = () => {
 
   const [peek, setPeek] = useState(true)
   const [form, setForm] = useState({
-    name: '',
-    email: '',
-    bussinessNumer: '',
-    address: '',
+    name: 'Rukkie',
+    email: 'rukkiecodes4@gmail.com',
+    bussinessNumer: '090084093840398',
+    address: 'skm;vkla;fk;akfb',
+    password: 'amagboro',
     image: null
   })
   const [loading, setLoading] = useState(false)
-
-  const [, setDoneWithSetup] = useState(false)
 
   let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
@@ -139,6 +136,9 @@ const Signup = () => {
 
                   await AsyncStorage.setItem('recido_user', JSON.stringify(user))
 
+                  let profile = await (await getDoc(doc(db, 'users', id))).data()
+
+                  dispatch(setProfile(profile))
                   dispatch(setSetup(false))
                   dispatch(setUser(user))
                   setLoading(false)
