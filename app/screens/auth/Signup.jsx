@@ -26,6 +26,12 @@ import * as ImagePicker from 'expo-image-picker'
 
 import uuid from 'uuid-random'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
+import { Modal } from 'react-native'
+import { Pressable } from 'react-native'
+import app from '../../style/app'
+
+import allCurrencies from '../../components/fragments/currency'
+import { FlatList } from 'react-native'
 
 
 const Signup = () => {
@@ -43,6 +49,7 @@ const Signup = () => {
     image: null
   })
   const [loading, setLoading] = useState(false)
+  const [modalVisible, setModalVisible] = useState(false)
 
   let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
@@ -78,6 +85,10 @@ const Signup = () => {
     }
     if (form.address == '') {
       Alert.alert('Please enter your bussiness address')
+      return
+    }
+    if (form.denom == undefined) {
+      Alert.alert('Please select your preferred currency')
       return
     }
     if (!form.email.match(regex)) {
@@ -119,6 +130,9 @@ const Signup = () => {
                     email: form.email,
                     bussinessNumer: form.bussinessNumer != '' ? form.bussinessNumer : '',
                     address: form.address != '' ? form.address : '',
+                    denom: form.denom,
+                    disclaimer: 'All products are tested and trusted in good working condition. No returns.\nProducts can only be exchanged with the same cash value. All sales are final.',
+                    defaultEmailMessage: 'Thank you for your bussiness',
                     tries: 25,
                     invoice: 0,
                     invoiceColor: '555555',
@@ -161,6 +175,44 @@ const Signup = () => {
       <View style={styles.ball} />
       <BlurView intensity={200} tint='dark' style={styles.blur}>
 
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert('Modal has been closed.');
+            setModalVisible(!modalVisible);
+          }}>
+          <BlurView intensity={50} tint='dark' style={styles.modalContainer}>
+            <View style={styles.head}>
+              <Text style={{ ...app.title1, color: color.mainBackground, opacity: 1 }}>Select your country</Text>
+              <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <Text style={styles.headText}>Done</Text>
+              </TouchableOpacity>
+            </View>
+
+            <FlatList
+              data={allCurrencies}
+              keyExtractor={item => item.id}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    setForm({ ...form, denom: item })
+                    setModalVisible(false)
+                  }}
+                  style={styles.group}
+                >
+                  <Text style={{ ...styles.groupText, textAlign: 'left' }}>{item.country}</Text>
+                  <Text style={styles.groupText}>{item.denomination}</Text>
+                  <Text style={styles.groupText}>{item.sign}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          </BlurView>
+        </Modal>
+
+
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <ScrollView style={{ flex: 1, width: width - 40 }} showsVerticalScrollIndicator={false}>
@@ -183,6 +235,13 @@ const Signup = () => {
                 </View>
                 <View style={styles.inputView}>
                   <TextInput value={form.address} onChangeText={address => setForm({ ...form, address })} style={styles.input} placeholder='Business address' placeholderTextColor={color.mainBackground} />
+                </View>
+                <View style={styles.inputView}>
+                  <TouchableOpacity onPress={() => setModalVisible(true)} style={{ ...styles.input, justifyContent: 'center' }}>
+                    <Text style={{ color: color.mainBackground }}>
+                      {form.denom ? `${form.denom.country}, ${form.denom.denomination}(${form.denom.sign})` : 'Currency'}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
                 <View style={styles.inputView}>
                   <TextInput value={form.email} onChangeText={email => setForm({ ...form, email })} autoComplete='email' keyboardType='email-address' autoCapitalize='none' style={styles.input} placeholder='Signup email' placeholderTextColor={color.mainBackground} />
@@ -218,41 +277,6 @@ const Signup = () => {
         </KeyboardAvoidingView>
       </BlurView>
     </View>
-    // <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-    //   <Pressable onPress={Keyboard.dismiss} style={styles.subContainer}>
-    //     <View style={styles.card}>
-    //       <Text style={styles.headText}>Sign Up to continue</Text>
-    //       <View style={styles.inputView}>
-    //         <TextInput value={name} onChangeText={setName} autoComplete='name' keyboardType='default' style={styles.input} placeholder='Bussiness name' />
-    //         <View style={styles.inputIcon}>
-    //           <Feather name="at-sign" size={24} color={color.accent} />
-    //         </View>
-    //       </View>
-
-    //       <View style={styles.inputView}>
-    //         <TextInput value={email} onChangeText={setEmail} autoComplete='email' keyboardType='email-address' autoCapitalize='none' style={styles.input} placeholder='Email' />
-    //         <View style={styles.inputIcon}>
-    //           <MaterialIcons name="email" size={24} color={color.accent} />
-    //         </View>
-    //       </View>
-
-    //       <View style={styles.inputView}>
-    //         <TextInput value={password} onChangeText={setPassword} autoComplete='new-password' autoCapitalize='none' style={styles.input} secureTextEntry={peek ? true : false} placeholder='Password' />
-    //         <TouchableOpacity onPress={() => setPeek(!peek)} style={styles.inputIcon}>
-    //           <Feather name={peek ? 'eye' : 'eye-off'} size={24} color={color.accent} />
-    //         </TouchableOpacity>
-    //       </View>
-
-    //       <TouchableOpacity disabled={(name == '' || email == '' || password == '') ? true : false} onPress={signupUser} style={styles.submitButton}>
-    //         {
-    //           loading ? <ActivityIndicator color={color.white} />
-    //             : <Text style={styles.submitButtonText}>Sign Up</Text>
-    //         }
-    //       </TouchableOpacity>
-    //     </View>
-    //   </Pressable>
-    //   <Text style={styles.lastText}>Already have an account? <TouchableOpacity onPress={() => navigation.navigate('Signin')}><Text style={styles.lastTextButtonText}>Sign In</Text></TouchableOpacity></Text>
-    // </KeyboardAvoidingView>
   )
 }
 

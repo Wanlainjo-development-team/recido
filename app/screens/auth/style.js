@@ -4,10 +4,48 @@ import color from "../../style/color"
 const { height } = Dimensions.get('screen')
 
 export default StyleSheet.create({
+    modalContainer: {
+        flex: 1,
+        paddingHorizontal: 10
+    },
+
+    head: {
+        height: 50,
+        marginTop: 20,
+        marginBottom: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+
+    headText: {
+        color: color.mainBackground,
+        fontWeight: '800'
+    },
+
+    group: {
+        marginBottom: 10,
+        height: 50,
+        borderRadius: 12,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderBottomColor: `${color.accent}40`
+    },
+
+    groupText: {
+        color: color.white,
+        marginLeft: 10,
+        width: '33.3333333333%',
+        textAlign: 'center'
+    },
+
     container: {
         backgroundColor: color.dark,
         height
     },
+
 
     ball: {
         width: 200,
