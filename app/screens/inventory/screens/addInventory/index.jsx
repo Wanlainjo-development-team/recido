@@ -11,10 +11,12 @@ import { db } from '../../../../hooks/firebase'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { useEffect } from 'react'
 import { Feather } from '@expo/vector-icons';
+import { useSelector } from 'react-redux'
 
 const AddInventory = () => {
     const { goBack } = useNavigation()
     const { viewItem } = useRoute().params
+    const { profile } = useSelector(state => state.user)
 
     const [loading, setLoading] = useState(false)
     const [updateLoading, setUpdateLoading] = useState(false)
