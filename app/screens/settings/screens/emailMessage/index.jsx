@@ -35,7 +35,7 @@ const DefaultEmailMessage = () => {
   }
 
   const saveEmailMessaage = async () => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
     if (message == '') return
 

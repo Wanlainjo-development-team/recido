@@ -13,7 +13,7 @@ const Currency = () => {
   const { goBack } = useNavigation()
 
   const setCurrency = async item => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
     await updateDoc(doc(db, 'users', id), {
       denom: item

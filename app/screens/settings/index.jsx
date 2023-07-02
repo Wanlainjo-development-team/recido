@@ -7,12 +7,22 @@ import { ScrollView } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { SimpleLineIcons } from '@expo/vector-icons'
 import color from '../../style/color'
+import { useDispatch } from 'react-redux'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { setAuth, setUser } from '../../features/userSlice'
 const appJson = require('../../../app.json')
 
 const version = appJson.expo.version
 
 const Settings = () => {
   const { navigate } = useNavigation()
+  const dispatch = useDispatch()
+
+  const logoutUser = async () => {
+    await AsyncStorage.removeItem('recido_user')
+    dispatch(setAuth(null))
+    dispatch(setUser(null))
+  }
 
   return (
     <View style={{ ...style.container, paddingHorizontal: 0 }}>
@@ -64,7 +74,7 @@ const Settings = () => {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={style.logoutButton}>
+        <TouchableOpacity onPress={logoutUser} style={style.logoutButton}>
           <SimpleLineIcons name="logout" size={20} color={color.red} style={{ marginRight: 15 }} />
           <Text style={style.logoutButtonText}>Log out</Text>
         </TouchableOpacity>

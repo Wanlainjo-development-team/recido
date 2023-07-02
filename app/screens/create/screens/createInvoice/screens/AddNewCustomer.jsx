@@ -55,7 +55,7 @@ const AddNewCustomer = () => {
     }, [])
 
     const addContact = async () => {
-        const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+        const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
         const querySnapshot = await getDocs(query(collection(db, "users", id, 'customers'), where("name", "==", contact?.name)))
 

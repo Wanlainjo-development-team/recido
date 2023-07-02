@@ -65,7 +65,7 @@ const BussinessDetails = () => {
   }, []);
 
   const pickImage = async () => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -119,7 +119,7 @@ const BussinessDetails = () => {
   const saveSettings = async () => {
     setLoading(true)
 
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
     await updateDoc(doc(db, 'users', id), {
       setup: true,

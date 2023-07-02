@@ -1,7 +1,7 @@
-import { View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Pressable, Keyboard, ActivityIndicator } from 'react-native'
+import { View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Pressable, Keyboard, ActivityIndicator, ScrollView } from 'react-native'
 import React, { useState } from 'react'
 import { Platform } from 'react-native'
-import style from './style'
+import styles from './style'
 
 import { MaterialIcons, Feather } from '@expo/vector-icons'
 import color from '../../style/color'
@@ -13,14 +13,23 @@ import { setUser } from '../../features/userSlice'
 import { Alert } from 'react-native'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { BlurView } from 'expo-blur'
+import AutoHeightImage from 'react-native-auto-height-image'
+import { LinearGradient } from 'expo-linear-gradient'
+
+import bg from '../../../assets/images/bg.png'
+import { Dimensions } from 'react-native'
+import { TouchableWithoutFeedback } from 'react-native'
+
+const { width } = Dimensions.get('screen')
 
 const Signin = () => {
-  const navigation = useNavigation()
+  const { navigate } = useNavigation()
   const dispatch = useDispatch()
 
   const [peek, setPeek] = useState(true)
-  const [email, setEmail] = useState('rukkiecodes@gmail.com')
-  const [password, setPassword] = useState('amagboro')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
   let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
@@ -48,38 +57,61 @@ const Signin = () => {
   }
 
   return (
-    <KeyboardAvoidingView style={style.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <Pressable onPress={Keyboard.dismiss} style={style.subContainer}>
-        <View style={style.card}>
-          <Text style={style.headText}>Sign In to continue</Text>
-          <View style={style.inputView}>
-            <TextInput value={email} onChangeText={setEmail} autoComplete='email' keyboardType='email-address' autoCapitalize='none' style={style.input} placeholder='Email' />
-            <View style={style.inputIcon}>
-              <MaterialIcons name="email" size={24} color={color.accent} />
-            </View>
-          </View>
+    <View style={styles.container}>
+      <View style={styles.ball} />
+      <BlurView intensity={200} tint='dark' style={styles.blur}>
 
-          <View style={style.inputView}>
-            <TextInput value={password} onChangeText={setPassword} style={style.input} secureTextEntry={peek ? true : false} placeholder='Password' />
-            <TouchableOpacity onPress={() => setPeek(!peek)} style={style.inputIcon}>
-              <Feather name={peek ? 'eye' : 'eye-off'} size={24} color={color.accent} />
-            </TouchableOpacity>
-          </View>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <ScrollView style={{ flex: 1, width: width - 40 }} showsVerticalScrollIndicator={false}>
+              <AutoHeightImage source={bg} width={width - 90} style={{ marginTop: 30, alignSelf: 'center' }} />
 
-          <TouchableOpacity onPress={signinUser} style={style.submitButton}>
-            {
-              loading ? <ActivityIndicator color={color.white} />
-                : <Text style={style.submitButtonText}>Sign In</Text>
-            }
-          </TouchableOpacity>
+              <View style={styles.contentView}>
+                <Text style={styles.appName}>Sign in</Text>
 
-          <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')} style={style.buttomButton}>
-            <Text style={style.buttomButtonText}>Forgot Password?</Text>
-          </TouchableOpacity>
-        </View>
-      </Pressable>
-      <Text style={style.lastText}>Don't have an account? <TouchableOpacity onPress={() => navigation.navigate('Signup')}><Text style={style.lastTextButtonText}>Register</Text></TouchableOpacity></Text>
-    </KeyboardAvoidingView>
+                <View style={styles.inputView}>
+                  <TextInput value={email} onChangeText={setEmail} autoComplete='email' keyboardType='email-address' autoCapitalize='none' style={styles.input} placeholder='Email' placeholderTextColor={color.mainBackground} />
+                  <View style={styles.inputIcon}>
+                    <MaterialIcons name="email" size={24} color={color.mainBackground} />
+                  </View>
+                </View>
+
+                <View style={{ ...styles.inputView, marginBottom: 0 }}>
+                  <TextInput value={password} onChangeText={setPassword} style={styles.input} secureTextEntry={peek ? true : false} placeholder='Password' placeholderTextColor={color.mainBackground} />
+                  <TouchableOpacity onPress={() => setPeek(!peek)} style={styles.inputIcon}>
+                    <Feather name={peek ? 'eye' : 'eye-off'} size={24} color={color.mainBackground} />
+                  </TouchableOpacity>
+                </View>
+
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                  <Text style={styles.lastText}>Don't have an account? <TouchableOpacity onPress={() => navigate('Signup')}><Text style={styles.lastTextButtonText}>Sign Up</Text></TouchableOpacity></Text>
+
+                  <TouchableOpacity onPress={() => navigate('ForgotPassword')}>
+                    <Text style={{ fontWeight: '900', color: color.mainBackground }}>Forgot password?</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity onPress={signinUser} style={styles.button}>
+                  <LinearGradient
+                    style={styles.gragient}
+                    colors={['#0047FF90', '#00A8E390', '#E1A20050', '#CE007C90']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                  >
+                    <View style={styles.overlay}>
+                      {
+                        loading ? <ActivityIndicator color={color.mainBackground} size='small' /> :
+                          <Text style={styles.buttonText}>Sign in</Text>
+                      }
+                    </View>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </BlurView>
+    </View>
   )
 }
 

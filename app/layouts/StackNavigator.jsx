@@ -92,98 +92,120 @@ const StackNavigator = () => {
     useEffect(() => {
         (async () => {
 
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+            try {
+                const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
-            let q = query(collection(db, "users", id, 'inventory'), orderBy('name', 'asc'))
+                let q = query(collection(db, "users", id, 'inventory'), orderBy('name', 'asc'))
 
-            const unsubscribe = onSnapshot(q, (querySnapshot) => {
-                let inventory = []
-                querySnapshot.forEach((doc) => {
-                    inventory.push({
-                        inventoryId: doc.id,
-                        ...doc.data()
+                const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                    let inventory = []
+                    querySnapshot.forEach((doc) => {
+                        inventory.push({
+                            inventoryId: doc.id,
+                            ...doc.data()
+                        })
                     })
+                    dispatch(setInventoryList(inventory))
                 })
-                dispatch(setInventoryList(inventory))
-            })
 
-            return unsubscribe
+                return unsubscribe
+            } catch (error) {
+
+            }
+
         })()
     }, [db])
 
     useEffect(() => {
         (async () => {
 
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+            try {
+                const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
-            let q = query(collection(db, "users", id, 'customers'), orderBy('name', 'asc'))
+                let q = query(collection(db, "users", id, 'customers'), orderBy('name', 'asc'))
 
-            const unsubscribe = onSnapshot(q, (querySnapshot) => {
-                let customers = []
-                querySnapshot.forEach((doc) => {
-                    customers.push({
-                        customerId: doc.id,
-                        ...doc.data()
+                const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                    let customers = []
+                    querySnapshot.forEach((doc) => {
+                        customers.push({
+                            customerId: doc.id,
+                            ...doc.data()
+                        })
                     })
+                    dispatch(setCustomersList(customers))
                 })
-                dispatch(setCustomersList(customers))
-            })
 
-            return unsubscribe
+                return unsubscribe
+            } catch (error) {
+
+            }
+
         })()
     }, [db])
 
     useEffect(() => {
         (async () => {
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+            try {
+                const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
-            const q = collection(db, "users", id, 'archive')
-            const unsubscribe = onSnapshot(q, (querySnapshot) => {
-                const customer = [];
-                querySnapshot.forEach((doc) => {
-                    customer.push({
-                        id: doc.id,
-                        ...doc.data()
+                const q = collection(db, "users", id, 'archive')
+                const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                    const customer = [];
+                    querySnapshot.forEach((doc) => {
+                        customer.push({
+                            id: doc.id,
+                            ...doc.data()
+                        });
                     });
+                    dispatch(setArchiveList(customer))
                 });
-                dispatch(setArchiveList(customer))
-            });
+            } catch (error) {
+
+            }
         })()
     }, [])
 
     useEffect(() => {
         (async () => {
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+            try {
+                const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
-            const q = collection(db, "users", id, 'inventoryArchive')
-            const unsubscribe = onSnapshot(q, (querySnapshot) => {
-                const cities = [];
-                querySnapshot.forEach((doc) => {
-                    cities.push({
-                        id: doc.id,
-                        ...doc.data()
+                const q = collection(db, "users", id, 'inventoryArchive')
+                const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                    const cities = [];
+                    querySnapshot.forEach((doc) => {
+                        cities.push({
+                            id: doc.id,
+                            ...doc.data()
+                        });
                     });
+                    dispatch(setInventoryArchiveList(cities))
                 });
-                dispatch(setInventoryArchiveList(cities))
-            });
+            } catch (error) {
+
+            }
         })()
     }, [])
 
     useEffect(() => {
         (async () => {
-            const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+            try {
+                const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
-            const q = collection(db, "users", id, 'customerArchive')
-            const unsubscribe = onSnapshot(q, (querySnapshot) => {
-                const contact = [];
-                querySnapshot.forEach((doc) => {
-                    contact.push({
-                        ...doc.data(),
-                        contactId: doc.id
+                const q = collection(db, "users", id, 'customerArchive')
+                const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                    const contact = [];
+                    querySnapshot.forEach((doc) => {
+                        contact.push({
+                            ...doc.data(),
+                            contactId: doc.id
+                        });
                     });
+                    dispatch(setContactArchiveList(contact))
                 });
-                dispatch(setContactArchiveList(contact))
-            });
+            } catch (error) {
+
+            }
         })()
     }, [])
 

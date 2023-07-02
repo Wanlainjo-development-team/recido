@@ -1,13 +1,22 @@
 import { View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Pressable, Keyboard, ActivityIndicator, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { Platform } from 'react-native'
-import style from './style'
+import styles from './style'
 
-import { MaterialIcons } from '@expo/vector-icons'
+import { MaterialIcons, Feather } from '@expo/vector-icons'
 import color from '../../style/color'
 import { useNavigation } from '@react-navigation/native'
 import { sendPasswordResetEmail } from 'firebase/auth'
 import { auth } from '../../hooks/firebase'
+import { BlurView } from 'expo-blur'
+import { TouchableWithoutFeedback } from 'react-native'
+import { ScrollView } from 'react-native'
+import AutoHeightImage from 'react-native-auto-height-image'
+import bg from '../../../assets/images/bg.png'
+import { LinearGradient } from 'expo-linear-gradient'
+import { Dimensions } from 'react-native'
+
+const { width } = Dimensions.get('screen')
 
 const ForgotPassword = () => {
   const navigation = useNavigation()
@@ -30,27 +39,48 @@ const ForgotPassword = () => {
   }
 
   return (
-    <KeyboardAvoidingView style={style.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <Pressable onPress={Keyboard.dismiss} style={style.subContainer}>
-        <View style={style.card}>
-          <Text style={style.headText}>Recover your account</Text>
-          <View style={style.inputView}>
-            <TextInput value={email} onChangeText={setEmail} style={style.input} placeholder='Email' />
-            <View style={style.inputIcon}>
-              <MaterialIcons name="email" size={24} color={color.accent} />
-            </View>
-          </View>
+    <View style={styles.container}>
+      <View style={styles.ball} />
+      <BlurView intensity={200} tint='dark' style={styles.blur}>
 
-          <TouchableOpacity onPress={sendMail} style={style.submitButton}>
-            {
-              loading ? <ActivityIndicator color={color.white} />
-                : <Text style={style.submitButtonText}>Send</Text>
-            }
-          </TouchableOpacity>
-        </View>
-      </Pressable>
-      <Text style={style.lastText}>Don't have an account? <TouchableOpacity onPress={() => navigation.navigate('Signup')}><Text style={style.lastTextButtonText}>Register</Text></TouchableOpacity></Text>
-    </KeyboardAvoidingView>
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <ScrollView style={{ flex: 1, width: width - 40 }} showsVerticalScrollIndicator={false}>
+              <AutoHeightImage source={bg} width={width - 90} style={{ marginTop: 30, alignSelf: 'center' }} />
+
+              <View style={styles.contentView}>
+                <Text style={styles.appName}>Recover password</Text>
+
+                <View style={{ ...styles.inputView, marginBottom: 0 }}>
+                  <TextInput value={email} onChangeText={setEmail} style={styles.input} autoComplete='email' keyboardType='email-address' autoCapitalize='none' placeholder='Email' placeholderTextColor={color.mainBackground} />
+                  <View style={styles.inputIcon}>
+                    <MaterialIcons name="email" size={24} color={color.mainBackground} />
+                  </View>
+                </View>
+
+                <Text style={styles.lastText}>Don't have an account? <TouchableOpacity onPress={() => navigation.navigate('Signup')}><Text style={styles.lastTextButtonText}>Register</Text></TouchableOpacity></Text>
+
+                <TouchableOpacity onPress={sendMail} style={styles.button}>
+                  <LinearGradient
+                    style={styles.gragient}
+                    colors={['#0047FF90', '#00A8E390', '#E1A20050', '#CE007C90']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 0 }}
+                  >
+                    <View style={styles.overlay}>
+                      {
+                        loading ? <ActivityIndicator color={color.mainBackground} size='small' /> :
+                          <Text style={styles.buttonText}>Send</Text>
+                      }
+                    </View>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </BlurView>
+    </View>
   )
 }
 

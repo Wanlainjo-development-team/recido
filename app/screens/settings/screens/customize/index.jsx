@@ -21,7 +21,7 @@ const Customize = () => {
   const [loading, setLoading] = useState(false)
 
   const saveChanges = async () => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user')).user?.uid
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
     setLoading(true)
 
