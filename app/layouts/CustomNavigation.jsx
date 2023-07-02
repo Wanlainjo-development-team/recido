@@ -223,7 +223,7 @@ const CustomNavigation = () => {
                     <View>
                         <View style={[header.container, { backgroundColor: color.transparent }]}>
                             <View style={header.leftContainer}>
-                                <Text style={header.logo}>Recido</Text>
+                                <Text style={header.logo}>{profile?.name ? `${profile.name.substring(0, 12)}${profile?.name?.length > 12 ? '...' : ''}` : 'Recido'}</Text>
                             </View>
 
                             <View style={header.rightContainer}>
