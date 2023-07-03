@@ -38,18 +38,22 @@ const PreviewInvoice = () => {
     }, [])
 
     useEffect(() => {
-        switch (profile?.selectedTemplatePreview?.id) {
-            case 1: setHtml(IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
-                break
-            case 2: setHtml(IV2(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
-                break
-            case 3: setHtml(IV3(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
-                break
-            case 4: setHtml(IV4(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
-                break
-            default: setHtml(IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
-        }
-    }, [])
+        if (!profile) return
+        (() => {
+            if (!profile) return
+            switch (profile?.selectedTemplatePreview?.id) {
+                case 1: setHtml(IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
+                    break
+                case 2: setHtml(IV2(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
+                    break
+                case 3: setHtml(IV3(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
+                    break
+                case 4: setHtml(IV4(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
+                    break
+                default: setHtml(IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
+            }
+        })()
+    }, [profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note])
 
     return (
         <View style={styles.container}>

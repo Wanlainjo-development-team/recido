@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, FlatList } from 'react-native'
 import React from 'react'
 import { billTo } from './styles'
 import { useNavigation } from '@react-navigation/native'
@@ -7,9 +7,14 @@ import { AntDesign } from '@expo/vector-icons';
 import color from '../../../../../style/color';
 import * as Contacts from 'expo-contacts'
 import app from '../../../../../style/app';
+import { useDispatch, useSelector } from 'react-redux';
+import { setInvoiceContact } from '../../../../../features/useFormSlice';
 
 const BillTo = () => {
   const { goBack, navigate } = useNavigation()
+  const { customersList } = useSelector(state => state.customer)
+
+  const dispatch = useDispatch()
 
   const openContact = async () => {
     const { status } = await Contacts.requestPermissionsAsync();
@@ -31,6 +36,43 @@ const BillTo = () => {
         <TouchableOpacity onPress={goBack}>
           <Text style={billTo.headText}>Done</Text>
         </TouchableOpacity>
+      </View>
+
+      <View>
+        {
+          customersList?.length >= 1 &&
+          <FlatList
+            data={customersList}
+            keyExtractor={(item, index) => index}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            style={{ height: 50, flex: null }}
+            horizontal={true}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                onPress={() => {
+                  dispatch(setInvoiceContact({ ...item }))
+                  goBack()
+                }}
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: `${color.accent}30`,
+                  marginRight: 10,
+                  borderRadius: 12,
+                  paddingVertical: 10,
+                  paddingHorizontal: 10
+                }}
+              >
+                <View style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 100, backgroundColor: `${color.accent}90` }}>
+                  <Text style={{ color: color.white, fontWeight: '900', fontSize: 25 }}>{item?.name.charAt(0)}</Text>
+                </View>
+                <Text style={{ fontSize: 16, fontWeight: '600', textAlign: 'center', marginHorizontal: 10 }}>{item?.name}</Text>
+              </TouchableOpacity>
+            )}
+          />
+        }
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false}>

@@ -20,21 +20,8 @@ const CreateItem = () => {
 
     const { items } = useSelector(state => state.form)
 
-    const [item, setItem] = useState({})
+    const [item, setItem] = useState(editItem ? { ...editItem } : {})
     const [loading, setLoading] = useState(false)
-
-    useLayoutEffect(() => {
-        if (editItem == null || editItem == undefined) return
-
-        console.log({
-            ...editItem
-        })
-
-        setItem({
-            ...editItem,
-            ...item
-        })
-    }, [])
 
     const setNewItem = () => {
         if (editItem == null || editItem == undefined) {
@@ -70,7 +57,7 @@ const CreateItem = () => {
 
         else {
             setLoading(true)
-            
+
             await addDoc(collection(db, 'users', id, 'inventory'), {
                 name: item.name,
                 price: parseFloat(item.price),
@@ -118,7 +105,7 @@ const CreateItem = () => {
                     <TextInput
                         placeholder='Price'
                         inputMode='numeric'
-                        value={item.price}
+                        value={String(item.price)}
                         onChangeText={text => {
                             setItem({
                                 ...item,

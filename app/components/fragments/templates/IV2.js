@@ -27,7 +27,7 @@ export const IV2 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
       .container {
         width: 800px;
         max-width: 98%;
-        border-top: 6px solid #${profile?.invoiceColor ? profile?.invoiceColor : '4169e1'};
+        border-top: 6px solid #${profile?.invoiceColor != undefined ? profile?.invoiceColor : '4169e1'};
         padding: 2em;
       }
   
@@ -35,7 +35,7 @@ export const IV2 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        border-bottom: 1px solid #${profile?.invoiceColor ? profile?.invoiceColor : '4169e1'}30;
+        border-bottom: 1px solid #${profile?.invoiceColor != undefined ? profile?.invoiceColor : '4169e1'}30;
       }
   
       nav .left {
@@ -139,7 +139,7 @@ export const IV2 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
-        border-bottom: 1px dashed #${profile?.invoiceColor ? profile?.invoiceColor : '4169e1'}30;
+        border-bottom: 1px dashed #${profile?.invoiceColor != undefined ? profile?.invoiceColor : '4169e1'}30;
       }
   
       .invoice .row:last-child {
@@ -147,7 +147,7 @@ export const IV2 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
       }
   
       .invoice .row:nth-child(1) {
-        border-bottom: 1px solid #${profile?.invoiceColor ? profile?.invoiceColor : '4169e1'}30;
+        border-bottom: 1px solid #${profile?.invoiceColor != undefined ? profile?.invoiceColor : '4169e1'}30;
       }
   
       .invoice .row:nth-child(1) .col1,
@@ -199,7 +199,7 @@ export const IV2 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
       }
   
       .invoice .summary .right .row {
-        border-bottom: 1px solid #${profile?.invoiceColor ? profile?.invoiceColor : '4169e1'}30;
+        border-bottom: 1px solid #${profile?.invoiceColor != undefined ? profile?.invoiceColor : '4169e1'}30;
       }
   
       .invoice .summary .right .row:nth-child(1) {
@@ -250,7 +250,7 @@ export const IV2 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
           <div class="lists">
             <span class="heading"> ${profile?.name} </span>
             <span class="text">${profile?.address}</span>
-            <span class="text">${profile?.contact}</span>
+            <span class="text" style="display: ${profile?.contact != undefined ? 'flex' : 'none'}">${profile?.contact}</span>
             <span class="text">${profile?.email}</span>
           </div>
         </div>
@@ -272,8 +272,8 @@ export const IV2 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
         <p class="customerName">${invoiceContact?.name || 'John Doe'}</p>
 
         <p class="text">${invoiceContact?.address ? (`${invoiceContact?.address} ${invoiceContact?.city ? `, ${invoiceContact?.city}` : ''} ${invoiceContact?.state ? invoiceContact?.state : ''} ${invoiceContact?.country ? `, ${invoiceContact?.country}` : ''}`) : '' || '123456 Willson close'}</p>
-        <p class="text">${invoiceContact?.phoneNumbers[0]?.number || '+234 009 3434 3434'}</p>
-        <p class="text">${invoiceContact?.email || 'someone@example.com'}</p>
+        <p class="text">${invoiceContact?.phoneNumbers ? invoiceContact?.phoneNumbers[0]?.number : invoiceContact?.phone || '+234 009 3434 3434'}</p>
+        <p class="text" style="display: ${invoiceContact?.email ? 'flex' : 'none'}">${invoiceContact?.email || 'someone@example.com'}</p>
       </section>
   
       <section class="invoice">
