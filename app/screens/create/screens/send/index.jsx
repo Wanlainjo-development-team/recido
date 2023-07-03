@@ -19,10 +19,12 @@ import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firesto
 import { db } from '../../../../hooks/firebase'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useRoute } from '@react-navigation/native';
 
 const Send = () => {
+  const { currentInvoiceId } = useRoute().params
+
   const { profile } = useSelector(state => state.user)
-  const { currentInvoiceId } = useSelector(state => state.invoices)
   const { invoiceId, date, invoiceContact, items, subTotal, vat, total, note } = useSelector(state => state.form)
 
   const [email, setEmail] = useState('');
@@ -36,15 +38,15 @@ const Send = () => {
   useEffect(() => { }, [
     (() => {
       switch (profile?.selectedTemplatePreview?.id) {
-        case 1: html = IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
+        case 1: html = IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId)
           break
-        case 2: html = IV2(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
+        case 2: html = IV2(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId)
           break
-        case 3: html = IV3(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
+        case 3: html = IV3(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId)
           break
-        case 4: html = IV4(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
+        case 4: html = IV4(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId)
           break
-        default: IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note)
+        default: IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId)
       }
     })()
   ])

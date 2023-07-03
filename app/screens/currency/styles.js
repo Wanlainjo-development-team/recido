@@ -33,7 +33,6 @@ export default StyleSheet.create({
     },
 
     groupText: {
-        color: color.accent,
         marginLeft: 10,
         width: '33.3333333333%',
         textAlign: 'center'

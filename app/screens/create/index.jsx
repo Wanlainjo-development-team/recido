@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import CreateInvoice from './screens/createInvoice'
@@ -24,21 +24,25 @@ const Create = () => {
 
   const { profile } = useSelector(state => state.user)
 
-  if (viewInvoice) {
-    dispatch(setInvoiceId(String(viewInvoice?.invoiceId).padStart(6, '0')))
-    dispatch(setDate(viewInvoice?.date))
-    dispatch(updateItems(viewInvoice?.items))
-    dispatch(setInvoiceContact(viewInvoice?.invoiceContact))
-    dispatch(setNote(viewInvoice?.note))
-    dispatch(setCurrentInvoiceId(viewInvoice?.id))
-  } else {
-    // dispatch(setInvoiceId(String(profile?.invoice).padStart(6, '0')))
-    // dispatch(setDate(`${new Date()}`))
-    // dispatch(updateItems([]))
-    // dispatch(setInvoiceContact(null))
-    // dispatch(setNote(''))
-    // dispatch(setCurrentInvoiceId(null))
-  }
+  useEffect(() => {
+    (() => {
+      if (viewInvoice) {
+        dispatch(setInvoiceId(String(viewInvoice?.invoiceId).padStart(6, '0')))
+        dispatch(setDate(viewInvoice?.date))
+        dispatch(updateItems(viewInvoice?.items))
+        dispatch(setInvoiceContact(viewInvoice?.invoiceContact))
+        dispatch(setNote(viewInvoice?.note))
+        dispatch(setCurrentInvoiceId(viewInvoice?.id))
+      } else {
+        // dispatch(setInvoiceId(String(profile?.invoice).padStart(6, '0')))
+        // dispatch(setDate(`${new Date()}`))
+        // dispatch(updateItems([]))
+        // dispatch(setInvoiceContact(null))
+        // dispatch(setNote(''))
+        // dispatch(setCurrentInvoiceId(null))
+      }
+    })()
+  }, [])
 
 
 
@@ -59,6 +63,9 @@ const Create = () => {
             tabBarActiveTintColor: color.accent,
             title: 'Invoice'
           }}
+          initialParams={{
+            currentInvoiceId: viewInvoice ? viewInvoice?.id : false
+          }}
         />
         <Screen
           name='PreviewNewInvoice'
@@ -68,6 +75,9 @@ const Create = () => {
             tabBarActiveTintColor: color.accent,
             title: 'Preview',
           }}
+          initialParams={{
+            currentInvoiceId: viewInvoice ? viewInvoice?.id : false
+          }}
         />
         <Screen
           name='SendInvoice'
@@ -76,6 +86,9 @@ const Create = () => {
             tabBarIcon: ({ color }) => <Ionicons name="paper-plane-outline" size={20} color={color} />,
             tabBarActiveTintColor: color.accent,
             title: 'Send',
+          }}
+          initialParams={{
+            currentInvoiceId: viewInvoice ? viewInvoice?.id : false
           }}
         />
       </Navigator>

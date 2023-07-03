@@ -1,6 +1,6 @@
 const calculateSubtotal = (price, quantity) => price * quantity
 
-export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note) => {
+export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId) => {
   const html = `
   
 <!DOCTYPE html>
@@ -107,7 +107,8 @@ export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
 
     .billTo {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
       margin-top: 1em;
     }
 
@@ -285,21 +286,25 @@ export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
     </nav>
 
     <section class="billTo">
-      <h6>Bill To</h6>
+      <div>
+        <h6>Bill To</h6>
 
-      <p class="customerName">${invoiceContact?.name || 'John Doe'}</p>
+        <p class="customerName">${invoiceContact?.name || 'John Doe'}</p>
 
-      <p class="text" style="display: ${invoiceContact?.address ? 'flex' : 'none'}">${invoiceContact?.address ? (`${invoiceContact?.address} ${invoiceContact?.city ? `, ${invoiceContact?.city}` : ''} ${invoiceContact?.state ? invoiceContact?.state : ''} ${invoiceContact?.country ? `, ${invoiceContact?.country}` : ''}`) : '' || '123456 Willson close'}</p>
-      <p class="text">${invoiceContact?.phoneNumbers ? invoiceContact?.phoneNumbers[0]?.number : invoiceContact?.phone || '+234 009 3434 3434'}</p>
-      <p class="text" style="display: ${invoiceContact?.email ? 'flex' : 'none'}">${invoiceContact?.email || 'someone@example.com'}</p>
+        <p class="text" style="display: ${invoiceContact?.address ? 'flex' : 'none'}">${invoiceContact?.address ? (`${invoiceContact?.address} ${invoiceContact?.city ? `, ${invoiceContact?.city}` : ''} ${invoiceContact?.state ? invoiceContact?.state : ''} ${invoiceContact?.country ? `, ${invoiceContact?.country}` : ''}`) : '' || '123456 Willson close'}</p>
+        <p class="text">${invoiceContact?.phoneNumbers ? invoiceContact?.phoneNumbers[0]?.number : invoiceContact?.phone || '+234 009 3434 3434'}</p>
+        <p class="text" style="display: ${invoiceContact?.email ? 'flex' : 'none'}">${invoiceContact?.email || 'someone@example.com'}</p>
+      </div>
+
+      <div id="qrcode-container"></div>
     </section>
 
     <section class="invoice">
       <div class="rows">
         <div class="row">
           <div class="col1">DESCRIPTION</div>
-          <div class="col2">RATE</div>
-          <div class="col3">QTY</div>
+          <div class="col2">${profile?.unitPriceLabel ? profile.unitPriceLabel : 'RATE'}</div>
+          <div class="col3">${profile?.quantityLabel ? profile.quantityLabel : 'QTY'}</div>
           <div class="col4">AMOUNT</div>
         </div>
         
@@ -377,6 +382,23 @@ export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
       <p class="discalimer">${profile?.disclaimer}</p>
     </section>
   </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <script>
+      (() => {
+          new QRCode(document.getElementById("qrcode-container"),
+              {
+                  text: "https://recidoshare.netlify.app/${profile?.id}/${currentInvoiceId}",
+                  width: 100,
+                  height: 100,
+                  colorDark: "#${profile?.invoiceColor != undefined ? profile?.invoiceColor : '4169e1'}",
+                  colorLight: "#ffffff",
+                  correctLevel: QRCode.CorrectLevel.H
+              }
+          );
+      })()
+  </script>
 </body>
 
 </html>

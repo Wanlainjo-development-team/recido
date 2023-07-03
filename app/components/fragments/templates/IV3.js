@@ -1,6 +1,6 @@
 const calculateSubtotal = (price, quantity) => price * quantity
 
-export const IV3 = (profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note) => {
+export const IV3 = (profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId) => {
   const html = `
   
 <!DOCTYPE html>
@@ -307,8 +307,8 @@ export const IV3 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
       <div class="rows">
         <div class="row">
           <div class="col1">DESCRIPTION</div>
-          <div class="col2">RATE</div>
-          <div class="col3">QTY</div>
+          <div class="col2">${profile?.unitPriceLabel ? profile.unitPriceLabel : 'RATE'}</div>
+          <div class="col3">${profile?.quantityLabel ? profile.quantityLabel : 'QTY'}</div>
           <div class="col4">AMOUNT</div>
         </div>
 
@@ -362,7 +362,9 @@ export const IV3 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
       </div>
 
       <div class="summary">
-        <div class="left"></div>
+        <div class="left">
+          <div id="qrcode-container"></div>
+        </div>
         <div class="right">
         <div class="row">
             <div class="col1">Subtotal</div>
@@ -385,6 +387,23 @@ export const IV3 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
       <p class="discalimer">${profile?.disclaimer}</p>
     </section>
   </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script>
+      (() => {
+          new QRCode(document.getElementById("qrcode-container"),
+              {
+                  text: "https://recidoshare.netlify.app/${profile?.id}/${currentInvoiceId}",
+                  width: 100,
+                  height: 100,
+                  colorDark: "#${profile?.invoiceColor != undefined ? profile?.invoiceColor : '4169e1'}",
+                  colorLight: "#ffffff",
+                  correctLevel: QRCode.CorrectLevel.H
+              }
+          );
+      })()
+  </script>
 </body>
 
 </html>
