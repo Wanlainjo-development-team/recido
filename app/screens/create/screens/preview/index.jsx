@@ -6,7 +6,7 @@ import styles from './styles'
 
 import { useSelector } from 'react-redux';
 
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { IV1 } from '../../../../components/fragments/templates/IV1';
 import { IV2 } from '../../../../components/fragments/templates/IV2';
 import { IV3 } from '../../../../components/fragments/templates/IV3';
@@ -21,6 +21,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 const PreviewInvoice = () => {
     const { invoiceId, date, invoiceContact, items, subTotal, vat, total, note } = useSelector(state => state.form)
     const { navigate } = useNavigation()
+
+    const { currentInvoiceId } = useRoute().params
 
     const [profile, setProfile] = useState(null)
     const [html, setHtml] = useState(``)
@@ -42,15 +44,15 @@ const PreviewInvoice = () => {
         (() => {
             if (!profile) return
             switch (profile?.selectedTemplatePreview?.id) {
-                case 1: setHtml(IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
+                case 1: setHtml(IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId))
                     break
-                case 2: setHtml(IV2(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
+                case 2: setHtml(IV2(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId))
                     break
-                case 3: setHtml(IV3(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
+                case 3: setHtml(IV3(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId))
                     break
-                case 4: setHtml(IV4(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
+                case 4: setHtml(IV4(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId))
                     break
-                default: setHtml(IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
+                default: setHtml(IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId))
             }
         })()
     }, [profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note])
