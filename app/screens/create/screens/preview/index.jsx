@@ -49,7 +49,7 @@ const PreviewInvoice = () => {
                 break
             default: setHtml(IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note))
         }
-    }, [profile])
+    }, [])
 
     return (
         <View style={styles.container}>

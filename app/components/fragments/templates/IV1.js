@@ -260,9 +260,9 @@ export const IV1 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
 
             <p class="customerName">${invoiceContact?.name || 'John Doe'}</p>
 
-            <p class="text">${invoiceContact?.address ? (`${invoiceContact?.address} ${invoiceContact?.city ? `, ${invoiceContact?.city}` : ''} ${invoiceContact?.state ? invoiceContact?.state : ''} ${invoiceContact?.country ? `, ${invoiceContact?.country}` : ''}`) : '' || '123456 Willson close'}</p>
+            <p class="text" style="display: ${invoiceContact?.address ? 'flex' : 'none'}">${invoiceContact?.address ? (`${invoiceContact?.address} ${invoiceContact?.city ? `, ${invoiceContact?.city}` : ''} ${invoiceContact?.state ? invoiceContact?.state : ''} ${invoiceContact?.country ? `, ${invoiceContact?.country}` : ''}`) : '' || '123456 Willson close'}</p>
             <p class="text">${invoiceContact?.phoneNumbers[0]?.number || '+234 009 3434 3434'}</p>
-            <p class="text">${invoiceContact?.email || 'someone@example.com'}</p>
+            <p class="text" style="display: ${invoiceContact?.email ? 'flex' : 'none'}">${invoiceContact?.email || 'someone@example.com'}</p>
         </section>
 
         <section class="invoice">
