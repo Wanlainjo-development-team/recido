@@ -32,12 +32,12 @@ const Create = () => {
     dispatch(setNote(viewInvoice?.note))
     dispatch(setCurrentInvoiceId(viewInvoice?.id))
   } else {
-    dispatch(setInvoiceId(String(profile?.invoice).padStart(6, '0')))
-    dispatch(setDate(`${new Date()}`))
-    dispatch(updateItems([]))
-    dispatch(setInvoiceContact(null))
-    dispatch(setNote(''))
-    dispatch(setCurrentInvoiceId(null))
+    // dispatch(setInvoiceId(String(profile?.invoice).padStart(6, '0')))
+    // dispatch(setDate(`${new Date()}`))
+    // dispatch(updateItems([]))
+    // dispatch(setInvoiceContact(null))
+    // dispatch(setNote(''))
+    // dispatch(setCurrentInvoiceId(null))
   }
 
 

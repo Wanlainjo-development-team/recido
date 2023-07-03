@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Platform, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Platform, Alert, FlatList } from 'react-native'
 import React, { useState } from 'react'
 import { addNewCustomer, billTo } from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -23,6 +23,7 @@ const AddNewCustomer = () => {
     const [showMoreOptions, setSHowMoreOptions] = useState(false)
 
     const { country, shippingCountry, city, state, zip, invoiceId } = useSelector(state => state.form)
+    const { customersList } = useSelector(state => state.customer)
 
     const [contact, setContact] = useState({
         name: '',
@@ -45,11 +46,14 @@ const AddNewCustomer = () => {
 
     useLayoutEffect(() => {
         (() => {
+            if (invoiceContact == undefined) return
+
+            // console.log(invoiceContact.phone)
             setContact({
                 ...contact,
                 ...invoiceContact,
                 name: invoiceContact?.name,
-                phone: invoiceContact?.phoneNumbers[0].number
+                phone: invoiceContact?.phoneNumbers == undefined ? invoiceContact?.phone : invoiceContact?.phoneNumbers[0].number
             })
         })()
     }, [])
@@ -59,25 +63,7 @@ const AddNewCustomer = () => {
 
         const querySnapshot = await getDocs(query(collection(db, "users", id, 'customers'), where("name", "==", contact?.name)))
 
-        if (directSave) {
-            if (querySnapshot.docs.length >= 1) {
-                Alert.alert('This contact already exists in your contact list 😕😕')
-            } else {
-                await addDoc(collection(db, 'users', id, 'customers'), {
-                    ...contact,
-                    ...invoiceContact,
-                    invoiceId,
-                    city,
-                    state,
-                    zip,
-                    country,
-                    createdAt: serverTimestamp()
-                })
-
-                Alert.alert(`${contact.name} has been added to your contact successfully 🎉🎉`)
-                navigate('Customers')
-            }
-        } else {
+        let defaultAction = () => {
             dispatch(setInvoiceContact({
                 ...contact,
                 ...invoiceContact,
@@ -98,6 +84,41 @@ const AddNewCustomer = () => {
                 shippingCountry: contact.shippingCountry
             }))
             goBack()
+        }
+
+        if (querySnapshot.docs.length >= 1) {
+            defaultAction()
+        } else {
+            Alert.alert('Add new customer', 'This customer is not in your list, would you like to add the?', [
+                {
+                    text: 'Save customer',
+                    onPress: async () => {
+                        await addDoc(collection(db, 'users', id, 'customers'), {
+                            ...invoiceContact,
+                            ...contact,
+                            invoiceId,
+                            city,
+                            state,
+                            zip,
+                            country,
+                            createdAt: serverTimestamp()
+                        })
+
+                        Alert.alert(`${contact.name} has been added to your contact successfully 🎉🎉`)
+                        defaultAction()
+                    }
+                },
+                {
+                    text: 'Proceed without saving',
+                    onPress: () => {
+                        defaultAction()
+                    }
+                },
+                {
+                    text: 'Cancel',
+                    style: 'destructive'
+                }
+            ])
         }
     }
 
@@ -129,14 +150,46 @@ const AddNewCustomer = () => {
 
                 {
                     !directSave &&
-                    <TouchableOpacity onPress={openContact} style={billTo.group}>
+                    <TouchableOpacity onPress={openContact} style={{ ...billTo.group, paddingHorizontal: 0 }}>
                         <AntDesign name="contacts" size={22} color={color.accent} />
                         <Text style={billTo.groupText}>Import from your contact</Text>
                     </TouchableOpacity>
                 }
 
-                <ScrollView showsVerticalScrollIndicator={false}>
+                {
+                    customersList?.length >= 1 &&
+                    <FlatList
+                        data={customersList}
+                        keyExtractor={(item, index) => index}
+                        showsVerticalScrollIndicator={false}
+                        showsHorizontalScrollIndicator={false}
+                        horizontal={true}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity
+                                onPress={() => {
+                                    setContact({ ...contact, ...item })
+                                }}
+                                style={{
+                                    flexDirection: 'row',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    backgroundColor: `${color.accent}30`,
+                                    marginRight: 10,
+                                    borderRadius: 12,
+                                    paddingVertical: 10,
+                                    paddingHorizontal: 10
+                                }}
+                            >
+                                <View style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 100, backgroundColor: `${color.accent}90` }}>
+                                    <Text style={{ color: color.white, fontWeight: '900', fontSize: 25 }}>{item?.name.charAt(0)}</Text>
+                                </View>
+                                <Text style={{ fontSize: 16, fontWeight: '600', textAlign: 'center', marginHorizontal: 10 }}>{item?.name}</Text>
+                            </TouchableOpacity>
+                        )}
+                    />
+                }
 
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <Text style={{ ...app.title2, marginBottom: 20, marginTop: 40 }}>Contact Information</Text>
 
                     <View style={app.inputView}>
@@ -157,6 +210,9 @@ const AddNewCustomer = () => {
                         <Text style={app.inputText}>Email</Text>
                         <TextInput
                             placeholder='Email'
+                            autoComplete='email'
+                            keyboardType='email-address'
+                            autoCapitalize='none'
                             style={app.input}
                             value={contact.email}
                             onChangeText={text => {

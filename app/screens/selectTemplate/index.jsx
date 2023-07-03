@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
 import style, { imageWidth } from './style'
 import { TouchableOpacity } from 'react-native'
@@ -28,14 +28,13 @@ const SelectTemplate = () => {
 
     const selectTemplate = async prop => {
         const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
+        goBack()
 
         await updateDoc(doc(db, 'users', id), {
             selectedTemplatePreview: prop
         })
 
         dispatch(setSelectedTemplatePreview(prop))
-
-        goBack()
     }
 
     return (
@@ -49,20 +48,22 @@ const SelectTemplate = () => {
                         <AntDesign name="back" size={24} color={color.accent} />
                     </TouchableOpacity>
                 </View>
-                <FlatList
-                    data={templatesPreview}
-                    keyExtractor={item => item.id}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity onPress={() => selectTemplate(item)} style={style.imageButton}>
-                            <AutoHeightImage
-                                width={imageWidth}
-                                style={style.image}
-                                source={{ uri: item?.preview }}
-                            />
-                        </TouchableOpacity>
-                    )}
-                />
+
+                <ScrollView>
+                    <View style={style.imageButtonView}>
+                        {
+                            templatesPreview?.map((item, index) =>
+                                <TouchableOpacity key={index} onPress={() => selectTemplate(item)} style={style.imageButton}>
+                                    <AutoHeightImage
+                                        width={imageWidth}
+                                        style={style.image}
+                                        source={{ uri: item?.preview }}
+                                    />
+                                </TouchableOpacity>
+                            )
+                        }
+                    </View>
+                </ScrollView>
             </BlurView>
         </LinearGradient>
     )

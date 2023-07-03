@@ -34,7 +34,7 @@ export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      border-bottom: 1px solid #${profile?.invoiceColor ? profile?.invoiceColor : '4169e1'}30;
+      border-bottom: 1px solid #${profile?.invoiceColor != undefined ? profile?.invoiceColor : '4169e1'}30;
       padding-bottom: 1em;
     }
 
@@ -152,11 +152,11 @@ export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
     }
 
     .invoice .row:nth-child(odd) {
-      background-color: #${profile?.invoiceColor ? profile?.invoiceColor : '4169e1'}20;
+      background-color: #${profile?.invoiceColor != undefined ? profile?.invoiceColor : '4169e1'}20;
     }
 
     .invoice .row:nth-child(1) {
-      background-color: #${profile?.invoiceColor ? profile?.invoiceColor : '4169e1'};
+      background-color: #${profile?.invoiceColor != undefined ? profile?.invoiceColor : '4169e1'};
       border-bottom: none;
     }
 
@@ -210,7 +210,7 @@ export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
     }
 
     .invoice .summary .right .row {
-      border-bottom: 1px solid #${profile?.invoiceColor ? profile?.invoiceColor : '4169e1'}30;
+      border-bottom: 1px solid #${profile?.invoiceColor != undefined ? profile?.invoiceColor : '4169e1'}30;
     }
 
     .invoice .summary .right .row:nth-child(odd) {
@@ -268,7 +268,7 @@ export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
         <div class="lists">
           <span class="heading"> ${profile?.name} </span>
           <span class="text">${profile?.address}</span>
-          <span class="text">${profile?.contact}</span>
+          <span class="text" style="display: ${profile?.contact != undefined ? 'flex' : 'none'}">${profile?.contact}</span>
           <span class="text">${profile?.email}</span>
         </div>
       </div>
@@ -289,9 +289,9 @@ export const IV4 = (profile, invoiceId, date, invoiceContact, items, subTotal, v
 
       <p class="customerName">${invoiceContact?.name || 'John Doe'}</p>
 
-      <p class="text">${invoiceContact?.address ? (`${invoiceContact?.address} ${invoiceContact?.city ? `, ${invoiceContact?.city}` : ''} ${invoiceContact?.state ? invoiceContact?.state : ''} ${invoiceContact?.country ? `, ${invoiceContact?.country}` : ''}`) : '' || '123456 Willson close'}</p>
-      <p class="text">${invoiceContact?.phoneNumbers[0]?.number || '+234 009 3434 3434'}</p>
-      <p class="text">${invoiceContact?.email || 'someone@example.com'}</p>
+      <p class="text" style="display: ${invoiceContact?.address ? 'flex' : 'none'}">${invoiceContact?.address ? (`${invoiceContact?.address} ${invoiceContact?.city ? `, ${invoiceContact?.city}` : ''} ${invoiceContact?.state ? invoiceContact?.state : ''} ${invoiceContact?.country ? `, ${invoiceContact?.country}` : ''}`) : '' || '123456 Willson close'}</p>
+      <p class="text">${invoiceContact?.phoneNumbers ? invoiceContact?.phoneNumbers[0]?.number : invoiceContact?.phone || '+234 009 3434 3434'}</p>
+      <p class="text" style="display: ${invoiceContact?.email ? 'flex' : 'none'}">${invoiceContact?.email || 'someone@example.com'}</p>
     </section>
 
     <section class="invoice">

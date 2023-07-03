@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { deleteItems, editItems, setItems } from '../../../../../features/useFormSlice'
 import { useLayoutEffect } from 'react'
 import color from '../../../../../style/color'
-import { addDoc, doc, collection, serverTimestamp } from 'firebase/firestore'
+import { addDoc, doc, collection, serverTimestamp, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../../../../../hooks/firebase'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import app from '../../../../../style/app'
@@ -20,21 +20,8 @@ const CreateItem = () => {
 
     const { items } = useSelector(state => state.form)
 
-    const [item, setItem] = useState({
-        name: '',
-        price: '',
-        quantity: '',
-        description: ''
-    })
+    const [item, setItem] = useState(editItem ? { ...editItem } : {})
     const [loading, setLoading] = useState(false)
-
-    useLayoutEffect(() => {
-        if (editItem == null || editItem == undefined) return
-        setItem({
-            ...editItem,
-            item
-        })
-    }, [])
 
     const setNewItem = () => {
         if (editItem == null || editItem == undefined) {
@@ -62,16 +49,27 @@ const CreateItem = () => {
     const saveItem = async () => {
         const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
-        setLoading(true)
 
-        await addDoc(collection(db, 'users', id, 'items'), {
-            ...item,
-            createdAt: serverTimestamp()
-        })
+        let look = await getDocs(query(collection(db, 'users', id, 'inventory')), where('name', '==', item.name))
 
-        Alert.alert('Item added successfully 🎉🎉')
+        if (look.docs.length >= 1)
+            Alert.alert('Duplicate Item ⚠️⚠️⚠️', 'THis item already exists in your inventory.')
 
-        setLoading(false)
+        else {
+            setLoading(true)
+
+            await addDoc(collection(db, 'users', id, 'inventory'), {
+                name: item.name,
+                price: parseFloat(item.price),
+                quantity: parseFloat(item.quantity),
+                description: item.description,
+                createdAt: serverTimestamp()
+            })
+
+            Alert.alert('Item added successfully 🎉🎉')
+
+            setLoading(false)
+        }
     }
 
     return (
@@ -92,12 +90,12 @@ const CreateItem = () => {
                     <TextInput
                         placeholder='Name'
                         value={item.name}
-                        onChangeText={text =>
+                        onChangeText={text => {
                             setItem({
                                 ...item,
                                 name: text
                             })
-                        }
+                        }}
                         style={app.input}
                     />
                 </View>
@@ -107,13 +105,13 @@ const CreateItem = () => {
                     <TextInput
                         placeholder='Price'
                         inputMode='numeric'
-                        value={item.price}
-                        onChangeText={text =>
+                        value={String(item.price)}
+                        onChangeText={text => {
                             setItem({
                                 ...item,
                                 price: text
                             })
-                        }
+                        }}
                         style={app.input}
                     />
                 </View>
@@ -124,12 +122,12 @@ const CreateItem = () => {
                         placeholder='Quantity'
                         inputMode='numeric'
                         value={item.quantity}
-                        onChangeText={text =>
+                        onChangeText={text => {
                             setItem({
                                 ...item,
                                 quantity: text
                             })
-                        }
+                        }}
                         style={app.input}
                     />
                 </View>
@@ -139,12 +137,12 @@ const CreateItem = () => {
                     <TextInput
                         placeholder='description'
                         value={item.description}
-                        onChangeText={text =>
+                        onChangeText={text => {
                             setItem({
                                 ...item,
                                 description: text
                             })
-                        }
+                        }}
                         style={app.input}
                     />
                 </View>
