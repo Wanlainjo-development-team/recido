@@ -73,7 +73,7 @@ const Invoice = () => {
         screenOptions={{
           swipeEnabled: false,
           tabBarActiveTintColor: color.accent,
-          tabBarInactiveTintColor: `${color.black}40`,
+          tabBarInactiveTintColor: `${color.black}80`,
           tabBarStyle: {
             backgroundColor: color.mainBackground,
             height: 40

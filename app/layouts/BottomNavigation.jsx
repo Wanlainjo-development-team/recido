@@ -18,7 +18,7 @@ const BottomNavigation = () => {
 
   return (
     <Navigator
-      barStyle={{ backgroundColor: color.mainBackground }}
+      barStyle={{ backgroundColor: color.mainBackground, borderTopWidth: 1, borderTopColor: `${color.accent}30` }}
       activeColor={color.accent}
       inactiveColor={`${color.black}40`}
       shifting={true}

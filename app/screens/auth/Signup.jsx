@@ -134,7 +134,7 @@ const Signup = () => {
                     disclaimer: 'All products are tested and trusted in good working condition. No returns.\nProducts can only be exchanged with the same cash value. All sales are final.',
                     defaultEmailMessage: 'Thank you for your bussiness',
                     tries: 25,
-                    invoice: 0,
+                    invoice: 1,
                     invoiceColor: '555555',
                     orderBy: 'desc',
                     quantityLabel: 'QTY',

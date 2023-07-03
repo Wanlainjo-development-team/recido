@@ -420,7 +420,7 @@ const CreateInvoice = () => {
               </TouchableOpacity>
             </View>
 
-            <View style={styles.group}>
+            <View style={{ ...styles.group, marginBottom: 0 }}>
               <TouchableOpacity style={{ ...styles.setInvoiceView, marginBottom: 0 }} onPress={() => invoiceContact ? navigate('AddNewCustomer', { directSave: false, invoiceContact }) : navigate('BillTo', { directSave: false })}>
                 <View style={styles.setInvoiceLeftView}>
                   <Text style={styles.setInvoiceLeftViewBoldText}>Bill To</Text>
@@ -436,6 +436,7 @@ const CreateInvoice = () => {
               </TouchableOpacity>
             </View>
 
+            <View style={{ height: 1, width: '100%', backgroundColor: `${color.accent}30`, marginVertical: 20 }} />
 
             <View style={styles.group}>
               <View style={{ ...styles.setInvoiceView, marginBottom: 0 }}>
