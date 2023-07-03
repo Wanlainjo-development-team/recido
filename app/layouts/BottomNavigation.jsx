@@ -13,8 +13,18 @@ import InventoryScreen from '../screens/inventory'
 
 const { Navigator, Screen } = createMaterialBottomTabNavigator()
 
+import * as NavigationBar from 'expo-navigation-bar'
+import { useEffect } from 'react'
+
 const BottomNavigation = () => {
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    (() => {
+      NavigationBar.setBackgroundColorAsync(color.mainBackground)
+      NavigationBar.setButtonStyleAsync('dark')
+    })()
+  }, [])
 
   return (
     <Navigator

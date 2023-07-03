@@ -1,5 +1,5 @@
-import { View, Text, ImageBackground, Image, Dimensions } from 'react-native'
-import React from 'react'
+import { View, Text, Dimensions, Platform } from 'react-native'
+import React, { useEffect } from 'react'
 
 import bg from '../../../assets/images/bg.png'
 import styles from './welcome'
@@ -12,8 +12,18 @@ import { useNavigation } from '@react-navigation/native'
 
 const { width } = Dimensions.get('screen')
 
+import * as NavigationBar from 'expo-navigation-bar'
+
 const Welcome = () => {
-    const {navigate} = useNavigation()
+    const { navigate } = useNavigation()
+
+    useEffect(() => {
+        (() => {
+            if (Platform.OS == 'ios') return
+            NavigationBar.setBackgroundColorAsync(color.dark)
+            NavigationBar.setButtonStyleAsync('light')
+        })()
+    }, [])
 
     return (
         <View style={styles.container}>

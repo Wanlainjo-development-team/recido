@@ -1,5 +1,5 @@
 import { View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Pressable, Keyboard, ActivityIndicator, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import styles from './style'
 
@@ -23,6 +23,8 @@ import { TouchableWithoutFeedback } from 'react-native'
 
 const { width } = Dimensions.get('screen')
 
+import * as NavigationBar from 'expo-navigation-bar'
+
 const Signin = () => {
   const { navigate } = useNavigation()
   const dispatch = useDispatch()
@@ -31,6 +33,14 @@ const Signin = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    (() => {
+      if (Platform.OS == 'ios') return
+      NavigationBar.setBackgroundColorAsync(color.dark)
+      NavigationBar.setButtonStyleAsync('light')
+    })()
+  }, [])
 
   let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 

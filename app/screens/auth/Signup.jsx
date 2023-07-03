@@ -1,5 +1,5 @@
 import { View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Keyboard, ActivityIndicator, Alert, Platform, Image } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './style'
 
 import { Feather } from '@expo/vector-icons'
@@ -33,6 +33,8 @@ import app from '../../style/app'
 import allCurrencies from '../../components/fragments/currency'
 import { FlatList } from 'react-native'
 
+import * as NavigationBar from 'expo-navigation-bar'
+
 
 const Signup = () => {
   const navigation = useNavigation()
@@ -50,6 +52,14 @@ const Signup = () => {
   })
   const [loading, setLoading] = useState(false)
   const [modalVisible, setModalVisible] = useState(false)
+
+  useEffect(() => {
+    (() => {
+      if (Platform.OS == 'ios') return
+      NavigationBar.setBackgroundColorAsync(color.dark)
+      NavigationBar.setButtonStyleAsync('light')
+    })()
+  }, [])
 
   let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 
