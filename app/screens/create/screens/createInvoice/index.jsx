@@ -529,11 +529,12 @@ const CreateInvoice = () => {
                 }
               </View>
             }
-            <TouchableOpacity onPress={async () => await saveInvoice()} style={{ ...styles.floatingButton, borderBottomRightRadius: currentInvoiceId ? 50 : 100 }}>
+            
+            <TouchableOpacity onPress={async () => await saveInvoice()} style={styles.floatingButton}>
               {
                 loading ?
                   <ActivityIndicator color={color.white} /> :
-                  <Feather name="upload-cloud" size={24} color={color.white} />
+                  <Text style={styles.floatingButtonText}>Save invoice</Text>
               }
             </TouchableOpacity>
           </View>

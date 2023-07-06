@@ -3,6 +3,8 @@ import React from 'react'
 import color from '../style/color'
 import { Image } from 'react-native'
 
+import image from '../../assets/icon.png'
+
 const Splash = () => {
   return (
     <View style={{
@@ -13,10 +15,10 @@ const Splash = () => {
     }}>
       <Image
         style={{
-          width: 40,
-          height: 45
+          width: 70,
+          height: 70
         }}
-        source={{ uri: 'https://res.cloudinary.com/rukkiecodes/image/upload/v1679063972/Screenshot_2023-03-12_004935_tzmctw.png' }}
+        source={image}
       />
     </View>
   )

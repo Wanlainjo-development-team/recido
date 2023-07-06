@@ -52,8 +52,6 @@ const Create = () => {
       <Navigator
         barStyle={{ backgroundColor: color.mainBackground }}
         activeColor={color.accent}
-        inactiveColor={`${color.black}40`}
-        shifting={true}
       >
         <Screen
           name='CreateNewInvoice'

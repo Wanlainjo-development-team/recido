@@ -1,5 +1,5 @@
 import { View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Pressable, Keyboard, ActivityIndicator, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import styles from './style'
 
@@ -18,11 +18,21 @@ import { Dimensions } from 'react-native'
 
 const { width } = Dimensions.get('screen')
 
+import * as NavigationBar from 'expo-navigation-bar'
+
 const ForgotPassword = () => {
   const navigation = useNavigation()
 
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    (() => {
+      if (Platform.OS == 'ios') return
+      NavigationBar.setBackgroundColorAsync(color.dark)
+      NavigationBar.setButtonStyleAsync('light')
+    })()
+  }, [])
 
   const sendMail = () => {
     setLoading(true)

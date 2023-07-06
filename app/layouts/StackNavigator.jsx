@@ -52,6 +52,13 @@ import { setInventoryList } from '../features/inventorySlice'
 import { setCustomersList } from '../features/customerSlice'
 import Welcome from '../screens/auth/Welcome'
 
+import * as _Contacts from 'expo-contacts'
+import * as Sharing from 'expo-sharing';
+import * as Notifications from 'expo-notifications';
+import { Linking } from 'react-native'
+
+import { Permissions } from 'expo'
+
 const StackNavigator = () => {
     const navigation = useNavigation()
     const dispatch = useDispatch()
@@ -88,6 +95,36 @@ const StackNavigator = () => {
     useLayoutEffect(() => {
         storeData()
     }, [])
+
+    useEffect(() => {
+        checkPermissions();
+    }, []);
+
+    const checkPermissions = async () => {
+        const { status: notificationStatus } = await Notifications.requestPermissionsAsync();
+        const { status: contactStatus } = await _Contacts.requestPermissionsAsync();
+
+        if (notificationStatus !== 'granted' || contactStatus !== 'granted') {
+            Alert.alert(
+                'Permissions Required',
+                'Please grant the necessary permissions to use this app.',
+                [
+                    {
+                        text: 'Grant Permissions',
+                        onPress: () => {
+                            Notifications.requestPermissionsAsync();
+                            _Contacts.requestPermissionsAsync();
+                        },
+                    },
+                    {
+                        text: 'Cancel',
+                        style: 'cancel',
+                    },
+                ],
+                { cancelable: false }
+            );
+        }
+    };
 
     useEffect(() => {
         (async () => {
