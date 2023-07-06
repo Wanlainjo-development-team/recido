@@ -21,6 +21,7 @@ const BottomNavigation = () => {
 
   useEffect(() => {
     (() => {
+      if (Platform.OS == 'ios') return
       NavigationBar.setBackgroundColorAsync(color.mainBackground)
       NavigationBar.setButtonStyleAsync('dark')
     })()
@@ -30,8 +31,6 @@ const BottomNavigation = () => {
     <Navigator
       barStyle={{ backgroundColor: color.mainBackground, borderTopWidth: 1, borderTopColor: `${color.accent}30` }}
       activeColor={color.accent}
-      inactiveColor={`${color.black}40`}
-      shifting={true}
     >
       <Screen
         name="Home"

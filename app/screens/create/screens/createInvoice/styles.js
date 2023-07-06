@@ -151,12 +151,9 @@ export default StyleSheet.create({
     },
 
     floatingButton: {
-        width: 60,
-        height: 60,
-        borderTopLeftRadius: 100,
-        borderTopRightRadius: 100,
-        borderBottomRightRadius: 50,
-        borderBottomLeftRadius: 100,
+        height: 50,
+        paddingHorizontal: 20,
+        borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: color.accent,
@@ -172,4 +169,9 @@ export default StyleSheet.create({
         shadowRadius: 7.49,
         elevation: 12,
     },
+
+    floatingButtonText: {
+        color: color.white,
+        fontWeight: '600'
+    }
 })
