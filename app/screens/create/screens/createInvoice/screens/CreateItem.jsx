@@ -20,7 +20,7 @@ const CreateItem = () => {
 
     const { items } = useSelector(state => state.form)
 
-    const [item, setItem] = useState(editItem ? { ...editItem } : {})
+    const [item, setItem] = useState(editItem ? { ...editItem } : { price: 0 })
     const [loading, setLoading] = useState(false)
 
     const setNewItem = () => {
@@ -75,11 +75,11 @@ const CreateItem = () => {
     return (
         <View style={itemsStyle.container}>
             <View style={itemsStyle.head}>
-                <TouchableOpacity onPress={goBack}>
+                <TouchableOpacity style={itemsStyle.headButton} onPress={goBack}>
                     <Text style={itemsStyle.headText}>Cancel</Text>
                 </TouchableOpacity>
                 <Text style={app.title1}>📦 Items</Text>
-                <TouchableOpacity onPress={setNewItem}>
+                <TouchableOpacity style={itemsStyle.headButton} onPress={setNewItem}>
                     <Text style={itemsStyle.headText}>Done</Text>
                 </TouchableOpacity>
             </View>
