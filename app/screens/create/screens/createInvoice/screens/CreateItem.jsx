@@ -19,6 +19,7 @@ const CreateItem = () => {
     const { items } = useSelector(state => state.form)
 
     const [item, setItem] = useState(editItem ? { ...editItem } : { price: 0 })
+
     const [loading, setLoading] = useState(false)
 
     const setNewItem = () => {
@@ -47,8 +48,7 @@ const CreateItem = () => {
     const saveItem = async () => {
         const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
-
-        let look = await getDocs(query(collection(db, 'users', id, 'inventory')), where('name', '==', item.name))
+        let look = await getDocs(query(collection(db, 'users', id, 'inventory'), where('name', '==', item.name)))
 
         if (look.docs.length >= 1)
             Alert.alert('Duplicate Item ⚠️⚠️⚠️', 'THis item already exists in your inventory.')

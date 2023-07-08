@@ -8,6 +8,7 @@ import color from '../../style/color'
 import { BlurView } from 'expo-blur'
 import AutoHeightImage from 'react-native-auto-height-image'
 import { useNavigation } from '@react-navigation/native'
+import { StatusBar } from 'expo-status-bar'
 
 const { width } = Dimensions.get('screen')
 
@@ -26,6 +27,7 @@ const Welcome = () => {
 
     return (
         <View style={styles.container}>
+            <StatusBar style="light" />
             <View style={styles.ball} />
             <BlurView intensity={200} tint='dark' style={styles.blur}>
                 <AutoHeightImage source={bg} width={width - 20} style={{ marginTop: 30 }} />
