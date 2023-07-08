@@ -1,10 +1,8 @@
-import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native'
-import React from 'react'
+import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, ActivityIndicator, TextInput } from 'react-native'
+import React, { useState } from 'react'
 import Header from '../../../../components/Header'
 import styles from './styles'
 import { useSelector } from 'react-redux'
-import { useState } from 'react'
-import { TextInput } from 'react-native'
 import color from '../../../../style/color'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { doc, updateDoc } from 'firebase/firestore'
@@ -44,8 +42,8 @@ const Customize = () => {
           <TextInput placeholder='Invoice title' style={app.input} value={data.invoiceTitle} onChangeText={text => setData({ ...data, invoiceTitle: text })} />
         </View>
         <View style={app.inputView}>
-          <Text style={app.inputText}>Bussiness number</Text>
-          <TextInput placeholder='Bussiness number' style={app.input} value={data.bussinessNumer} onChangeText={text => setData({ ...data, bussinessNumer: text })} />
+          <Text style={app.inputText}>Business number</Text>
+          <TextInput placeholder='Business number' style={app.input} value={data.bussinessNumer} onChangeText={text => setData({ ...data, bussinessNumer: text })} />
         </View>
         <View style={app.inputView}>
           <Text style={app.inputText}>Quantity label</Text>

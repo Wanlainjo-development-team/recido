@@ -1,8 +1,7 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
 import Header from '../../../../components/Header'
 import styles from './styles'
-import { ScrollView } from 'react-native'
 
 const aboutTexts = [
   {

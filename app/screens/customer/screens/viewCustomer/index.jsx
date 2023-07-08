@@ -1,18 +1,15 @@
-import { View, Text, ScrollView, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, Alert, ActivityIndicator, TextInput, Pressable } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import styles from './styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import Header from '../../../../components/Header'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { TextInput } from 'react-native'
-import styles from './styles'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { collection, deleteDoc, doc, getDoc, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore';
+import { db } from '../../../../hooks/firebase';
 
-import { collection, deleteDoc, doc, getDoc, onSnapshot, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
-import { db } from '../../../../hooks/firebase'
-import { Pressable } from 'react-native'
+import { Feather } from '@expo/vector-icons';
+import color from '../../../../style/color';
 
-import { MaterialIcons, Feather } from '@expo/vector-icons';
-import color from '../../../../style/color'
 
 const ViewCustomer = () => {
   const { viewCustomer } = useRoute().params

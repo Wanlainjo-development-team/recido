@@ -1,6 +1,5 @@
-import { View, Text } from 'react-native'
-import React, { useState } from 'react'
-import { useEffect } from 'react'
+import { Text } from 'react-native'
+import React, { useState, useEffect } from 'react'
 import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import { db } from '../../../../hooks/firebase'
 import AsyncStorage from '@react-native-async-storage/async-storage'

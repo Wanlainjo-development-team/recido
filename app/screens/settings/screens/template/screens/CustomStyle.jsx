@@ -1,24 +1,16 @@
-import { View, Text } from 'react-native'
-import React, { useEffect } from 'react'
-import style from './style'
-import { ScrollView } from 'react-native'
-import templatesPreview from '../../../../../components/fragments/templatesPreview'
-import { useSelector } from 'react-redux'
-import AutoHeightImage from 'react-native-auto-height-image'
-import { Dimensions } from 'react-native'
-import { TouchableOpacity } from 'react-native'
-import { useState } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { collection, doc, getDocs, updateDoc } from 'firebase/firestore'
-import { db } from '../../../../../hooks/firebase'
-import color from '../../../../../style/color'
-import { WebView } from 'react-native-webview'
+import React, { useEffect, useState, useRef } from 'react';
+import { View, TouchableOpacity, WebView } from 'react-native';
+import style from './style';
+import { useSelector } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { collection, doc, getDocs, updateDoc } from 'firebase/firestore';
+import { db } from '../../../../../hooks/firebase';
+import color from '../../../../../style/color';
 
 import { IV1 } from '../../../../../components/fragments/templates/IV1';
 import { IV2 } from '../../../../../components/fragments/templates/IV2';
 import { IV3 } from '../../../../../components/fragments/templates/IV3';
 import { IV4 } from '../../../../../components/fragments/templates/IV4';
-import { useRef } from 'react'
 import { useIsFocused } from '@react-navigation/native'
 
 const CustomStyle = () => {

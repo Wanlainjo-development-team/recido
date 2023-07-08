@@ -1,30 +1,22 @@
-import { View, Text, ScrollView } from 'react-native'
-import React from 'react'
-import style, { imageWidth } from './style'
-import { TouchableOpacity } from 'react-native'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { FlatList } from 'react-native'
-import { Image } from 'react-native'
-import AutoHeightImage from 'react-native-auto-height-image'
+import React from 'react';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
-import color from '../../style/color'
-import { useDispatch, useSelector } from 'react-redux'
-import { setSelectedTemplatePreview } from '../../features/useFormSlice'
-
-import { deleteObject, getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
-import { collection, doc, getDoc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore'
+import AutoHeightImage from 'react-native-auto-height-image';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSelectedTemplatePreview } from '../../features/useFormSlice';
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../hooks/firebase';
-
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { BlurView } from 'expo-blur'
-import { LinearGradient } from 'expo-linear-gradient'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { BlurView } from 'expo-blur';
+import { LinearGradient } from 'expo-linear-gradient';
+import style, { imageWidth } from './style';
+import color from '../../style/color';
 
 const SelectTemplate = () => {
     const { goBack } = useNavigation()
     const { templatesPreview } = useRoute().params
     const dispatch = useDispatch()
-
-    const { selectedTemplatePreview } = useSelector(state => state.form)
 
     const selectTemplate = async prop => {
         const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid

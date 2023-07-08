@@ -1,7 +1,6 @@
-import { View } from 'react-native'
+import { View, Image } from 'react-native'
 import React from 'react'
 import color from '../style/color'
-import { Image } from 'react-native'
 
 import image from '../../assets/icon.png'
 

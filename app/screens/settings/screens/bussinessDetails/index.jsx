@@ -1,4 +1,4 @@
-import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, Image, TextInput, ActivityIndicator } from 'react-native'
+import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, Image, TextInput, ActivityIndicator, useState } from 'react-native'
 import React, { useEffect, useRef } from 'react'
 
 import Header from '../../../../components/Header'
@@ -6,7 +6,6 @@ import styles from './styles'
 import { Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker'
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
 import color from '../../../../style/color';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../../hooks/firebase';
@@ -100,8 +99,7 @@ const BussinessDetails = () => {
                   setup: true,
                 })
                 dispatch(setSetup(false))
-                await schedulePushNotification('Profile update', 'Bussiness logo successfully uploaded 🎉🎉')
-                // Alert.alert('Bussiness profile successfully uploaded')
+                await schedulePushNotification('Profile update', 'Business logo successfully uploaded 🎉🎉')
               })
           })
       }
@@ -130,12 +128,12 @@ const BussinessDetails = () => {
 
     setLoading(false)
 
-    await schedulePushNotification('Profile update', 'Bussiness details successfully uploaded 🎉🎉')
+    await schedulePushNotification('Profile update', 'Business details successfully uploaded 🎉🎉')
   }
 
   return (
     <View style={{ ...styles.container, paddingHorizontal: 0 }}>
-      <Header title='Bussiness details' />
+      <Header title='Business details' />
 
       <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -149,7 +147,7 @@ const BussinessDetails = () => {
             </TouchableOpacity>
           </View>
 
-          <Text style={{ ...styles.title, marginTop: 50 }}>Bussiness Information</Text>
+          <Text style={{ ...styles.title, marginTop: 50 }}>Business Information</Text>
           <View style={{ ...app.inputView, marginTop: 20 }}>
             <Text style={app.inputText}>Business name</Text>
             <TextInput
@@ -200,7 +198,7 @@ const BussinessDetails = () => {
             </TouchableOpacity>
           </View>
 
-          <Text style={{ ...styles.title, marginTop: 30 }}>Bussiness address</Text>
+          <Text style={{ ...styles.title, marginTop: 30 }}>Business address</Text>
           <View style={{ ...app.inputView, marginTop: 20 }}>
             <Text style={app.inputText}>Business address 1</Text>
             <TextInput
@@ -245,7 +243,7 @@ const BussinessDetails = () => {
           </View>
 
 
-          <Text style={{ ...styles.title, marginTop: 30 }}>Bussiness contact</Text>
+          <Text style={{ ...styles.title, marginTop: 30 }}>Business contact</Text>
           <View style={{ ...app.inputView, marginTop: 20 }}>
             <Text style={app.inputText}>Business email</Text>
             <TextInput style={app.input} editable={false} value={newProfile?.email} placeholder='Business email' />
@@ -283,7 +281,7 @@ const BussinessDetails = () => {
             {
               loading ?
                 <ActivityIndicator color={color.accent} size='small' /> :
-                <Text style={styles.saveButtonText}>Save Bussiness details</Text>
+                <Text style={styles.saveButtonText}>Save Business details</Text>
             }
           </TouchableOpacity>
         </ScrollView>

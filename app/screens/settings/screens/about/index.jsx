@@ -1,8 +1,7 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
 import Header from '../../../../components/Header'
 import styles from './styles'
-import { ScrollView } from 'react-native'
 
 const aboutTexts = [
   'Welcome to Recido, the ultimate business app designed to streamline your invoicing process and keep your business operations organized. With Recido, business owners can effortlessly create and send professional invoices to customers through various channels, including social sharing, email, and printing.',

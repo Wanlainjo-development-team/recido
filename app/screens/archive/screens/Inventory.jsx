@@ -1,18 +1,14 @@
-import { View, Text, TouchableOpacity, Pressable } from 'react-native'
+import { View, Text, TouchableOpacity, Pressable, Alert } from 'react-native'
 import React from 'react'
 import styles from '../styles'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useEffect } from 'react'
-import { collection, deleteDoc, doc, getDoc, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore'
+import { deleteDoc, doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore'
 import { db } from '../../../hooks/firebase'
-import { useState } from 'react'
 import Loading from './Loading'
 import color from '../../../style/color'
 import { AntDesign } from '@expo/vector-icons';
 import { SwipeListView } from 'react-native-swipe-list-view'
-import { useDispatch, useSelector } from 'react-redux'
-import { setInventoryArchiveList } from '../../../features/useFormSlice'
-import { Alert } from 'react-native'
+import { useSelector } from 'react-redux'
 
 const Inventory = () => {
   const { inventoryArchiveList } = useSelector(state => state.form)

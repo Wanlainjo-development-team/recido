@@ -1,16 +1,15 @@
-import { View, Text, Pressable, TouchableOpacity, Alert } from 'react-native'
-import React, { useEffect } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, serverTimestamp, setDoc, where } from 'firebase/firestore'
-import { db } from '../../hooks/firebase'
-import { useDispatch, useSelector } from 'react-redux'
-import { setInvoiceList } from '../../features/invoicesSlice'
-import { useState } from 'react'
-import styles from './styles'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { SwipeListView } from 'react-native-swipe-list-view'
-import color from '../../style/color'
-import Loading from './Loading'
+import React, { useEffect, useState } from 'react';
+import { View, Text, Pressable, TouchableOpacity, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, serverTimestamp, setDoc, where } from 'firebase/firestore';
+import { db } from '../../hooks/firebase';
+import { useDispatch, useSelector } from 'react-redux';
+import { setInvoiceList } from '../../features/invoicesSlice';
+import styles from './styles';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { SwipeListView } from 'react-native-swipe-list-view';
+import color from '../../style/color';
+import Loading from './Loading';
 import { Feather } from '@expo/vector-icons';
 
 const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {

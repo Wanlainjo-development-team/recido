@@ -1,10 +1,8 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import { useState } from 'react'
-import { useEffect } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { collection, getCountFromServer, query, where } from 'firebase/firestore'
-import { db } from '../../../hooks/firebase'
+import React, { useState, useEffect } from 'react';
+import { Text } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { collection, getCountFromServer, query, where } from 'firebase/firestore';
+import { db } from '../../../hooks/firebase';
 
 const CountInvoices = ({ prop }) => {
     const [count, setCount] = useState(0)

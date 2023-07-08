@@ -1,12 +1,10 @@
 import { View, Text, TouchableOpacity, ScrollView, TextInput, ActivityIndicator, Alert } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
 import { itemsStyle } from './styles'
-import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteItems, editItems, setItems } from '../../../../../features/useFormSlice'
-import { useLayoutEffect } from 'react'
 import color from '../../../../../style/color'
 import { addDoc, doc, collection, serverTimestamp, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../../../../../hooks/firebase'

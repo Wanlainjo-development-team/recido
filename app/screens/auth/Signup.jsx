@@ -1,4 +1,4 @@
-import { View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Keyboard, ActivityIndicator, Alert, Platform, Image } from 'react-native'
+import { TouchableWithoutFeedback, View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Keyboard, ActivityIndicator, Alert, Platform, Image, FlatList, Modal, Dimensions, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import styles from './style'
 
@@ -15,23 +15,17 @@ import { doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { BlurView } from 'expo-blur'
-import { TouchableWithoutFeedback } from 'react-native'
-import { ScrollView } from 'react-native'
 
 const { width } = Dimensions.get('screen')
 import { LinearGradient } from 'expo-linear-gradient'
-import { Dimensions } from 'react-native'
 
 import * as ImagePicker from 'expo-image-picker'
 
 import uuid from 'uuid-random'
 import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage'
-import { Modal } from 'react-native'
-import { Pressable } from 'react-native'
 import app from '../../style/app'
 
 import allCurrencies from '../../components/fragments/currency'
-import { FlatList } from 'react-native'
 
 import * as NavigationBar from 'expo-navigation-bar'
 
@@ -82,19 +76,19 @@ const Signup = () => {
 
   const signupUser = async () => {
     if (!form.image) {
-      Alert.alert('Please choose your bussiness logo')
+      Alert.alert('Please choose your business logo')
       return
     }
     if (form.name == '') {
-      Alert.alert('Please enter a bussiness name')
+      Alert.alert('Please enter a business name')
       return
     }
     if (form.bussinessNumer == '') {
-      Alert.alert('Please enter a bussiness phone number')
+      Alert.alert('Please enter a business phone number')
       return
     }
     if (form.address == '') {
-      Alert.alert('Please enter your bussiness address')
+      Alert.alert('Please enter your business address')
       return
     }
     if (form.denom == undefined) {
@@ -142,7 +136,7 @@ const Signup = () => {
                     address: form.address != '' ? form.address : '',
                     denom: form.denom,
                     disclaimer: 'All products are tested and trusted in good working condition. No returns.\nProducts can only be exchanged with the same cash value. All sales are final.',
-                    defaultEmailMessage: 'Thank you for your bussiness',
+                    defaultEmailMessage: 'Thank you for your business',
                     tries: 25,
                     invoice: 1,
                     invoiceColor: '555555',
@@ -233,12 +227,12 @@ const Signup = () => {
                 <TouchableOpacity onPress={pickImage} style={styles.logoButton}>
                   {
                     form.image ? <Image source={{ uri: form.image }} style={{ width: 150, height: 150, borderRadius: 100 }} /> :
-                      <Text style={{ color: color.mainBackground }}>Set bussiness logo</Text>
+                      <Text style={{ color: color.mainBackground }}>Set business logo</Text>
                   }
                 </TouchableOpacity>
 
                 <View style={styles.inputView}>
-                  <TextInput value={form.name} onChangeText={name => setForm({ ...form, name })} style={styles.input} placeholder='Bussiness name' placeholderTextColor={color.mainBackground} />
+                  <TextInput value={form.name} onChangeText={name => setForm({ ...form, name })} style={styles.input} placeholder='Business name' placeholderTextColor={color.mainBackground} />
                 </View>
                 <View style={styles.inputView}>
                   <TextInput value={form.bussinessNumer} onChangeText={bussinessNumer => setForm({ ...form, bussinessNumer })} keyboardType='phone-pad' style={styles.input} placeholder='Office phone' placeholderTextColor={color.mainBackground} />

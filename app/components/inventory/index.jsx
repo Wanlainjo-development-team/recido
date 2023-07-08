@@ -3,16 +3,13 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, serverTimestamp, setDoc } from 'firebase/firestore'
+import { deleteDoc, doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore'
 import { db } from '../../hooks/firebase'
-import { useState } from 'react'
-import { useEffect } from 'react'
 import styles from './styles'
 import { SwipeListView } from 'react-native-swipe-list-view'
 import Loading from './Loading'
 import color from '../../style/color'
 import { Feather } from '@expo/vector-icons';
-import { setInventoryList } from '../../features/inventorySlice'
 import { setItems } from '../../features/useFormSlice'
 
 const InventoryList = ({ selectItem }) => {

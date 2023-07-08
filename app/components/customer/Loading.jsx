@@ -1,12 +1,9 @@
-import { View, Text, ActivityIndicator } from 'react-native'
-import React from 'react'
-import styles from './styles'
-import color from '../../style/color'
-import { FontAwesome5, AntDesign } from '@expo/vector-icons'
-import { useNavigation } from '@react-navigation/native'
-import { useState } from 'react'
-import { useEffect } from 'react'
-import { TouchableOpacity } from 'react-native'
+import React, { useState, useEffect } from 'react';
+import { View, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
+import styles from './styles';
+import color from '../../style/color';
+import { FontAwesome5, AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const Loading = ({ text }) => {
     const { navigate } = useNavigation()

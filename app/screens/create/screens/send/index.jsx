@@ -19,19 +19,23 @@ import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firesto
 import { db } from '../../../../hooks/firebase'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { setCurrentInvoiceId } from '../../../../features/invoicesSlice';
 
 const Send = () => {
-  const { currentInvoiceId } = useRoute().params
+  const { navigate } = useNavigation()
+
+  const { currentInvoiceId } = useSelector(state => state.invoices)
 
   const { profile } = useSelector(state => state.user)
   const { invoiceId, date, invoiceContact, items, subTotal, vat, total, note } = useSelector(state => state.form)
 
   const [email, setEmail] = useState('');
   const [emailList, setEmailList] = useState([]);
-  const [emailMessage, setEmailMessage] = useState(profile?.defaultEmailMessage ? profile?.defaultEmailMessage : 'Thank you for your bussiness.');
+  const [emailMessage, setEmailMessage] = useState(profile?.defaultEmailMessage ? profile?.defaultEmailMessage : 'Thank you for your business.');
   const [emailAmount, setEmailAmount] = useState(`Amount Due: ${profile?.denom?.sign || '$'}${total}`);
   const [invoiceExist, setInvoiceExist] = useState(false);
+  const [newInvoiceId, setNewInvoiceId] = useState(currentInvoiceId)
 
   let html = ``
 
@@ -51,22 +55,26 @@ const Send = () => {
     })()
   ])
 
-  useEffect(() => { }, [
+  useEffect(() => {
     (async () => {
       const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
       const q = query(collection(db, 'users', id, 'invoices'), where("invoiceId", "==", invoiceId));
 
       const querySnapshot = await getDocs(q);
+
       querySnapshot.forEach((doc) => {
         if (doc.exists()) {
+          setNewInvoiceId(doc.id)
+          setCurrentInvoiceId(doc.id)
+
           setInvoiceExist(true)
         } else {
           setInvoiceExist(false)
         }
       });
     })()
-  ])
+  }, [])
 
   const handleEmailChange = (text) => {
     setEmail(text);
@@ -92,7 +100,6 @@ const Send = () => {
         body: `${emailMessage}\n${emailAmount}\n\nhttps://recidoshare.netlify.app/${profile?.id}/${currentInvoiceId}`,
       });
 
-      Alert.alert('Email sent successfully 🎉🎉')
     } else {
       Alert.alert('Device mailing is not available 😢😢');
     }
@@ -106,7 +113,6 @@ const Send = () => {
     try {
       await Linking.openURL(whatsappUrl);
 
-      Alert.alert('Message sent successfully 🎉🎉')
     } catch (error) {
       console.log('Error opening WhatsApp:', error);
       Alert.alert('Error opening WhatsApp');
@@ -123,7 +129,6 @@ const Send = () => {
 
     try {
       await Linking.openURL(smsUrl + bodyParam);
-      Alert.alert('Message sent successfully 🎉🎉')
     } catch (error) {
       console.log('Error opening SMS:', error);
       Alert.alert('Error opening SMS:', error);
@@ -152,7 +157,15 @@ const Send = () => {
   };
 
   const openAlert = () => {
-    Alert.alert('Action not available', 'Please save the invoice and try again')
+    Alert.alert('Action not available', 'This invoice can not be shared without authentication.\n\nPlease save the invoice and try again.', [
+      {
+        text: 'Ok'
+      },
+      {
+        text: 'Save invoice',
+        onPress: () => navigate('CreateNewInvoice', { currentInvoiceId: false })
+      }
+    ])
   }
 
   return (

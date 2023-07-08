@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import React, { useEffect } from 'react'
 
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'

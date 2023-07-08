@@ -1,18 +1,16 @@
-import { View, Text, Platform } from 'react-native'
-import React from 'react'
-import Header from '../../components/Header'
-import style from './style'
-import { TouchableOpacity } from 'react-native'
-import { ScrollView } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import { SimpleLineIcons } from '@expo/vector-icons'
-import color from '../../style/color'
-import { useDispatch } from 'react-redux'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { setAuth, setUser } from '../../features/userSlice'
-const appJson = require('../../../app.json')
+import React from 'react';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import Header from '../../components/Header';
+import style from './style';
+import { useNavigation } from '@react-navigation/native';
+import { SimpleLineIcons } from '@expo/vector-icons';
+import color from '../../style/color';
+import { useDispatch } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setAuth, setUser } from '../../features/userSlice';
+const appJson = require('../../../app.json');
 
-const version = appJson.expo.version
+const version = appJson.expo.version;
 
 const Settings = () => {
   const { navigate } = useNavigation()
@@ -32,7 +30,7 @@ const Settings = () => {
           <Text style={style.title}>Invoice</Text>
 
           <TouchableOpacity onPress={() => navigate('BussinessDetails')} style={style.actionButton}>
-            <Text style={style.actionButtonTitle}>Bussiness details</Text>
+            <Text style={style.actionButtonTitle}>Business details</Text>
             <Text style={style.actionButtonSubTitle}>Logo, name, contact information</Text>
           </TouchableOpacity>
 

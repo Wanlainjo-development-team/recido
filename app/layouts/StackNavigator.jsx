@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState, useEffect } from 'react'
 
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack'
 
@@ -16,8 +16,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import CustomNavigation from './CustomNavigation'
 
 import { setAuth, setProfile } from '../features/userSlice'
-import { collection, doc, getDoc, onSnapshot, orderBy, query } from 'firebase/firestore'
-import { db, onAuthStateChanged } from '../hooks/firebase'
+import { collection, doc, onSnapshot, orderBy, query } from 'firebase/firestore'
+import { db } from '../hooks/firebase'
 import { useNavigation } from '@react-navigation/native'
 import SelectTemplate from '../screens/selectTemplate'
 import Create from '../screens/create'
@@ -35,7 +35,7 @@ import AddContact from '../screens/customer/screens/addContact'
 import AddInventory from '../screens/inventory/screens/addInventory'
 import BussinessDetails from '../screens/settings/screens/bussinessDetails'
 import Information from '../screens/settings/screens/information'
-import { useEffect } from 'react'
+
 import Templates from '../screens/settings/screens/template'
 import DefaultNotes from '../screens/settings/screens/notes'
 import DefaultEmailMessage from '../screens/settings/screens/emailMessage'
@@ -53,11 +53,7 @@ import { setCustomersList } from '../features/customerSlice'
 import Welcome from '../screens/auth/Welcome'
 
 import * as _Contacts from 'expo-contacts'
-import * as Sharing from 'expo-sharing';
 import * as Notifications from 'expo-notifications';
-import { Linking } from 'react-native'
-
-import { Permissions } from 'expo'
 
 const StackNavigator = () => {
     const navigation = useNavigation()
