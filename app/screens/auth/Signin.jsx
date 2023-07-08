@@ -1,6 +1,5 @@
-import { View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Pressable, Keyboard, ActivityIndicator, ScrollView } from 'react-native'
+import { View, Text, KeyboardAvoidingView, TextInput, TouchableOpacity, Platform, Keyboard, ActivityIndicator, ScrollView, Alert, Dimensions, TouchableWithoutFeedback } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Platform } from 'react-native'
 import styles from './style'
 
 import { MaterialIcons, Feather } from '@expo/vector-icons'
@@ -10,7 +9,6 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../hooks/firebase'
 import { useDispatch } from 'react-redux'
 import { setUser } from '../../features/userSlice'
-import { Alert } from 'react-native'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { BlurView } from 'expo-blur'
@@ -18,8 +16,6 @@ import AutoHeightImage from 'react-native-auto-height-image'
 import { LinearGradient } from 'expo-linear-gradient'
 
 import bg from '../../../assets/images/bg.png'
-import { Dimensions } from 'react-native'
-import { TouchableWithoutFeedback } from 'react-native'
 
 const { width } = Dimensions.get('screen')
 

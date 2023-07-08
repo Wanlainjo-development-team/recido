@@ -1,17 +1,12 @@
-import { View, Text, KeyboardAvoidingView, Platform, TouchableOpacity, ActivityIndicator, Alert } from 'react-native'
-import React, { useState } from 'react'
-import Header from '../../../../components/Header'
-import { ScrollView } from 'react-native'
-import styles from './styles'
-import { TextInput } from 'react-native'
-import color from '../../../../style/color'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { addDoc, collection, deleteDoc, doc, getDocs, increment, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore'
-import { db } from '../../../../hooks/firebase'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { useEffect } from 'react'
-import { Feather } from '@expo/vector-icons';
-import { useSelector } from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { View, Text, KeyboardAvoidingView, Platform, TouchableOpacity, ActivityIndicator, Alert, ScrollView, TextInput } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { addDoc, collection, deleteDoc, doc, getDocs, increment, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import Header from '../../../../components/Header';
+import styles from './styles';
+import color from '../../../../style/color';
 
 const AddInventory = () => {
     const { goBack } = useNavigation()

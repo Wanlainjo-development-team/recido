@@ -1,9 +1,8 @@
-import { Text } from 'react-native'
-import React from 'react'
-import style from './style'
+import React from 'react';
+import { Text, ScrollView } from 'react-native';
+import style from './style';
 
 import Invoices from '../../components/invoices';
-import { ScrollView } from 'react-native';
 import Summary from '../../components/performanceChart/Summary';
 import app from '../../style/app';
 

@@ -1,10 +1,9 @@
-import { View, Text } from 'react-native'
-import React, { useState } from 'react'
-import { useEffect } from 'react'
-import { collection, onSnapshot, query, where } from 'firebase/firestore'
-import { db } from '../../../hooks/firebase'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useSelector } from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { Text } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { db } from '../../../hooks/firebase';
+import { useSelector } from 'react-redux';
 
 const TotalBilling = ({ prop }) => {
     const [total, setTotal] = useState(0)

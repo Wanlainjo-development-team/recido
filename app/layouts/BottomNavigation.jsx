@@ -1,20 +1,16 @@
-import React from 'react'
-
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
-import color from '../style/color'
-import Home from '../screens/home'
-
-import { Feather, FontAwesome5, MaterialIcons } from '@expo/vector-icons'
-import { useDispatch } from 'react-redux'
-import { setActiveRoute } from '../features/userSlice'
-import Invoice from '../screens/invoices'
-import CustomersScreen from '../screens/customer'
-import InventoryScreen from '../screens/inventory'
+import React, { useEffect } from 'react';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import color from '../style/color';
+import Home from '../screens/home';
+import { Feather, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
+import { setActiveRoute } from '../features/userSlice';
+import Invoice from '../screens/invoices';
+import CustomersScreen from '../screens/customer';
+import InventoryScreen from '../screens/inventory';
+import * as NavigationBar from 'expo-navigation-bar';
 
 const { Navigator, Screen } = createMaterialBottomTabNavigator()
-
-import * as NavigationBar from 'expo-navigation-bar'
-import { useEffect } from 'react'
 
 const BottomNavigation = () => {
   const dispatch = useDispatch()

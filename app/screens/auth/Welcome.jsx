@@ -1,4 +1,4 @@
-import { View, Text, Dimensions, Platform } from 'react-native'
+import { View, Text, Dimensions, Platform, TouchableOpacity } from 'react-native'
 import React, { useEffect } from 'react'
 
 import bg from '../../../assets/images/bg.png'
@@ -7,7 +7,6 @@ import { LinearGradient } from 'expo-linear-gradient'
 import color from '../../style/color'
 import { BlurView } from 'expo-blur'
 import AutoHeightImage from 'react-native-auto-height-image'
-import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 const { width } = Dimensions.get('screen')
@@ -34,7 +33,7 @@ const Welcome = () => {
                 <View style={styles.contentView}>
 
                     <Text style={styles.appName}>Recido</Text>
-                    <Text style={styles.text}>Get your bussiness under control with smart invoice services.</Text>
+                    <Text style={styles.text}>Get your business under control with smart invoice services.</Text>
 
                     <TouchableOpacity onPress={() => navigate('Signin')} style={styles.button}>
                         <LinearGradient

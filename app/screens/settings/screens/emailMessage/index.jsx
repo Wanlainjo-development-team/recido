@@ -1,21 +1,13 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import Header from '../../../../components/Header'
-import { KeyboardAvoidingView } from 'react-native'
-import { Platform } from 'react-native'
-import styles from './styles'
-import { ScrollView } from 'react-native'
-import { TouchableOpacity } from 'react-native'
-import { ActivityIndicator } from 'react-native'
-import color from '../../../../style/color'
-import { useState } from 'react'
-import { TextInput } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useSelector } from 'react-redux'
-import { useLayoutEffect } from 'react'
-import { doc, updateDoc } from 'firebase/firestore'
-import { db } from '../../../../hooks/firebase'
-import { useNavigation } from '@react-navigation/native'
+import React, { useState, useLayoutEffect } from 'react';
+import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, ActivityIndicator, TextInput } from 'react-native';
+import Header from '../../../../components/Header';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSelector } from 'react-redux';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../../../hooks/firebase';
+import { useNavigation } from '@react-navigation/native';
+import color from '../../../../style/color';
+import styles from './styles';
 import app from '../../../../style/app';
 
 const DefaultEmailMessage = () => {

@@ -42,7 +42,6 @@ export const useFormSlice = createSlice({
     },
     reducers: {
         setInvoiceId: (state, action) => {
-            // state.invoiceId = action.payload
             let formattedInteger = String(action.payload).padStart(6, '0');
             state.invoiceId = formattedInteger
         },

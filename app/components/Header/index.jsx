@@ -3,7 +3,7 @@ import React from 'react'
 import style from './style'
 
 import { AntDesign } from '@expo/vector-icons'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
 import color from '../../style/color'
 
 const Header = ({ title }) => {

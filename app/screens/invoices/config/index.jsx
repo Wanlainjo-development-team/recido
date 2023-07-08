@@ -8,9 +8,8 @@ import { LinearGradient } from 'expo-linear-gradient'
 import color from '../../../style/color'
 import { AntDesign } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { collection, doc, onSnapshot, orderBy, query, updateDoc } from 'firebase/firestore'
+import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../../hooks/firebase'
-import { setInvoiceList } from '../../../features/invoicesSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 const InvoiceSearchConfig = () => {

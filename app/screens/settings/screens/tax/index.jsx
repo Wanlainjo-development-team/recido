@@ -1,19 +1,14 @@
-import { View, Text, Alert, Switch, KeyboardAvoidingView, Platform, ActivityIndicator } from 'react-native'
-import React, { useLayoutEffect } from 'react'
-
-import Header from '../../../../components/Header'
-import styles from './styles'
-import { ScrollView } from 'react-native'
-import { TouchableOpacity } from 'react-native'
-import { useState } from 'react'
-import { TextInput } from 'react-native'
-import color from '../../../../style/color'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { doc, updateDoc } from 'firebase/firestore'
-import { db } from '../../../../hooks/firebase'
-import { useNavigation } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
-import app from '../../../../style/app'
+import React, { useState, useLayoutEffect } from 'react';
+import { View, Text, Alert, Switch, KeyboardAvoidingView, Platform, ActivityIndicator, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import Header from '../../../../components/Header';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../../../hooks/firebase';
+import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import styles from './styles';
+import color from '../../../../style/color';
+import app from '../../../../style/app';
 
 const Tax = () => {
   const { goBack } = useNavigation()

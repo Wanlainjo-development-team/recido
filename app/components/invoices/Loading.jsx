@@ -1,9 +1,8 @@
-import { View, Text, ActivityIndicator } from 'react-native'
+import { View, Text, ActivityIndicator, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import styles from './styles'
 import color from '../../style/color'
 import { FontAwesome5, AntDesign } from '@expo/vector-icons'
-import { TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 const Loading = ({ text }) => {

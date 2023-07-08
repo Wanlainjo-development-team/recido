@@ -1,28 +1,19 @@
-import { View, Text, Animated, Image, TouchableOpacity, Dimensions, TouchableWithoutFeedback, Pressable, ScrollView } from 'react-native'
-import React, { useState, useRef } from 'react'
-import { StatusBar } from 'expo-status-bar'
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, Animated, Image, TouchableOpacity, Dimensions, TouchableWithoutFeedback, Pressable, ScrollView } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import color from '../style/color';
+import nav from '../style/navigation';
+import { header } from '../style/header';
+import { Feather, FontAwesome, Ionicons, SimpleLineIcons, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
+import BottomNavigation from './BottomNavigation';
+import { setActiveRoute, setAuth, setUser } from '../features/userSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { db } from '../hooks/firebase';
 
-// Colors
-import color from '../style/color'
-
-// style
-import nav from '../style/navigation'
-import { header } from '../style/header'
-
-// icons
-import { AntDesign, Feather, FontAwesome, Ionicons, SimpleLineIcons, Octicons, FontAwesome5, MaterialIcons } from '@expo/vector-icons'
-
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation } from '@react-navigation/native'
-import BottomNavigation from './BottomNavigation'
-
-import { setActiveRoute, setAuth, setUser } from '../features/userSlice'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useEffect } from 'react'
-import { doc, onSnapshot } from 'firebase/firestore'
-import { db } from '../hooks/firebase'
-
-const { width } = Dimensions.get('window')
+const { width } = Dimensions.get('window');
 
 const CustomNavigation = () => {
     const navigation = useNavigation()

@@ -1,9 +1,9 @@
 import { View, Text, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, ScrollView, TouchableOpacity, Keyboard, Alert, ActivityIndicator, Modal, Pressable } from 'react-native'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState, useEffect } from 'react'
 
 import styles from './styles'
 
-import { AntDesign, Feather } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux'
 
 import {
@@ -22,7 +22,6 @@ import { itemsStyle } from './screens/styles'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { addDoc, collection, doc, getDoc, getDocs, increment, onSnapshot, query, serverTimestamp, updateDoc, where } from 'firebase/firestore';
 import { db } from '../../../../hooks/firebase';
-import { useEffect } from 'react';
 import { BlurView } from 'expo-blur'
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
@@ -77,19 +76,6 @@ const CreateInvoice = () => {
     active: false
   })
   const [currentInvoice, setCurrentInvoice] = useState(null)
-  const [newInvoiceId, setNewInvoiceId] = useState(invoiceId)
-
-  const updateInvoiceId = async () => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
-    let _profile = (await getDoc(doc(db, 'users', id))).data()
-
-    setNewInvoiceId((_profile?.invoice).toString().padStart(6, '0'))
-    setInvoiceId((_profile?.invoice).toString().padStart(6, '0'))
-  }
-
-  useEffect(() => {
-    updateInvoiceId()
-  }, [profile])
 
   useEffect(() => {
     (async () => {
@@ -107,7 +93,7 @@ const CreateInvoice = () => {
 
   useEffect(() => {
     (() => {
-      dispatch(setInvoiceId(newInvoiceId ? newInvoiceId : profile?.invoice))
+      dispatch(setInvoiceId(invoiceId ? invoiceId : profile?.invoice))
     })()
   }, [profile])
 
@@ -195,15 +181,7 @@ const CreateInvoice = () => {
       if (!x.inventoryId) {
         setUploadable(true)
 
-        startUpload(id)
-
-        let x = parseInt(newInvoiceId)
-
-        x += 1
-
-        setNewInvoiceId((x).toString().padStart(6, '0'))
-
-        // setLoading(false)
+        setLoading(false)
         return
       }
 
@@ -220,7 +198,7 @@ const CreateInvoice = () => {
         // but if it's not in stock then it prompts the user to update theie inventosy
         const result = await new Promise((resolve) => {
           Alert.alert(
-            'Item error',
+            'Stock warning ⚠️⚠️⚠️',
             `${x.name} is not up to stock 😢😢`,
             [
               {
@@ -301,7 +279,7 @@ const CreateInvoice = () => {
         .then((nonExistingItems) => {
           if (nonExistingItems.length >= 1) {
             setLoading(false)
-            Alert.alert('New item alert', `${nonExistingItems.length} ${nonExistingItems.length == 1 ? 'item' : 'items'} in your invoice don't exsist in your inventory.\n Would you like to add ${nonExistingItems.length == 1 ? 'it' : 'them'}?`, [
+            Alert.alert('New item alert', `${nonExistingItems.length} ${nonExistingItems.length == 1 ? 'item' : 'items'} in your invoice don't exist in your inventory.\n Would you like to add ${nonExistingItems.length == 1 ? 'it' : 'them'}?`, [
               {
                 text: 'Ok',
               },
@@ -321,39 +299,62 @@ const CreateInvoice = () => {
           return
         });
 
-      items.forEach(async item => {
-        if (item?.inventoryId)
-          await updateDoc(doc(db, 'users', id, 'inventory', item?.inventoryId), {
-            quantity: increment(-parseFloat(item?.quantity))
-          })
+      const q = await getDocs(query(collection(db, 'users', id, 'invoices'), where("invoiceId", "==", invoiceId)));
 
-        await schedulePushNotification('Inventory recalculation', `${item?.quantity} pieces of ${item?.name} has been removed from your inventory`, null)
+      if (q.docs.length >= 1) {
+        Alert.alert('Duplicate invoice ⚠️⚠️⚠️', 'There seem to be an invoice saved with this unique identifier.\nPlease change the invoice number and try again.', [
+          {
+            text: 'Ok',
+            onPress: () => setLoading(false)
+          },
+          {
+            text: 'Edit invoice ID',
+            onPress: () => {
+              setLoading(false)
+              navigate('SetInvoice')
+            }
+          }
+        ])
+        return
+      } else {
+        items.forEach(async item => {
+          if (item?.inventoryId)
+            await updateDoc(doc(db, 'users', id, 'inventory', item?.inventoryId), {
+              quantity: increment(-parseFloat(item?.quantity))
+            })
 
-        setLoading(false)
-      })
+          await schedulePushNotification('Inventory recalculation', `${item?.quantity} pieces of ${item?.name} has been removed from your inventory`, null)
 
-      await addDoc(collection(db, 'users', id, 'invoices'), saveObject)
-
-      const querySnapshot = await getDocs(query(collection(db, "users", id, 'customers'), where("name", "==", invoiceContact?.name)))
-
-      if (querySnapshot.docs.length <= 0)
-        await addDoc(collection(db, 'users', id, 'customers'), {
-          ...invoiceContact,
-          invoiceId: newInvoiceId,
-          city,
-          state,
-          zip,
-          country,
-          createdAt: serverTimestamp()
+          setLoading(false)
         })
 
-      await updateDoc(doc(db, 'users', id), {
-        invoice: increment(1)
-      })
+        await addDoc(collection(db, 'users', id, 'invoices'), saveObject)
 
-      setLoading(false)
+        Alert.alert('Invoice saved', 'Invoice was saved successfully 🎉🎉')
 
-      await schedulePushNotification('Invoice saved', 'Invoice was saved successfully 🎉🎉', null)
+        const querySnapshot = await getDocs(query(collection(db, "users", id, 'customers'), where("name", "==", invoiceContact?.name)))
+
+        if (querySnapshot.docs.length <= 0)
+          await addDoc(collection(db, 'users', id, 'customers'), {
+            ...invoiceContact,
+            invoiceId,
+            city,
+            state,
+            zip,
+            country,
+            createdAt: serverTimestamp()
+          })
+
+        await updateDoc(doc(db, 'users', id), {
+          invoice: increment(1)
+        })
+
+        setLoading(false)
+
+
+        await schedulePushNotification('Invoice saved', 'Invoice was saved successfully 🎉🎉', null)
+      }
+
     }
   }
 
@@ -367,6 +368,10 @@ const CreateInvoice = () => {
 
   const saveFinishedInvoice = async item => {
     const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
+
+    const q = await getDocs(query(collection(db, 'users', id, 'invoices'), where("invoiceId", "==", invoiceId)));
+
+    if (q.docs.length >= 1) return
 
     await addDoc(collection(db, 'users', id, 'inventory'), {
       name: item?.name,
@@ -461,7 +466,7 @@ const CreateInvoice = () => {
                 <View style={styles.setInvoiceLeftView}>
                   <Text style={styles.setInvoiceLeftViewBoldText}>{new Date(date).toDateString()}</Text>
                 </View>
-                <Text style={styles.setInvoiceLeftViewBoldText}>{newInvoiceId}</Text>
+                <Text style={styles.setInvoiceLeftViewBoldText}>{invoiceId}</Text>
               </TouchableOpacity>
             </View>
 
@@ -544,7 +549,7 @@ const CreateInvoice = () => {
               </View>
             </View>
 
-            <View style={{ ...styles.group, marginBottom: 100 }}>
+            <View style={{ ...styles.group, marginBottom: 30 }}>
               <TouchableOpacity onPress={() => navigate('Note', { editNote: null })} style={styles.plusView}>
                 <AntDesign name="pluscircleo" size={22} color={color.accent} />
                 <Text style={styles.plusViewText}>Notes</Text>
@@ -559,27 +564,27 @@ const CreateInvoice = () => {
           <View style={styles.floatingView}>
             {
               currentInvoiceId &&
-              <View style={styles.floatingSubButtons}>
+              <View style={{ width: '49%' }}>
                 {
                   currentInvoice?.invoiceState == 'outstanding' &&
-                  <TouchableOpacity onPress={() => setInvoiceState('paid')} style={styles.floatingSubButton}>
-                    <Text style={styles.floatingSubButtonText}>Mark as paid</Text>
+                  <TouchableOpacity onPress={() => setInvoiceState('paid')} style={{ ...styles.floatingButton, width: '100%', backgroundColor: `${color.accent}40` }}>
+                    <Text style={{ ...styles.floatingButtonText, color: color.accent }}>Mark as paid</Text>
                   </TouchableOpacity>
                 }
                 {
                   currentInvoice?.invoiceState == 'paid' &&
-                  <TouchableOpacity onPress={() => setInvoiceState('outstanding')} style={styles.floatingSubButton}>
-                    <Text style={styles.floatingSubButtonText}>Mark as outstanding</Text>
+                  <TouchableOpacity onPress={() => setInvoiceState('outstanding')} style={{ ...styles.floatingButton, width: '100%', backgroundColor: `${color.accent}40` }}>
+                    <Text style={{ ...styles.floatingButtonText, color: color.accent }}>Mark as outstanding</Text>
                   </TouchableOpacity>
                 }
               </View>
             }
 
-            <TouchableOpacity onPress={async () => await saveInvoice()} style={styles.floatingButton}>
-              <Text style={styles.floatingButtonText}>
-                {loading && <ActivityIndicator color={color.white} />}
-                Save invoice
-              </Text>
+            {!currentInvoiceId && <View />}
+
+            <TouchableOpacity onPress={async () => await saveInvoice()} style={{ ...styles.floatingButton, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+              {loading && <ActivityIndicator style={{ marginRight: 10 }} color={color.white} />}
+              <Text style={styles.floatingButtonText}>Save invoice</Text>
             </TouchableOpacity>
           </View>
         </>

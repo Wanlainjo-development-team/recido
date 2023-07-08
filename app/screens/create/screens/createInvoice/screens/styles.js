@@ -39,9 +39,6 @@ export const setInvoice = StyleSheet.create({
     },
 
     list: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
         marginBottom: 20
     },
 })

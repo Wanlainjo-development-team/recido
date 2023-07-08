@@ -1,13 +1,10 @@
-import { View, Text, Button, Platform, TouchableOpacity, Switch, ScrollView } from 'react-native'
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import { View, Text, Platform, TouchableOpacity, ScrollView, TextInput } from 'react-native'
+import React, { useState } from 'react'
 import { setInvoice } from './styles'
-import { TextInput } from 'react-native'
-import color from '../../../../../style/color'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import { setInvoiceId, setDate } from '../../../../../features/useFormSlice'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import app from '../../../../../style/app'
 
 const SetInvoice = () => {
@@ -18,6 +15,7 @@ const SetInvoice = () => {
 
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false)
+    const [id, setId] = useState(invoiceId)
 
     const onChange = (event, selectedDate) => dispatch(setDate(selectedDate))
 
@@ -28,25 +26,30 @@ const SetInvoice = () => {
 
     const showDatepicker = () => showMode('date')
 
+    const updateid = () => {
+        dispatch(setInvoiceId(id))
+        goBack()
+    }
+
     return (
         <View style={setInvoice.container}>
             <View style={setInvoice.head}>
-                <Text style={app.title1}>Details</Text>
-                <TouchableOpacity onPress={goBack} style={{ padding: 10 }}>
+                <Text style={app.title2}>Details</Text>
+                <TouchableOpacity onPress={updateid} style={{ padding: 10 }}>
                     <Text style={setInvoice.headText}>Done</Text>
                 </TouchableOpacity>
             </View>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={setInvoice.group}>
                     <View style={setInvoice.list}>
-                        <Text>Invoice Number</Text>
-                        <TextInput placeholder='Invoice number' value={invoiceId} onChangeText={text => dispatch(setInvoiceId(text))} />
+                        <Text style={app.inputText}>Invoice Number</Text>
+                        <TextInput style={app.input} placeholder='Invoice number' value={id} onChangeText={text => setId(text)} />
                     </View>
                     <View style={setInvoice.list}>
-                        <Text>Date</Text>
+                        <Text style={app.inputText}>Date</Text>
                         {
                             !show ?
-                                <TouchableOpacity onPress={showDatepicker}>
+                                <TouchableOpacity style={{ ...app.input, justifyContent: 'center' }} onPress={showDatepicker}>
                                     <Text>{`${new Date(date).toLocaleDateString()}`}</Text>
                                 </TouchableOpacity> :
                                 <View>

@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView, FlatList } from 'react-native'
+import { View, Text, TouchableOpacity, FlatList } from 'react-native'
 import React from 'react'
 
 import { itemsStyle } from './styles'

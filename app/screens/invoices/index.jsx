@@ -1,17 +1,15 @@
-import { View, TouchableOpacity, Text, Animated, Easing } from 'react-native'
-import React, { useEffect } from 'react'
-
-import styles from './styles'
-
+import React, { useEffect } from 'react';
+import { View, TouchableOpacity, Text, Animated, Easing } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import color from '../../style/color';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
 import { setInvoiceList } from '../../features/invoicesSlice';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from '../../hooks/firebase';
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import styles from './styles';
+import color from '../../style/color';
 import All from './screens/all';
 import Outstanding from './screens/outstanding';
 import Paid from './screens/paid';
