@@ -1,5 +1,5 @@
-import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, Image, TextInput, ActivityIndicator, useState } from 'react-native'
-import React, { useEffect, useRef } from 'react'
+import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, Image, TextInput, ActivityIndicator } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 
 import Header from '../../../../components/Header'
 import styles from './styles'
