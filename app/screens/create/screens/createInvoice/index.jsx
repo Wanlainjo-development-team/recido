@@ -77,6 +77,19 @@ const CreateInvoice = () => {
     active: false
   })
   const [currentInvoice, setCurrentInvoice] = useState(null)
+  const [newInvoiceId, setNewInvoiceId] = useState(invoiceId)
+
+  const updateInvoiceId = async () => {
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
+    let _profile = (await getDoc(doc(db, 'users', id))).data()
+
+    setNewInvoiceId((_profile?.invoice).toString().padStart(6, '0'))
+    setInvoiceId((_profile?.invoice).toString().padStart(6, '0'))
+  }
+
+  useEffect(() => {
+    updateInvoiceId()
+  }, [profile])
 
   useEffect(() => {
     (async () => {
@@ -94,7 +107,7 @@ const CreateInvoice = () => {
 
   useEffect(() => {
     (() => {
-      dispatch(setInvoiceId(invoiceId ? invoiceId : profile?.invoice))
+      dispatch(setInvoiceId(newInvoiceId ? newInvoiceId : profile?.invoice))
     })()
   }, [profile])
 
@@ -184,7 +197,13 @@ const CreateInvoice = () => {
 
         startUpload(id)
 
-        setLoading(false)
+        let x = parseInt(newInvoiceId)
+
+        x += 1
+
+        setNewInvoiceId((x).toString().padStart(6, '0'))
+
+        // setLoading(false)
         return
       }
 
@@ -320,7 +339,7 @@ const CreateInvoice = () => {
       if (querySnapshot.docs.length <= 0)
         await addDoc(collection(db, 'users', id, 'customers'), {
           ...invoiceContact,
-          invoiceId,
+          invoiceId: newInvoiceId,
           city,
           state,
           zip,
@@ -442,7 +461,7 @@ const CreateInvoice = () => {
                 <View style={styles.setInvoiceLeftView}>
                   <Text style={styles.setInvoiceLeftViewBoldText}>{new Date(date).toDateString()}</Text>
                 </View>
-                <Text style={styles.setInvoiceLeftViewBoldText}>{invoiceId}</Text>
+                <Text style={styles.setInvoiceLeftViewBoldText}>{newInvoiceId}</Text>
               </TouchableOpacity>
             </View>
 
