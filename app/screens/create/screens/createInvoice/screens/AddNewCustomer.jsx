@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Platform, Alert, FlatList } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, TextInput, KeyboardAvoidingView, Platform, Alert, FlatList, PermissionsAndroid } from 'react-native'
 import React, { useState, useLayoutEffect } from 'react'
 import { addNewCustomer, billTo } from './styles'
 import { useNavigation, useRoute } from '@react-navigation/native'
@@ -12,6 +12,8 @@ import { addDoc, collection, getDocs, query, serverTimestamp, where } from 'fire
 import { db } from '../../../../../hooks/firebase'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import app from '../../../../../style/app'
+// import * as Linking from 'expo-linking'
+import { Linking } from 'expo'
 
 const AddNewCustomer = () => {
     const { goBack, navigate } = useNavigation()
@@ -121,8 +123,11 @@ const AddNewCustomer = () => {
         }
     }
 
+
     const openContact = async () => {
-        const { status } = await Contacts.requestPermissionsAsync();
+        const { status } = await Contacts.getPermissionsAsync();
+
+        console.log(status)
         if (status === 'granted') {
             const { data } = await Contacts.getContactsAsync();
 
@@ -155,38 +160,41 @@ const AddNewCustomer = () => {
                     </TouchableOpacity>
                 }
 
-                {
-                    customersList?.length >= 1 &&
-                    <FlatList
-                        data={customersList}
-                        keyExtractor={(item, index) => index}
-                        showsVerticalScrollIndicator={false}
-                        showsHorizontalScrollIndicator={false}
-                        horizontal={true}
-                        renderItem={({ item }) => (
-                            <TouchableOpacity
-                                onPress={() => {
-                                    setContact({ ...contact, ...item })
-                                }}
-                                style={{
-                                    flexDirection: 'row',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    backgroundColor: `${color.accent}30`,
-                                    marginRight: 10,
-                                    borderRadius: 12,
-                                    paddingVertical: 10,
-                                    paddingHorizontal: 10
-                                }}
-                            >
-                                <View style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 100, backgroundColor: `${color.accent}90` }}>
-                                    <Text style={{ color: color.white, fontWeight: '900', fontSize: 25 }}>{item?.name.charAt(0)}</Text>
-                                </View>
-                                <Text style={{ fontSize: 16, fontWeight: '600', textAlign: 'center', marginHorizontal: 10 }}>{item?.name}</Text>
-                            </TouchableOpacity>
-                        )}
-                    />
-                }
+                <View>
+                    {
+                        customersList?.length >= 1 &&
+                        <FlatList
+                            data={customersList}
+                            keyExtractor={(item, index) => index}
+                            showsVerticalScrollIndicator={false}
+                            showsHorizontalScrollIndicator={false}
+                            horizontal={true}
+                            renderItem={({ item }) => (
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        setContact({ ...contact, ...item })
+                                    }}
+                                    style={{
+                                        flexDirection: 'row',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        backgroundColor: `${color.accent}30`,
+                                        marginRight: 10,
+                                        borderRadius: 12,
+                                        paddingVertical: 10,
+                                        height: Platform.OS == 'android' ? 50 : null,
+                                        paddingHorizontal: 5
+                                    }}
+                                >
+                                    <View style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 10, backgroundColor: `${color.accent}90` }}>
+                                        <Text style={{ color: color.white, fontWeight: '900', fontSize: 25 }}>{item?.name.charAt(0)}</Text>
+                                    </View>
+                                    <Text style={{ fontSize: 16, fontWeight: '600', textAlign: 'center', marginHorizontal: 10 }}>{item?.name}</Text>
+                                </TouchableOpacity>
+                            )}
+                        />
+                    }
+                </View>
 
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <Text style={{ ...app.title2, marginBottom: 20, marginTop: 40 }}>Contact Information</Text>

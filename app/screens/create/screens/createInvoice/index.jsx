@@ -146,25 +146,26 @@ const CreateInvoice = () => {
     }, [items])
   );
 
+
   const saveInvoice = async () => {
-    //get current loged in user's id
+    //get current logged in user's id
     const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
-    //check if user has inputed customer information or selected a customer from their cuntact list
+    //check if user has input customer information or selected a customer from their cuntact list
     if (!invoiceContact) {
-      // if the user has not selected a customer and they want to save: send a push notification teling the user to select a customer
-      await schedulePushNotification('Add customer', 'Customer information is required 🛍️🛍️', null)
+      // if the user has not selected a customer and they want to save: send an alert notification telling the user to select a customer
+      Alert.alert('Add customer', 'Customer information is required 🛍️🛍️')
 
-      //then end the function untill the proccess ic carried out
+      //then end the function until the process ic carried out
       return
     }
 
     // check if the user has added an item or more
     if (items.length < 1) {
-      // if the user has not added any item: send a push notification, informing the user they they need to add an item
-      await schedulePushNotification('Add an item', 'Items are required\nadd a minimum of one item 🛍️🛍️', null)
+      // if the user has not added any item: send an alert notification, informing the user they they need to add an item
+      Alert.alert('Add an item', 'Items are required\nadd a minimum of one item 🛍️🛍️')
 
-      // Then end the function here until this proccess is carried out
+      // Then end the function here until this process is carried out
       return
     }
 
@@ -179,9 +180,12 @@ const CreateInvoice = () => {
 
       // check if the selected item has an ID attache to it
       if (!x.inventoryId) {
+        setLoading(false)
+        
         setUploadable(true)
 
-        setLoading(false)
+        startUpload(id)
+
         return
       }
 
@@ -194,8 +198,8 @@ const CreateInvoice = () => {
 
 
         // this promise runs to deside if an item is in stock or not.
-        // if it's in stock, the promps will not come up,
-        // but if it's not in stock then it prompts the user to update theie inventosy
+        // if it's in stock, the prompts will not come up,
+        // but if it's not in stock then it prompts the user to update the inventory
         const result = await new Promise((resolve) => {
           Alert.alert(
             'Stock warning ⚠️⚠️⚠️',

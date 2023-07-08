@@ -39,7 +39,7 @@ const ForgotPassword = () => {
         setLoading(false)
       })
       .catch(() => {
-        Alert.alert('Error !!!', 'THere was an error sending your email. Check your email address and try again.')
+        Alert.alert('Error !!!', 'There was an error sending your email. Check your email address and try again.')
         setLoading(false)
       })
   }

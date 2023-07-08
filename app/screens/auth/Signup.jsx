@@ -28,6 +28,7 @@ import app from '../../style/app'
 import allCurrencies from '../../components/fragments/currency'
 
 import * as NavigationBar from 'expo-navigation-bar'
+import { StatusBar } from 'expo-status-bar'
 
 
 const Signup = () => {
@@ -176,6 +177,7 @@ const Signup = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar style="light" />
       <View style={styles.ball} />
       <BlurView intensity={200} tint='dark' style={styles.blur}>
 
@@ -187,7 +189,7 @@ const Signup = () => {
             Alert.alert('Modal has been closed.');
             setModalVisible(!modalVisible);
           }}>
-          <BlurView intensity={50} tint='dark' style={styles.modalContainer}>
+          <BlurView intensity={200} tint='dark' style={{ ...styles.modalContainer, backgroundColor: Platform.OS == 'android' ? color.dark : color.transparent }}>
             <View style={styles.head}>
               <Text style={{ ...app.title1, color: color.mainBackground, opacity: 1 }}>Select your country</Text>
               <TouchableOpacity onPress={() => setModalVisible(false)}>

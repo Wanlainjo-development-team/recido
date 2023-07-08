@@ -20,6 +20,7 @@ import bg from '../../../assets/images/bg.png'
 const { width } = Dimensions.get('screen')
 
 import * as NavigationBar from 'expo-navigation-bar'
+import { StatusBar } from 'expo-status-bar'
 
 const Signin = () => {
   const { navigate } = useNavigation()
@@ -53,7 +54,7 @@ const Signin = () => {
           dispatch(setUser(user))
         }).catch(async error => {
           if (error.message.includes('wrong-password'))
-            Alert.alert('Sign In error', 'Wrong password. Check your passwod then try again. 🙂')
+            Alert.alert('Sign In error', 'Wrong password. Check your password then try again. 🙂')
           else if (error.message.includes('user-not-found'))
             Alert.alert('Sign In error', 'Seems like tou do not have an account with us \n Please create an account 🙂')
           await AsyncStorage.setItem('recido_user', null)
@@ -64,6 +65,7 @@ const Signin = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar style="light" />
       <View style={styles.ball} />
       <BlurView intensity={200} tint='dark' style={styles.blur}>
 
