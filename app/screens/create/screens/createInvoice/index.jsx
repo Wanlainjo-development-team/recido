@@ -77,6 +77,19 @@ const CreateInvoice = () => {
     active: false
   })
   const [currentInvoice, setCurrentInvoice] = useState(null)
+  const [newInvoiceId, setNewInvoiceId] = useState(invoiceId)
+
+  const updateInvoiceId = async () => {
+    const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
+    let _profile = (await getDoc(doc(db, 'users', id))).data()
+
+    setNewInvoiceId((_profile?.invoice).toString().padStart(6, '0'))
+    setInvoiceId((_profile?.invoice).toString().padStart(6, '0'))
+  }
+
+  useEffect(() => {
+    updateInvoiceId()
+  }, [profile])
 
   useEffect(() => {
     (async () => {
@@ -94,7 +107,7 @@ const CreateInvoice = () => {
 
   useEffect(() => {
     (() => {
-      dispatch(setInvoiceId(invoiceId ? invoiceId : profile?.invoice))
+      dispatch(setInvoiceId(newInvoiceId ? newInvoiceId : profile?.invoice))
     })()
   }, [profile])
 
@@ -148,31 +161,63 @@ const CreateInvoice = () => {
   );
 
   const saveInvoice = async () => {
+    //get current loged in user's id
     const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
+    //check if user has inputed customer information or selected a customer from their cuntact list
     if (!invoiceContact) {
+      // if the user has not selected a customer and they want to save: send a push notification teling the user to select a customer
       await schedulePushNotification('Add customer', 'Customer information is required 🛍️🛍️', null)
 
+      //then end the function untill the proccess ic carried out
       return
     }
 
+    // check if the user has added an item or more
     if (items.length < 1) {
+      // if the user has not added any item: send a push notification, informing the user they they need to add an item
       await schedulePushNotification('Add an item', 'Items are required\nadd a minimum of one item 🛍️🛍️', null)
 
+      // Then end the function here until this proccess is carried out
       return
     }
 
+    // if the user has a customer selected and an item selected start the loading
     setLoading(true)
 
+
+    // loop through over every selected item
     for (let i = 0; i < items.length; i++) {
+      // save each item to the valueof 'x' after every loop
       const x = items[i];
 
-      if (!x.inventoryId) return
+      // check if the selected item has an ID attache to it
+      if (!x.inventoryId) {
+        setUploadable(true)
 
+        startUpload(id)
+
+        let x = parseInt(newInvoiceId)
+
+        x += 1
+
+        setNewInvoiceId((x).toString().padStart(6, '0'))
+
+        // setLoading(false)
+        return
+      }
+
+      // if this item has an ID attached to it then find it in the database
       const currentInventoryItem = await getDoc(doc(db, 'users', id, 'inventory', x.inventoryId));
 
+      // check if the quantity of items the user wants to sell is enough in stock to sell
       if (parseFloat(x.quantity) > currentInventoryItem.data().quantity) {
-        setLoading(false)
+        setLoading(false) // stop the loading if the items the user want's to sell is more than what is in stock
+
+
+        // this promise runs to deside if an item is in stock or not.
+        // if it's in stock, the promps will not come up,
+        // but if it's not in stock then it prompts the user to update theie inventosy
         const result = await new Promise((resolve) => {
           Alert.alert(
             'Item error',
@@ -294,7 +339,7 @@ const CreateInvoice = () => {
       if (querySnapshot.docs.length <= 0)
         await addDoc(collection(db, 'users', id, 'customers'), {
           ...invoiceContact,
-          invoiceId,
+          invoiceId: newInvoiceId,
           city,
           state,
           zip,
@@ -416,7 +461,7 @@ const CreateInvoice = () => {
                 <View style={styles.setInvoiceLeftView}>
                   <Text style={styles.setInvoiceLeftViewBoldText}>{new Date(date).toDateString()}</Text>
                 </View>
-                <Text style={styles.setInvoiceLeftViewBoldText}>{invoiceId}</Text>
+                <Text style={styles.setInvoiceLeftViewBoldText}>{newInvoiceId}</Text>
               </TouchableOpacity>
             </View>
 
@@ -529,13 +574,12 @@ const CreateInvoice = () => {
                 }
               </View>
             }
-            
+
             <TouchableOpacity onPress={async () => await saveInvoice()} style={styles.floatingButton}>
-              {
-                loading ?
-                  <ActivityIndicator color={color.white} /> :
-                  <Text style={styles.floatingButtonText}>Save invoice</Text>
-              }
+              <Text style={styles.floatingButtonText}>
+                {loading && <ActivityIndicator color={color.white} />}
+                Save invoice
+              </Text>
             </TouchableOpacity>
           </View>
         </>
@@ -564,6 +608,7 @@ async function registerForPushNotificationsAsync() {
       importance: Notifications.AndroidImportance.MAX,
       vibrationPattern: [0, 250, 250, 250],
       lightColor: '#FF231F7C',
+      sound: true
     });
   }
 

@@ -16,7 +16,7 @@ const Loading = ({ text }) => {
         (() => {
             setTimeout(() => {
                 setTimer(true)
-            }, 20000)
+            }, 5000)
         })()
     }, [])
 

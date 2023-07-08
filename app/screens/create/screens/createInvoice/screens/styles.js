@@ -187,6 +187,10 @@ export const itemsStyle = StyleSheet.create({
         alignItems: 'center'
     },
 
+    headButton: {
+        paddingVertical: 10,
+    },
+
     headText: {
         color: color.accent,
         fontWeight: '800'
