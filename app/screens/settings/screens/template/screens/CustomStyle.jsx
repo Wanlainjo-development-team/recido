@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, TouchableOpacity, WebView } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import style from './style';
 import { useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { collection, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { db } from '../../../../../hooks/firebase';
 import color from '../../../../../style/color';
+
+import WebView from 'react-native-webview';
 
 import { IV1 } from '../../../../../components/fragments/templates/IV1';
 import { IV2 } from '../../../../../components/fragments/templates/IV2';

@@ -181,7 +181,7 @@ const CreateInvoice = () => {
       // check if the selected item has an ID attache to it
       if (!x.inventoryId) {
         setLoading(false)
-        
+
         setUploadable(true)
 
         startUpload(id)
@@ -426,43 +426,45 @@ const CreateInvoice = () => {
             onRequestClose={() => {
               setModalVisible({ ...modalVisible, active: !modalVisible.active });
             }}>
-            <BlurView intensity={50} style={{ ...styles.modealContainer, justifyContent: 'center', alignItems: 'center' }}>
-              <View style={styles.modalView}>
-                <View style={{ ...styles.modalViewHead, marginBottom: 15 }}>
-                  <Text style={styles.modalViewHeadText}>Save items</Text>
+            <View style={{ flex: 1, backgroundColor: Platform.OS == 'android' ? color.mainBackground : color.transparent }}>
+              <BlurView intensity={50} style={{ ...styles.modealContainer, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={styles.modalView}>
+                  <View style={{ ...styles.modalViewHead, marginBottom: 15 }}>
+                    <Text style={styles.modalViewHeadText}>Save items</Text>
 
-                  <TouchableOpacity
-                    style={{ ...styles.backButton, height: 40, width: 40 }}
-                    onPress={() => setModalVisible({ ...modalVisible, active: !modalVisible.active })}>
-                    <AntDesign name="close" size={24} color={color.accent} />
-                  </TouchableOpacity>
-                </View>
+                    <TouchableOpacity
+                      style={{ ...styles.backButton, height: 40, width: 40 }}
+                      onPress={() => setModalVisible({ ...modalVisible, active: !modalVisible.active })}>
+                      <AntDesign name="close" size={24} color={color.accent} />
+                    </TouchableOpacity>
+                  </View>
 
-                <View style={styles.modalViewBody}>
-                  {
-                    modalVisible.existingItems.length >= 1 ?
-                      <>
-                        {
-                          modalVisible.existingItems.map((item, index) => (
-                            <Pressable key={index} onPress={() => promptItem(item)} style={{ ...styles.list, backgroundColor: color.white, height: 45, paddingHorizontal: 10, borderRadius: 12, marginBottom: (index + 1) == modalVisible.existingItems.length ? 0 : 10 }}>
-                              <View style={styles.left}>
-                                <Text style={styles.boldText}>{item?.name}</Text>
-                                <Text>{item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Left</Text>
-                              </View>
-                              <View style={styles.right}>
-                                <Text>{profile?.denom?.sign || '$'}{item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
-                              </View>
-                            </Pressable>
-                          ))
-                        }
-                      </> :
-                      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <Text>All items have been cleard</Text>
-                      </View>
-                  }
+                  <View style={styles.modalViewBody}>
+                    {
+                      modalVisible.existingItems.length >= 1 ?
+                        <>
+                          {
+                            modalVisible.existingItems.map((item, index) => (
+                              <Pressable key={index} onPress={() => promptItem(item)} style={{ ...styles.list, backgroundColor: color.white, height: 45, paddingHorizontal: 10, borderRadius: 12, marginBottom: (index + 1) == modalVisible.existingItems.length ? 0 : 10 }}>
+                                <View style={styles.left}>
+                                  <Text style={styles.boldText}>{item?.name}</Text>
+                                  <Text>{item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Left</Text>
+                                </View>
+                                <View style={styles.right}>
+                                  <Text>{profile?.denom?.sign || '$'}{item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                                </View>
+                              </Pressable>
+                            ))
+                          }
+                        </> :
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                          <Text>All items have been cleard</Text>
+                        </View>
+                    }
+                  </View>
                 </View>
-              </View>
-            </BlurView>
+              </BlurView>
+            </View>
           </Modal>
           <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
             <View style={styles.group}>

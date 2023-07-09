@@ -1,4 +1,4 @@
-import { StyleSheet, StatusBar } from "react-native";
+import { StyleSheet } from "react-native";
 import color from "../../../../../style/color";
 
 export const setInvoice = StyleSheet.create({
@@ -6,14 +6,6 @@ export const setInvoice = StyleSheet.create({
         flex: 1,
         backgroundColor: color.mainBackground,
         padding: 10,
-    },
-
-    head: {
-        height: 50,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingLeft: 10
     },
 
     headText: {
@@ -47,21 +39,7 @@ export const billTo = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: color.mainBackground,
-        padding: 10,
-        paddingTop: 30
-    },
-
-    head: {
-        height: 50,
-        marginBottom: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-
-    headText: {
-        color: color.accent,
-        fontWeight: '800'
+        paddingHorizontal: 10
     },
 
     group: {
@@ -82,20 +60,7 @@ export const contact = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: color.mainBackground,
-        padding: 10,
-    },
-
-    head: {
-        height: 50,
-        marginBottom: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-
-    headText: {
-        color: color.accent,
-        fontWeight: '800'
+        paddingHorizontal: 10,
     },
 
     group: {
@@ -119,20 +84,7 @@ export const addNewCustomer = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: color.mainBackground,
-        padding: 10,
-    },
-
-    head: {
-        height: 50,
-        marginBottom: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-
-    headText: {
-        color: color.accent,
-        fontWeight: '800'
+        paddingHorizontal: 10,
     },
 
     shortInput: {
@@ -172,25 +124,7 @@ export const itemsStyle = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: color.mainBackground,
-        paddingHorizontal: 10,
-        paddingTop: 20
-    },
-
-    head: {
-        height: 50,
-        marginBottom: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-
-    headButton: {
-        paddingVertical: 10,
-    },
-
-    headText: {
-        color: color.accent,
-        fontWeight: '800'
+        paddingHorizontal: 10
     },
 
     createNew: {
@@ -285,37 +219,7 @@ export const noteStyle = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: color.mainBackground,
-        padding: 10,
-        paddingTop: 30
-    },
-
-    head: {
-        height: 50,
-        marginBottom: 20,
-        paddingHorizontal: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-
-    headText: {
-        color: color.accent,
-        fontWeight: '800'
-    },
-
-    scrollView: {
         paddingHorizontal: 10
-    },
-
-    input: {
-        backgroundColor: `${color.accent}20`,
-        height: 100,
-        marginTop: 10,
-        borderRadius: 12,
-        paddingHorizontal: 10,
-        paddingVertical: 10,
-        fontWeight: '600',
-        maxHeight: 150
     },
 
     saveButton: {
@@ -323,12 +227,13 @@ export const noteStyle = StyleSheet.create({
         height: 45,
         borderRadius: 12,
         backgroundColor: color.accent,
-        marginTop: 10,
+        marginBottom: 10,
         justifyContent: 'center',
         alignItems: 'center'
     },
 
     saveButtonText: {
-        color: color.white
+        color: color.white,
+        fontWeight: '600'
     }
 })

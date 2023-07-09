@@ -180,7 +180,6 @@ const Signup = () => {
       <StatusBar style="light" />
       <View style={styles.ball} />
       <BlurView intensity={200} tint='dark' style={styles.blur}>
-
         <Modal
           animationType="slide"
           transparent={true}
@@ -189,33 +188,35 @@ const Signup = () => {
             Alert.alert('Modal has been closed.');
             setModalVisible(!modalVisible);
           }}>
-          <BlurView intensity={200} tint='dark' style={{ ...styles.modalContainer, backgroundColor: Platform.OS == 'android' ? color.dark : color.transparent }}>
-            <View style={styles.head}>
-              <Text style={{ ...app.title1, color: color.mainBackground, opacity: 1 }}>Select your country</Text>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <Text style={styles.headText}>Done</Text>
-              </TouchableOpacity>
-            </View>
-
-            <FlatList
-              data={allCurrencies}
-              keyExtractor={item => item.id}
-              showsVerticalScrollIndicator={false}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  onPress={() => {
-                    setForm({ ...form, denom: item })
-                    setModalVisible(false)
-                  }}
-                  style={styles.group}
-                >
-                  <Text style={{ ...styles.groupText, textAlign: 'left' }}>{item.country}</Text>
-                  <Text style={styles.groupText}>{item.denomination}</Text>
-                  <Text style={styles.groupText}>{item.sign}</Text>
+          <View style={{ flex: 1, backgroundColor: Platform.OS == 'android' ? color.dark : color.transparent }}>
+            <BlurView intensity={50} tint='dark' style={{ ...styles.modalContainer }}>
+              <View style={styles.head}>
+                <Text style={{ ...app.title1, color: color.mainBackground, opacity: 1 }}>Select your country</Text>
+                <TouchableOpacity onPress={() => setModalVisible(false)} style={app.doneButton}>
+                  <Text style={app.doneButtonText}>Done</Text>
                 </TouchableOpacity>
-              )}
-            />
-          </BlurView>
+              </View>
+
+              <FlatList
+                data={allCurrencies}
+                keyExtractor={item => item.id}
+                showsVerticalScrollIndicator={false}
+                renderItem={({ item, index }) => (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setForm({ ...form, denom: item })
+                      setModalVisible(false)
+                    }}
+                    style={{ ...styles.group, borderBottomWidth: (index + 1) == allCurrencies.length ? 0 : 1 }}
+                  >
+                    <Text style={{ ...styles.groupText, textAlign: 'left' }}>{item.country}</Text>
+                    <Text style={styles.groupText}>{item.denomination}</Text>
+                    <Text style={styles.groupText}>{item.sign}</Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </BlurView>
+          </View>
         </Modal>
 
 
@@ -245,7 +246,7 @@ const Signup = () => {
                 <View style={styles.inputView}>
                   <TouchableOpacity onPress={() => setModalVisible(true)} style={{ ...styles.input, justifyContent: 'center' }}>
                     <Text style={{ color: color.mainBackground }}>
-                      {form.denom ? `${form.denom.country}, ${form.denom.denomination}(${form.denom.sign})` : 'Currency'}
+                      {form.denom ? `${form.denom.country} -- ${form.denom.denomination}(${form.denom.sign})` : 'Currency'}
                     </Text>
                   </TouchableOpacity>
                 </View>

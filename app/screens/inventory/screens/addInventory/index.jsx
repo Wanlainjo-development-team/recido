@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, KeyboardAvoidingView, Platform, TouchableOpacity, ActivityIndicator, Alert, ScrollView, TextInput } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addDoc, collection, deleteDoc, doc, getDocs, increment, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore';
+import { db } from '../../../../hooks/firebase'
 import { useSelector } from 'react-redux';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Header from '../../../../components/Header';
@@ -90,7 +91,7 @@ const AddInventory = () => {
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-            <Header />
+            <Header title={inventoryData?.name} />
 
 
             <ScrollView style={styles.scrollView}>
@@ -146,16 +147,16 @@ const AddInventory = () => {
                 {
                     viewItem &&
                     <View style={styles.controls}>
-                        <TouchableOpacity onPress={updateItem} style={{ ...styles.deleteButton, flex: 1, marginLeft: 0, backgroundColor: `${color.accent}40` }}>
-                            {
-                                updateLoading ? <ActivityIndicator color={color.accent} size='small' /> :
-                                    <Text style={{ ...styles.deleteButtonText, color: color.accent }}>Update item</Text>
-                            }
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={deleteItem} style={{ ...styles.deleteButton, flex: 1 }}>
+                        <TouchableOpacity onPress={deleteItem} style={{ ...styles.deleteButton, flex: 1, marginLeft: 0 }}>
                             {
                                 deleteLoading ? <ActivityIndicator color={color.red} size='small' /> :
                                     <Text style={{ ...styles.deleteButtonText, color: color.red }}>Move to archive</Text>
+                            }
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={updateItem} style={{ ...styles.deleteButton, flex: 1, backgroundColor: `${color.accent}40` }}>
+                            {
+                                updateLoading ? <ActivityIndicator color={color.accent} size='small' /> :
+                                    <Text style={{ ...styles.deleteButtonText, color: color.accent }}>Update item</Text>
                             }
                         </TouchableOpacity>
                     </View>

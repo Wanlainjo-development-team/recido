@@ -4,7 +4,7 @@ import { Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch } from 'react-redux';
-import { setInvoiceList } from '../../features/invoicesSlice';
+import { setCurrentInvoiceId, setInvoiceList } from '../../features/invoicesSlice';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from '../../hooks/firebase';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -115,7 +115,13 @@ const Invoice = () => {
         />
       </Navigator>
 
-      <TouchableOpacity onPress={() => navigate('Create', { viewInvoice: null })} style={styles.floatingButton}>
+      <TouchableOpacity
+        onPress={() => {
+          dispatch(setCurrentInvoiceId(null))
+          navigate('Create', { viewInvoice: null })
+        }}
+        style={styles.floatingButton}
+      >
         <Feather name="plus" size={24} color={color.white} />
       </TouchableOpacity>
     </View>

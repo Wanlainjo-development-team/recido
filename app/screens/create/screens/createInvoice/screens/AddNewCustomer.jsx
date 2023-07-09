@@ -142,13 +142,13 @@ const AddNewCustomer = () => {
     return (
         <KeyboardAvoidingView style={addNewCustomer.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
             <View style={addNewCustomer.container}>
-                <View style={addNewCustomer.head}>
-                    <TouchableOpacity onPress={goBack}>
-                        <Text style={addNewCustomer.headText}>Back</Text>
+                <View style={app.head}>
+                    <TouchableOpacity onPress={goBack} style={app.backButton}>
+                        <Text style={app.backButtonText}>Back</Text>
                     </TouchableOpacity>
                     <Text style={app.title1}>👨‍🦱 Create a new contact</Text>
-                    <TouchableOpacity onPress={addContact}>
-                        <Text style={addNewCustomer.headText}>Add</Text>
+                    <TouchableOpacity onPress={addContact} style={app.doneButton}>
+                        <Text style={app.doneButtonText}>Add</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -181,15 +181,14 @@ const AddNewCustomer = () => {
                                         backgroundColor: `${color.accent}30`,
                                         marginRight: 10,
                                         borderRadius: 12,
-                                        paddingVertical: 10,
-                                        height: Platform.OS == 'android' ? 50 : null,
-                                        paddingHorizontal: 5
+                                        padding: 5,
+                                        height: Platform.OS == 'android' ? 50 : null
                                     }}
                                 >
                                     <View style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 10, backgroundColor: `${color.accent}90` }}>
                                         <Text style={{ color: color.white, fontWeight: '900', fontSize: 25 }}>{item?.name.charAt(0)}</Text>
                                     </View>
-                                    <Text style={{ fontSize: 16, fontWeight: '600', textAlign: 'center', marginHorizontal: 10 }}>{item?.name}</Text>
+                                    <Text style={{ fontSize: 16, fontWeight: '600', textAlign: 'center', marginHorizontal: 10, color: color.accent }}>{item?.name}</Text>
                                 </TouchableOpacity>
                             )}
                         />

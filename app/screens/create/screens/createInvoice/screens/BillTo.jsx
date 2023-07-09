@@ -31,10 +31,10 @@ const BillTo = () => {
 
   return (
     <View style={billTo.container}>
-      <View style={billTo.head}>
+      <View style={app.head}>
         <Text style={app.title1}>👨‍🦱 Add customer</Text>
-        <TouchableOpacity onPress={goBack}>
-          <Text style={billTo.headText}>Done</Text>
+        <TouchableOpacity onPress={goBack} style={app.doneButton}>
+          <Text style={app.doneButtonText}>Done</Text>
         </TouchableOpacity>
       </View>
 
@@ -62,13 +62,13 @@ const BillTo = () => {
                   marginRight: 10,
                   borderRadius: 12,
                   paddingVertical: 10,
-                  paddingHorizontal: 10
+                  paddingHorizontal: 5
                 }}
               >
-                <View style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 100, backgroundColor: `${color.accent}90` }}>
+                <View style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 10, backgroundColor: `${color.accent}90` }}>
                   <Text style={{ color: color.white, fontWeight: '900', fontSize: 25 }}>{item?.name.charAt(0)}</Text>
                 </View>
-                <Text style={{ fontSize: 16, fontWeight: '600', textAlign: 'center', marginHorizontal: 10 }}>{item?.name}</Text>
+                <Text style={{ fontSize: 16, fontWeight: '600', textAlign: 'center', marginHorizontal: 10, color: color.accent }}>{item?.name}</Text>
               </TouchableOpacity>
             )}
           />

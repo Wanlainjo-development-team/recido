@@ -33,9 +33,9 @@ const SetInvoice = () => {
 
     return (
         <View style={setInvoice.container}>
-            <View style={setInvoice.head}>
+            <View style={app.head}>
                 <Text style={app.title2}>Details</Text>
-                <TouchableOpacity onPress={updateid} style={{ padding: 10 }}>
+                <TouchableOpacity onPress={updateid} style={app.doneButton}>
                     <Text style={setInvoice.headText}>Done</Text>
                 </TouchableOpacity>
             </View>

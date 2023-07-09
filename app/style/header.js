@@ -1,11 +1,11 @@
-import { StyleSheet, StatusBar } from 'react-native'
+import { StyleSheet, StatusBar, Platform } from 'react-native'
 import color from './color'
 
 export const header = StyleSheet.create({
   container: {
-    marginTop: 30,
+    marginTop: Platform.OS == 'android' ? StatusBar.currentHeight - 30 : 30,
     paddingTop: StatusBar.currentHeight,
-    paddingHorizontal: 20,
+    paddingHorizontal: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'

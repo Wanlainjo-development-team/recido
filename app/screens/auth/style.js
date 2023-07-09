@@ -18,15 +18,9 @@ export default StyleSheet.create({
         alignItems: 'center'
     },
 
-    headText: {
-        color: color.mainBackground,
-        fontWeight: '800'
-    },
-
     group: {
         marginBottom: 10,
         height: 50,
-        borderRadius: 12,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',

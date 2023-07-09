@@ -17,6 +17,7 @@ const Templates = () => {
 
       <Navigator
         screenOptions={{
+          swipeEnabled: false,
           tabBarStyle: {
             backgroundColor: color.transparent,
             elevation: 0

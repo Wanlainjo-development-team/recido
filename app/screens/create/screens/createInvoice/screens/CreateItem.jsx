@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, ScrollView, TextInput, ActivityIndicator, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
 import { itemsStyle } from './styles'
@@ -18,9 +18,21 @@ const CreateItem = () => {
 
     const { items } = useSelector(state => state.form)
 
-    const [item, setItem] = useState(editItem ? { ...editItem } : { price: 0 })
+    const [item, setItem] = useState(editItem ? { ...editItem } : { price: 0, name: '' })
 
     const [loading, setLoading] = useState(false)
+    const [exist, setExist] = useState(false)
+
+    useEffect(() => {
+        (async () => {
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
+
+            let look = await getDocs(query(collection(db, 'users', id, 'inventory'), where('name', '==', item.name)))
+
+            if (look.docs.length >= 1) setExist(true)
+            else setExist(false)
+        })()
+    }, [item.name])
 
     const setNewItem = () => {
         if (editItem == null || editItem == undefined) {
@@ -72,17 +84,17 @@ const CreateItem = () => {
 
     return (
         <View style={itemsStyle.container}>
-            <View style={itemsStyle.head}>
-                <TouchableOpacity style={itemsStyle.headButton} onPress={goBack}>
-                    <Text style={itemsStyle.headText}>Cancel</Text>
+            <View style={app.head}>
+                <TouchableOpacity style={app.backButton} onPress={goBack}>
+                    <Text style={app.backButtonText}>Cancel</Text>
                 </TouchableOpacity>
                 <Text style={app.title1}>📦 Items</Text>
-                <TouchableOpacity style={itemsStyle.headButton} onPress={setNewItem}>
-                    <Text style={itemsStyle.headText}>Done</Text>
+                <TouchableOpacity style={app.doneButton} onPress={setNewItem}>
+                    <Text style={app.doneButtonText}>Done</Text>
                 </TouchableOpacity>
             </View>
 
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 20 }}>
                 <View style={app.inputView}>
                     <Text style={app.inputText}>Name</Text>
                     <TextInput
@@ -146,13 +158,17 @@ const CreateItem = () => {
                 </View>
 
 
-                <TouchableOpacity onPress={saveItem} style={{ ...itemsStyle.deleteItemButton, marginBottom: 10, backgroundColor: color.accent }}>
-                    {
-                        loading ?
-                            <ActivityIndicator color={color.white} size='small' /> :
-                            <Text style={{ ...itemsStyle.deleteItemButtonText, color: color.white }}>Save for future invoices</Text>
-                    }
-                </TouchableOpacity>
+                {
+                    !exist ?
+                        <TouchableOpacity onPress={saveItem} style={{ ...itemsStyle.deleteItemButton, marginBottom: 10, backgroundColor: color.accent }}>
+                            {
+                                loading ?
+                                    <ActivityIndicator color={color.white} size='small' /> :
+                                    <Text style={{ ...itemsStyle.deleteItemButtonText, color: color.white }}>Save for future invoices</Text>
+                            }
+                        </TouchableOpacity> :
+                        <Text style={{ textAlign: 'center' }}>This item already exists in your inventory</Text>
+                }
 
                 {
                     editItem &&

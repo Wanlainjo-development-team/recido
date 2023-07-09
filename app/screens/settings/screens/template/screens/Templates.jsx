@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
+import { View, ScrollView, TouchableOpacity, Dimensions, Text } from 'react-native';
 import templatesPreview from '../../../../../components/fragments/templatesPreview';
 import styles from './templateStyle';
 import AutoHeightImage from 'react-native-auto-height-image';
@@ -32,6 +32,10 @@ const Template = () => {
                                     width={(width / 2) - 15}
                                     source={{ uri: item?.preview }}
                                 />
+                                {index == 0 && <Text style={styles.imageLabel}>Classic</Text>}
+                                {index == 1 && <Text style={styles.imageLabel}>Compact</Text>}
+                                {index == 2 && <Text style={styles.imageLabel}>Clean</Text>}
+                                {index == 3 && <Text style={styles.imageLabel}>Sharp</Text>}
                             </TouchableOpacity>
                         ))
                     }

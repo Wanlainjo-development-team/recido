@@ -9,6 +9,7 @@ import { db } from '../../../../hooks/firebase';
 
 import { Feather } from '@expo/vector-icons';
 import color from '../../../../style/color';
+import Header from '../../../../components/Header'
 
 
 const ViewCustomer = () => {
@@ -57,50 +58,70 @@ const ViewCustomer = () => {
     return grandTotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
 
-  const handleArchive = async () => {
-    let customerId = viewCustomer?.customerId
-
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
-
-    setArchiveLoading(true)
-
-    let customers = (await getDoc(doc(db, 'users', id, 'customers', customerId))).data()
-
-    await setDoc(doc(db, 'users', id, 'customerArchive', customerId),
+  const handleArchive = () => {
+    Alert.alert('Archive customer', 'Are you sure you want to move this customer to your archive?', [
       {
-        ...customers,
-        archivedAt: serverTimestamp()
+        text: 'Cancel'
+      },
+      {
+        text: 'Move to archive',
+        onPress: async () => {
+          let customerId = viewCustomer?.customerId
+
+          const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
+
+          setArchiveLoading(true)
+
+          let customers = (await getDoc(doc(db, 'users', id, 'customers', customerId))).data()
+
+          await setDoc(doc(db, 'users', id, 'customerArchive', customerId),
+            {
+              ...customers,
+              archivedAt: serverTimestamp()
+            }
+          )
+
+          await deleteDoc(doc(db, 'users', id, 'customers', customerId))
+
+          setArchiveLoading(false)
+
+          Alert.alert('Contact has been moved to your archive successfully 🎉🎉')
+        }
       }
-    )
-
-    await deleteDoc(doc(db, 'users', id, 'customers', customerId))
-
-    setArchiveLoading(false)
-
-    Alert.alert('Contact has been moved to your archive successfully 🎉🎉')
+    ])
   };
 
   const handleUpdate = async () => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
-    let customerId = viewCustomer?.customerId
+    Alert.alert('Customer update', 'Some changes have been made to this customer.\nDo you want to save?', [
+      {
+        text: 'Cancel'
+      },
+      {
+        text: 'Update customer',
+        onPress: async () => {
+          const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
+          let customerId = viewCustomer?.customerId
 
-    setUpdateLoading(true)
+          setUpdateLoading(true)
 
-    await updateDoc(doc(db, 'users', id, 'customers', customerId), {
-      ...contact
-    })
+          await updateDoc(doc(db, 'users', id, 'customers', customerId), {
+            ...contact
+          })
 
-    setUpdateLoading(false)
+          setUpdateLoading(false)
 
-    Alert.alert('Contact has been updated successfully 🎉🎉')
+          Alert.alert('Contact has been updated successfully 🎉🎉')
+        }
+      }
+    ])
   }
 
   return (
     <View style={styles.container}>
-      <Header />
+      <Header title='Customers' />
 
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        <Text style={styles.headingText}>Invoices</Text>
+        <Text style={styles.headingText}>{`${invoices[0]?.invoiceContact?.name}'s`} invoices ({invoices?.length})</Text>
         {
           invoices?.map((item, index) => (
             <Pressable key={index} onPress={() => navigate('Create', { viewInvoice: item })} style={{ ...styles.list, paddingTop: 10 }}>
@@ -160,8 +181,8 @@ const ViewCustomer = () => {
           <TextInput
             placeholder='Mobile'
             style={styles.inputViewTextInput}
-            value={contact?.phoneNumbers[0]?.digits}
-            onChangeText={digits => setContact({ ...contact, phoneNumbers: [{ ...contact.phoneNumbers[0], digits }] })}
+            value={contact?.phoneNumbers != undefined ? contact?.phoneNumbers[0]?.digits : contact?.phone}
+            onChangeText={digits => setContact(contact?.phoneNumbers != undefined ? { ...contact, phoneNumbers: [{ ...contact.phoneNumbers[0], digits }] } : { ...contact, phone: digits })}
           />
         </View>
         <View style={styles.inputView}>
@@ -169,8 +190,8 @@ const ViewCustomer = () => {
           <TextInput
             placeholder='Phone'
             style={styles.inputViewTextInput}
-            value={contact?.phoneNumbers[0]?.number}
-            onChangeText={number => setContact({ ...contact, phoneNumbers: [{ ...contact.phoneNumbers[0], number }] })}
+            value={contact?.phoneNumbers != undefined ? contact?.phoneNumbers[0]?.number : contact?.number}
+            onChangeText={number => setContact(contact?.phoneNumbers != undefined ? { ...contact, phoneNumbers: [{ ...contact.phoneNumbers[0], number }] } : { ...contact, number })}
           />
         </View>
         <View style={styles.inputView}>

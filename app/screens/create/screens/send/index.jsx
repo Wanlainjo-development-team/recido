@@ -174,7 +174,6 @@ const Send = () => {
         <View style={styles.head}>
           <View>
             <Text style={styles.headHeadingText}>Recipient</Text>
-            <Text style={styles.headSubtitleText}>Use commas(,) for multiple recipient</Text>
           </View>
 
           <TextInput

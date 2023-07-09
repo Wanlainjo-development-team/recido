@@ -29,11 +29,10 @@ const Contacts = () => {
 
     return (
         <View style={contact.container}>
-            <View style={contact.head}>
-                <View />
+            <View style={app.head}>
                 <Text style={app.title1}>👨‍🦱 Select contact</Text>
-                <TouchableOpacity onPress={goBack}>
-                    <Text style={contact.headText}>Done</Text>
+                <TouchableOpacity onPress={goBack} style={app.doneButton}>
+                    <Text style={app.doneButtonText}>Done</Text>
                 </TouchableOpacity>
             </View>
 

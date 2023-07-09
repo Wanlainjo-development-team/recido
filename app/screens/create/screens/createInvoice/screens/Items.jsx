@@ -22,10 +22,10 @@ const Items = () => {
 
     return (
         <View style={itemsStyle.container}>
-            <View style={itemsStyle.head}>
+            <View style={app.head}>
                 <Text style={app.title1}>📦 Add items</Text>
-                <TouchableOpacity onPress={goBack}>
-                    <Text style={itemsStyle.headText}>Done</Text>
+                <TouchableOpacity onPress={goBack} style={app.doneButton}>
+                    <Text style={app.doneButtonText}>Done</Text>
                 </TouchableOpacity>
             </View>
 

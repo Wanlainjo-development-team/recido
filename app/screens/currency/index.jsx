@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, FlatList } from 'react-native'
 import React from 'react'
 import styles from './styles'
-import { useNavigation } from '@react-navigation/native' 
+import { useNavigation } from '@react-navigation/native'
 import allCurrencies from '../../components/fragments/currency'
 import app from '../../style/app'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -23,10 +23,10 @@ const Currency = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.head}>
+      <View style={app.head}>
         <Text style={app.title1}>Select your country</Text>
-        <TouchableOpacity onPress={goBack}>
-          <Text style={styles.headText}>Done</Text>
+        <TouchableOpacity onPress={goBack} style={app.doneButton}>
+          <Text style={app.doneButtonText}>Done</Text>
         </TouchableOpacity>
       </View>
 
@@ -34,8 +34,8 @@ const Currency = () => {
         data={allCurrencies}
         keyExtractor={item => item.id}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => setCurrency(item)} style={styles.group}>
+        renderItem={({ item, index }) => (
+          <TouchableOpacity onPress={() => setCurrency(item)} style={{ ...styles.group, borderBottomWidth: (index + 1) == allCurrencies.length ? 0 : 1 }}>
             <Text style={{ ...styles.groupText, textAlign: 'left' }}>{item.country}</Text>
             <Text style={styles.groupText}>{item.denomination}</Text>
             <Text style={styles.groupText}>{item.sign}</Text>

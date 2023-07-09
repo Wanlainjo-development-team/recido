@@ -8,6 +8,7 @@ import color from '../../../../../style/color'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../../../../../hooks/firebase'
+import app from '../../../../../style/app'
 
 const Note = () => {
     const { goBack } = useNavigation()
@@ -17,7 +18,7 @@ const Note = () => {
     const dispatch = useDispatch()
 
     const [newNote, setNewNote] = useState('')
-    const [inputHeight, setInputHeight] = useState(100);
+    const [inputHeight, setInputHeight] = useState(200);
     const [loading, setLoading] = useState(false)
 
     const handleContentSizeChange = (event) => {
@@ -55,33 +56,34 @@ const Note = () => {
 
     return (
         <View style={noteStyle.container}>
-            <View style={noteStyle.head}>
-                <TouchableOpacity onPress={goBack}>
-                    <Text style={noteStyle.headText}>Cancel</Text>
+            <View style={app.head}>
+                <TouchableOpacity onPress={goBack} style={app.backButton}>
+                    <Text style={app.backButtonText}>Cancel</Text>
                 </TouchableOpacity>
-                <Text>📝 Note</Text>
-                <TouchableOpacity onPress={updateNote}>
-                    <Text style={noteStyle.headText}>Done</Text>
+                <Text style={app.title1}>📝 Note</Text>
+                <TouchableOpacity onPress={updateNote} style={app.doneButton}>
+                    <Text style={app.doneButtonText}>Done</Text>
                 </TouchableOpacity>
             </View>
 
-            <ScrollView style={noteStyle.scrollView} showsVerticalScrollIndicator={false}>
+            <ScrollView style={{ marginTop: 20 }} showsVerticalScrollIndicator={false}>
+                <Text style={app.inputText}>Note</Text>
                 <TextInput
                     value={newNote}
                     multiline={true}
                     placeholder='Note'
                     onChangeText={setNewNote}
                     onContentSizeChange={handleContentSizeChange}
-                    style={{ ...noteStyle.input, minHeight: inputHeight, maxHeight: 150 }}
+                    style={{ ...app.input, minHeight: inputHeight, maxHeight: 200, height: null }}
                 />
-                <TouchableOpacity onPress={updateUserDisclaimer} style={noteStyle.saveButton}>
-                    {
-                        loading ?
-                            <ActivityIndicator color={color.white} size='small' /> :
-                            <Text style={noteStyle.saveButtonText}>Save as new</Text>
-                    }
-                </TouchableOpacity>
             </ScrollView>
+            <TouchableOpacity onPress={updateUserDisclaimer} style={noteStyle.saveButton}>
+                {
+                    loading ?
+                        <ActivityIndicator color={color.white} size='small' /> :
+                        <Text style={noteStyle.saveButtonText}>Save as new</Text>
+                }
+            </TouchableOpacity>
         </View>
     )
 }
