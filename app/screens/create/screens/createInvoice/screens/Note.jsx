@@ -12,7 +12,7 @@ import app from '../../../../../style/app'
 
 const Note = () => {
     const { goBack } = useNavigation()
-    const { profile } = useSelector(state => state.user)
+    const { profile, theme } = useSelector(state => state.user)
     const { note } = useSelector(state => state.form)
     const { editNote } = useRoute().params
     const dispatch = useDispatch()
@@ -55,26 +55,27 @@ const Note = () => {
 
 
     return (
-        <View style={noteStyle.container}>
+        <View style={{ ...noteStyle.container, backgroundColor: theme ? color.dark : color.mainBackground }}>
             <View style={app.head}>
                 <TouchableOpacity onPress={goBack} style={app.backButton}>
                     <Text style={app.backButtonText}>Cancel</Text>
                 </TouchableOpacity>
-                <Text style={app.title1}>📝 Note</Text>
+                <Text style={{ ...app.title1, color: theme ? color.white : color.dark }}>📝 Note</Text>
                 <TouchableOpacity onPress={updateNote} style={app.doneButton}>
                     <Text style={app.doneButtonText}>Done</Text>
                 </TouchableOpacity>
             </View>
 
             <ScrollView style={{ marginTop: 20 }} showsVerticalScrollIndicator={false}>
-                <Text style={app.inputText}>Note</Text>
+                <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Note</Text>
                 <TextInput
                     value={newNote}
                     multiline={true}
                     placeholder='Note'
+                    placeholderTextColor={theme ? color.white : color.dark}
                     onChangeText={setNewNote}
                     onContentSizeChange={handleContentSizeChange}
-                    style={{ ...app.input, minHeight: inputHeight, maxHeight: 200, height: null }}
+                    style={{ ...app.input, minHeight: inputHeight, maxHeight: 200, height: null, color: theme ? color.white : color.dark }}
                 />
             </ScrollView>
             <TouchableOpacity onPress={updateUserDisclaimer} style={noteStyle.saveButton}>

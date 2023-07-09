@@ -27,7 +27,7 @@ const Send = () => {
 
   const { currentInvoiceId } = useSelector(state => state.invoices)
 
-  const { profile } = useSelector(state => state.user)
+  const { profile, theme } = useSelector(state => state.user)
   const { invoiceId, date, invoiceContact, items, subTotal, vat, total, note } = useSelector(state => state.form)
 
   const [email, setEmail] = useState('');
@@ -150,7 +150,7 @@ const Send = () => {
 
   const handlePrint = async () => {
     try {
-      await Print.selectPrinterAsync({ html });
+      await Print.printAsync({ html });
     } catch (error) {
       Alert.alert('Failed to open printer screen');
     }
@@ -169,19 +169,20 @@ const Send = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, backgroundColor: theme ? color.dark : color.mainBackground }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.head}>
           <View>
-            <Text style={styles.headHeadingText}>Recipient</Text>
+            <Text style={{ ...styles.headHeadingText, color: theme ? color.white : color.dark }}>Recipient</Text>
           </View>
 
           <TextInput
             value={email}
             onChangeText={handleEmailChange}
             onSubmitEditing={handleEmailSubmit}
-            style={styles.headTextInput}
+            style={{ ...styles.headTextInput, color: theme ? color.white : color.dark }}
             placeholder='someone@somewhere.com'
+            placeholderTextColor={theme ? color.white : color.dark}
             autoCompleteType='email'
             keyboardType='email-address'
             autoCapitalize='none'
@@ -190,43 +191,43 @@ const Send = () => {
           <View style={styles.headChipView}>
             {emailList.map((emailItem, index) => (
               <TouchableOpacity onPress={() => removeEmail(index)} key={index} style={styles.headChips}>
-                <Text style={styles.headChipText}>{emailItem}</Text>
+                <Text style={{ ...styles.headChipText }}>{emailItem}</Text>
               </TouchableOpacity>
             ))}
           </View>
         </View>
 
         <View style={styles.body}>
-          <Text style={styles.bodyTitle}>Message</Text>
-          <TextInput placeholder='Email message' value={emailMessage} onChangeText={setEmailMessage} />
-          <TextInput placeholder='Amount' value={emailAmount} onChangeText={setEmailAmount} />
+          <Text style={{ ...styles.bodyTitle, color: theme ? color.white : color.dark }}>Message</Text>
+          <TextInput placeholder='Email message' placeholderTextColor={theme ? color.white : color.dark} value={emailMessage} onChangeText={setEmailMessage} style={{ color: theme ? color.white : color.dark }} />
+          <TextInput placeholder='Amount' placeholderTextColor={theme ? color.white : color.dark} value={emailAmount} onChangeText={setEmailAmount} style={{ color: theme ? color.white : color.dark }} />
         </View>
       </ScrollView>
 
       <View style={styles.actionView}>
         <TouchableOpacity onPress={() => invoiceExist ? shareOnWhatsApp() : openAlert()} style={styles.actionButton}>
-          <Ionicons name="logo-whatsapp" size={20} color={color.black} />
-          <Text style={styles.actionButtonText}>Whatsapp</Text>
+          <Ionicons name="logo-whatsapp" size={20} color={theme ? color.white : color.dark} />
+          <Text style={{ ...styles.actionButtonText, color: theme ? color.white : color.dark }}>Whatsapp</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => invoiceExist ? shareAsSMS() : openAlert()} style={styles.actionButton}>
-          <AntDesign name="message1" size={18} color={color.black} />
-          <Text style={styles.actionButtonText}>SMS</Text>
+          <AntDesign name="message1" size={18} color={theme ? color.white : color.dark} />
+          <Text style={{ ...styles.actionButtonText, color: theme ? color.white : color.dark }}>SMS</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => invoiceExist ? openMailComposer() : openAlert()} style={styles.actionButton}>
-          <Fontisto name="email" size={18} color={color.black} />
-          <Text style={styles.actionButtonText}>Email</Text>
+          <Fontisto name="email" size={18} color={theme ? color.white : color.dark} />
+          <Text style={{ ...styles.actionButtonText, color: theme ? color.white : color.dark }}>Email</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => invoiceExist ? sharePDF() : openAlert()} style={styles.actionButton}>
-          <AntDesign name="sharealt" size={18} color={color.black} />
-          <Text style={styles.actionButtonText}>Share</Text>
+          <AntDesign name="sharealt" size={18} color={theme ? color.white : color.dark} />
+          <Text style={{ ...styles.actionButtonText, color: theme ? color.white : color.dark }}>Share</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => invoiceExist ? handlePrint() : openAlert()} style={styles.actionButton}>
-          <Ionicons name="print-outline" size={24} color={color.black} />
-          <Text style={styles.actionButtonText}>Print</Text>
+          <Ionicons name="print-outline" size={24} color={theme ? color.white : color.dark} />
+          <Text style={{ ...styles.actionButtonText, color: theme ? color.white : color.dark }}>Print</Text>
         </TouchableOpacity>
       </View>
     </View>

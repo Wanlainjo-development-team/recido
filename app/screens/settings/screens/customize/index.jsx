@@ -13,7 +13,7 @@ import app from '../../../../style/app'
 const Customize = () => {
   const { goBack } = useNavigation()
 
-  const { profile } = useSelector(state => state.user)
+  const { profile, theme } = useSelector(state => state.user)
 
   const [data, setData] = useState({ ...profile })
   const [loading, setLoading] = useState(false)
@@ -33,25 +33,25 @@ const Customize = () => {
   }
 
   return (
-    <KeyboardAvoidingView style={{ ...styles.conttainer, paddingHorizontal: 0 }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardAvoidingView style={{ ...styles.conttainer, paddingHorizontal: 0, backgroundColor: theme ? color.dark : color.mainBackground }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <Header title='Customize' />
 
-      <ScrollView style={styles.conttainer} showsVerticalScrollIndicator={false}>
+      <ScrollView style={{ ...styles.conttainer, backgroundColor: theme ? color.dark : color.mainBackground }} showsVerticalScrollIndicator={false}>
         <View style={{ marginTop: 20, ...app.inputView }}>
-          <Text style={app.inputText}>Invoice title</Text>
-          <TextInput placeholder='Invoice title' style={app.input} value={data.invoiceTitle} onChangeText={text => setData({ ...data, invoiceTitle: text })} />
+          <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Invoice title</Text>
+          <TextInput placeholder='Invoice title' style={{ ...app.input, color: theme ? color.white : color.dark }} placeholderTextColor={theme ? color.white : color.dark} value={data.invoiceTitle} onChangeText={text => setData({ ...data, invoiceTitle: text })} />
         </View>
         <View style={app.inputView}>
-          <Text style={app.inputText}>Business number</Text>
-          <TextInput placeholder='Business number' style={app.input} value={data.bussinessNumer} onChangeText={text => setData({ ...data, bussinessNumer: text })} />
+          <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Business number</Text>
+          <TextInput placeholder='Business number' style={{ ...app.input, color: theme ? color.white : color.dark }} placeholderTextColor={theme ? color.white : color.dark} value={data.bussinessNumer} onChangeText={text => setData({ ...data, bussinessNumer: text })} />
         </View>
         <View style={app.inputView}>
-          <Text style={app.inputText}>Quantity label</Text>
-          <TextInput placeholder='QTY' style={app.input} value={data.quantityLabel} onChangeText={text => setData({ ...data, quantityLabel: text })} />
+          <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Quantity label</Text>
+          <TextInput placeholder='QTY' style={{ ...app.input, color: theme ? color.white : color.dark }} placeholderTextColor={theme ? color.white : color.dark} value={data.quantityLabel} onChangeText={text => setData({ ...data, quantityLabel: text })} />
         </View>
         <View style={app.inputView}>
-          <Text style={app.inputText}>Unit price label</Text>
-          <TextInput placeholder='RATE' style={app.input} value={data.unitPriceLabel} onChangeText={text => setData({ ...data, unitPriceLabel: text })} />
+          <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Unit price label</Text>
+          <TextInput placeholder='RATE' style={{ ...app.input, color: theme ? color.white : color.dark }} placeholderTextColor={theme ? color.white : color.dark} value={data.unitPriceLabel} onChangeText={text => setData({ ...data, unitPriceLabel: text })} />
         </View>
       </ScrollView>
 

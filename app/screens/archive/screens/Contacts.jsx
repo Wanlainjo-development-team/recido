@@ -11,9 +11,13 @@ import { SwipeListView } from 'react-native-swipe-list-view'
 import { useSelector } from 'react-redux'
 import CountInvoices from './components/CountInvoices'
 import TotalBilling from './components/TotalBilling'
+import { useNavigation } from '@react-navigation/native'
 
 const Contacts = () => {
   const { contactArchiveList } = useSelector(state => state.form)
+  const { theme } = useSelector(state => state.user)
+
+  const { navigate } = useNavigation()
 
   const handleArchive = async (invoiceId) => {
     const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
@@ -53,9 +57,9 @@ const Contacts = () => {
   }
 
   const list = (item, index) =>
-    <Pressable key={item.id} onPress={() => navigate('Create', { viewInvoice: item })} style={{ ...styles.list, paddingTop: 10 }}>
+    <Pressable key={item.id} onPress={() => navigate('AddNewCustomer', { directSave: true, invoiceContact: item })} style={{ ...styles.list, paddingTop: 10, backgroundColor: theme ? color.black : color.white }}>
       <View style={styles.left}>
-        <Text style={styles.boldText}>{item?.name}</Text>
+        <Text style={{ ...styles.boldText, color: theme ? color.white : color.dark }}>{item?.name}</Text>
         <CountInvoices prop={item} />
       </View>
       <View style={styles.right}>
@@ -76,7 +80,7 @@ const Contacts = () => {
     </View>
 
   return (
-    <View style={{ ...styles.container, paddingTop: 20 }}>
+    <View style={{ ...styles.container, paddingTop: 20, backgroundColor: theme ? color.dark : color.mainBackground }}>
       {
         contactArchiveList.length >= 1 ?
           <SwipeListView

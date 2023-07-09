@@ -13,14 +13,14 @@ import { IV1 } from '../../../../../components/fragments/templates/IV1';
 import { IV2 } from '../../../../../components/fragments/templates/IV2';
 import { IV3 } from '../../../../../components/fragments/templates/IV3';
 import { IV4 } from '../../../../../components/fragments/templates/IV4';
-import { useIsFocused } from '@react-navigation/native'
 
 const CustomStyle = () => {
-    const { profile } = useSelector(state => state.user)
+    const { profile, theme } = useSelector(state => state.user)
     const webViewRef = useRef(null)
-    const focused = useIsFocused()
 
     const [colors, setColors] = useState([
+        '4169e1',
+        '0D1117',
         '333333',
         '555555',
         '465A65',
@@ -76,8 +76,8 @@ const CustomStyle = () => {
     }, [])
 
     return (
-        <View style={style.container}>
-            <WebView source={{ html }} ref={webViewRef} scalesPageToFit={true} style={{ flex: 1 }} />
+        <View style={{ ...style.container, backgroundColor: theme ? color.dark : color.mainBackground }}>
+            <WebView source={{ html }} ref={webViewRef} scalesPageToFit={true} style={{ flex: 1, backgroundColor: theme ? color.dark : color.mainBackground }} />
 
             <View style={style.buttonGrid}>
                 {

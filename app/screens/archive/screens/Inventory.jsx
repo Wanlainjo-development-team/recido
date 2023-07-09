@@ -9,26 +9,39 @@ import color from '../../../style/color'
 import { AntDesign } from '@expo/vector-icons';
 import { SwipeListView } from 'react-native-swipe-list-view'
 import { useSelector } from 'react-redux'
+import { useNavigation } from '@react-navigation/native'
 
 const Inventory = () => {
   const { inventoryArchiveList } = useSelector(state => state.form)
-  const { profile } = useSelector(state => state.user)
+  const { profile, theme } = useSelector(state => state.user)
+
+  const { navigate } = useNavigation()
 
   const handleArchive = async (invoiceId) => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
-
-    let invoice = (await getDoc(doc(db, 'users', id, 'inventoryArchive', invoiceId))).data()
-
-    await setDoc(doc(db, 'users', id, 'invoices', invoiceId),
+    Alert.alert('Restore item', 'Restored items will appear in your inventory.\nAre you sure you want to restore this item?', [
       {
-        ...invoice,
-        archivedAt: serverTimestamp()
+        text: 'Cancel'
+      },
+      {
+        text: 'Restore item',
+        onPress: async () => {
+          const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
+
+          let invoice = (await getDoc(doc(db, 'users', id, 'inventoryArchive', invoiceId))).data()
+
+          await setDoc(doc(db, 'users', id, 'invoices', invoiceId),
+            {
+              ...invoice,
+              archivedAt: serverTimestamp()
+            }
+          )
+
+          await deleteDoc(doc(db, 'users', id, 'inventoryArchive', invoiceId))
+
+          Alert.alert('Archive has been moved to your inventory successfully 🎉🎉')
+        }
       }
-    )
-
-    await deleteDoc(doc(db, 'users', id, 'inventoryArchive', invoiceId))
-
-    Alert.alert('Archive has been moved to your inventory successfully 🎉🎉')
+    ])
   };
 
   const handlePermananetDelete = (invoiceId) => {
@@ -52,13 +65,13 @@ const Inventory = () => {
   }
 
   const list = (item, index) =>
-    <Pressable key={item.id} onPress={() => navigate('Create', { viewInvoice: item })} style={{ ...styles.list, paddingTop: 10 }}>
+    <Pressable key={item.id} onPress={() => navigate('AddInventory', { viewItem: item })} style={{ ...styles.list, paddingTop: 10, backgroundColor: theme ? color.black : color.white }}>
       <View style={styles.left}>
-        <Text style={styles.boldText}>{item?.name}</Text>
-        <Text>{item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Left</Text>
+        <Text style={{ ...styles.boldText, color: theme ? color.white : color.dark }}>{item?.name}</Text>
+        <Text style={{ color: theme ? color.white : color.dark }}>{item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Left</Text>
       </View>
       <View style={styles.right}>
-        <Text>{profile?.denom?.sign || '$'}{item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+        <Text style={{ color: theme ? color.white : color.dark }}>{profile?.denom?.sign || '$'}{item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
       </View>
     </Pressable>
 
@@ -75,7 +88,7 @@ const Inventory = () => {
     </View>
 
   return (
-    <View style={{ ...styles.container, paddingTop: 20 }}>
+    <View style={{ ...styles.container, paddingTop: 20, backgroundColor: theme ? color.dark : color.mainBackground }}>
       {
         inventoryArchiveList.length >= 1 ?
           <SwipeListView

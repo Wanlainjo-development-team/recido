@@ -19,8 +19,7 @@ export default StyleSheet.create({
 
     sheetContainer: {
         borderTopRightRadius: 40,
-        borderTopLeftRadius: 40,
-        backgroundColor: Platform.OS == 'android' ? color.mainBackground : color.transparent,
+        borderTopLeftRadius: 40
     },
 
     sheet: {
@@ -70,7 +69,8 @@ export default StyleSheet.create({
     },
 
     image: {
-        width: imageWidth
+        width: imageWidth,
+        borderRadius: 12
     },
 
     imageLabel: {

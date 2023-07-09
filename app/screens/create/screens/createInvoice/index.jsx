@@ -43,7 +43,7 @@ const CreateInvoice = () => {
   const { navigate } = useNavigation()
   const dispatch = useDispatch()
 
-  const { profile } = useSelector(state => state.user)
+  const { profile, theme } = useSelector(state => state.user)
   const { currentInvoiceId } = useSelector(state => state.invoices)
 
   const {
@@ -416,7 +416,7 @@ const CreateInvoice = () => {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardAvoidingView style={{ ...styles.container, backgroundColor: theme ? color.dark : color.mainBackground }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <>
           <Modal
@@ -426,11 +426,11 @@ const CreateInvoice = () => {
             onRequestClose={() => {
               setModalVisible({ ...modalVisible, active: !modalVisible.active });
             }}>
-            <View style={{ flex: 1, backgroundColor: Platform.OS == 'android' ? color.mainBackground : color.transparent }}>
-              <BlurView intensity={50} style={{ ...styles.modealContainer, justifyContent: 'center', alignItems: 'center' }}>
-                <View style={styles.modalView}>
+            <View style={{ flex: 1, backgroundColor: Platform.OS == 'android' ? (theme ? color.dark : color.mainBackground) : color.transparent }}>
+              <BlurView intensity={50} tint={theme ? 'dark' : 'light'} style={{ ...styles.modealContainer, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ ...styles.modalView, backgroundColor: theme ? color.dark : color.mainBackground, shadowColor: theme ? color.black : color.accent }}>
                   <View style={{ ...styles.modalViewHead, marginBottom: 15 }}>
-                    <Text style={styles.modalViewHeadText}>Save items</Text>
+                    <Text style={{ ...styles.modalViewHeadText, color: theme ? color.white : color.dark }}>Save items</Text>
 
                     <TouchableOpacity
                       style={{ ...styles.backButton, height: 40, width: 40 }}
@@ -445,20 +445,20 @@ const CreateInvoice = () => {
                         <>
                           {
                             modalVisible.existingItems.map((item, index) => (
-                              <Pressable key={index} onPress={() => promptItem(item)} style={{ ...styles.list, backgroundColor: color.white, height: 45, paddingHorizontal: 10, borderRadius: 12, marginBottom: (index + 1) == modalVisible.existingItems.length ? 0 : 10 }}>
+                              <Pressable key={index} onPress={() => promptItem(item)} style={{ ...styles.list, backgroundColor: theme ? `${color.black}20` : color.white, height: 45, paddingHorizontal: 10, borderRadius: 12, marginBottom: (index + 1) == modalVisible.existingItems.length ? 0 : 10 }}>
                                 <View style={styles.left}>
-                                  <Text style={styles.boldText}>{item?.name}</Text>
-                                  <Text>{item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Left</Text>
+                                  <Text style={{ color: theme ? color.white : color.dark }}>{item?.name}</Text>
+                                  <Text style={{ color: theme ? color.white : color.dark }}>{item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Left</Text>
                                 </View>
                                 <View style={styles.right}>
-                                  <Text>{profile?.denom?.sign || '$'}{item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                                  <Text style={{ color: theme ? color.white : color.dark }}>{profile?.denom?.sign || '$'}{item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
                                 </View>
                               </Pressable>
                             ))
                           }
                         </> :
                         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                          <Text>All items have been cleard</Text>
+                          <Text style={{ color: theme ? color.white : color.dark }}>All items have been cleard</Text>
                         </View>
                     }
                   </View>
@@ -466,23 +466,24 @@ const CreateInvoice = () => {
               </BlurView>
             </View>
           </Modal>
+
           <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
             <View style={styles.group}>
               <TouchableOpacity style={{ ...styles.setInvoiceView, marginBottom: 0 }} onPress={() => navigate('SetInvoice')}>
                 <View style={styles.setInvoiceLeftView}>
-                  <Text style={styles.setInvoiceLeftViewBoldText}>{new Date(date).toDateString()}</Text>
+                  <Text style={{ ...styles.setInvoiceLeftViewBoldText, color: theme ? color.white : color.dark }}>{new Date(date).toDateString()}</Text>
                 </View>
-                <Text style={styles.setInvoiceLeftViewBoldText}>{invoiceId}</Text>
+                <Text style={{ ...styles.setInvoiceLeftViewBoldText, color: theme ? color.white : color.dark }}>{invoiceId}</Text>
               </TouchableOpacity>
             </View>
 
             <View style={{ ...styles.group, marginBottom: 0 }}>
               <TouchableOpacity style={{ ...styles.setInvoiceView, marginBottom: 0 }} onPress={() => invoiceContact ? navigate('AddNewCustomer', { directSave: false, invoiceContact }) : navigate('BillTo', { directSave: false })}>
                 <View style={styles.setInvoiceLeftView}>
-                  <Text style={styles.setInvoiceLeftViewBoldText}>Bill To</Text>
+                  <Text style={{ ...styles.setInvoiceLeftViewBoldText, color: theme ? color.white : color.dark }}>Bill To</Text>
                   {
                     invoiceContact ?
-                      <Text style={{ marginTop: 10 }}>{invoiceContact?.name}</Text> :
+                      <Text style={{ marginTop: 10, color: theme ? color.white : color.dark }}>{invoiceContact?.name}</Text> :
                       <View style={styles.plusView}>
                         <AntDesign name="pluscircleo" size={22} color={color.accent} />
                         <Text style={styles.plusViewText}>Add customer</Text>
@@ -497,7 +498,7 @@ const CreateInvoice = () => {
             <View style={styles.group}>
               <View style={{ ...styles.setInvoiceView, marginBottom: 0 }}>
                 <View style={{ ...styles.setInvoiceLeftView, width: '100%' }}>
-                  <Text style={{ ...styles.setInvoiceLeftViewBoldText, marginBottom: 10 }}>Items</Text>
+                  <Text style={{ ...styles.setInvoiceLeftViewBoldText, marginBottom: 10, color: theme ? color.white : color.dark }}>Items</Text>
                   {
                     items.length >= 1 &&
                     <>
@@ -506,16 +507,16 @@ const CreateInvoice = () => {
                           <View key={index}>
                             <TouchableOpacity onPress={() => navigate('CreateItem', { editItem: { ...item, index } })} style={itemsStyle.group}>
                               <View style={itemsStyle.section1}>
-                                <Text style={itemsStyle.groupOpacityText}>Item</Text>
-                                <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{item?.name}</Text>
+                                <Text style={{ ...itemsStyle.groupOpacityText, color: theme ? color.white : color.dark }}>Item</Text>
+                                <Text style={{ ...itemsStyle.groupBoldText, color: theme ? color.white : color.dark }} numberOfLines={1}>{item?.name}</Text>
                               </View>
                               <View style={itemsStyle.section2}>
-                                <Text style={itemsStyle.groupOpacityText}>Quantity</Text>
-                                <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{(item?.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                                <Text style={{ ...itemsStyle.groupOpacityText, color: theme ? color.white : color.dark }}>Quantity</Text>
+                                <Text style={{ ...itemsStyle.groupBoldText, color: theme ? color.white : color.dark }} numberOfLines={1}>{(item?.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
                               </View>
                               <View style={itemsStyle.section3}>
-                                <Text style={itemsStyle.groupOpacityText}>Unit Price</Text>
-                                <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{(item?.price)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                                <Text style={{ ...itemsStyle.groupOpacityText, color: theme ? color.white : color.dark }}>Unit Price</Text>
+                                <Text style={{ ...itemsStyle.groupBoldText, color: theme ? color.white : color.dark }} numberOfLines={1}>{(item?.price)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
                               </View>
                             </TouchableOpacity>
 
@@ -537,19 +538,19 @@ const CreateInvoice = () => {
               <View style={{ ...styles.setInvoiceView, marginBottom: 0 }}>
                 <View style={{ ...styles.setInvoiceLeftView, width: '100%' }}>
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Text style={styles.setInvoiceLeftViewBoldText}>Total</Text>
+                    <Text style={{ ...styles.setInvoiceLeftViewBoldText, color: theme ? color.white : color.dark }}>Total</Text>
                   </View>
                   <View style={{ ...styles.list, marginTop: 10 }}>
-                    <Text>Subtotal</Text>
-                    <Text>{profile?.denom?.sign || '$'}{totalCalculation.subTotal}</Text>
+                    <Text style={{ color: theme ? color.white : color.dark }}>Subtotal</Text>
+                    <Text style={{ color: theme ? color.white : color.dark }}>{profile?.denom?.sign || '$'}{totalCalculation.subTotal}</Text>
                   </View>
                   <View style={styles.list}>
-                    <Text>TAX ({vat}%)</Text>
-                    <Text>{profile?.denom?.sign || '$'}{totalCalculation.totalVAT}</Text>
+                    <Text style={{ color: theme ? color.white : color.dark }}>TAX ({vat}%)</Text>
+                    <Text style={{ color: theme ? color.white : color.dark }}>{profile?.denom?.sign || '$'}{totalCalculation.totalVAT}</Text>
                   </View>
                   <View style={styles.list}>
-                    <Text>Total</Text>
-                    <Text>{profile?.denom?.sign || '$'}{totalCalculation.finalPrice}</Text>
+                    <Text style={{ color: theme ? color.white : color.dark }}>Total</Text>
+                    <Text style={{ color: theme ? color.white : color.dark }}>{profile?.denom?.sign || '$'}{totalCalculation.finalPrice}</Text>
                   </View>
                 </View>
               </View>
@@ -558,11 +559,11 @@ const CreateInvoice = () => {
             <View style={{ ...styles.group, marginBottom: 30 }}>
               <TouchableOpacity onPress={() => navigate('Note', { editNote: null })} style={styles.plusView}>
                 <AntDesign name="pluscircleo" size={22} color={color.accent} />
-                <Text style={styles.plusViewText}>Notes</Text>
+                <Text style={styles.plusViewText}>Edit note</Text>
               </TouchableOpacity>
 
               <TouchableOpacity onPress={() => navigate('Note', { editNote: note })} style={{ ...itemsStyle.group, height: null }}>
-                <Text>{note != '' ? note : profile?.disclaimer}</Text>
+                <Text style={{ color: theme ? color.white : color.dark }}>{note != '' ? note : profile?.disclaimer}</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -586,11 +587,9 @@ const CreateInvoice = () => {
               </View>
             }
 
-            {!currentInvoiceId && <View />}
-
-            <TouchableOpacity onPress={async () => await saveInvoice()} style={{ ...styles.floatingButton, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+            <TouchableOpacity disabled={loading} onPress={async () => await saveInvoice()} style={{ ...styles.floatingButton, backgroundColor: loading ? `${color.accent}40` : color.accent, width: !currentInvoiceId ? '100%' : '49%', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
               {loading && <ActivityIndicator style={{ marginRight: 10 }} color={color.white} />}
-              <Text style={styles.floatingButtonText}>Save invoice</Text>
+              <Text style={styles.floatingButtonText}>Save</Text>
             </TouchableOpacity>
           </View>
         </>

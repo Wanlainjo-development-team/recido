@@ -20,7 +20,7 @@ const InventoryList = ({ selectItem }) => {
 
   const { inventoryList } = useSelector(state => state.inventory)
 
-  const { profile } = useSelector(state => state.user)
+  const { profile, theme } = useSelector(state => state.user)
 
   const handleArchive = async (inventoryId) => {
     const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
@@ -53,13 +53,13 @@ const InventoryList = ({ selectItem }) => {
   }
 
   const list = item =>
-    <Pressable key={item.id} onPress={() => selectItem ? addItem(item) : navigate('AddInventory', { viewItem: item })} style={{ ...styles.list, paddingTop: 10 }}>
+    <Pressable key={item.id} onPress={() => selectItem ? addItem(item) : navigate('AddInventory', { viewItem: item })} style={{ ...styles.list, paddingTop: 10, backgroundColor: theme ? color.black : color.white }}>
       <View style={styles.left}>
-        <Text style={styles.boldText}>{item?.name}</Text>
-        <Text>{item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Left</Text>
+        <Text style={{ ...styles.boldText, color: theme ? color.white : color.dark }}>{item?.name}</Text>
+        <Text style={{ color: theme ? color.white : color.dark }}>{item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Left</Text>
       </View>
       <View style={styles.right}>
-        <Text>{profile?.denom?.sign || '$'}{item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+        <Text style={{ color: theme ? color.white : color.dark }}>{profile?.denom?.sign || '$'}{item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
       </View>
     </Pressable>
 

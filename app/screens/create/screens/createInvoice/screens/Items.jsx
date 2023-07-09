@@ -13,6 +13,7 @@ const Items = () => {
     const { goBack, navigate } = useNavigation()
 
     const { items } = useSelector(state => state.form)
+    const { theme } = useSelector(state => state.user)
 
     const calculateDiscount = prop => {
         let price = prop?.price * prop?.quantity
@@ -21,9 +22,9 @@ const Items = () => {
     }
 
     return (
-        <View style={itemsStyle.container}>
+        <View style={{ ...itemsStyle.container, backgroundColor: theme ? color.dark : color.mainBackground }}>
             <View style={app.head}>
-                <Text style={app.title1}>📦 Add items</Text>
+                <Text style={{ ...app.title1, color: theme ? color.white : color.dark }}>📦 Add items</Text>
                 <TouchableOpacity onPress={goBack} style={app.doneButton}>
                     <Text style={app.doneButtonText}>Done</Text>
                 </TouchableOpacity>
@@ -42,18 +43,18 @@ const Items = () => {
                 renderItem={({ item, index }) => (
                     <TouchableOpacity style={itemsStyle.group} onPress={() => navigate('CreateItem', { editItem: { ...item, index } })}>
                         <View style={itemsStyle.groupLeft}>
-                            <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{item?.name}</Text>
-                            <Text style={itemsStyle.groupOpacityText} numberOfLines={1}>{(item?.description)?.slice(0, 20)}</Text>
+                            <Text style={{ ...itemsStyle.groupBoldText, color: theme ? color.white : color.dark }} numberOfLines={1}>{item?.name}</Text>
+                            <Text style={{ ...itemsStyle.groupOpacityText, color: theme ? color.white : color.dark }} numberOfLines={1}>{(item?.description)?.slice(0, 20)}</Text>
                         </View>
                         <View style={itemsStyle.groupRight}>
-                            <Text style={itemsStyle.groupOpacityText}>{(item?.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} x {(item?.price)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
-                            <Text style={itemsStyle.groupBoldText} numberOfLines={1}>{calculateDiscount(item)}</Text>
+                            <Text style={{ ...itemsStyle.groupOpacityText, color: theme ? color.white : color.dark }}>{(item?.quantity)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} x {(item?.price)?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                            <Text style={{ ...itemsStyle.groupBoldText, color: theme ? color.white : color.dark }} numberOfLines={1}>{calculateDiscount(item)}</Text>
                         </View>
                     </TouchableOpacity>
                 )}
             />
 
-            <Text style={app.title2}>Inventory</Text>
+            <Text style={{ ...app.title2, color: theme ? color.white : color.dark }}>Inventory</Text>
             <InventoryList selectItem={true} />
         </View>
     )

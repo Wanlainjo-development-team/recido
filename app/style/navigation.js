@@ -47,7 +47,7 @@ export default StyleSheet.create({
     headDetails: {
         marginTop: Platform.OS == 'android' ? StatusBar.currentHeight : 20,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
 
     avatarPlaceholderView: {

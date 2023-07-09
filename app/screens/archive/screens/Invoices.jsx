@@ -14,23 +14,34 @@ import { useNavigation } from '@react-navigation/native'
 const Invoices = () => {
   const { navigate } = useNavigation()
   const { archiveList } = useSelector(state => state.form)
+  const { theme } = useSelector(state => state.user)
 
 
   const handleArchive = async (invoiceId) => {
-    const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
-
-    let invoice = (await getDoc(doc(db, 'users', id, 'archive', invoiceId))).data()
-
-    await setDoc(doc(db, 'users', id, 'invoices', invoiceId),
+    Alert.alert('Restore invoice', 'Restored invoices will appear in your invoices.\nAre you sure you want to restore this invoice?', [
       {
-        ...invoice,
-        archivedAt: serverTimestamp()
+        text: 'Cancel'
+      },
+      {
+        text: 'Restore invoice',
+        onPress: async () => {
+          const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
+
+          let invoice = (await getDoc(doc(db, 'users', id, 'archive', invoiceId))).data()
+
+          await setDoc(doc(db, 'users', id, 'invoices', invoiceId),
+            {
+              ...invoice,
+              archivedAt: serverTimestamp()
+            }
+          )
+
+          await deleteDoc(doc(db, 'users', id, 'archive', invoiceId))
+
+          Alert.alert('Archive has been moved to your invoice successfully 🎉🎉')
+        }
       }
-    )
-
-    await deleteDoc(doc(db, 'users', id, 'archive', invoiceId))
-
-    Alert.alert('Archive has been moved to your invoice successfully 🎉🎉')
+    ])
   };
 
   const handlePermananetDelete = (invoiceId) => {
@@ -54,13 +65,13 @@ const Invoices = () => {
   }
 
   const list = (item, index) =>
-    <Pressable key={item.id} onPress={() => navigate('Create', { viewInvoice: item })} style={{ ...styles.list, paddingTop: 10 }}>
+    <Pressable key={item.id} onPress={() => navigate('Create', { viewInvoice: item })} style={{ ...styles.list, paddingTop: 10, backgroundColor: theme ? color.black : color.white }}>
       <View style={styles.left}>
-        <Text style={styles.boldText}>{item?.invoiceContact?.name}</Text>
-        <Text>#{item?.invoiceId}</Text>
+        <Text style={{ ...styles.boldText, color: theme ? color.white : color.dark }}>{item?.invoiceContact?.name}</Text>
+        <Text style={{ color: theme ? color.white : color.dark }}>#{item?.invoiceId}</Text>
       </View>
       <View style={styles.right}>
-        <Text style={styles.boldText}>{new Date(item?.date).toDateString()}</Text>
+        <Text style={{ ...styles.boldText, color: theme ? color.white : color.dark }}>{new Date(item?.date).toDateString()}</Text>
       </View>
     </Pressable>
 
@@ -78,7 +89,7 @@ const Invoices = () => {
 
 
   return (
-    <View style={{ ...styles.container, paddingTop: 20 }}>
+    <View style={{ ...styles.container, paddingTop: 20, backgroundColor: theme ? color.dark : color.mainBackground }}>
       {
         archiveList.length >= 1 ?
           <SwipeListView

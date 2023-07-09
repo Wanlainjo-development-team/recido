@@ -19,6 +19,8 @@ const AddNewCustomer = () => {
     const { goBack, navigate } = useNavigation()
     const { directSave, invoiceContact } = useRoute().params
 
+    const { theme } = useSelector(state => state.user)
+
     const dispatch = useDispatch()
 
     const [showMoreOptions, setSHowMoreOptions] = useState(false)
@@ -140,13 +142,13 @@ const AddNewCustomer = () => {
     }
 
     return (
-        <KeyboardAvoidingView style={addNewCustomer.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-            <View style={addNewCustomer.container}>
+        <KeyboardAvoidingView style={{ ...addNewCustomer.container, backgroundColor: theme ? color.dark : color.mainBackground }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+            <View style={{ ...addNewCustomer.container, backgroundColor: theme ? color.dark : color.mainBackground }}>
                 <View style={app.head}>
                     <TouchableOpacity onPress={goBack} style={app.backButton}>
                         <Text style={app.backButtonText}>Back</Text>
                     </TouchableOpacity>
-                    <Text style={app.title1}>👨‍🦱 Create a new contact</Text>
+                    <Text style={{ ...app.title1, color: theme ? color.white : color.dark }}>👨‍🦱 Create a new contact</Text>
                     <TouchableOpacity onPress={addContact} style={app.doneButton}>
                         <Text style={app.doneButtonText}>Add</Text>
                     </TouchableOpacity>
@@ -160,7 +162,7 @@ const AddNewCustomer = () => {
                     </TouchableOpacity>
                 }
 
-                <View>
+                <View style={{ marginVertical: 10 }}>
                     {
                         customersList?.length >= 1 &&
                         <FlatList
@@ -196,13 +198,14 @@ const AddNewCustomer = () => {
                 </View>
 
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    <Text style={{ ...app.title2, marginBottom: 20, marginTop: 40 }}>Contact Information</Text>
+                    <Text style={{ ...app.title2, marginBottom: 20, marginTop: 40, color: theme ? color.white : color.dark }}>Contact Information</Text>
 
                     <View style={app.inputView}>
-                        <Text style={app.inputText}>Name</Text>
+                        <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Name</Text>
                         <TextInput
                             placeholder='Name'
-                            style={app.input}
+                            placeholderTextColor={theme ? color.mainBackground : color.dark}
+                            style={{ ...app.input, color: theme ? color.white : color.dark }}
                             value={contact.name}
                             onChangeText={text => {
                                 setContact({
@@ -213,13 +216,14 @@ const AddNewCustomer = () => {
                         />
                     </View>
                     <View style={app.inputView}>
-                        <Text style={app.inputText}>Email</Text>
+                        <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Email</Text>
                         <TextInput
                             placeholder='Email'
+                            placeholderTextColor={theme ? color.mainBackground : color.dark}
                             autoComplete='email'
                             keyboardType='email-address'
                             autoCapitalize='none'
-                            style={app.input}
+                            style={{ ...app.input, color: theme ? color.white : color.dark }}
                             value={contact.email}
                             onChangeText={text => {
                                 setContact({
@@ -230,10 +234,11 @@ const AddNewCustomer = () => {
                         />
                     </View>
                     <View style={app.inputView}>
-                        <Text style={app.inputText}>Phone number</Text>
+                        <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Phone number</Text>
                         <TextInput
                             placeholder='Phone number'
-                            style={app.input}
+                            placeholderTextColor={theme ? color.mainBackground : color.dark}
+                            style={{ ...app.input, color: theme ? color.white : color.dark }}
                             keyboardType='phone-pad'
                             value={contact.phone}
                             onChangeText={text => {
@@ -245,10 +250,11 @@ const AddNewCustomer = () => {
                         />
                     </View>
                     <View style={app.inputView}>
-                        <Text style={app.inputText}>Tax Reg No</Text>
+                        <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Tax Reg No</Text>
                         <TextInput
                             placeholder='Tax Reg No'
-                            style={app.input}
+                            placeholderTextColor={theme ? color.mainBackground : color.dark}
+                            style={{ ...app.input, color: theme ? color.white : color.dark }}
                             value={contact.taxReg}
                             onChangeText={text => {
                                 setContact({
@@ -266,10 +272,11 @@ const AddNewCustomer = () => {
                             </TouchableOpacity> :
                             <>
                                 <View style={app.inputView}>
-                                    <Text style={app.inputText}>Additional information</Text>
+                                    <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Additional information</Text>
                                     <TextInput
                                         placeholder='Additional information'
-                                        style={app.input}
+                                        placeholderTextColor={theme ? color.mainBackground : color.dark}
+                                        style={{ ...app.input, color: theme ? color.white : color.dark }}
                                         value={contact.additionalInfo}
                                         onChangeText={text => {
                                             setContact({
@@ -280,13 +287,14 @@ const AddNewCustomer = () => {
                                     />
                                 </View>
 
-                                <Text style={{ ...app.title2, marginBottom: 20, marginTop: 40 }}>Address</Text>
+                                <Text style={{ ...app.title2, marginBottom: 20, marginTop: 40, color: theme ? color.white : color.dark }}>Address</Text>
 
                                 <View style={app.inputView}>
-                                    <Text style={app.inputText}>Address</Text>
+                                    <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Address</Text>
                                     <TextInput
                                         placeholder='Address'
-                                        style={app.input}
+                                        placeholderTextColor={theme ? color.mainBackground : color.dark}
+                                        style={{ ...app.input, color: theme ? color.white : color.dark }}
                                         value={contact.address}
                                         onChangeText={text => {
                                             setContact({
@@ -299,10 +307,11 @@ const AddNewCustomer = () => {
 
                                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
                                     <View style={{ ...app.inputView, width: '45%' }}>
-                                        <Text style={app.inputText}>City</Text>
+                                        <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>City</Text>
                                         <TextInput
                                             placeholder='City'
-                                            style={app.input}
+                                            placeholderTextColor={theme ? color.mainBackground : color.dark}
+                                            style={{ ...app.input, color: theme ? color.white : color.dark }}
                                             value={contact.city}
                                             onChangeText={text => {
                                                 setContact({
@@ -314,10 +323,11 @@ const AddNewCustomer = () => {
                                     </View>
 
                                     <View style={{ ...app.inputView, width: '45%' }}>
-                                        <Text style={app.inputText}>State</Text>
+                                        <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>State</Text>
                                         <TextInput
                                             placeholder='State'
-                                            style={app.input}
+                                            placeholderTextColor={theme ? color.mainBackground : color.dark}
+                                            style={{ ...app.input, color: theme ? color.white : color.dark }}
                                             value={contact.state}
                                             onChangeText={text => {
                                                 setContact({
@@ -328,10 +338,11 @@ const AddNewCustomer = () => {
                                         />
                                     </View>
                                     <View style={{ ...app.inputView, width: '45%' }}>
-                                        <Text style={app.inputText}>State</Text>
+                                        <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>State</Text>
                                         <TextInput
                                             placeholder='State'
-                                            style={app.input}
+                                            placeholderTextColor={theme ? color.mainBackground : color.dark}
+                                            style={{ ...app.input, color: theme ? color.white : color.dark }}
                                             value={contact.zip}
                                             onChangeText={text => {
                                                 setContact({
@@ -342,20 +353,21 @@ const AddNewCustomer = () => {
                                         />
                                     </View>
                                     <View style={{ ...app.inputView, width: '45%' }}>
-                                        <Text style={app.inputText}>Country</Text>
+                                        <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Country</Text>
                                         <TouchableOpacity onPress={() => navigate('Countries', { typeOfAddress: 'address', allCountries })} style={{ ...app.input, justifyContent: 'center' }}>
-                                            <Text style={country != '' ? { fontWeight: '600' } : { fontWeight: '600', opacity: .2 }}>{country != '' ? country : 'Country'}</Text>
+                                            <Text style={country != '' ? { fontWeight: '600' } : { fontWeight: '600', opacity: .2, color: theme ? color.white : color.dark }}>{country != '' ? country : 'Country'}</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>
 
-                                <Text style={{ ...app.title2, marginBottom: 20, marginTop: 40 }}>Shipping Address</Text>
+                                <Text style={{ ...app.title2, marginBottom: 20, marginTop: 40, color: theme ? color.white : color.dark }}>Shipping Address</Text>
 
                                 <View style={app.inputView}>
-                                    <Text style={app.inputText}>Address</Text>
+                                    <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Address</Text>
                                     <TextInput
                                         placeholder='Address'
-                                        style={app.input}
+                                        placeholderTextColor={theme ? color.mainBackground : color.dark}
+                                        style={{ ...app.input, color: theme ? color.white : color.dark }}
                                         value={contact.shippingAddress}
                                         onChangeText={text => {
                                             setContact({
@@ -368,10 +380,11 @@ const AddNewCustomer = () => {
 
                                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
                                     <View style={{ ...app.inputView, width: '45%' }}>
-                                        <Text style={app.inputText}>City</Text>
+                                        <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>City</Text>
                                         <TextInput
                                             placeholder='City'
-                                            style={app.input}
+                                            placeholderTextColor={theme ? color.mainBackground : color.dark}
+                                            style={{ ...app.input, color: theme ? color.white : color.dark }}
                                             value={contact.shippingCity}
                                             onChangeText={text => {
                                                 setContact({
@@ -383,10 +396,11 @@ const AddNewCustomer = () => {
                                     </View>
 
                                     <View style={{ ...app.inputView, width: '45%' }}>
-                                        <Text style={app.inputText}>State</Text>
+                                        <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>State</Text>
                                         <TextInput
                                             placeholder='State'
-                                            style={app.input}
+                                            placeholderTextColor={theme ? color.mainBackground : color.dark}
+                                            style={{ ...app.input, color: theme ? color.white : color.dark }}
                                             value={contact.shippingState}
                                             onChangeText={text => {
                                                 setContact({
@@ -398,10 +412,11 @@ const AddNewCustomer = () => {
                                     </View>
 
                                     <View style={{ ...app.inputView, width: '45%' }}>
-                                        <Text style={app.inputText}>Zip</Text>
+                                        <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Zip</Text>
                                         <TextInput
                                             placeholder='Zip'
-                                            style={app.input}
+                                            placeholderTextColor={theme ? color.mainBackground : color.dark}
+                                            style={{ ...app.input, color: theme ? color.white : color.dark }}
                                             value={contact.shippingZip}
                                             onChangeText={text => {
                                                 setContact({
@@ -413,9 +428,9 @@ const AddNewCustomer = () => {
                                     </View>
 
                                     <View style={{ ...app.inputView, width: '45%' }}>
-                                        <Text style={app.inputText}>Country</Text>
+                                        <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Country</Text>
                                         <TouchableOpacity onPress={() => navigate('Countries', { typeOfAddress: 'shipping address', allCountries })} style={{ ...app.input, justifyContent: 'center' }}>
-                                            <Text style={shippingCountry != '' ? { fontWeight: '600' } : { fontWeight: '600', opacity: 0.2 }}>{shippingCountry != '' ? shippingCountry : 'Country'}</Text>
+                                            <Text style={shippingCountry != '' ? { fontWeight: '600' } : { fontWeight: '600', opacity: 0.2, color: theme ? color.white : color.dark }}>{shippingCountry != '' ? shippingCountry : 'Country'}</Text>
                                         </TouchableOpacity>
                                     </View>
                                 </View>

@@ -1,14 +1,18 @@
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
 import React from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 import { AntDesign } from '@expo/vector-icons';
 import color from '../../../../style/color';
 import * as Contacts from 'expo-contacts'
 import styles from './styles';
+import { useSelector } from 'react-redux';
+import app from '../../../../style/app'
 
 const AddContact = () => {
     const { goBack, navigate } = useNavigation()
+
+    const { theme } = useSelector(state => state.user)
 
     const openContact = async () => {
         const { status } = await Contacts.requestPermissionsAsync();
@@ -25,12 +29,11 @@ const AddContact = () => {
     }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.head}>
-                <View />
-                <Text>👨‍🦱 Add customer</Text>
-                <TouchableOpacity onPress={goBack}>
-                    <Text style={styles.headText}>Done</Text>
+        <View style={{ ...styles.container, backgroundColor: theme ? color.dark : color.mainBackground }}>
+            <View style={app.head}>
+                <Text style={{ ...app.title1, color: theme ? color.white : color.dark }}>👨‍🦱 Add customer</Text>
+                <TouchableOpacity onPress={goBack} style={app.doneButton}>
+                    <Text style={app.doneButtonText}>Done</Text>
                 </TouchableOpacity>
             </View>
 

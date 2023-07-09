@@ -13,6 +13,7 @@ import { setInvoiceContact } from '../../../../../features/useFormSlice';
 const BillTo = () => {
   const { goBack, navigate } = useNavigation()
   const { customersList } = useSelector(state => state.customer)
+  const { theme } = useSelector(state => state.user)
 
   const dispatch = useDispatch()
 
@@ -30,15 +31,15 @@ const BillTo = () => {
   }
 
   return (
-    <View style={billTo.container}>
+    <View style={{ ...billTo.container, backgroundColor: theme ? color.dark : color.mainBackground }}>
       <View style={app.head}>
-        <Text style={app.title1}>👨‍🦱 Add customer</Text>
+        <Text style={{ ...app.title1, color: theme ? color.white : color.dark }}>👨‍🦱 Add customer</Text>
         <TouchableOpacity onPress={goBack} style={app.doneButton}>
           <Text style={app.doneButtonText}>Done</Text>
         </TouchableOpacity>
       </View>
 
-      <View>
+      <View style={{ marginTop: 20 }}>
         {
           customersList?.length >= 1 &&
           <FlatList

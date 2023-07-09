@@ -12,7 +12,7 @@ import app from '../../../../style/app';
 
 const DefaultNotes = () => {
   const { goBack } = useNavigation()
-  const { profile } = useSelector(state => state.user)
+  const { profile, theme } = useSelector(state => state.user)
 
   const [loading, setLoading] = useState(false)
   const [note, setNote] = useState('')
@@ -43,19 +43,20 @@ const DefaultNotes = () => {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ ...styles.conttainer, paddingHorizontal: 0 }}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ ...styles.conttainer, paddingHorizontal: 0, backgroundColor: theme ? color.dark : color.mainBackground }}>
       <Header title='Default notes' />
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.conttainer}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{ ...styles.conttainer, backgroundColor: theme ? color.dark : color.mainBackground }}>
         <View style={{ marginTop: 20 }}>
-          <Text style={app.inputText}>Default note</Text>
+          <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Default note</Text>
           <TextInput placeholder='Note' multiline onContentSizeChange={handleContentSizeChange} style={{
             ...app.input,
             height: null,
             minHeight: 45,
             borderBottomWidth: 1,
-            borderBottomColor: `${color.accent}40`,
+            borderBottomColor: theme ? color.white : `${color.accent}40`,
             marginTop: 10,
-            paddingVertical: 10
+            paddingVertical: 10,
+            color: theme ? color.white : color.dark
           }} value={note} onChangeText={text => setNote(text)} />
         </View>
       </ScrollView>

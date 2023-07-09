@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const Information = () => {
+const Theme = () => {
   return (
     <View>
-      <Text>Information</Text>
+      <Text>Theme</Text>
     </View>
   )
 }
 
-export default Information
+export default Theme

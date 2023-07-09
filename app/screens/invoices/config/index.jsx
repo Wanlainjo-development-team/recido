@@ -16,7 +16,7 @@ const InvoiceSearchConfig = () => {
   const { goBack } = useNavigation()
   const dispatch = useDispatch()
 
-  const { profile } = useSelector(state => state.user)
+  const { profile, theme } = useSelector(state => state.user)
 
   const [orderModalVisible, setOrderModalVisible] = useState(false)
   const [sortModalVisible, setSortModalVisible] = useState(false)
@@ -54,11 +54,11 @@ const InvoiceSearchConfig = () => {
       Alert.alert('Modal has been closed.');
       setOrderModalVisible(!orderModalVisible);
     }}>
-    <View style={{ flex: 1, backgroundColor: Platform.OS == 'android' ? color.mainBackground : color.transparent }}>
-      <BlurView intensity={50} style={{ ...styles.container, justifyContent: 'center', alignItems: 'center' }}>
-        <View style={styles.modalView}>
+    <View style={{ flex: 1, backgroundColor: Platform.OS == 'android' ? (theme ? color.dark : color.mainBackground) : color.transparent }}>
+      <BlurView intensity={50} tint={theme ? 'dark' : 'light'} style={{ ...styles.container, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ ...styles.modalView, backgroundColor: theme ? color.dark : color.mainBackground, shadowColor: theme ? color.black : color.accent }}>
           <View style={styles.modalViewHead}>
-            <Text style={styles.modalViewHeadText}>Order invoices by</Text>
+            <Text style={{ ...styles.modalViewHeadText, color: theme ? color.white : color.dark }}>Order invoices by</Text>
 
             <TouchableOpacity
               style={{ ...styles.backButton, height: 40, width: 40 }}
@@ -89,11 +89,11 @@ const InvoiceSearchConfig = () => {
       Alert.alert('Modal has been closed.');
       setSortModalVisible(!sortModalVisible);
     }}>
-    <View style={{ flex: 1, backgroundColor: Platform.OS == 'android' ? color.mainBackground : color.transparent }}>
-      <BlurView intensity={50} style={{ ...styles.container, justifyContent: 'center', alignItems: 'center' }}>
-        <View style={styles.modalView}>
+    <View style={{ flex: 1, backgroundColor: Platform.OS == 'android' ? (theme ? color.dark : color.mainBackground) : color.transparent }}>
+      <BlurView intensity={50} tint={theme ? 'dark' : 'light'} style={{ ...styles.container, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ ...styles.modalView, backgroundColor: theme ? color.dark : color.mainBackground, shadowColor: theme ? color.black : color.accent }}>
           <View style={styles.modalViewHead}>
-            <Text style={styles.modalViewHeadText}>Sort invoices by</Text>
+            <Text style={{ ...styles.modalViewHeadText, color: theme ? color.white : color.dark }}>Sort invoices by</Text>
 
             <TouchableOpacity
               style={{ ...styles.backButton, height: 40, width: 40 }}
@@ -128,11 +128,11 @@ const InvoiceSearchConfig = () => {
       Alert.alert('Modal has been closed.');
       setSearchModalVisible(!searchModalVisible);
     }}>
-    <View style={{ flex: 1, backgroundColor: Platform.OS == 'android' ? color.mainBackground : color.transparent }}>
-      <BlurView intensity={50} style={{ ...styles.container, justifyContent: 'center', alignItems: 'center' }}>
-        <View style={styles.modalView}>
+    <View style={{ flex: 1, backgroundColor: Platform.OS == 'android' ? (theme ? color.dark : color.mainBackground) : color.transparent }}>
+      <BlurView intensity={50} tint={theme ? 'dark' : 'light'} style={{ ...styles.container, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ ...styles.modalView, backgroundColor: theme ? color.dark : color.mainBackground, shadowColor: theme ? color.black : color.accent }}>
           <View style={styles.modalViewHead}>
-            <Text style={styles.modalViewHeadText}>Search invoices by</Text>
+            <Text style={{ ...styles.modalViewHeadText, color: theme ? color.white : color.dark }}>Search invoices by</Text>
 
             <TouchableOpacity
               style={{ ...styles.backButton, height: 40, width: 40 }}
@@ -158,14 +158,14 @@ const InvoiceSearchConfig = () => {
 
 
   return (
-    <LinearGradient style={styles.container} colors={[color.transparent, `${color.mainBackground}80`]}>
+    <LinearGradient style={styles.container} colors={[color.transparent, theme ? color.dark : `${color.mainBackground}80`]}>
       <TouchableOpacity style={styles.blank} onPress={goBack} />
       <View style={{
-        backgroundColor: Platform.OS == 'android' ? color.mainBackground : color.transparent, borderTopLeftRadius: 30, borderTopRightRadius: 30
+        backgroundColor: Platform.OS == 'android' ? (theme ? color.dark : color.mainBackground) : color.transparent, borderTopLeftRadius: 40, borderTopRightRadius: 40
       }}>
-        <BlurView intensity={100} style={styles.sheet}>
+        <BlurView intensity={100} tint={theme ? 'dark' : 'light'} style={styles.sheet}>
           <View style={styles.head}>
-            <Text style={styles.headText}>Search option</Text>
+            <Text style={{ ...styles.headText, color: theme ? color.white : color.dark }}>Search option</Text>
 
             <TouchableOpacity onPress={goBack} style={styles.backButton}>
               <AntDesign name="back" size={24} color={color.accent} />
@@ -174,14 +174,14 @@ const InvoiceSearchConfig = () => {
 
           <View style={styles.body}>
             <TouchableOpacity style={styles.bodySortByButton} onPress={() => setSearchModalVisible(true)}>
-              <Text style={styles.bodySortByButtonTitle}>Search invoice for?</Text>
+              <Text style={{ ...styles.bodySortByButtonTitle, color: theme ? color.white : color.dark }}>Search invoice for?</Text>
               <Text style={styles.bodySortByButtonText}>
                 {profile?.searchBy == 'invoiceContact.name' ? 'Customer name' : 'Invoice number'}
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.bodySortByButton} onPress={() => setOrderModalVisible(true)}>
-              <Text style={styles.bodySortByButtonTitle}>Order invoice by</Text>
+              <Text style={{ ...styles.bodySortByButtonTitle, color: theme ? color.white : color.dark }}>Order invoice by</Text>
               <Text style={styles.bodySortByButtonText}>
                 <AntDesign name={profile?.orderBy == 'asc' ? 'arrowup' : 'arrowdown'} size={15} color={color.accent} />
                 {profile?.orderBy == 'asc' ? 'Ascending order' : 'Descending order'}
@@ -189,7 +189,7 @@ const InvoiceSearchConfig = () => {
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.bodySortByButton} onPress={() => setSortModalVisible(true)}>
-              <Text style={styles.bodySortByButtonTitle}>Sort invoice by</Text>
+              <Text style={{ ...styles.bodySortByButtonTitle, color: theme ? color.white : color.dark }}>Sort invoice by</Text>
               <Text style={styles.bodySortByButtonText}>
                 {profile?.sortBy ? (profile?.sortBy == 'invoiceId' ? 'Invoice number' : profile?.sortBy == 'createdAt' ? 'Date created' : 'Customer name') : 'Date created'}
               </Text>

@@ -8,13 +8,17 @@ export default StyleSheet.create({
         paddingHorizontal: 10
     },
 
-    group: {},
+    themeView: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        backgroundColor: color.mainBackground,
+        marginBottom: 30
+    },
 
-    title: {
-        fontSize: 30,
-        fontWeight: '900',
-        opacity: .40,
-        marginBottom: 20
+    theme: {
+        borderRadius: 12,
+        overflow: 'hidden'
     },
 
     actionButton: {

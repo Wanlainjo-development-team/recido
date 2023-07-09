@@ -13,6 +13,7 @@ const Summary = () => {
     const { archiveList, inventoryArchiveList, contactArchiveList } = useSelector(state => state.form)
     const { inventoryList } = useSelector(state => state.inventory)
     const { customersList } = useSelector(state => state.customer)
+    const { theme } = useSelector(state => state.user)
 
     const [paid, setPaid] = useState(0)
 
@@ -24,7 +25,7 @@ const Summary = () => {
 
     return (
         <View style={app.activitySummaryView}>
-            <Text style={app.title2}>Activity summary</Text>
+            <Text style={{ ...app.title2, color: theme ? color.white : color.dark }}>Activity summary</Text>
 
             <View style={app.summaryCards}>
                 <TouchableOpacity onPress={() => navigate('Invoices')} style={{ ...app.summaryCard, backgroundColor: color.accent }}>

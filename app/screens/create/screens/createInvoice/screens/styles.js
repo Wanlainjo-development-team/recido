@@ -66,7 +66,6 @@ export const contact = StyleSheet.create({
     group: {
         marginBottom: 10,
         height: 50,
-        borderRadius: 12,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
@@ -85,16 +84,6 @@ export const addNewCustomer = StyleSheet.create({
         flex: 1,
         backgroundColor: color.mainBackground,
         paddingHorizontal: 10,
-    },
-
-    shortInput: {
-        backgroundColor: `${color.accent}20`,
-        height: 45,
-        marginTop: 10,
-        borderRadius: 12,
-        paddingHorizontal: 10,
-        fontWeight: '600',
-        width: '49%'
     },
 
     showMoreOptionsButton: {

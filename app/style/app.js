@@ -13,10 +13,6 @@ export default StyleSheet.create({
         fontWeight: '900'
     },
 
-    title3: {},
-
-    title4: {},
-
     inputView: {
         marginBottom: 30
     },

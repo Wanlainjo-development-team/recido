@@ -13,7 +13,7 @@ const Search = () => {
   const { navigate } = useNavigation()
   const dispatch = useDispatch()
 
-  const { profile } = useSelector(state => state.user)
+  const { profile, theme } = useSelector(state => state.user)
   const { search } = useSelector(state => state.invoices)
 
   const rotationValue = new Animated.Value(0)
@@ -36,9 +36,9 @@ const Search = () => {
   };
 
   return (
-    <View style={style.container}>
+    <View style={{ ...style.container, backgroundColor: theme ? color.dark : color.mainBackground }}>
       <View style={styles.head}>
-        <TextInput placeholder={`Search ${profile?.searchBy == 'invoiceContact.name' ? 'Customer name' : 'Invoice number'}...`} style={styles.input} value={search} onChangeText={handleSearch} />
+        <TextInput placeholder={`Search ${profile?.searchBy == 'invoiceContact.name' ? 'Customer name' : 'Invoice number'}...`} placeholderTextColor={theme ? color.mainBackground : color.dark} style={styles.input} value={search} onChangeText={handleSearch} />
 
         <TouchableOpacity onPress={() => navigate('InvoiceSearchConfig')} style={styles.searchConfigButton}>
           <Animated.View style={{ transform: [{ rotate: rotationValue.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }}>

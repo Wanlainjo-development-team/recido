@@ -17,6 +17,7 @@ const CustomerList = () => {
     const { navigate } = useNavigation()
 
     const { customersList } = useSelector(state => state.customer)
+    const { theme } = useSelector(state => state.user)
 
     const handleArchive = async (customerId) => {
         const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
@@ -36,9 +37,9 @@ const CustomerList = () => {
     };
 
     const list = item => (
-        <Pressable key={item.id} onPress={() => navigate('ViewCustomer', { viewCustomer: item })} style={{ ...styles.list, paddingTop: 10 }}>
+        <Pressable key={item.customerId} onPress={() => navigate('ViewCustomer', { viewCustomer: item })} style={{ ...styles.list, paddingTop: 10, backgroundColor: theme ? color.black : color.white }}>
             <View style={styles.left}>
-                <Text style={styles.boldText}>{item?.name}</Text>
+                <Text style={{ ...styles.boldText, color: theme ? color.white : color.dark }}>{item?.name}</Text>
                 <CountInvoices prop={item} />
             </View>
             <View style={styles.right}>

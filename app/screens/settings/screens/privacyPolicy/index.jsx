@@ -3,6 +3,7 @@ import React from 'react'
 import Header from '../../../../components/Header'
 import styles from './styles'
 import color from '../../../../style/color'
+import { useSelector } from 'react-redux'
 
 const aboutTexts = [
   {
@@ -47,15 +48,17 @@ const aboutTexts = [
 ]
 
 const PrivacyPolicy = () => {
+  const { theme } = useSelector(state => state.user)
+
   return (
-    <View style={{ ...styles.conttainer, paddingHorizontal: 0 }}>
+    <View style={{ ...styles.conttainer, paddingHorizontal: 0, backgroundColor: theme ? color.dark : color.mainBackground }}>
       <Header title='Privacy policy' />
 
-      <ScrollView showsVerticalScrollIndicator={false} style={{ ...styles.conttainer, paddingTop: 10 }}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{ ...styles.conttainer, paddingTop: 10, backgroundColor: theme ? color.dark : color.mainBackground }}>
         {
           aboutTexts.map((item, index) => <View key={index} style={styles.textView}>
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.subTitle}>{item.subTitle}</Text>
+            <Text style={{ ...styles.title, color: theme ? color.white : color.dark }}>{item.title}</Text>
+            <Text style={{ ...styles.subTitle, color: theme ? color.white : color.dark }}>{item.subTitle}</Text>
 
             {
               item.list.length >= 1 &&
@@ -63,7 +66,7 @@ const PrivacyPolicy = () => {
                 {
                   item.list.map((text, id) => <View key={id} style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' }}>
                     <View style={{ width: 5, height: 5, borderRadius: 100, backgroundColor: color.black, marginRight: 10 }} />
-                    <Text style={styles.texts}>{text}</Text>
+                    <Text style={{ ...styles.texts, color: theme ? color.white : color.dark }}>{text}</Text>
                   </View>)
                 }
               </>
