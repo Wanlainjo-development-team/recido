@@ -5,15 +5,18 @@ import CustomerList from '../../components/customer'
 import { useNavigation } from '@react-navigation/native'
 import color from '../../style/color'
 import { Feather } from '@expo/vector-icons';
+import { useSelector } from 'react-redux'
 
 const CustomersScreen = () => {
   const { navigate } = useNavigation()
 
+  const { theme } = useSelector(state => state.user)
+
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, backgroundColor: theme ? color.dark : color.mainBackground }}>
       <View style={styles.head}>
-        <Text>Name</Text>
-        <Text>Total billed</Text>
+        <Text style={{ color: theme ? color.white : color.dark }}>Name</Text>
+        <Text style={{ color: theme ? color.white : color.dark }}>Total billed</Text>
       </View>
 
       <CustomerList />

@@ -4,11 +4,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 import { db } from '../../../hooks/firebase';
 import { useSelector } from 'react-redux';
+import color from '../../../style/color';
 
 const TotalBilling = ({ prop }) => {
     const [total, setTotal] = useState(0)
 
-    const { profile } = useSelector(state => state.user)
+    const { profile, theme } = useSelector(state => state.user)
 
     const calculateTotal = prop => {
         let sum = 0
@@ -46,7 +47,7 @@ const TotalBilling = ({ prop }) => {
         })()
     }, [])
 
-    return <Text>{profile?.denom?.sign || '$'}{total}</Text>
+    return <Text style={{ color: theme ? color.white : color.dark }}>{profile?.denom?.sign || '$'}{total}</Text>
 }
 
 export default TotalBilling

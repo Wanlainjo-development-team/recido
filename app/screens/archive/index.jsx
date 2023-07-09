@@ -11,10 +11,13 @@ import Invoices from './screens/Invoices'
 import Inventory from './screens/Inventory'
 import Contacts from './screens/Contacts'
 import color from '../../style/color'
+import { useSelector } from 'react-redux'
 
 const Archive = () => {
+    const { theme } = useSelector(state => state.user)
+
     return (
-        <View style={{ ...styles.container, paddingHorizontal: 0 }}>
+        <View style={{ ...styles.container, paddingHorizontal: 0, backgroundColor: theme ? color.dark : color.mainBackground }}>
             <Header title='Archive' />
 
             <Navigator
@@ -22,7 +25,10 @@ const Archive = () => {
                 screenOptions={{
                     swipeEnabled: false,
                     tabBarStyle: {
-                        backgroundColor: color.mainBackground
+                        backgroundColor: theme ? color.dark : color.mainBackground,
+                    },
+                    tabBarLabelStyle: {
+                        color: theme ? color.white : color.dark
                     }
                 }}
             >

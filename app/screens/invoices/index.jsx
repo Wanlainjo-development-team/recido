@@ -3,8 +3,8 @@ import { View, TouchableOpacity, Text, Animated, Easing } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { useDispatch } from 'react-redux';
-import { setInvoiceList } from '../../features/invoicesSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCurrentInvoiceId, setInvoiceList } from '../../features/invoicesSlice';
 import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
 import { db } from '../../hooks/firebase';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -20,6 +20,8 @@ const { Navigator, Screen } = createMaterialTopTabNavigator()
 const Invoice = () => {
   const { navigate } = useNavigation()
   const dispatch = useDispatch()
+
+  const { theme } = useSelector(state => state.user)
 
   const rotationValue = new Animated.Value(0)
 
@@ -71,9 +73,9 @@ const Invoice = () => {
         screenOptions={{
           swipeEnabled: false,
           tabBarActiveTintColor: color.accent,
-          tabBarInactiveTintColor: `${color.black}80`,
+          tabBarInactiveTintColor: theme ? color.mainBackground : `${color.black}80`,
           tabBarStyle: {
-            backgroundColor: color.mainBackground,
+            backgroundColor: theme ? color.dark : color.mainBackground,
             height: 40
           },
           tabBarLabelStyle: {
@@ -115,7 +117,13 @@ const Invoice = () => {
         />
       </Navigator>
 
-      <TouchableOpacity onPress={() => navigate('Create', { viewInvoice: null })} style={styles.floatingButton}>
+      <TouchableOpacity
+        onPress={() => {
+          dispatch(setCurrentInvoiceId(null))
+          navigate('Create', { viewInvoice: null })
+        }}
+        style={styles.floatingButton}
+      >
         <Feather name="plus" size={24} color={color.white} />
       </TouchableOpacity>
     </View>

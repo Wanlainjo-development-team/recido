@@ -2,6 +2,8 @@ import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
 import Header from '../../../../components/Header'
 import styles from './styles'
+import { useSelector } from 'react-redux'
+import color from '../../../../style/color'
 
 const aboutTexts = [
   'Welcome to Recido, the ultimate business app designed to streamline your invoicing process and keep your business operations organized. With Recido, business owners can effortlessly create and send professional invoices to customers through various channels, including social sharing, email, and printing.',
@@ -13,13 +15,15 @@ const aboutTexts = [
 ]
 
 const About = () => {
+  const { theme } = useSelector(state => state.user)
+
   return (
-    <View style={{ ...styles.conttainer, paddingHorizontal: 0 }}>
+    <View style={{ ...styles.conttainer, paddingHorizontal: 0, backgroundColor: theme ? color.dark : color.mainBackground }}>
       <Header title='About recido' />
 
-      <ScrollView showsVerticalScrollIndicator={false} style={{ ...styles.conttainer, paddingTop: 10 }}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{ ...styles.conttainer, paddingTop: 10, backgroundColor: theme ? color.dark : color.mainBackground }}>
         {
-          aboutTexts.map((item, index) => <Text key={index} style={styles.texts}>{item}</Text>)
+          aboutTexts.map((item, index) => <Text key={index} style={{ ...styles.texts, color: theme ? color.white : color.dark }}>{item}</Text>)
         }
       </ScrollView>
     </View>

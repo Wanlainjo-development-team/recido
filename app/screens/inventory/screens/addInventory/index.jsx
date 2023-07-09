@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, KeyboardAvoidingView, Platform, TouchableOpacity, ActivityIndicator, Alert, ScrollView, TextInput } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { addDoc, collection, deleteDoc, doc, getDocs, increment, query, serverTimestamp, setDoc, updateDoc, where } from 'firebase/firestore';
+import { db } from '../../../../hooks/firebase'
 import { useSelector } from 'react-redux';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Header from '../../../../components/Header';
 import styles from './styles';
 import color from '../../../../style/color';
+import app from '../../../../style/app'
 
 const AddInventory = () => {
     const { goBack } = useNavigation()
     const { viewItem } = useRoute().params
-    const { profile } = useSelector(state => state.user)
+    const { profile, theme } = useSelector(state => state.user)
 
     const [loading, setLoading] = useState(false)
     const [updateLoading, setUpdateLoading] = useState(false)
@@ -89,43 +91,47 @@ const AddInventory = () => {
     }
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
-            <Header />
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ ...styles.container, backgroundColor: theme ? color.dark : color.mainBackground }}>
+            <Header title={inventoryData?.name} />
 
 
             <ScrollView style={styles.scrollView}>
                 <View style={styles.inputView}>
-                    <Text style={styles.inputViewText}>Name</Text>
+                    <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Name</Text>
                     <TextInput
                         placeholder='Name'
-                        style={styles.inputViewTextInput}
+                        placeholderTextColor={theme ? color.white : color.dark}
+                        style={{ ...app.input, color: theme ? color.white : color.dark }}
                         value={inventoryData.name}
                         onChangeText={name => setInventoryData({ ...inventoryData, name })}
                     />
                 </View>
                 <View style={styles.inputView}>
-                    <Text style={styles.inputViewText}>Description</Text>
+                    <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Description</Text>
                     <TextInput
                         placeholder='Description'
-                        style={styles.inputViewTextInput}
+                        placeholderTextColor={theme ? color.white : color.dark}
+                        style={{ ...app.input, color: theme ? color.white : color.dark }}
                         value={inventoryData.description}
                         onChangeText={description => setInventoryData({ ...inventoryData, description })}
                     />
                 </View>
                 <View style={styles.inputView}>
-                    <Text style={styles.inputViewText}>Unit cost</Text>
+                    <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Unit cost</Text>
                     <TextInput
                         placeholder={`${profile?.denom?.sign}0.00` || `$0.00`}
-                        style={styles.inputViewTextInput}
+                        placeholderTextColor={theme ? color.white : color.dark}
+                        style={{ ...app.input, color: theme ? color.white : color.dark }}
                         value={inventoryData.price}
                         onChangeText={price => setInventoryData({ ...inventoryData, price })}
                     />
                 </View>
                 <View style={styles.inputView}>
-                    <Text style={styles.inputViewText}>Units</Text>
+                    <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Units</Text>
                     <TextInput
                         placeholder='0'
-                        style={styles.inputViewTextInput}
+                        placeholderTextColor={theme ? color.white : color.dark}
+                        style={{ ...app.input, color: theme ? color.white : color.dark }}
                         value={inventoryData.quantity}
                         onChangeText={quantity => setInventoryData({ ...inventoryData, quantity })}
                     />
@@ -146,16 +152,16 @@ const AddInventory = () => {
                 {
                     viewItem &&
                     <View style={styles.controls}>
-                        <TouchableOpacity onPress={updateItem} style={{ ...styles.deleteButton, flex: 1, marginLeft: 0, backgroundColor: `${color.accent}40` }}>
-                            {
-                                updateLoading ? <ActivityIndicator color={color.accent} size='small' /> :
-                                    <Text style={{ ...styles.deleteButtonText, color: color.accent }}>Update item</Text>
-                            }
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={deleteItem} style={{ ...styles.deleteButton, flex: 1 }}>
+                        <TouchableOpacity onPress={deleteItem} style={{ ...styles.deleteButton, flex: 1, marginLeft: 0 }}>
                             {
                                 deleteLoading ? <ActivityIndicator color={color.red} size='small' /> :
                                     <Text style={{ ...styles.deleteButtonText, color: color.red }}>Move to archive</Text>
+                            }
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={updateItem} style={{ ...styles.deleteButton, flex: 1, backgroundColor: `${color.accent}40` }}>
+                            {
+                                updateLoading ? <ActivityIndicator color={color.accent} size='small' /> :
+                                    <Text style={{ ...styles.deleteButtonText, color: color.accent }}>Update item</Text>
                             }
                         </TouchableOpacity>
                     </View>

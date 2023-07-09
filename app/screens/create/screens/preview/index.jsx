@@ -17,9 +17,12 @@ import { doc, onSnapshot } from "firebase/firestore"
 import { db } from '../../../../hooks/firebase'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import color from '../../../../style/color';
 
 const PreviewInvoice = () => {
     const { invoiceId, date, invoiceContact, items, subTotal, vat, total, note } = useSelector(state => state.form)
+    const { theme } = useSelector(state => state.user)
+
     const { navigate } = useNavigation()
 
     const { currentInvoiceId } = useRoute().params
@@ -58,7 +61,7 @@ const PreviewInvoice = () => {
     }, [profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note])
 
     return (
-        <View style={styles.container}>
+        <View style={{ ...styles.container, backgroundColor: theme ? color.dark : color.mainBackground }}>
             <WebView source={{ html }} scalesPageToFit style={{ flex: 1 }} />
             <View style={styles.bottom}>
                 <TouchableOpacity onPress={() => navigate('SelectTemplate', { templatesPreview })} style={styles.shareButton}>

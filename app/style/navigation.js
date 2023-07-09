@@ -1,4 +1,4 @@
-import { StyleSheet, StatusBar, Dimensions } from "react-native";
+import { StyleSheet, StatusBar, Dimensions, Platform } from "react-native";
 import color from "./color";
 
 const { width } = Dimensions.get('window')
@@ -45,9 +45,9 @@ export default StyleSheet.create({
     },
 
     headDetails: {
-        marginTop: 40,
+        marginTop: Platform.OS == 'android' ? StatusBar.currentHeight : 20,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
 
     avatarPlaceholderView: {

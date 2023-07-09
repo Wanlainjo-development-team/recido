@@ -13,6 +13,7 @@ import { setInvoiceContact } from '../../../../../features/useFormSlice';
 const BillTo = () => {
   const { goBack, navigate } = useNavigation()
   const { customersList } = useSelector(state => state.customer)
+  const { theme } = useSelector(state => state.user)
 
   const dispatch = useDispatch()
 
@@ -30,15 +31,15 @@ const BillTo = () => {
   }
 
   return (
-    <View style={billTo.container}>
-      <View style={billTo.head}>
-        <Text style={app.title1}>👨‍🦱 Add customer</Text>
-        <TouchableOpacity onPress={goBack}>
-          <Text style={billTo.headText}>Done</Text>
+    <View style={{ ...billTo.container, backgroundColor: theme ? color.dark : color.mainBackground }}>
+      <View style={app.head}>
+        <Text style={{ ...app.title1, color: theme ? color.white : color.dark }}>👨‍🦱 Add customer</Text>
+        <TouchableOpacity onPress={goBack} style={app.doneButton}>
+          <Text style={app.doneButtonText}>Done</Text>
         </TouchableOpacity>
       </View>
 
-      <View>
+      <View style={{ marginTop: 20 }}>
         {
           customersList?.length >= 1 &&
           <FlatList
@@ -62,13 +63,13 @@ const BillTo = () => {
                   marginRight: 10,
                   borderRadius: 12,
                   paddingVertical: 10,
-                  paddingHorizontal: 10
+                  paddingHorizontal: 5
                 }}
               >
-                <View style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 100, backgroundColor: `${color.accent}90` }}>
+                <View style={{ width: 40, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 10, backgroundColor: `${color.accent}90` }}>
                   <Text style={{ color: color.white, fontWeight: '900', fontSize: 25 }}>{item?.name.charAt(0)}</Text>
                 </View>
-                <Text style={{ fontSize: 16, fontWeight: '600', textAlign: 'center', marginHorizontal: 10 }}>{item?.name}</Text>
+                <Text style={{ fontSize: 16, fontWeight: '600', textAlign: 'center', marginHorizontal: 10, color: color.accent }}>{item?.name}</Text>
               </TouchableOpacity>
             )}
           />

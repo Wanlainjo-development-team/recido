@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, ScrollView, TextInput, ActivityIndicator, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
 import { itemsStyle } from './styles'
@@ -17,10 +17,23 @@ const CreateItem = () => {
     const { editItem } = useRoute().params
 
     const { items } = useSelector(state => state.form)
+    const { theme } = useSelector(state => state.user)
 
-    const [item, setItem] = useState(editItem ? { ...editItem } : { price: 0 })
+    const [item, setItem] = useState(editItem ? { ...editItem } : { price: 0, name: '' })
 
     const [loading, setLoading] = useState(false)
+    const [exist, setExist] = useState(false)
+
+    useEffect(() => {
+        (async () => {
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
+
+            let look = await getDocs(query(collection(db, 'users', id, 'inventory'), where('name', '==', item.name)))
+
+            if (look.docs.length >= 1) setExist(true)
+            else setExist(false)
+        })()
+    }, [item.name])
 
     const setNewItem = () => {
         if (editItem == null || editItem == undefined) {
@@ -71,22 +84,23 @@ const CreateItem = () => {
     }
 
     return (
-        <View style={itemsStyle.container}>
-            <View style={itemsStyle.head}>
-                <TouchableOpacity style={itemsStyle.headButton} onPress={goBack}>
-                    <Text style={itemsStyle.headText}>Cancel</Text>
+        <View style={{ ...itemsStyle.container, backgroundColor: theme ? color.dark : color.mainBackground }}>
+            <View style={app.head}>
+                <TouchableOpacity style={app.backButton} onPress={goBack}>
+                    <Text style={app.backButtonText}>Cancel</Text>
                 </TouchableOpacity>
-                <Text style={app.title1}>📦 Items</Text>
-                <TouchableOpacity style={itemsStyle.headButton} onPress={setNewItem}>
-                    <Text style={itemsStyle.headText}>Done</Text>
+                <Text style={{ ...app.title1, color: theme ? color.white : color.dark }}>📦 Items</Text>
+                <TouchableOpacity style={app.doneButton} onPress={setNewItem}>
+                    <Text style={app.doneButtonText}>Done</Text>
                 </TouchableOpacity>
             </View>
 
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 20 }}>
                 <View style={app.inputView}>
-                    <Text style={app.inputText}>Name</Text>
+                    <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Name</Text>
                     <TextInput
                         placeholder='Name'
+                        placeholderTextColor={theme ? color.white : color.dark}
                         value={item.name}
                         onChangeText={text => {
                             setItem({
@@ -94,14 +108,15 @@ const CreateItem = () => {
                                 name: text
                             })
                         }}
-                        style={app.input}
+                        style={{ ...app.input, color: theme ? color.white : color.dark }}
                     />
                 </View>
 
                 <View style={app.inputView}>
-                    <Text style={app.inputText}>Price</Text>
+                    <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Price</Text>
                     <TextInput
                         placeholder='Price'
+                        placeholderTextColor={theme ? color.white : color.dark}
                         inputMode='numeric'
                         value={String(item.price)}
                         onChangeText={text => {
@@ -110,14 +125,15 @@ const CreateItem = () => {
                                 price: text
                             })
                         }}
-                        style={app.input}
+                        style={{ ...app.input, color: theme ? color.white : color.dark }}
                     />
                 </View>
 
                 <View style={app.inputView}>
-                    <Text style={app.inputText}>Quantity</Text>
+                    <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Quantity</Text>
                     <TextInput
                         placeholder='Quantity'
+                        placeholderTextColor={theme ? color.white : color.dark}
                         inputMode='numeric'
                         value={item.quantity}
                         onChangeText={text => {
@@ -126,14 +142,15 @@ const CreateItem = () => {
                                 quantity: text
                             })
                         }}
-                        style={app.input}
+                        style={{ ...app.input, color: theme ? color.white : color.dark }}
                     />
                 </View>
 
                 <View style={app.inputView}>
-                    <Text style={app.inputText}>description</Text>
+                    <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>description</Text>
                     <TextInput
                         placeholder='description'
+                        placeholderTextColor={theme ? color.white : color.dark}
                         value={item.description}
                         onChangeText={text => {
                             setItem({
@@ -141,18 +158,22 @@ const CreateItem = () => {
                                 description: text
                             })
                         }}
-                        style={app.input}
+                        style={{ ...app.input, color: theme ? color.white : color.dark }}
                     />
                 </View>
 
 
-                <TouchableOpacity onPress={saveItem} style={{ ...itemsStyle.deleteItemButton, marginBottom: 10, backgroundColor: color.accent }}>
-                    {
-                        loading ?
-                            <ActivityIndicator color={color.white} size='small' /> :
-                            <Text style={{ ...itemsStyle.deleteItemButtonText, color: color.white }}>Save for future invoices</Text>
-                    }
-                </TouchableOpacity>
+                {
+                    !exist ?
+                        <TouchableOpacity onPress={saveItem} style={{ ...itemsStyle.deleteItemButton, marginBottom: 10, backgroundColor: color.accent }}>
+                            {
+                                loading ?
+                                    <ActivityIndicator color={color.white} size='small' /> :
+                                    <Text style={{ ...itemsStyle.deleteItemButtonText, color: color.white }}>Save for future invoices</Text>
+                            }
+                        </TouchableOpacity> :
+                        <Text style={{ textAlign: 'center', color: theme ? color.white : color.dark }}>This item already exists in your inventory</Text>
+                }
 
                 {
                     editItem &&

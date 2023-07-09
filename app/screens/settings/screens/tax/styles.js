@@ -9,7 +9,7 @@ export default StyleSheet.create({
     },
 
     typeButton: {
-        height: 40,
+        height: 50,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',

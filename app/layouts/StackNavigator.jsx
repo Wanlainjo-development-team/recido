@@ -15,7 +15,7 @@ const { Navigator, Screen, Group } = createStackNavigator()
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import CustomNavigation from './CustomNavigation'
 
-import { setAuth, setProfile } from '../features/userSlice'
+import { setAuth, setProfile, setTheme } from '../features/userSlice'
 import { collection, doc, onSnapshot, orderBy, query } from 'firebase/firestore'
 import { db } from '../hooks/firebase'
 import { useNavigation } from '@react-navigation/native'
@@ -34,7 +34,6 @@ import ViewCustomer from '../screens/customer/screens/viewCustomer'
 import AddContact from '../screens/customer/screens/addContact'
 import AddInventory from '../screens/inventory/screens/addInventory'
 import BussinessDetails from '../screens/settings/screens/bussinessDetails'
-import Information from '../screens/settings/screens/information'
 
 import Templates from '../screens/settings/screens/template'
 import DefaultNotes from '../screens/settings/screens/notes'
@@ -54,12 +53,15 @@ import Welcome from '../screens/auth/Welcome'
 
 import * as _Contacts from 'expo-contacts'
 import * as Notifications from 'expo-notifications';
+import { Platform } from 'react-native'
+import * as NavigationBar from 'expo-navigation-bar';
+import color from '../style/color'
 
 const StackNavigator = () => {
     const navigation = useNavigation()
     const dispatch = useDispatch()
 
-    const { user, auth } = useSelector(state => state.user)
+    const { user, auth, theme } = useSelector(state => state.user)
 
     const [loadingInitial, setLoadingInitial] = useState(true)
 
@@ -161,8 +163,9 @@ const StackNavigator = () => {
                     let customers = []
                     querySnapshot.forEach((doc) => {
                         customers.push({
+                            ...doc.data(),
                             customerId: doc.id,
-                            ...doc.data()
+                            id: doc.id
                         })
                     })
                     dispatch(setCustomersList(customers))
@@ -192,6 +195,8 @@ const StackNavigator = () => {
                     });
                     dispatch(setArchiveList(customer))
                 });
+
+                return unsubscribe
             } catch (error) {
 
             }
@@ -214,6 +219,8 @@ const StackNavigator = () => {
                     });
                     dispatch(setInventoryArchiveList(cities))
                 });
+
+                return unsubscribe
             } catch (error) {
 
             }
@@ -236,9 +243,31 @@ const StackNavigator = () => {
                     });
                     dispatch(setContactArchiveList(contact))
                 });
+
+                return unsubscribe
             } catch (error) {
 
             }
+        })()
+    }, [])
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const value = await AsyncStorage.getItem('receido_theme')
+                if (value !== null) {
+                    let _val = JSON.parse(value)
+                    dispatch(setTheme(_val))
+                }
+            } catch (e) { }
+        })()
+    }, [])
+
+    useEffect(() => {
+        (() => {
+            if (Platform.OS == 'ios') return
+            NavigationBar.setBackgroundColorAsync(theme ? color.dark : color.mainBackground)
+            NavigationBar.setButtonStyleAsync(theme ? 'light' : 'dark')
         })()
     }, [])
 
@@ -277,7 +306,6 @@ const StackNavigator = () => {
                                     <Screen name='AddContact' component={AddContact} options={{ gestureEnabled: true }} />
                                     <Screen name='AddInventory' component={AddInventory} options={{ gestureEnabled: true }} />
                                     <Screen name='BussinessDetails' component={BussinessDetails} options={{ gestureEnabled: true }} />
-                                    <Screen name='Information' component={Information} options={{ gestureEnabled: true }} />
                                     <Screen name='Templates' component={Templates} options={{ gestureEnabled: true }} />
                                     <Screen name='Tax' component={Tax} options={{ gestureEnabled: true }} />
                                     <Screen name='DefaultNotes' component={DefaultNotes} options={{ gestureEnabled: true }} />

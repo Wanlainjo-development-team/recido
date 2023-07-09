@@ -1,4 +1,4 @@
-import { StyleSheet, StatusBar, Dimensions } from 'react-native';
+import { StyleSheet, StatusBar, Dimensions, Platform } from 'react-native';
 import color from '../../style/color';
 
 const { width, height } = Dimensions.get('window')
@@ -17,14 +17,18 @@ export default StyleSheet.create({
         opacity: 0,
     },
 
+    sheetContainer: {
+        borderTopRightRadius: 40,
+        borderTopLeftRadius: 40
+    },
+
     sheet: {
-        height: (2 * height) / 3 + 100, // Add 100 to the height for extra height
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
         paddingTop: 20,
         borderTopRightRadius: 40,
         borderTopLeftRadius: 40,
-        overflow: 'hidden',
+        overflow: 'hidden'
     },
 
     head: {
@@ -65,6 +69,12 @@ export default StyleSheet.create({
     },
 
     image: {
-        width: imageWidth
+        width: imageWidth,
+        borderRadius: 12
     },
+
+    imageLabel: {
+        textAlign: 'center',
+        marginTop: 2
+    }
 });

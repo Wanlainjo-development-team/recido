@@ -18,7 +18,7 @@ const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {
     const route = useRoute()
 
     const { search } = useSelector(state => state.invoices)
-    const { profile } = useSelector(state => state.user)
+    const { profile, theme } = useSelector(state => state.user)
 
     const [invoiceList, setNewInvoiceList] = useState([])
 
@@ -120,7 +120,7 @@ const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {
     }
 
     const list = (item, index) =>
-        <Pressable key={item.id} onPress={() => navigate('Create', { viewInvoice: item })} style={{ ...styles.list, paddingTop: showLabel ? 5 : 10 }}>
+        <Pressable key={item.id} onPress={() => navigate('Create', { viewInvoice: item })} style={{ ...styles.list, paddingTop: showLabel ? 5 : 10, backgroundColor: theme ? color.black : color.white }}>
             {
                 showLabel &&
                 <View style={{ ...styles.showLabel, backgroundColor: item?.invoiceState == 'outstanding' ? `${color.gold}20` : `${color.green}20` }}>
@@ -128,12 +128,12 @@ const Invoices = ({ numOfClice, fetchScale, showLabel, currentTab }) => {
                 </View>
             }
             <View style={styles.left}>
-                <Text style={styles.boldText}>{item?.invoiceContact?.name}</Text>
-                <Text>#{item?.invoiceId}</Text>
+                <Text style={{ ...styles.boldText, color: theme ? color.white : color.dark }}>{item?.invoiceContact?.name}</Text>
+                <Text style={{ color: theme ? color.white : color.dark }}>#{item?.invoiceId}</Text>
             </View>
             <View style={styles.right}>
-                <Text style={styles.boldText}>{new Date(item?.date).toDateString()}</Text>
-                <Text>{calculateTotal(item)}</Text>
+                <Text style={{ ...styles.boldText, color: theme ? color.white : color.dark }}>{new Date(item?.date).toDateString()}</Text>
+                <Text style={{ color: theme ? color.white : color.dark }}>{calculateTotal(item)}</Text>
             </View>
         </Pressable>
 

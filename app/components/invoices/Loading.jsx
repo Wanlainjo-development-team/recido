@@ -4,8 +4,10 @@ import styles from './styles'
 import color from '../../style/color'
 import { FontAwesome5, AntDesign } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
 
 const Loading = ({ text }) => {
+    const { theme } = useSelector(state => state.user)
     const { navigate } = useNavigation()
     const [timer, setTimer] = useState(false)
 
@@ -30,7 +32,7 @@ const Loading = ({ text }) => {
                 }
             </View>
 
-            <Text style={styles.loadingViewText}>{timer ? 'No invoices yet 🙂' : text}</Text>
+            <Text style={{ ...styles.loadingViewText, color: theme ? color.white : color.dark }}>{timer ? 'No invoices yet 🙂' : text}</Text>
 
             {
                 timer &&

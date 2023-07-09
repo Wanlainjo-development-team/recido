@@ -1,5 +1,5 @@
-import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, Image, TextInput, ActivityIndicator, useState } from 'react-native'
-import React, { useEffect, useRef } from 'react'
+import { View, Text, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, Image, TextInput, ActivityIndicator } from 'react-native'
+import React, { useEffect, useRef, useState } from 'react'
 
 import Header from '../../../../components/Header'
 import styles from './styles'
@@ -32,7 +32,7 @@ const BussinessDetails = () => {
 
   const dispatch = useDispatch()
 
-  const { profile } = useSelector(state => state.user)
+  const { profile, theme } = useSelector(state => state.user)
 
   const [image, setImage] = useState(profile?.photoURL == undefined ? null : profile?.photoURL)
   const [loading, setLoading] = useState(false)
@@ -132,10 +132,10 @@ const BussinessDetails = () => {
   }
 
   return (
-    <View style={{ ...styles.container, paddingHorizontal: 0 }}>
+    <View style={{ ...styles.container, paddingHorizontal: 0, backgroundColor: theme ? color.dark : color.mainBackground }}>
       <Header title='Business details' />
 
-      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <KeyboardAvoidingView style={{ ...styles.container, backgroundColor: theme ? color.dark : color.mainBackground }} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.profileImageView}>
             <TouchableOpacity onPress={pickImage} style={styles.profileImage}>
@@ -147,11 +147,11 @@ const BussinessDetails = () => {
             </TouchableOpacity>
           </View>
 
-          <Text style={{ ...styles.title, marginTop: 50 }}>Business Information</Text>
+          <Text style={{ ...app.title2, marginTop: 50, color: theme ? color.white : color.dark }}>Business Information</Text>
           <View style={{ ...app.inputView, marginTop: 20 }}>
-            <Text style={app.inputText}>Business name</Text>
+            <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Business name</Text>
             <TextInput
-              style={app.input}
+              style={{ ...app.input, color: theme ? color.white : color.dark }}
               value={newProfile?.name}
               onChangeText={(text) => {
                 setNewProfile({
@@ -159,12 +159,14 @@ const BussinessDetails = () => {
                   name: text
                 })
               }}
-              placeholder='Business name' />
+              placeholder='Business name'
+              placeholderTextColor={theme ? color.white : color.dark}
+            />
           </View>
           <View style={{ ...app.inputView }}>
-            <Text style={app.inputText}>Business owner's name</Text>
+            <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Business owner's name</Text>
             <TextInput
-              style={app.input}
+              style={{ ...app.input, color: theme ? color.white : color.dark }}
               value={newProfile?.ownerName}
               onChangeText={(text) => {
                 setNewProfile({
@@ -172,12 +174,13 @@ const BussinessDetails = () => {
                   ownerName: text
                 })
               }}
+              placeholderTextColor={theme ? color.white : color.dark}
               placeholder="Business owner's name" />
           </View>
           <View style={{ ...app.inputView }}>
-            <Text style={app.inputText}>Business number</Text>
+            <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Business number</Text>
             <TextInput
-              style={app.input}
+              style={{ ...app.input, color: theme ? color.white : color.dark }}
               value={newProfile?.bussinessNumer}
               onChangeText={(text) => {
                 setNewProfile({
@@ -185,12 +188,13 @@ const BussinessDetails = () => {
                   bussinessNumer: text
                 })
               }}
+              placeholderTextColor={theme ? color.white : color.dark}
               placeholder="Business number" />
           </View>
           <View style={{ ...app.inputView }}>
-            <Text style={app.inputText}>Currency denomination</Text>
+            <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Currency denomination</Text>
             <TouchableOpacity onPress={() => navigate('Currency')} style={{ ...app.input, justifyContent: 'center' }}>
-              <Text>
+              <Text style={{ color: theme ? color.white : color.dark }}>
                 {
                   profile?.denom ? `${profile?.denom?.country} -- ${profile?.denom?.denomination}(${profile?.denom?.sign})` : 'Currency'
                 }
@@ -198,11 +202,11 @@ const BussinessDetails = () => {
             </TouchableOpacity>
           </View>
 
-          <Text style={{ ...styles.title, marginTop: 30 }}>Business address</Text>
+          <Text style={{ ...app.title2, marginTop: 30, color: theme ? color.white : color.dark }}>Business address</Text>
           <View style={{ ...app.inputView, marginTop: 20 }}>
-            <Text style={app.inputText}>Business address 1</Text>
+            <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Business address 1</Text>
             <TextInput
-              style={app.input}
+              style={{ ...app.input, color: theme ? color.white : color.dark }}
               value={newProfile?.address}
               onChangeText={(text) => {
                 setNewProfile({
@@ -210,13 +214,14 @@ const BussinessDetails = () => {
                   address: text
                 })
               }}
+              placeholderTextColor={theme ? color.white : color.dark}
               placeholder='Business address 1'
             />
           </View>
           <View style={app.inputView}>
-            <Text style={app.inputText}>Business address 2</Text>
+            <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Business address 2</Text>
             <TextInput
-              style={app.input}
+              style={{ ...app.input, color: theme ? color.white : color.dark }}
               value={newProfile?.address2}
               onChangeText={(text) => {
                 setNewProfile({
@@ -224,13 +229,14 @@ const BussinessDetails = () => {
                   address2: text
                 })
               }}
+              placeholderTextColor={theme ? color.white : color.dark}
               placeholder='Business address 2'
             />
           </View>
           <View style={app.inputView}>
-            <Text style={app.inputText}>Business address 3</Text>
+            <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Business address 3</Text>
             <TextInput
-              style={app.input}
+              style={{ ...app.input, color: theme ? color.white : color.dark }}
               value={newProfile?.address3}
               onChangeText={(text) => {
                 setNewProfile({
@@ -238,20 +244,21 @@ const BussinessDetails = () => {
                   address3: text
                 })
               }}
+              placeholderTextColor={theme ? color.white : color.dark}
               placeholder='Business address 3'
             />
           </View>
 
 
-          <Text style={{ ...styles.title, marginTop: 30 }}>Business contact</Text>
+          <Text style={{ ...app.title2, marginTop: 30, color: theme ? color.white : color.dark }}>Business contact</Text>
           <View style={{ ...app.inputView, marginTop: 20 }}>
-            <Text style={app.inputText}>Business email</Text>
-            <TextInput style={app.input} editable={false} value={newProfile?.email} placeholder='Business email' />
+            <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Business email</Text>
+            <TextInput style={{ ...app.input, color: theme ? color.white : color.dark }} editable={false} value={newProfile?.email} placeholder='Business email' />
           </View>
           <View style={app.inputView}>
-            <Text style={app.inputText}>Business contact</Text>
+            <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Business contact</Text>
             <TextInput
-              style={app.input}
+              style={{ ...app.input, color: theme ? color.white : color.dark }}
               value={newProfile?.contact}
               onChangeText={(text) => {
                 setNewProfile({
@@ -259,13 +266,14 @@ const BussinessDetails = () => {
                   contact: text
                 })
               }}
+              placeholderTextColor={theme ? color.white : color.dark}
               placeholder='Business contact'
             />
           </View>
           <View style={app.inputView}>
-            <Text style={app.inputText}>Business Sales Rep</Text>
+            <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Business Sales Rep</Text>
             <TextInput
-              style={app.input}
+              style={{ ...app.input, color: theme ? color.white : color.dark }}
               value={newProfile?.salesRep}
               onChangeText={(text) => {
                 setNewProfile({
@@ -273,6 +281,7 @@ const BussinessDetails = () => {
                   salesRep: text
                 })
               }}
+              placeholderTextColor={theme ? color.white : color.dark}
               placeholder='Sales Rep'
             />
           </View>

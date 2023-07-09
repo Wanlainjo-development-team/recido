@@ -15,8 +15,14 @@ export default StyleSheet.create({
     },
 
     imageButton: {
-        marginBottom: 10,
         borderWidth: 1,
-        borderColor: color.transparent
+        borderColor: color.transparent,
+        borderRadius: 14,
+        overflow: 'hidden'
+    },
+
+    imageLabel: {
+        textAlign: 'center',
+        marginTop: 2
     }
 })

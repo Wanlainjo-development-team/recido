@@ -43,20 +43,6 @@ export default StyleSheet.create({
         marginBottom: 10
     },
 
-    inputView: {
-        marginBottom: 30,
-        borderBottomWidth: 1,
-        borderBottomColor: `${color.accent}40`
-    },
-
-    inputViewText: {
-        fontWeight: '600'
-    },
-
-    inputViewTextInput: {
-        height: 45
-    },
-
     list: {
         flexDirection: 'row',
         justifyContent: 'space-between',

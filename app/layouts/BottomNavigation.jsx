@@ -3,7 +3,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import color from '../style/color';
 import Home from '../screens/home';
 import { Feather, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setActiveRoute } from '../features/userSlice';
 import Invoice from '../screens/invoices';
 import CustomersScreen from '../screens/customer';
@@ -15,17 +15,23 @@ const { Navigator, Screen } = createMaterialBottomTabNavigator()
 const BottomNavigation = () => {
   const dispatch = useDispatch()
 
+  const { theme } = useSelector(state => state.user)
+
   useEffect(() => {
     (() => {
       if (Platform.OS == 'ios') return
-      NavigationBar.setBackgroundColorAsync(color.mainBackground)
-      NavigationBar.setButtonStyleAsync('dark')
+      NavigationBar.setBackgroundColorAsync(theme ? color.dark : color.mainBackground)
+      NavigationBar.setButtonStyleAsync(theme ? 'light' : 'dark')
     })()
   }, [])
 
   return (
     <Navigator
-      barStyle={{ backgroundColor: color.mainBackground, borderTopWidth: 1, borderTopColor: `${color.accent}30` }}
+      barStyle={{
+        backgroundColor: theme ? color.dark : color.mainBackground,
+        borderTopWidth: 1,
+        borderTopColor: theme ? `${color.white}10` : `${color.accent}30`
+      }}
       activeColor={color.accent}
     >
       <Screen

@@ -12,7 +12,7 @@ import app from '../../../../style/app';
 
 const DefaultEmailMessage = () => {
   const { goBack } = useNavigation()
-  const { profile } = useSelector(state => state.user)
+  const { profile, theme } = useSelector(state => state.user)
 
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
@@ -43,12 +43,12 @@ const DefaultEmailMessage = () => {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ ...styles.conttainer, paddingHorizontal: 0 }}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ ...styles.conttainer, paddingHorizontal: 0, backgroundColor: theme ? color.dark : color.mainBackground }}>
       <Header title='Default messages' />
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.conttainer}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{ ...styles.conttainer, backgroundColor: theme ? color.dark : color.mainBackground }}>
         <View style={{ marginTop: 20, ...app.inputView }}>
-          <Text style={app.inputText}>Default message</Text>
-          <TextInput placeholder='message' multiline onContentSizeChange={handleContentSizeChange} style={app.input} value={message} onChangeText={text => setMessage(text)} />
+          <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Default message</Text>
+          <TextInput placeholder='message' placeholderTextColor={theme ? color.white : color.dark} multiline onContentSizeChange={handleContentSizeChange} style={{ ...app.input, color: theme ? color.white : color.dark }} value={message} onChangeText={text => setMessage(text)} />
         </View>
       </ScrollView>
       <TouchableOpacity onPress={saveEmailMessaage} style={styles.saveButton}>

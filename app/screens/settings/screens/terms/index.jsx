@@ -2,6 +2,8 @@ import { View, Text, ScrollView } from 'react-native'
 import React from 'react'
 import Header from '../../../../components/Header'
 import styles from './styles'
+import { useSelector } from 'react-redux'
+import color from '../../../../style/color'
 
 const aboutTexts = [
   {
@@ -75,17 +77,19 @@ const aboutTexts = [
 ]
 
 const TermsOfUse = () => {
+  const { theme } = useSelector(state => state.user)
+
   return (
-    <View style={{ ...styles.conttainer, paddingHorizontal: 0 }}>
+    <View style={{ ...styles.conttainer, paddingHorizontal: 0, backgroundColor: theme ? color.dark : color.mainBackground }}>
       <Header title='Terms of use' />
 
-      <ScrollView showsVerticalScrollIndicator={false} style={{ ...styles.conttainer, paddingTop: 10 }}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{ ...styles.conttainer, paddingTop: 10, backgroundColor: theme ? color.dark : color.mainBackground }}>
         {
           aboutTexts.map((item, index) => <View key={index} style={styles.textView}>
-            <Text style={styles.title}>{item.title}</Text>
+            <Text style={{ ...styles.title, color: theme ? color.white : color.dark }}>{item.title}</Text>
 
             {
-              item.texts.map((text, id) => <Text key={id} style={styles.texts}>{text}</Text>)
+              item.texts.map((text, id) => <Text key={id} style={{ ...styles.texts, color: theme ? color.white : color.dark }}>{text}</Text>)
             }
           </View>)
         }

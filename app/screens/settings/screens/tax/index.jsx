@@ -13,7 +13,7 @@ import app from '../../../../style/app';
 const Tax = () => {
   const { goBack } = useNavigation()
 
-  const { profile } = useSelector(state => state.user)
+  const { profile, theme } = useSelector(state => state.user)
 
   const [taxType, setTaxType] = useState({ type: 'None' })
   const [taxInclusive, setTaxInclusive] = useState(false)
@@ -71,28 +71,28 @@ const Tax = () => {
   }
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ ...styles.conttainer, paddingHorizontal: 0 }}>
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ ...styles.conttainer, paddingHorizontal: 0, backgroundColor: theme ? color.dark : color.mainBackground }}>
       <Header title='Tax' />
-      <ScrollView showsVerticalScrollIndicator={false} style={styles.conttainer}>
-        <TouchableOpacity onPress={openPrompt} style={styles.typeButton}>
-          <Text>Tax:</Text>
-          <Text>{taxType.type}</Text>
+      <ScrollView showsVerticalScrollIndicator={false} style={{ ...styles.conttainer, backgroundColor: theme ? color.dark : color.mainBackground }}>
+        <TouchableOpacity onPress={openPrompt} style={{ ...styles.typeButton, backgroundColor: theme ? color.black : color.white }}>
+          <Text style={{ color: theme ? color.white : color.dark }}>Tax:</Text>
+          <Text style={{ color: theme ? color.white : color.dark }}>{taxType.type}</Text>
         </TouchableOpacity>
 
         {
           taxType.type == 'On the Total' &&
           <>
             <View style={{ marginTop: 20, ...app.inputView }}>
-              <Text style={app.inputText}>Tax</Text>
-              <TextInput placeholder='Tax' value={taxType.tax} onChangeText={text => setTaxType({ ...taxType, tax: text })} style={app.input} />
+              <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Tax</Text>
+              <TextInput placeholder='Tax' placeholderTextColor={theme ? color.white : color.dark} value={taxType.tax} onChangeText={text => setTaxType({ ...taxType, tax: text })} style={{ ...app.input, color: theme ? color.white : color.dark }} />
             </View>
             <View style={app.inputView}>
-              <Text style={app.inputText}>Rate</Text>
-              <TextInput placeholder='Rate' value={taxType.rate} onChangeText={text => setTaxType({ ...taxType, rate: text })} style={app.input} />
+              <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Rate</Text>
+              <TextInput placeholder='Rate' placeholderTextColor={theme ? color.white : color.dark} value={taxType.rate} onChangeText={text => setTaxType({ ...taxType, rate: text })} style={{ ...app.input, color: theme ? color.white : color.dark }} />
             </View>
             <View style={{ marginTop: 20 }}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={styles.inputViewText}>Inclusive</Text>
+                <Text style={{ ...styles.inputViewText, color: theme ? color.white : color.dark }}>Inclusive</Text>
                 <Switch
                   trackColor={{ false: '#767577', true: '#81b0ff' }}
                   thumbColor={taxInclusive ? color.accent : '#f4f3f4'}
@@ -101,33 +101,33 @@ const Tax = () => {
                   value={taxInclusive}
                 />
               </View>
-              <Text>Turn on if prices already include Tax</Text>
+              <Text style={{ color: theme ? color.white : color.dark }}>Turn on if prices already include Tax</Text>
             </View>
           </>
         }
         {
           taxType.type == 'Deducted' &&
           <>
-            <View style={app.inputView}>
-              <Text style={app.inputText}>Tax</Text>
-              <TextInput placeholder='Tax' value={taxType.tax} onChangeText={text => setTaxType({ ...taxType, tax: text })} style={app.input} />
+            <View style={{ ...app.inputView, marginTop: 20 }}>
+              <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Tax</Text>
+              <TextInput placeholder='Tax' placeholderTextColor={theme ? color.white : color.dark} value={taxType.tax} onChangeText={text => setTaxType({ ...taxType, tax: text })} style={{ ...app.input, color: theme ? color.white : color.dark }} />
             </View>
             <View style={app.inputView}>
-              <Text style={app.inputText}>Rate</Text>
-              <TextInput placeholder='Rate' value={taxType.rate} onChangeText={text => setTaxType({ ...taxType, rate: text })} style={app.input} />
+              <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Rate</Text>
+              <TextInput placeholder='Rate' placeholderTextColor={theme ? color.white : color.dark} value={taxType.rate} onChangeText={text => setTaxType({ ...taxType, rate: text })} style={{ ...app.input, color: theme ? color.white : color.dark }} />
             </View>
           </>
         }
         {
           taxType.type == 'Per Item' &&
           <>
-            <View style={app.inputView}>
-              <Text style={app.inputText}>Tax</Text>
-              <TextInput placeholder='Tax' value={taxType.tax} onChangeText={text => setTaxType({ ...taxType, tax: text })} style={app.input} />
+            <View style={{ ...app.inputView, marginTop: 20 }}>
+              <Text style={{ ...app.inputText, color: theme ? color.white : color.dark }}>Tax</Text>
+              <TextInput placeholder='Tax' placeholderTextColor={theme ? color.white : color.dark} value={taxType.tax} onChangeText={text => setTaxType({ ...taxType, tax: text })} style={{ ...app.input, color: theme ? color.white : color.dark }} />
             </View>
             <View style={{ marginTop: 20 }}>
               <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={styles.inputViewText}>Inclusive</Text>
+                <Text style={{ ...styles.inputViewText, color: theme ? color.white : color.dark }}>Inclusive</Text>
                 <Switch
                   trackColor={{ false: '#767577', true: '#81b0ff' }}
                   thumbColor={taxInclusive ? color.accent : '#f4f3f4'}
@@ -136,7 +136,7 @@ const Tax = () => {
                   value={taxInclusive}
                 />
               </View>
-              <Text>Turn on if prices already include Tax</Text>
+              <Text style={{ color: theme ? color.white : color.dark }}>Turn on if prices already include Tax</Text>
             </View>
           </>
         }

@@ -22,7 +22,7 @@ const Create = () => {
   const { viewInvoice } = useRoute().params
   const dispatch = useDispatch()
 
-  const { profile } = useSelector(state => state.user)
+  const { profile, theme } = useSelector(state => state.user)
 
   useEffect(() => {
     (() => {
@@ -47,10 +47,10 @@ const Create = () => {
 
 
   return (
-    <View style={{ flex: 1, backgroundColor: color.mainBackground }}>
+    <View style={{ flex: 1, backgroundColor: theme ? color.dark : color.mainBackground }}>
       <Header screen='createInvoice' title='Create invoice' />
       <Navigator
-        barStyle={{ backgroundColor: color.mainBackground }}
+        barStyle={{ backgroundColor: theme ? color.dark : color.mainBackground }}
         activeColor={color.accent}
       >
         <Screen

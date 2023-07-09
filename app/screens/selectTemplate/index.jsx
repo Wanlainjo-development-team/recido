@@ -18,6 +18,8 @@ const SelectTemplate = () => {
     const { templatesPreview } = useRoute().params
     const dispatch = useDispatch()
 
+    const { theme } = useSelector(state => state.user)
+
     const selectTemplate = async prop => {
         const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
         goBack()
@@ -32,31 +34,37 @@ const SelectTemplate = () => {
     return (
         <LinearGradient colors={[color.transparent, `${color.mainBackground}80`]} style={style.container}>
             <TouchableOpacity onPress={goBack} style={style.blank} />
-            <BlurView intensity={50} style={style.sheet}>
-                <View style={style.head}>
-                    <Text style={style.headText}>Pick template</Text>
+            <View style={{ ...style.sheetContainer, backgroundColor: Platform.OS == 'android' ? (theme ? color.dark : color.mainBackground) : color.transparent, }}>
+                <BlurView intensity={50} tint={theme ? 'dark' : 'light'} style={style.sheet}>
+                    <View style={style.head}>
+                        <Text style={{ ...style.headText, color: theme ? color.white : color.dark }}>Pick template</Text>
 
-                    <TouchableOpacity onPress={goBack} style={style.backButton}>
-                        <AntDesign name="back" size={24} color={color.accent} />
-                    </TouchableOpacity>
-                </View>
-
-                <ScrollView>
-                    <View style={style.imageButtonView}>
-                        {
-                            templatesPreview?.map((item, index) =>
-                                <TouchableOpacity key={index} onPress={() => selectTemplate(item)} style={style.imageButton}>
-                                    <AutoHeightImage
-                                        width={imageWidth}
-                                        style={style.image}
-                                        source={{ uri: item?.preview }}
-                                    />
-                                </TouchableOpacity>
-                            )
-                        }
+                        <TouchableOpacity onPress={goBack} style={style.backButton}>
+                            <AntDesign name="back" size={24} color={color.accent} />
+                        </TouchableOpacity>
                     </View>
-                </ScrollView>
-            </BlurView>
+
+                    <ScrollView>
+                        <View style={style.imageButtonView}>
+                            {
+                                templatesPreview?.map((item, index) =>
+                                    <TouchableOpacity key={index} onPress={() => selectTemplate(item)} style={style.imageButton}>
+                                        <AutoHeightImage
+                                            width={imageWidth}
+                                            style={style.image}
+                                            source={{ uri: item?.preview }}
+                                        />
+                                        {index == 0 && <Text style={{ ...style.imageLabel, color: theme ? color.white : color.dark }}>Classic</Text>}
+                                        {index == 1 && <Text style={{ ...style.imageLabel, color: theme ? color.white : color.dark }}>Compact</Text>}
+                                        {index == 2 && <Text style={{ ...style.imageLabel, color: theme ? color.white : color.dark }}>Clean</Text>}
+                                        {index == 3 && <Text style={{ ...style.imageLabel, color: theme ? color.white : color.dark }}>Sharp</Text>}
+                                    </TouchableOpacity>
+                                )
+                            }
+                        </View>
+                    </ScrollView>
+                </BlurView>
+            </View>
         </LinearGradient>
     )
 }

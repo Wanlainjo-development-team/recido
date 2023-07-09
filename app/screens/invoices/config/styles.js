@@ -32,10 +32,10 @@ export default StyleSheet.create({
     headText: {
         fontSize: 20,
         fontWeight: '600',
-        color: color.black,
+        color: color.dark,
     },
     backButton: {
-        backgroundColor: `${color.accent}20`,
+        backgroundColor: `${color.accent}30`,
         height: 45,
         width: 45,
         borderRadius: 12,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, TouchableOpacity, WebView } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import style from './style';
 import { useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -7,18 +7,20 @@ import { collection, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { db } from '../../../../../hooks/firebase';
 import color from '../../../../../style/color';
 
+import WebView from 'react-native-webview';
+
 import { IV1 } from '../../../../../components/fragments/templates/IV1';
 import { IV2 } from '../../../../../components/fragments/templates/IV2';
 import { IV3 } from '../../../../../components/fragments/templates/IV3';
 import { IV4 } from '../../../../../components/fragments/templates/IV4';
-import { useIsFocused } from '@react-navigation/native'
 
 const CustomStyle = () => {
-    const { profile } = useSelector(state => state.user)
+    const { profile, theme } = useSelector(state => state.user)
     const webViewRef = useRef(null)
-    const focused = useIsFocused()
 
     const [colors, setColors] = useState([
+        '4169e1',
+        '0D1117',
         '333333',
         '555555',
         '465A65',
@@ -74,8 +76,8 @@ const CustomStyle = () => {
     }, [])
 
     return (
-        <View style={style.container}>
-            <WebView source={{ html }} ref={webViewRef} scalesPageToFit={true} style={{ flex: 1 }} />
+        <View style={{ ...style.container, backgroundColor: theme ? color.dark : color.mainBackground }}>
+            <WebView source={{ html }} ref={webViewRef} scalesPageToFit={true} style={{ flex: 1, backgroundColor: theme ? color.dark : color.mainBackground }} />
 
             <View style={style.buttonGrid}>
                 {

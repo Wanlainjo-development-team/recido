@@ -9,17 +9,24 @@ const { Navigator, Screen } = createMaterialTopTabNavigator()
 import Template from './screens/Templates'
 import CustomStyle from './screens/CustomStyle'
 import color from '../../../../style/color'
+import { useSelector } from 'react-redux'
 
 const Templates = () => {
+  const { theme } = useSelector(state => state.user)
+
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: theme ? color.dark : color.mainBackground }}>
       <Header title='Templates' />
 
       <Navigator
         screenOptions={{
+          swipeEnabled: false,
           tabBarStyle: {
             backgroundColor: color.transparent,
             elevation: 0
+          },
+          tabBarLabelStyle: {
+            color: theme ? color.white : color.dark
           }
         }}
       >

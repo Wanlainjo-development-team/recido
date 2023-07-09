@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform, StatusBar } from "react-native";
 import color from "./color";
 
 export default StyleSheet.create({
@@ -12,10 +12,6 @@ export default StyleSheet.create({
         opacity: .40,
         fontWeight: '900'
     },
-
-    title3: {},
-
-    title4: {},
 
     inputView: {
         marginBottom: 30
@@ -78,5 +74,41 @@ export default StyleSheet.create({
 
     summaryListRight: {
         color: color.white
+    },
+
+    head: {
+        height: 50,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: Platform.OS == 'android' ? StatusBar.currentHeight : 20
+    },
+
+    doneButton: {
+        backgroundColor: `${color.accent}40`,
+        height: 40,
+        paddingHorizontal: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10
+    },
+
+    doneButtonText: {
+        color: color.accent,
+        fontWeight: '600'
+    },
+
+    backButton: {
+        backgroundColor: `${color.accent}40`,
+        height: 40,
+        paddingHorizontal: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10
+    },
+
+    backButtonText: {
+        color: color.accent,
+        fontWeight: '600'
     }
 })
