@@ -13,7 +13,7 @@ import {
   updateItems,
   setInvoiceId,
 } from '../../../../features/useFormSlice'
-import { useNavigation, useFocusEffect } from '@react-navigation/native'
+import { useNavigation, useFocusEffect, useRoute } from '@react-navigation/native'
 
 import color from '../../../../style/color'
 
@@ -44,7 +44,9 @@ const CreateInvoice = () => {
   const dispatch = useDispatch()
 
   const { profile, theme } = useSelector(state => state.user)
-  const { currentInvoiceId } = useSelector(state => state.invoices)
+  // const { currentInvoiceId } = useSelector(state => state.invoices)
+
+  const { currentInvoiceId } = useRoute().params
 
   const {
     invoiceId,
