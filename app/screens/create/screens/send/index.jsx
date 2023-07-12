@@ -170,10 +170,6 @@ const Send = () => {
             base64: false
           });
 
-          // Extract the filename from the uri
-          let filename = uri.split('/').pop();
-
-          // Rename the file
           let newPath = FileSystem.documentDirectory + `${invoiceId}-invoice.pdf`;
           await FileSystem.moveAsync({
             from: uri,

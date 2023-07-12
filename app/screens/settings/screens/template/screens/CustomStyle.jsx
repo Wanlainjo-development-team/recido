@@ -3,7 +3,7 @@ import { View, TouchableOpacity } from 'react-native';
 import style from './style';
 import { useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { collection, doc, getDocs, updateDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, onSnapshot, updateDoc } from 'firebase/firestore';
 import { db } from '../../../../../hooks/firebase';
 import color from '../../../../../style/color';
 
@@ -15,8 +15,10 @@ import { IV3 } from '../../../../../components/fragments/templates/IV3';
 import { IV4 } from '../../../../../components/fragments/templates/IV4';
 
 const CustomStyle = () => {
-    const { profile, theme } = useSelector(state => state.user)
+    const { theme } = useSelector(state => state.user)
     const webViewRef = useRef(null)
+
+    const [profile, setProfile] = useState(null)
 
     const [colors, setColors] = useState([
         '4169e1',
@@ -32,34 +34,47 @@ const CustomStyle = () => {
         '283593',
         '1564C0',
         '0277BD',
-        '00695B',
-        '2F7D32',
-        '548B2E'
+        '00695B'
     ])
 
     const [invoiceData, setInvoiceData] = useState(null)
     const [html, setHtml] = useState(``)
 
-    const htmlSwitch = () => {
-        switch (profile?.selectedTemplatePreview?.id) {
-            case 1: setHtml(IV1(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note))
-                break
-            case 2: setHtml(IV2(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note))
-                break
-            case 3: setHtml(IV3(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note))
-                break
-            case 4: setHtml(IV4(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note))
-                break
-            default: setHtml(IV1(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note))
-        }
-    }
+    const generateHTML = (profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId) => {
+        return new Promise((resolve, reject) => {
+            switch (profile?.selectedTemplatePreview?.id) {
+                case 1:
+                    resolve(IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId));
+                    break;
+                case 2:
+                    resolve(IV2(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId));
+                    break;
+                case 3:
+                    resolve(IV3(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId));
+                    break;
+                case 4:
+                    resolve(IV4(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId));
+                    break;
+                default:
+                    resolve(IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId));
+            }
+        });
+    };
 
     const setInvoiceColor = async item => {
         const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
 
         await updateDoc(doc(db, 'users', id), { invoiceColor: item })
 
-        htmlSwitch()
+        let profile = (await getDoc(doc(db, 'users', id))).data()
+
+        generateHTML(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note)
+            .then(html => {
+                setHtml(html)
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
 
     useEffect(() => {
@@ -72,7 +87,33 @@ const CustomStyle = () => {
     }, []);
 
     useState(() => {
-        htmlSwitch()
+        generateHTML(profile, invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note)
+            .then(html => {
+                setHtml(html)
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, [])
+
+    useEffect(() => {
+        (async () => {
+            const id = JSON.parse(await AsyncStorage.getItem('recido_user'))?.user?.uid
+
+            const unsub = onSnapshot(doc(db, "users", id), (doc) => {
+                setProfile(doc.data())
+
+                generateHTML(doc.data(), invoiceData?.invoiceId, invoiceData?.date, invoiceData?.invoiceContact, invoiceData?.items, invoiceData?.subTotal, invoiceData?.vat, invoiceData?.total, invoiceData?.note)
+                    .then(html => {
+                        setHtml(html)
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
+            });
+
+            return unsub
+        })()
     }, [])
 
     return (
