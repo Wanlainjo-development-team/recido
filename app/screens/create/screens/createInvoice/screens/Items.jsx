@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, FlatList, TextInput, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native'
 import React, { useState } from 'react'
 
 import { itemsStyle } from './styles'
@@ -6,7 +6,6 @@ import { useNavigation } from '@react-navigation/native'
 import { AntDesign } from '@expo/vector-icons'
 import color from '../../../../../style/color'
 import { useDispatch, useSelector } from 'react-redux'
-import InventoryList from '../../../../../components/inventory'
 import app from '../../../../../style/app'
 import { setItems } from '../../../../../features/useFormSlice'
 
@@ -34,18 +33,28 @@ const Items = () => {
         setFilteredItems(filtered);
     };
 
-    const addItem = item => {
-        if (item.quantity >= 1)
-            dispatch(setItems({
-                ...item,
-                name: item.name,
-                price: item.price,
-                quantity: JSON.stringify(1),
-                description: item.description
-            }))
-        else
-            Alert.alert('Seems this item is sold out 😕😕')
-    }
+    const addItem = (item) => {
+        const existingItem = items.find((existingItem) => existingItem.name === item.name);
+
+        if (existingItem) {
+            Alert.alert('Item already added');
+        } else {
+            if (item.quantity >= 1) {
+                dispatch(
+                    setItems({
+                        ...item,
+                        name: item.name,
+                        price: item.price,
+                        quantity: JSON.stringify(1),
+                        description: item.description,
+                    })
+                );
+            } else {
+                Alert.alert('Seems this item is sold out 😕😕');
+            }
+        }
+    };
+
 
     return (
         <View style={{ ...itemsStyle.container, backgroundColor: theme ? color.dark : color.mainBackground }}>
@@ -61,15 +70,10 @@ const Items = () => {
                 <Text style={itemsStyle.createNewText}>Create new item</Text>
             </TouchableOpacity>
 
-            {
-                items.length >= 1 &&
-                <FlatList
-                    data={items}
-                    keyExtractor={(item, index) => index}
-                    style={itemsStyle.flatList}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={({ item, index }) => (
-                        <TouchableOpacity style={itemsStyle.group} onPress={() => navigate('CreateItem', { editItem: { ...item, index } })}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                {
+                    items.map((item, index) => (
+                        <TouchableOpacity key={index} style={itemsStyle.group} onPress={() => navigate('CreateItem', { editItem: { ...item, index } })}>
                             <View style={itemsStyle.groupLeft}>
                                 <Text style={{ ...itemsStyle.groupBoldText, color: theme ? color.white : color.dark }} numberOfLines={1}>{item?.name}</Text>
                                 <Text style={{ ...itemsStyle.groupOpacityText, color: theme ? color.white : color.dark }} numberOfLines={1}>{(item?.description)?.slice(0, 20)}</Text>
@@ -79,38 +83,36 @@ const Items = () => {
                                 <Text style={{ ...itemsStyle.groupBoldText, color: theme ? color.white : color.dark }} numberOfLines={1}>{calculateDiscount(item)}</Text>
                             </View>
                         </TouchableOpacity>
-                    )}
+                    ))
+                }
+
+                <Text style={{ ...app.title2, color: theme ? color.white : color.dark, marginTop: 20 }}>Inventory</Text>
+                <TextInput
+                    style={{ ...app.input, marginTop: 20 }}
+                    placeholder='Search inventory...'
+                    placeholderTextColor={theme ? color.white : color.dark}
+                    value={searchQuery}
+                    onChangeText={(text) => {
+                        setSearchQuery(text);
+                        filterItems(text);
+                    }}
                 />
-            }
 
-            <Text style={{ ...app.title2, color: theme ? color.white : color.dark, marginTop: 20 }}>Inventory</Text>
-            <TextInput
-                style={{ ...app.input, marginTop: 20 }}
-                placeholder='Search inventory...'
-                placeholderTextColor={theme ? color.white : color.dark}
-                value={searchQuery}
-                onChangeText={(text) => {
-                    setSearchQuery(text);
-                    filterItems(text);
-                }}
-            />
+                {
+                    filteredItems.map((item, index) => (
+                        <TouchableOpacity key={index} onPress={() => addItem(item)} style={{ ...itemsStyle.list, paddingTop: 10, backgroundColor: theme ? color.black : color.white, marginTop: 10 }}>
+                            <View style={itemsStyle.left}>
+                                <Text style={{ ...itemsStyle.boldText, color: theme ? color.white : color.dark }}>{item?.name}</Text>
+                                <Text style={{ color: theme ? color.white : color.dark }}>{item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Left</Text>
+                            </View>
+                            <View style={itemsStyle.right}>
+                                <Text style={{ color: theme ? color.white : color.dark }}>{profile?.denom?.sign || '$'}{item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
+                            </View>
+                        </TouchableOpacity>
+                    ))
+                }
+            </ScrollView>
 
-            <FlatList
-                data={filteredItems}
-                keyExtractor={(item, index) => index}
-                style={{ marginTop: 10 }}
-                renderItem={({ item, index }) => (
-                    <TouchableOpacity onPress={() => addItem(item)} style={{ ...itemsStyle.list, paddingTop: 10, backgroundColor: theme ? color.black : color.white }}>
-                        <View style={itemsStyle.left}>
-                            <Text style={{ ...itemsStyle.boldText, color: theme ? color.white : color.dark }}>{item?.name}</Text>
-                            <Text style={{ color: theme ? color.white : color.dark }}>{item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Left</Text>
-                        </View>
-                        <View style={itemsStyle.right}>
-                            <Text style={{ color: theme ? color.white : color.dark }}>{profile?.denom?.sign || '$'}{item?.price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</Text>
-                        </View>
-                    </TouchableOpacity>
-                )}
-            />
         </View>
     )
 }
