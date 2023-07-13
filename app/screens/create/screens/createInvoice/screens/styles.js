@@ -202,6 +202,29 @@ export const itemsStyle = StyleSheet.create({
         color: color.red,
         fontWeight: '600'
     },
+
+    list: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        marginBottom: 10,
+        backgroundColor: color.white,
+        padding: 10,
+        borderRadius: 12,
+    },
+
+    left: {
+        alignItems: 'flex-start'
+    },
+
+    right: {
+        alignItems: 'flex-end'
+    },
+
+    boldText: {
+        fontWeight: '600'
+    },
 })
 
 export const noteStyle = StyleSheet.create({

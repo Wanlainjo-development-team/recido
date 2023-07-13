@@ -27,7 +27,7 @@ const Template = () => {
                 <View style={styles.previewGrid}>
                     {
                         templatesPreview?.map((item, index) => (
-                            <View>
+                            <View key={index}>
                                 <TouchableOpacity key={index} onPress={() => updateChosenTemplate(item)} style={{ ...styles.imageButton, borderColor: item.invoice == profile?.selectedTemplatePreview?.invoice ? color.accent : color.transparent }}>
                                     <AutoHeightImage
                                         width={(width / 2) - 15}

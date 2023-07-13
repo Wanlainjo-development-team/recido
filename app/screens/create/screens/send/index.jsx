@@ -22,6 +22,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { setCurrentInvoiceId } from '../../../../features/invoicesSlice';
 
+import * as FileSystem from 'expo-file-system';
+
 const Send = () => {
   const { navigate } = useNavigation()
 
@@ -136,16 +138,52 @@ const Send = () => {
   };
 
   let sharePDF = async () => {
-    try {
-      let { uri } = await printToFileAsync({
-        html,
-        base64: false
-      })
+    let html = ``
 
-      await shareAsync(uri)
-    } catch (error) {
-      Alert.alert('Error occurred while sharing PDF')
-    }
+    const generateHTML = (profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId) => {
+      return new Promise((resolve, reject) => {
+        switch (profile?.selectedTemplatePreview?.id) {
+          case 1:
+            resolve(IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId));
+            break;
+          case 2:
+            resolve(IV2(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId));
+            break;
+          case 3:
+            resolve(IV3(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId));
+            break;
+          case 4:
+            resolve(IV4(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId));
+            break;
+          default:
+            resolve(IV1(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId));
+        }
+      });
+    };
+
+    // Usage:
+    generateHTML(profile, invoiceId, date, invoiceContact, items, subTotal, vat, total, note, currentInvoiceId)
+      .then(async html => {
+        try {
+          let { uri } = await printToFileAsync({
+            html,
+            base64: false
+          });
+
+          let newPath = FileSystem.documentDirectory + `${invoiceId}-invoice.pdf`;
+          await FileSystem.moveAsync({
+            from: uri,
+            to: newPath
+          });
+
+          await shareAsync(newPath);
+        } catch (error) {
+          Alert.alert('Error occurred while sharing PDF');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 
   const handlePrint = async () => {
@@ -205,6 +243,16 @@ const Send = () => {
       </ScrollView>
 
       <View style={styles.actionView}>
+        <TouchableOpacity onPress={() => invoiceExist ? sharePDF() : openAlert()} style={styles.actionButton}>
+          <AntDesign name="sharealt" size={18} color={theme ? color.white : color.dark} />
+          <Text style={{ ...styles.actionButtonText, color: theme ? color.white : color.dark }}>Share copy</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => invoiceExist ? handlePrint() : openAlert()} style={styles.actionButton}>
+          <Ionicons name="print-outline" size={24} color={theme ? color.white : color.dark} />
+          <Text style={{ ...styles.actionButtonText, color: theme ? color.white : color.dark }}>Print</Text>
+        </TouchableOpacity>
+
         <TouchableOpacity onPress={() => invoiceExist ? shareOnWhatsApp() : openAlert()} style={styles.actionButton}>
           <Ionicons name="logo-whatsapp" size={20} color={theme ? color.white : color.dark} />
           <Text style={{ ...styles.actionButtonText, color: theme ? color.white : color.dark }}>Whatsapp</Text>
@@ -218,16 +266,6 @@ const Send = () => {
         <TouchableOpacity onPress={() => invoiceExist ? openMailComposer() : openAlert()} style={styles.actionButton}>
           <Fontisto name="email" size={18} color={theme ? color.white : color.dark} />
           <Text style={{ ...styles.actionButtonText, color: theme ? color.white : color.dark }}>Email</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => invoiceExist ? sharePDF() : openAlert()} style={styles.actionButton}>
-          <AntDesign name="sharealt" size={18} color={theme ? color.white : color.dark} />
-          <Text style={{ ...styles.actionButtonText, color: theme ? color.white : color.dark }}>Share</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => invoiceExist ? handlePrint() : openAlert()} style={styles.actionButton}>
-          <Ionicons name="print-outline" size={24} color={theme ? color.white : color.dark} />
-          <Text style={{ ...styles.actionButtonText, color: theme ? color.white : color.dark }}>Print</Text>
         </TouchableOpacity>
       </View>
     </View>

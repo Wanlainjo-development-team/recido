@@ -15,7 +15,7 @@ export default StyleSheet.create({
     },
 
     imageButton: {
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: color.transparent,
         borderRadius: 14,
         overflow: 'hidden'

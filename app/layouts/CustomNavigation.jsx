@@ -51,7 +51,7 @@ const CustomNavigation = () => {
             <View style={nav.drawerView}>
                 <View style={nav.headDetails}>
                     {
-                        profile?.photoURL ?
+                        !profile?.photoURL ?
                             <View style={[nav.avatarPlaceholderView, { backgroundColor: theme ? `${color.black}30` : color.white }]}>
                                 <FontAwesome name='user-o' size={32} color={theme ? color.white : color.black} />
                             </View> :

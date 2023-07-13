@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Alert, Pressable } from 'react-native'
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { deleteDoc, doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore'
@@ -10,10 +10,8 @@ import { SwipeListView } from 'react-native-swipe-list-view'
 import Loading from './Loading'
 import color from '../../style/color'
 import { Feather } from '@expo/vector-icons';
-import { setItems } from '../../features/useFormSlice'
 
-const InventoryList = ({ selectItem }) => {
-  const dispatch = useDispatch()
+const InventoryList = () => {
 
   const { navigate } = useNavigation()
   const route = useRoute()
@@ -39,21 +37,8 @@ const InventoryList = ({ selectItem }) => {
     Alert.alert('Item has been moved to your archive successfully 🎉🎉')
   };
 
-  const addItem = item => {
-    if (item.quantity >= 1)
-      dispatch(setItems({
-        ...item,
-        name: item.name,
-        price: item.price,
-        quantity: JSON.stringify(item.quantity),
-        description: item.description
-      }))
-    else
-      Alert.alert('Seems this item is sold out 😕😕')
-  }
-
   const list = item =>
-    <Pressable key={item.id} onPress={() => selectItem ? addItem(item) : navigate('AddInventory', { viewItem: item })} style={{ ...styles.list, paddingTop: 10, backgroundColor: theme ? color.black : color.white }}>
+    <Pressable key={item.id} onPress={() => navigate('AddInventory', { viewItem: item })} style={{ ...styles.list, paddingTop: 10, backgroundColor: theme ? color.black : color.white }}>
       <View style={styles.left}>
         <Text style={{ ...styles.boldText, color: theme ? color.white : color.dark }}>{item?.name}</Text>
         <Text style={{ color: theme ? color.white : color.dark }}>{item?.quantity?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} Left</Text>

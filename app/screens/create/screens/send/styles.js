@@ -65,7 +65,7 @@ export default StyleSheet.create({
     actionView: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         marginTop: 10,
         borderTopWidth: 1,
         borderTopColor: `${color.accent}40`,
